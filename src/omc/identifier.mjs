@@ -6,9 +6,9 @@
 // ToDo: generateIdentifier does not follow the naming convention, should create or generate.
 
 import { customAlphabet } from 'nanoid';
-import { makeArray } from '../helpers/util.mjs';
 
 import { idPrefixTemplate } from '../entityTemplates/index.mjs';
+import { makeArray } from '../helpers/util.mjs';
 
 const idCharacters = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
 
