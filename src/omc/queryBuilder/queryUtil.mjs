@@ -3,7 +3,7 @@
  */
 
 import { graphQlTemplate as entityTemplate } from '../../entityTemplates/v2-8/index.mjs';
-import { isCapitalized, isPlainObject } from '../../helpers/util.mjs';
+import { isCapitalized, isPlainObject } from '../../mlHelpers/util.mjs';
 
 // Create an entity object for the given entityType including the base entity properties
 export const createEntitySchema = ((entityType) => (

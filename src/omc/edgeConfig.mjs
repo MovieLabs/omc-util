@@ -24,19 +24,21 @@ const cxtEntities = [
 /**
  * Entity configuration definitions containing metadata and relationships for different entity types.
  * Each entity defines its group, ID prefix, intrinsic properties, and edge relationships.
- * @type {Object.<string, EntityConfig>}
+ * @type {Object.<string, EntityDetail>}
  */
 
 /**
- * @typedef {Object} EntityConfig
- * @property {string} group - The logical group this entity belongs to
- * @property {string} idPrefix - The prefix used for generating IDs for this entity type
- * @property {Object.<string, intrinsicProps>} intrinsicProps - Intrinsic properties configuration for this entity
- * @property {Object.<string, string[]>} edges - Edge relationships defining connections to other entities
+ * @typedef {Object} EntityDetail
+ * @memberOf OmcUtil
+ * @property {string} group - A logical grouping from the ontology this entity belongs to
+ * @property {string} idPrefix - A common prefix that can be used when generating IDs for this entity type
+ * @property {Object.<string, intrinsicProps>} intrinsicProps - Intrinsic properties for this entity
+ * @property {Object.<string, string[]>} edges - Allowed edge types for this entity (domain and range in RDF)
  */
 
 /**
  * @typedef {Object} intrinsicProps
+ * @memberOf OmcUtil
  * @property {'array'|'object'} type - The data type of the property
  * @property {string} path - The path to access this property
  * @property {string[]} allowed - List of allowed entity types for this property
@@ -44,6 +46,7 @@ const cxtEntities = [
 
 /**
  * @typedef {Object} edges - A list of allowed edges to other entity types
+ * @memberOf OmcUtil
  * @property {string[]} * - The predicate and set of allowed entities for that predicate
  */
 

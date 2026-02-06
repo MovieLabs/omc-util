@@ -1,17 +1,17 @@
 /**
- * Compare two Omc Entities and return the differences
+ * Compare two Omc Entities and return a description of the differences between the two
  *
  * @module omcCompare
  */
 
 /**
- * @typeDef {Object} DiffResult - Result of a difference comparison
+ * @typedef {Object} DiffResult - Result of a difference comparison
  * @property {OmcEntity} original - The original OMC entity
  * @property {OmcEntity} comparison - The entity to which the original was compared
  * @property {(Object.<string, {$remove: *} | {$create: *} | {$update: *}> | null)} diff - null if same, or Object describing the difference
  */
 
-import { isPlainObject } from '../helpers/util.mjs';
+import { isPlainObject } from '../mlHelpers/util.mjs';
 
 // Normalize primitives into strings for output;
 const normalizeItem = ((item) => ((
@@ -21,9 +21,11 @@ const normalizeItem = ((item) => ((
 
 /**
  * Compare two arrays and return differences, without regard to order
+ *
  * @ignore
  * @param {Array} arr1 - The left-hand side array being compared to
  * @param {Array} arr2 - The right-hand side array being compared
+ * @returns {{$remove: Array<*>, $create: Array<*>}} Items in the arrays that should be removed or created
  */
 
 function compareArrays(arr1, arr2) {
@@ -53,9 +55,11 @@ function compareArrays(arr1, arr2) {
 
 /**
  * Compare the keys of two OMC-JSON objects without regard to order
+ *
  * @ignore
  * @param {Object} lhs - The left-hand side, object being compared to
  * @param {Object} rhs - The right-hand side, object being compared
+ * @returns {{(Object.<string, {$remove: Array<*>} | {$create: Array<*>}>)}} Items that should be removed or created
  */
 
 function compareKeys(lhs, rhs) {
@@ -81,10 +85,11 @@ function compareKeys(lhs, rhs) {
 
 /**
  * Compare the values for each key of two objects
+ *
  * @ignore
  * @param {Object} lhs
  * @param {Object} rhs
- * @returns {Object}
+ * @returns {{(Object.<string, {$remove: Array<*>} | {$create: Array<*>}> | {$update: *} )}} Items that should be removed or created
  */
 
 function compareValues(lhs, rhs) {
@@ -148,9 +153,10 @@ function compareValues(lhs, rhs) {
  *
  * @function compare
  * @static
- * @param {OmcEntity} original - The source OMC entity
- * @param {OmcEntity} comparison - The OMC entity to compare against the original
- * @return {DiffResult}
+ * @param {Object} params
+ * @param {OmcEntity} params.original - The source OMC entity
+ * @param {OmcEntity} params.comparison - The OMC entity to compare against the original
+ * @returns {DiffResult} The result of the comparison
  */
 
 export default function compare({ original, comparison }) {

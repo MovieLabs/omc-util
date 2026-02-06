@@ -4,9 +4,10 @@
  * @module omcTransform
  */
 
+import { isPlainObject } from '../mlHelpers/util.mjs';
+
 import compareOmc from './compare.mjs';
-import { key } from './identifier.mjs';
-import { isPlainObject } from '../helpers/util.mjs';
+import { key as uniqueKey } from './identifier.mjs';
 
 let counter = 0; // A temp counter used in de-duplication
 
@@ -15,8 +16,8 @@ let counter = 0; // A temp counter used in de-duplication
  *
  * @function deDuplicate
  * @static
- * @param {Omc-Json} omc - Valid Omc-Json
- * @return {Omc-Json}
+ * @param {OmcJson} omc - Valid Omc-Json
+ * @returns {OmcJson}
  */
 
 const assertEqual = ((a, b) => {
@@ -39,7 +40,7 @@ export function deDuplicate(omc) {
         const mappingId = tempId(); // A temporary singular id for the entity, used to track duplicates
         let duplicateId = mappingId;
         identifier.forEach((omcId) => {
-            const uId = key(omcId);
+            const uId = uniqueKey(omcId);
             if (Object.hasOwn(idMapping, uId)) duplicateId = idMapping[uId]; // An entity with this id has been seen before
             idMapping[uId] = duplicateId;
         });
@@ -66,8 +67,8 @@ export function deDuplicate(omc) {
  *
  * @function toObject
  * @static
- * @param {Omc-Json} omc - Valid Omc-Json
- * @return {Omc-Json}
+ * @param {OmcJson} omc - Valid Omc-Json
+ * @returns {OmcJson}
  */
 
 export function toObject(omc) {
@@ -87,12 +88,12 @@ export function toObject(omc) {
 }
 
 /**
- * Convert Omc-Json in an array from the object(map) format
+ * Convert Omc-Json array from the object(map) format
  *
  * @function toArray
  * @static
- * @param {Omc-Json} omc - Valid Omc-Json
- * @return {Omc-Json} - Omc-Json in the Array format
+ * @param {OmcJson} omc - Valid Omc-Json
+ * @returns {OmcJson} - Omc-Json in the Array format
  */
 
 export function toArray(omc) {
@@ -106,26 +107,21 @@ export function toArray(omc) {
 }
 
 /**
- * Created flattened Omc-Json where the existing entities may have embedded nested entities
- * This function will replace the nested entities with a reference to the entity
+ * Unembeds nested entities from a single root entity that is passed in
  *
- * @function unEmbed
- * @static
- * @param {Omc-Json} omc - Valid Omc-Json
- * @return {Omc-Json} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
+ * @ignore
+ * @param {OmcEntity} omc - Valid Omc-Json
+ * @returns {OmcJson} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
  */
 
 function unEmbedEnt(omc) {
-    const stash = [];
+    const stash = []; // Any nested entities are stashed here for the return
 
     const traverse = ((ent) => {
-        // if (!Array.isArray(ent) && (typeof ent !== 'object' || ent === null)) {
-        //     return ent; // Down to a primitive, null or undefined, so we are at a leaf
-        // }
         if (!isPlainObject(ent)) return ent;
 
         const refEnt = { ...ent }; // Clone the entity, so we don't mutate the original
-        const refKeys = Object.keys(refEnt);
+        const refKeys = Object.keys(refEnt).filter((key) => key !== 'customData'); // Do not travers custom data
         refKeys.forEach((refKey) => {
             refEnt[refKey] = (Array.isArray(refEnt[refKey]))
                 ? refEnt[refKey].flatMap((e1) => traverse(e1)) // Array of values: traverse each one
@@ -150,6 +146,16 @@ const unEmbedSet = ((omc) => {
     const entSet = omc.flatMap((ent) => unEmbedEnt(ent));
     return deDuplicate(entSet);
 });
+
+/**
+ * Created flattened Omc-Json with an array of single entities
+ * Nested entities in the original OmsJson are removed and replaced with references
+ *
+ * @function unEmbed
+ * @static
+ * @param {OmcJson} omc - Valid Omc-Json
+ * @returns {OmcJson} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
+ */
 
 export function unEmbed(omc) {
     if (!omc) return null;

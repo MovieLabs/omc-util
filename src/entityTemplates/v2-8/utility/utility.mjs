@@ -1,5 +1,6 @@
 /**
  * Template details for Utility properties
+ * @ignore
  */
 
 export const identifier = {

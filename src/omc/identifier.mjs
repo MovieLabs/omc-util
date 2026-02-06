@@ -8,7 +8,7 @@
 import { customAlphabet } from 'nanoid';
 
 import { idPrefixTemplate } from '../entityTemplates/index.mjs';
-import { makeArray } from '../helpers/util.mjs';
+import { makeArray } from '../mlHelpers/util.mjs';
 
 const idCharacters = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
 
@@ -47,7 +47,7 @@ export const ofScope = ((identifier, identifierScope) => (
  * @param {string} params.identifierScope - The scope of the identifier
  * @param {string | null} [params.prefix] - Optional prefix for the identifier value
  * @param {string | null} [params.entityType] - Will use the predefined prefix for the entityType
- * @returns {OmcIdentifier} - A unique identifier value
+ * @returns {OmcIdentifier} A unique identifier value
  */
 
 export function create({ identifierScope, prefix = null, entityType = null }) {
@@ -64,7 +64,7 @@ export function create({ identifierScope, prefix = null, entityType = null }) {
  * @function key
  * @static
  * @param {OmcIdentifier} identifier - An OMC identifier
- * @returns {string} - A unique key
+ * @returns {string} A unique key
  */
 
 export const key = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
@@ -76,7 +76,7 @@ export const key = ((identifier) => `${identifier.identifierScope}:${identifier.
  * @static
  * @param {Array<OmcEntity>} targetOmcEnt - Set of target entities against which the source entity id's will be checked for matches
  * @param {OmcEntity} sourceOmcEnt - source entity, used to check against the target
- * @returns {boolean}
+ * @returns {boolean} Returns True when duplicate identifiers exist between the target and source identifiers
  */
 
 export function hasDuplicateId(targetOmcEnt, sourceOmcEnt) {
@@ -92,7 +92,7 @@ export function hasDuplicateId(targetOmcEnt, sourceOmcEnt) {
  * @static
  * @param {OmcEntity} targetOmc
  * @param {OmcEntity | Array<OmcEntity>} sourceOmc
- * @returns {Array<OmcIdentifier>} - A merged set of identifiers
+ * @returns {Array<OmcIdentifier>} A merged set of identifiers
  */
 
 export function merge(targetOmc, sourceOmc) {
@@ -108,9 +108,12 @@ export function merge(targetOmc, sourceOmc) {
  * Cross-check all identifiers in the targetIdentifier with those in the remove identifier
  * If any identifiers present in the targetIdentifier have a match in the removeIdentifier null is returned
  * indicating it should be removed
+ *
+ * @function hasMatching
+ * @static
  * @param {OmcEntity | Array<OmcIdentifier>} targetIdentifier
  * @param {OmcEntity | Array<OmcIdentifier>} matchIdentifier
- * @returns {Boolean} - True if there are matching identifiers
+ * @returns {Boolean} True if there are matching identifiers
  */
 
 export function hasMatching(targetIdentifier, matchIdentifier) {
@@ -121,6 +124,16 @@ export function hasMatching(targetIdentifier, matchIdentifier) {
     )));
     return !!res.length;
 }
+
+/**
+ * Does an identifier exist
+ *
+ * @function find
+ * @static
+ * @param omc
+ * @param identifier
+ * @returns {*|null}
+ */
 
 export function find(omc, identifier) {
     // Do two identifiers match?

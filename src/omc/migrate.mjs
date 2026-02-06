@@ -1,3 +1,9 @@
+/**
+ * Migrate Omc-Json across versions of the schema
+ *
+ * @module omcMigrate
+ */
+
 import v20 from './migration/v2-0tov2-6.mjs';
 import v26 from './migration/v2-6tov2-x.mjs';
 
@@ -58,9 +64,10 @@ const migrateSet = ((omc, toSchemaVersion) => omc.map((ent) => migrateNested(ent
 /**
  * Migrate either an array of OMC entities a single OMC entity or an object of OMC entities
  *
- * @param {Omc-Json} omc - The OMC entity or entities to migrate
+ * @function migrate
+ * @param {OmcJson} omc - The OMC entity or entities to migrate
  * @param {string} toSchemaVersion - Migrate upto this schema version
- * @returns {Omc-Json}
+ * @returns {OmcJson}
  */
 
 export default function migrate(omc, toSchemaVersion = latestSchemaVersion) {

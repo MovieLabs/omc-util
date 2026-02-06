@@ -3,7 +3,7 @@
  */
 
 import { inverseEdgeMap } from '../entityTemplates/index.mjs';
-import { isCapitalized, isPlainObject } from '../helpers/util.mjs';
+import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
 
 import { normalizeIdentifier, hasMatching } from './identifier.mjs';
 
@@ -129,7 +129,7 @@ export function getContextProps(ent) {
  * Remove an identifier representing the edge to another entity from anywhere it is included in the entity
  *
  * @memberof module:omcEdges
- * @function hasMatching
+ * @function removeEdge
  * @static
  * @param {OmcEntity} omcEntity
  * @param {OmcEntity | OmcIdentifier} identifier

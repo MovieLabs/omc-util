@@ -1,11 +1,15 @@
 /**
  * Find entities that match a set of criteria passed in the filter
  *
+ * @module omcFind
+ */
+
+/**
  * @function find
  * @static
- * @param {Omc-Json} omc
+ * @param {OmcJson} omc
  * @param {Object} filter - Filter criteria matching the shape of an OMC entity
- * @returns {Omc-Json} - All entities matching the filter or []
+ * @returns {OmcJson} - All entities matching the filter or []
  */
 
 import { unEmbed, toArray } from './transform.mjs';

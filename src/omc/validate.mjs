@@ -125,9 +125,9 @@ function checkOmcObject(omc, options) {
  *
  * @function validate
  * @static
- * @param {Omc-Json} omc - Valid JSON to be validated
+ * @param {OmcJson} omc - Valid JSON to be validated
  * @param {ValidationOptions} options - Additional options
- * @return { boolean } - True if valid Omc-Json, false if not
+ * @returns { boolean } - True if valid Omc-Json, false if not
  */
 
 export default function validate(omc, options = {}) {

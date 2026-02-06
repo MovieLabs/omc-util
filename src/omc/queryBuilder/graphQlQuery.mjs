@@ -2,7 +2,6 @@
  * Receives a simplified template that describes the shape of a graphql query and returns a string representing
  * the desired graphql query.
  *
- * @module omcQueryBuilder/graphQlQuery
  */
 
 /**
@@ -16,7 +15,7 @@
  */
 
 import { graphQlTemplate as entityTemplate } from '../../entityTemplates/index.mjs';
-import { isCapitalized, isPlainObject } from '../../helpers/util.mjs';
+import { isCapitalized, isPlainObject } from '../../mlHelpers/util.mjs';
 
 import { graphqlSnippets } from './graphQlSnippets.mjs';
 

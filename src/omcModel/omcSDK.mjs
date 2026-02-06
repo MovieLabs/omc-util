@@ -5,7 +5,7 @@
  */
 
 import { omcEdges } from '../../index.mjs';
-import { makeArray, isPlainObject, isCapitalized } from '../helpers/util.mjs';
+import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.mjs';
 import omcCompare from '../omc/compare.mjs';
 import { relatedEdges } from '../omc/edges.mjs';
 import omcFind from '../omc/find.mjs';

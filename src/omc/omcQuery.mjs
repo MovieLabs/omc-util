@@ -4,15 +4,15 @@
  * @module omcQuery
  */
 
-import { makeArray, hasProp } from '../helpers/util.mjs';
+import { makeArray, hasProp } from '../mlHelpers/util.mjs';
 
 /**
  * Extract nested elements from OMC entities
  *
  * @function extractFromEntity
- * @param entity {object} - An OMC entity
- * @param entityPath {string} - A dot notated string of the path to extract
- * @return {Array}
+ * @param {Object} entity - An OMC entity
+ * @param {string} entityPath - A dot notated string of the path to extract
+ * @returns {Array}
  */
 
 export function extractFromEntity(entity, entityPath) {
@@ -30,10 +30,10 @@ export function extractFromEntity(entity, entityPath) {
 /**
  * Return all entities of a given entity type
  *
- * @function extractEntity
- * @param {Omc-Json} omc - An OMC entity
+ * @function getEntity
+ * @param {OmcJson} omc - An OMC entity
  * @param {string} entityType - A dot notated string of the path to extract
- * @return {Omc-Json}
+ * @returns {OmcJson}
  */
 
 export function getEntity(omc, entityType) {

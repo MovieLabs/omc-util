@@ -22,7 +22,7 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
-import { deepSpread } from '../../helpers/util.mjs';
+import { deepSpread } from '../../mlHelpers/util.mjs';
 
 import Asset from './asset/Asset.mjs';
 import AssetSC from './asset/AssetSC.mjs';

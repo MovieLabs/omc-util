@@ -1,8 +1,7 @@
 /**
  * Migrate and OMC entity from v2.0 to v2.5
  *
- * @module omcMigration/v2-6tov2-x
- * @type {omc}
+ * @ignore
  */
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v2.6';

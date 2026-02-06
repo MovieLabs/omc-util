@@ -61,7 +61,7 @@
 /**
  * A valid OMC data structure
  * @memberof OMC
- * @typedef {Array<OmcEntity>|Object<string, Array<OmcEntity>>} Omc-Json
+ * @typedef {Array<OmcEntity> | Object<string, Array<OmcEntity>>} OmcJson
  */
 
 export {};
