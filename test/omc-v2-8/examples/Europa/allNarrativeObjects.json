@@ -1,0 +1,626 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442232"
+      }
+    ],
+    "name": "earcuff",
+    "description": "Yvette's ear cuff is a sleek, futuristic piece of jewelry that subtly reflects her connection to both the natural world and advanced technology. The cuff is crafted from a lightweight, metallic material with a matte finish, possibly in silver or a soft gunmetal gray. It elegantly wraps around the outer edge of her ear, following the natural curve with a delicate yet firm grip.\n\nThe design of the ear cuff is minimalistic but with a touch of organic inspiration—perhaps featuring a subtle, wave-like pattern or a faint engraving that resembles the ripples of water or the contours of a seashell. This motif ties into Yvette's affinity for the ocean and her mission on Europa.\n\nThe ear cuff also serves a dual purpose, incorporating tiny, almost imperceptible technological elements such as a small, embedded communication device or sensor, blending seamlessly into the design. This adds a layer of functionality to the accessory, making it not just an aesthetic piece but also a tool that Yvette uses in her work.\n\nOverall, Yvette's ear cuff is a perfect blend of form and function, reflecting her character's balance between science and nature, sophistication and practicality.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442232"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442243"
+      }
+    ],
+    "name": "water bottle",
+    "description": "The water bottle prop is a sleek, modern container designed to blend seamlessly with the advanced and utilitarian aesthetic of the spacecraft environment. Made from a clear, high-grade, shatterproof material, the bottle has a cylindrical shape with smooth, rounded edges, giving it a minimalist and futuristic appearance.\n\nThe bottle’s surface is slightly frosted, with a subtle, matte finish that prevents glare and offers a better grip in microgravity conditions. The bottle features a simple, airtight screw-on cap, equipped with a small, retractable spout for easy drinking in zero-G. The cap and base of the bottle are made from a lightweight metallic material, possibly brushed aluminum or titanium, adding durability while maintaining a streamlined look.\n\nOne of the most distinctive features of the water bottle is an embedded LED indicator near the base, which softly glows in a cool blue when the bottle is sealed, providing a visual confirmation that it is secure. This indicator also subtly pulsates when the bottle is being used, giving it a high-tech feel.\n\nInside the bottle, small, glistening droplets of water can be seen floating in microgravity, highlighting the zero-G environment of the spacecraft. The bottle is designed to be both functional and visually striking, reflecting the advanced technology and design philosophy of the mission.\n\nOverall, the water bottle prop is an essential piece of equipment that also serves as a visual reminder of the unique challenges and beauty of life aboard a spacecraft.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442243"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442505"
+      }
+    ],
+    "name": "Alarm Device",
+    "description": "The alarm device prop is a compact, high-tech piece of equipment designed for critical alerts and warnings in the spacecraft environment. It has a rugged, utilitarian design, built to withstand the harsh conditions of space. The device is slightly rectangular with rounded corners, fitting comfortably in one hand, and is made from a durable, lightweight material like anodized aluminum or reinforced polymer.\n\nThe surface of the device is matte black with subtle, tactile ridges along the sides for a secure grip, even in gloved hands. The front panel features a large, circular LED screen that glows with a bright, intense red when an alarm is triggered. The screen can also display other colors, such as amber or green, to indicate different alert levels or statuses. Below the screen, a series of small, touch-sensitive buttons are arranged in a simple layout, allowing for quick operation in emergencies.\n\nOn the top edge of the device, a retractable antenna can be extended to enhance signal transmission, ensuring that alerts are communicated clearly across the spacecraft. The device also features a loud, piercing alarm sound that can be adjusted for volume, accompanied by a vibrating alert for silent notifications in critical situations.\n\nThe back of the alarm device has a clip that allows it to be securely attached to a belt or pocket for easy access. There’s also a small, transparent compartment where a backup battery is stored, ensuring the device remains operational even in power fluctuations.\n\nOverall, the alarm device prop is a vital tool for the crew, combining advanced technology with practical design to provide reliable, immediate alerts in the unpredictable environment of space.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442505"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442506"
+      }
+    ],
+    "name": "Seashell",
+    "description": "The seashell prop is a small, intricately detailed object that carries deep symbolic meaning for Yvette. It is a natural, spiral-shaped shell, likely from a conch or nautilus, with a smooth, glossy surface that catches the light in soft, iridescent hues of pearl, pink, and light beige. The shell’s curves are graceful and flowing, giving it an almost mesmerizing quality as it spirals inward to a delicate point.\n\nThe exterior of the shell is subtly ridged, with fine, natural grooves that trace the shell’s growth over time, while the interior reveals a polished, lustrous surface, with colors that shift and shimmer depending on the angle of the light. The shell is small enough to fit comfortably in the palm of Yvette’s hand, making it a personal and intimate object that she often handles with care and reverence.\n\nThis seashell symbolizes Yvette’s connection to the ocean and her deep-rooted love for the natural world. It serves as a tangible reminder of her past, possibly a memento from her childhood, and her mother’s teachings about the beauty and mystery of nature. The seashell prop is not just a beautiful object but also a powerful link to Yvette’s inner world, representing her sense of wonder, curiosity, and the emotional ties that anchor her amidst the vast unknowns of space.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442506"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442507"
+      }
+    ],
+    "name": "velcro on boots",
+    "description": "The Velcro prop is a practical and essential tool designed for use in the microgravity environment of a spacecraft. It consists of two strips, one with tiny, soft loops and the other with small, firm hooks, which interlock securely when pressed together. The Velcro is made from durable, high-quality materials that can withstand the rigors of space, including temperature fluctuations and wear from repeated use.\n\nEach strip is about an inch wide and can vary in length depending on its intended use. The hooks and loops are densely packed, ensuring a strong bond when the strips are fastened together. The Velcro strips are typically dark in color—black, gray, or navy blue—to match the sleek, utilitarian aesthetic of the spacecraft's interior.\n\nThe edges of the Velcro strips are neatly finished to prevent fraying, and the back of each strip is coated with a strong adhesive or sewn into fabric, allowing it to be attached securely to surfaces or equipment. The Velcro prop is used throughout the spacecraft to secure tools, keep objects in place, and provide quick, adjustable fastening solutions for various tasks.\n\nIn the context of the mission, the Velcro prop is a small but vital piece of equipment, symbolizing the ingenuity and practicality required to maintain order and functionality in the challenging environment of space",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442507"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442510"
+      }
+    ],
+    "name": "Video receiver",
+    "description": "The video receiver is a sleek, compact device used for real-time communication and data streaming in space. It features a high-definition touchscreen display, occupying most of the front, with an anti-glare coating for clear visibility. The sides have touch-sensitive buttons for easy navigation. Made from lightweight, durable materials like anodized aluminum, the receiver includes advanced connectivity with a retractable antenna for secure, uninterrupted transmissions. It’s powered by a long-lasting, rechargeable battery and designed for portability, easily clipped onto a belt or suit. The overall aesthetic is minimalist and functional, reflecting the spacecraft’s design.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442510"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442513"
+      }
+    ],
+    "name": "Watch",
+    "description": "The watch prop is a sleek, advanced timepiece designed for space exploration. It features a circular, scratch-resistant digital display housed in a matte titanium bezel. The high-resolution OLED screen shows time, date, and mission-critical data, with customizable modes and a subtle backlight. The durable silicone or reinforced nylon strap ensures a secure, comfortable fit. Equipped with functions like countdown timers, environmental sensors, and a communication module, this watch is both a vital tool and a stylish, futuristic accessory for the mission.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442513"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442583"
+      }
+    ],
+    "name": "Metal Latch",
+    "description": "The metal latch prop is a sturdy, industrial-grade component designed for securing critical equipment in a spacecraft. It is made from a high-strength alloy, such as stainless steel or titanium, ensuring durability and resistance to corrosion. The latch has a simple, functional design with a smooth, polished surface.\n\nThe latch consists of two interlocking parts: a hook mechanism and a loop or catch. The hook is curved and reinforced to provide a secure grip, while the loop features a spring-loaded mechanism for easy attachment and release. The latch is operated by a lever or push-button, allowing for quick and reliable fastening.\n\nThe overall aesthetic is minimalist, focusing on functionality and reliability. The latch is small yet robust, capable of withstanding the stresses of space travel, and is essential for tasks such as tethering equipment or securing panels. Its design reflects the precision and practicality required in a high-stakes environment.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442583"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442589"
+      }
+    ],
+    "name": "Ladder",
+    "description": "The space ladder prop is a lightweight, collapsible ladder designed for use in the microgravity environment of a spacecraft or on an extraterrestrial surface. It is constructed from a high-strength, lightweight alloy such as titanium or aluminum, ensuring both durability and portability. The ladder has wide, non-slip rungs for secure footing, and each rung is slightly curved to accommodate the grip of space boots.\n\nThe sides of the ladder are reinforced with additional bracing to prevent flexing under weight, and the entire structure can be extended or retracted with ease, making it convenient for storage and deployment in tight spaces. The ladder's design is minimalist and functional, focusing on safety and reliability, making it an essential tool for the crew during external repairs, exploration, or spacecraft boarding and disembarking.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442589"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442601"
+      }
+    ],
+    "name": "Flag",
+    "description": "The flag prop is a symbol of achievement and exploration, designed for planting on extraterrestrial surfaces. It is made from a durable, lightweight fabric that resists the harsh conditions of space, such as extreme temperatures and radiation. The flag is attached to a telescopic pole made of high-strength alloy, allowing it to be easily extended and secured in place.\n\nThe flag itself features a bold, clean design, typically representing a nation, organization, or mission insignia. The colors are vibrant and designed to stand out against the stark, alien landscape. The pole includes a small, reinforced base to ensure stability when planted on uneven or rocky surfaces.\n\nOverall, the flag prop embodies the spirit of discovery and serves as a lasting marker of humanity's presence and achievements in space exploration.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442601"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442609"
+      }
+    ],
+    "name": "Rock",
+    "description": "The rock prop is a small, rugged piece of extraterrestrial material, designed to represent a sample collected from the surface of a distant planet or moon. It has an irregular shape with rough, jagged edges, and its surface is textured with various grooves and indentations, suggesting a history of exposure to harsh environmental conditions.\n\nThe rock's color is a muted mix of grays, browns, and blacks, with occasional specks of mineral deposits that catch the light. It is heavy and solid, made from a durable material that mimics the density and feel of real geological samples. The rock prop serves as a tangible reminder of exploration and discovery, symbolizing the unknown worlds that have been reached and studied by the mission's crew.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442609"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442615"
+      }
+    ],
+    "name": "Power Drill",
+    "description": "The power drill prop is a rugged, industrial-grade tool designed for use in space exploration. It features a compact, ergonomic design with a sturdy grip, allowing for easy handling even while wearing bulky space gloves. The body of the drill is made from durable, lightweight materials like reinforced polymer and metal alloys, ensuring it can withstand harsh environments.\n\nThe drill's head is equipped with a high-torque motor and interchangeable bits for drilling through various materials, including rock and ice. It has a built-in LED light near the drill head to illuminate the work area, and a digital display on the side to monitor power levels and drilling depth. The prop is powered by a rechargeable battery, with a secure locking mechanism to keep the battery in place during use.\n\nOverall, the power drill prop is a functional and essential tool for the crew, designed to perform precise tasks in challenging conditions, whether on a spacecraft or an extraterrestrial surface.",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442615"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442621"
+      }
+    ],
+    "name": "Artemis",
+    "description": "The Artemis Shuttle is a compact, advanced spacecraft designed for short-range missions on the surface of distant moons and planets. It features a sleek, aerodynamic design with a robust, reinforced hull made from high-strength alloys and heat-resistant materials, ensuring durability in harsh space environments.\n\nThe shuttle’s exterior is equipped with a series of thrusters strategically positioned for precise maneuvering and landing, allowing it to navigate difficult terrain with ease. Its landing gear is retractable, with wide, stable feet designed to absorb impact and provide a secure foothold on uneven surfaces.\n\nThe cockpit is located at the front of the shuttle, featuring large, panoramic windows that offer the crew excellent visibility during flight and landing operations. Inside, the cockpit is equipped with state-of-the-art controls, a digital interface, and ergonomic seating for the crew, ensuring comfort and efficiency during missions.\n\nThe shuttle’s interior is compact yet functional, with enough space to accommodate a small crew along with essential equipment and supplies. The rear of the shuttle includes a cargo bay for transporting mission-critical tools, samples, or other necessary items.\n\nOverall, the Artemis Shuttle is a versatile and reliable vehicle, designed for exploration, transport, and surface operations on extraterrestrial bodies, playing a crucial role in the mission's success.",
+    "narrativeType": "narrativeVehicle",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442621"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475850"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475861"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442623"
+      }
+    ],
+    "name": "Clipper",
+    "description": "The Interstellar Spaceship Clipper is a massive, cutting-edge spacecraft designed for long-duration missions across the vast distances of space. It features a sleek, elongated body optimized for interstellar travel, with a reinforced hull made from advanced composite materials to withstand the extreme conditions of deep space.\n\nThe Clipper is equipped with a powerful propulsion system, including ion thrusters and a fusion drive, allowing it to achieve incredible speeds while maintaining stability and precision in navigation. The exterior of the ship is lined with large, modular solar arrays and heat radiators, providing energy and thermal regulation during extended voyages.\n\nAt the front of the Clipper, the command module houses the bridge, where the crew operates the ship using a combination of advanced holographic displays and manual controls. The module is protected by a thick, transparent shield, offering the crew a panoramic view of the surrounding space.\n\nThe interior of the Clipper is designed for efficiency and comfort, with living quarters, laboratories, and storage areas for equipment and supplies. The ship is also equipped with state-of-the-art communication systems, enabling real-time data transmission and contact with mission control, even across vast distances.\n\nOverall, the Interstellar Spaceship Clipper is a marvel of engineering, built for exploration, research, and the long-term survival of its crew as they venture into the unknown reaches of space.",
+    "narrativeType": "narrativeVehicle",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442623"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475848"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.442695"
+      }
+    ],
+    "name": "Europa Surface",
+    "description": "Snowy surface of Europa on sound stage",
+    "narrativeType": "narrativeSetDressing",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.442695"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeObject",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.scriptprop.453078"
+      }
+    ],
+    "name": "Glass bottle",
+    "description": "",
+    "narrativeType": "narrativeProp",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.scriptprop.Context.453078"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,554 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967321"
+      }
+    ],
+    "name": "Europa 1 - C Deck",
+    "description": "The C Deck of the Europa spacecraft is a sleek, modern chamber designed for efficiency in the harsh environment of space. The walls are smooth and minimalist, with panels that glow softly, providing a serene, almost meditative atmosphere. In microgravity, the space feels expansive and fluid, with objects and droplets of water floating gently through the air. The deck is equipped with advanced technology, including observation ports that offer stunning views of the surrounding cosmos, most notably the looming presence of Jupiter. The C Deck serves as both a functional and contemplative space, where the crew can momentarily escape the pressures of their mission and connect with the vastness of the universe outside.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967321"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ],
+              "name": "1",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967322"
+      }
+    ],
+    "name": "Yvette’s Iris",
+    "description": "Yvette's Iris location is an intimate and symbolic view into her inner world, depicted through a close-up of her eye. The iris, a deep ocean blue, surrounds the dark, inky blackness of her pupil, where the distant moon of Europa is reflected, centered perfectly within the void. This location is both mesmerizing and profound, representing the connection between Yvette and the vast, mysterious expanse of space she is exploring. The iris itself is like a swirling ocean, vast and deep, with Europa appearing almost like a distant beacon or a glimpse into another world. The close-up view draws attention to the intricate details and the profound symbolism of Yvette’s journey, as her eye becomes a portal between her consciousness and the universe beyond.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967322"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475847"
+                }
+              ],
+              "name": "2",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967323"
+      }
+    ],
+    "name": "Interstellar Space",
+    "description": "The Interstellar location is an expansive and awe-inspiring region of deep space, where the vastness of the cosmos is on full display. Against a backdrop of endless darkness, pinpricks of distant stars flicker like diamonds scattered across an infinite black canvas. The scene is punctuated by the presence of colossal celestial bodies—Jupiter looms large with its swirling storms, while its moon Io glows brightly nearby. The Europa 1 spacecraft drifts silently through this void, dwarfed by the scale of the universe around it. Occasionally, bursts of light from distant nebulae or the soft glow of a far-off galaxy add color to the otherwise inky expanse. The Interstellar location is a place of both solitude and wonder, where the silence of space contrasts with the immense, silent power of the cosmos, reminding us of the smallness of humanity in the grand tapestry of the universe.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967323"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475848"
+                }
+              ],
+              "name": "3",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967324"
+      }
+    ],
+    "name": "Europa Artemis Shuttle",
+    "description": "The Europa Artemis Shuttle is a sleek, robust spacecraft designed for exploration and survival on Europa's hostile surface. Its exterior is reinforced with advanced materials to withstand extreme cold, radiation, and the unpredictable conditions of space. The shuttle's body is compact yet functional, with smooth, aerodynamic lines that hint at its cutting-edge technology. Inside, the shuttle is equipped with state-of-the-art navigation and life support systems, with every inch of space meticulously organized for efficiency. The cockpit offers a panoramic view through large, reinforced windows, allowing the crew to monitor their surroundings. The shuttle's exit hatch is a critical point, providing access to the alien surface, while the ionized forcefield and landing gear ensure a stable and secure touchdown. The Europa Artemis Shuttle is a symbol of human ingenuity, designed to bridge the gap between Earth and the distant, mysterious world of Europa.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967324"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ],
+              "name": "4",
+              "description": null
+            },
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475860"
+                }
+              ],
+              "name": "16",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967325"
+      }
+    ],
+    "name": "Europa 1 Shuttle - Exit Hatch",
+    "description": "The exit hatch of the Europa 1 Shuttle is a critical juncture between the safety of the spacecraft and the unknown dangers of Europa's surface. The hatch is reinforced and circular, with heavy, industrial-grade materials designed to withstand the harsh conditions outside. As it opens, a soft hiss of decompression fills the air, followed by the stark contrast of the alien landscape beyond. The small, circular porthole windows allow the crew to peer out before stepping into the void, offering a final glimpse of the shuttle's interior warmth. The exit hatch represents the threshold between human technology and the untouched, mysterious world of Europa, marking the point of no return as the crew ventures into the vast, icy frontier.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967325"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475850"
+                }
+              ],
+              "name": "5",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967326"
+      }
+    ],
+    "name": "Europa Surface",
+    "description": "The Europa surface is a desolate and awe-inspiring landscape of vast, icy plains under a star-studded sky. The ground is a mix of snow and jagged ice, marked by fissures and geysers that occasionally erupt, revealing the hidden ocean beneath. The environment is both alien and beautiful, dominated by the looming presence of Jupiter above, casting a dim, eerie light across the terrain. The atmosphere is thin, cold, and silent, with a sense of isolation that permeates the area. This location serves as a powerful reminder of the mysterious and potentially life-harboring environment beneath Europa's frozen crust.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967326"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ],
+              "name": "6",
+              "description": null
+            },
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ],
+              "name": "8",
+              "description": null
+            },
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475853"
+                }
+              ],
+              "name": "9",
+              "description": null
+            },
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475861"
+                }
+              ],
+              "name": "17",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967327"
+      }
+    ],
+    "name": "Nature",
+    "description": "The Nature location is a vibrant, living landscape that embodies the raw beauty and power of the natural world. It features a vast, open ocean where waves rhythmically crash against the shore, teeming with life both above and below the water's surface. Schools of fish move in synchronized patterns, reflecting the delicate balance of marine ecosystems. Above, the sky stretches endlessly, sometimes filled with the swirling energy of a cyclone or the calm center of a whirlpool. The scene also shifts to include lush forests, where trees sway gently in the breeze, and to expansive vistas of untouched wilderness. This location represents the unspoiled essence of Earth’s natural environments, evoking a sense of awe and respect for the forces that govern life. The interplay of light, water, and earth creates a dynamic, ever-changing tableau, reminding us of the interconnectedness and fragility of the natural world.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967327"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475854"
+                }
+              ],
+              "name": "10",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967328"
+      }
+    ],
+    "name": "Ice Tunnels",
+    "description": "The Ice Tunnels are a labyrinthine network of narrow, translucent passageways buried deep beneath Europa’s icy crust. These tunnels are dark and claustrophobic, with walls of crystal-clear ice that glimmer faintly in the light, creating an eerie, otherworldly atmosphere. The air is frigid, and the only sounds are the distant, hollow echoes of wind howling through the narrow corridors. The tunnels twist and turn unpredictably, sometimes opening into larger caverns or narrowing into tight squeezes, with jagged ice formations jutting out at odd angles. The sense of isolation is profound, as if the tunnels themselves are alive, silently watching as intruders navigate their cold, unforgiving paths. The Ice Tunnels are both beautiful and treacherous, a hidden world beneath the surface, where danger lurks in every shadow and the weight of the frozen world above feels ever-present.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967328"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475855"
+                }
+              ],
+              "name": "11",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967329"
+      }
+    ],
+    "name": "Beach",
+    "description": "The beach is a serene, dreamlike setting where the gentle waves of the ocean lap against the shore, accompanied by the distant calls of seagulls. The sand is soft and warm, with tiny granules that sparkle under the sunlight. The horizon stretches infinitely, with the sun casting a golden glow over the water, creating a sense of peace and timelessness. Reflections dance upon the wet sand as the waves retreat and return in a constant, soothing rhythm. This idyllic location feels both nostalgic and tranquil, evoking memories of childhood wonder and the eternal connection between nature and the human spirit.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967329"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475856"
+                }
+              ],
+              "name": "12",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967330"
+      }
+    ],
+    "name": "Cave",
+    "description": "The cave is a mysterious and awe-inspiring space, hidden deep beneath the surface. Initially shrouded in darkness, it slowly reveals itself as a vast arctic ice cavern. The walls are adorned with glistening stalagmites and long, delicate ice crystals that catch the faint light, creating a mesmerizing glow. The air is cold and crisp, with the soft sound of distant waves echoing through the cavern. At the heart of the cave lies a still, reflective pool of water, its surface untouched and pristine. The atmosphere is both powerful and serene, a place where the natural world holds an ancient, quiet wisdom.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967330"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475857"
+                }
+              ],
+              "name": "13",
+              "description": null
+            },
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475859"
+                }
+              ],
+              "name": "15",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967331"
+      }
+    ],
+    "name": "Europa Clipper",
+    "description": "The Europa Clipper is a sophisticated, large-scale spacecraft designed for deep-space exploration, specifically tasked with investigating the enigmatic moon of Europa. Its robust, angular body is covered in gleaming solar panels and reinforced shielding to protect against Jupiter's intense radiation. The spacecraft is equipped with an array of scientific instruments and high-resolution cameras, housed within a sleek, modular structure that allows for detailed analysis of Europa’s icy surface and potential subsurface ocean. The Clipper's main propulsion system is powerful yet efficient, enabling long-duration missions across the vast distances of the outer solar system. Inside, the spacecraft is a hub of advanced technology, with carefully designed control rooms and observation decks offering unparalleled views of the cosmos. The Europa Clipper embodies the pinnacle of human engineering, poised to unlock the secrets of one of the most intriguing moons in our solar system.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967331"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475858"
+                }
+              ],
+              "name": "14",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeLocation",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.set.967332"
+      }
+    ],
+    "name": "Artic Caverns",
+    "description": "The Arctic Caverns are a stunning, otherworldly expanse hidden beneath Europa's icy surface. These vast, glistening caves are filled with towering stalagmites, long, intricate ice crystals, and perfectly still pools of water, reflecting the untouched beauty of the environment. The atmosphere is eerily quiet, with a soft glow emanating from the walls, casting a serene, almost mystical light throughout the cavern. The air is crisp and cold, filled with the faint sound of distant waves lapping against unseen shores. This location feels both powerful and inviting, a secret world where nature's beauty and the mysteries of Europa converge.",
+    "Location": null,
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.set.context.967332"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+              "entityType": "NarrativeScene",
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475862"
+                }
+              ],
+              "name": "7",
+              "description": null
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,521 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113903"
+      }
+    ],
+    "name": "Augustus Spacesuit",
+    "description": "Augustus’s costumes reflect his practical, no-nonsense approach to the mission, emphasizing functionality and authority. His primary outfit consists of a high-tech, form-fitting spacesuit designed for the harsh environment of Europa. The suit is made of durable, insulated material in a muted color palette—dark grays and blues—accentuated with utility straps, pockets, and reinforced padding at the joints. The suit features a clear, reinforced helmet with built-in communication and HUD (Heads-Up Display) systems, allowing him to monitor mission data in real time.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113903"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475850"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475853"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475862"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824366"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113905"
+      }
+    ],
+    "name": "Augustus Uniform",
+    "description": "When aboard the spacecraft, Augustus wears a more casual yet still utilitarian outfit: a dark, long-sleeve crew shirt with the mission insignia on the shoulder, paired with cargo pants and sturdy boots. The outfit is functional, with a slight military influence, reflecting his disciplined nature and leadership role. His uniform is clean, crisp, and unadorned, emphasizing his focus on the task at hand rather than personal expression.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113905"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475858"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475860"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824366"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113957"
+      }
+    ],
+    "name": "Jessica Spacesuit",
+    "description": "Her primary outfit consists of a high-tech, form-fitting spacesuit designed for the harsh environment of Europa. The suit is made of durable, insulated material in a muted color palette—dark grays and blues—accentuated with utility straps, pockets, and reinforced padding at the joints. The suit features a clear, reinforced helmet with built-in communication and HUD (Heads-Up Display) systems, allowing him to monitor mission data in real time.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113957"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475850"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475853"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475862"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824372"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113955"
+      }
+    ],
+    "name": "Jessica Uniform",
+    "description": "The female equivalent of the aboard-spacecraft uniform for Yvette and Jessica is designed with the same principles of functionality, discipline, and subtle military influence as Augustus's outfit, but with a tailored fit that ensures both comfort and practicality.\n\nTop: A dark, long-sleeve crew shirt made from a breathable, stretchable material that allows for ease of movement. The shirt is fitted yet not restrictive, with the mission insignia proudly displayed on the shoulder. It has a slightly tapered waist to accommodate the female form while maintaining a crisp, clean appearance. The shirt is designed to be practical, with reinforced stitching at the seams for durability.\n\nPants: The cargo pants are similarly practical, featuring multiple pockets for tools and instruments. They are tailored to fit comfortably at the waist and hips, with a straight-leg cut that allows for ease of movement. The material is sturdy yet flexible, offering protection while navigating the spacecraft’s interior.\n\nFootwear: Sturdy boots that provide support and traction, essential for both safety and functionality aboard the spacecraft. The boots are practical, with reinforced toes and non-slip soles, designed for stability in a microgravity environment.\n\nOverall Style: The uniform as a whole is minimalistic, with a focus on efficiency and practicality. The dark color palette, similar to that of Augustus's uniform, is complemented by subtle design elements that highlight the mission's branding without unnecessary adornment. The uniform strikes a balance between professional appearance and the need for comfort during long missions, ensuring that both Yvette and Jessica can perform their duties effectively.\n\nThis uniform is designed to be gender-neutral in its functionality, with adjustments made for fit while maintaining the same standards of durability and practicality as those worn by their male counterparts.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113955"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475858"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475860"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824372"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113965"
+      }
+    ],
+    "name": "Young Yvette Beach",
+    "description": "Young Yvette’s beach swimsuit is a playful, functional outfit designed for a day of fun in the ocean. She wears a one-piece swimsuit in soft, pastel colors, adorned with subtle patterns of seashells or small ocean creatures. The swimsuit is designed for comfort and ease of movement, with wide straps that stay securely in place as she swims and plays in the water.\n\nThe swimsuit features a slightly higher neckline for added coverage, while the bottom portion offers a comfortable fit that allows her to move freely. The fabric is lightweight, quick-drying, and durable, perfect for long hours spent in and out of the water.\n\nHer feet are bare, and her hair is damp from the ocean, possibly tied back in a loose ponytail or held with a simple headband to keep it out of her face. She might carry a small toy or a seashell in hand, reflecting her curiosity and love for the ocean.\n\nThe overall look is one of youthful energy and joy, perfectly suited for a child who is at home in the water and eager to explore the wonders of the beach.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113965"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475854"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824374"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113922"
+      }
+    ],
+    "name": "Yvette Spacesuit",
+    "description": "Her primary outfit consists of a high-tech, form-fitting spacesuit designed for the harsh environment of Europa. The suit is made of durable, insulated material in a muted color palette—dark grays and blues—accentuated with utility straps, pockets, and reinforced padding at the joints. The suit features a clear, reinforced helmet with built-in communication and HUD (Heads-Up Display) systems, allowing him to monitor mission data in real time.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113922"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475852"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475857"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475850"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475851"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475853"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475859"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475860"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475862"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824369"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "NarrativeWardrobe",
+    "identifier": [
+      {
+        "identifierScope": "com.yamdu.app",
+        "identifierValue": "com.yamdu.app.rolecostume.113920"
+      }
+    ],
+    "name": "Yvette Uniform",
+    "description": "Yvette and Jessica's Aboard-Spacecraft Uniform Description:\n\nThe female equivalent of the aboard-spacecraft uniform for Yvette and Jessica is designed with the same principles of functionality, discipline, and subtle military influence as Augustus's outfit, but with a tailored fit that ensures both comfort and practicality.\n\nTop: A dark, long-sleeve crew shirt made from a breathable, stretchable material that allows for ease of movement. The shirt is fitted yet not restrictive, with the mission insignia proudly displayed on the shoulder. It has a slightly tapered waist to accommodate the female form while maintaining a crisp, clean appearance. The shirt is designed to be practical, with reinforced stitching at the seams for durability.\n\nPants: The cargo pants are similarly practical, featuring multiple pockets for tools and instruments. They are tailored to fit comfortably at the waist and hips, with a straight-leg cut that allows for ease of movement. The material is sturdy yet flexible, offering protection while navigating the spacecraft’s interior.\n\nFootwear: Sturdy boots that provide support and traction, essential for both safety and functionality aboard the spacecraft. The boots are practical, with reinforced toes and non-slip soles, designed for stability in a microgravity environment.\n\nOverall Style: The uniform as a whole is minimalistic, with a focus on efficiency and practicality. The dark color palette, similar to that of Augustus's uniform, is complemented by subtle design elements that highlight the mission's branding without unnecessary adornment. The uniform strikes a balance between professional appearance and the need for comfort during long missions, ensuring that both Yvette and Jessica can perform their duties effectively.\n\nThis uniform is designed to be gender-neutral in its functionality, with adjustments made for fit while maintaining the same standards of durability and practicality as those worn by their male counterparts.",
+    "narrativeType": "narrativeWardrobe",
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "com.yamdu.app",
+            "identifierValue": "com.yamdu.app.rolecostume.context.113920"
+          }
+        ],
+        "featuresIn": {
+          "NarrativeScene": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475846"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475847"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.scene.2475849"
+                }
+              ]
+            }
+          ]
+        },
+        "neededBy": {
+          "Character": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "com.yamdu.app",
+                  "identifierValue": "com.yamdu.app.role.824369"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "NarrativeAction",
+    "identifier": [
+      {
+        "identifierScope": "labkoat",
+        "identifierValue": "chr/HNvHjXqJY9wv1IwjG-Hf1"
+      }
+    ],
+    "name": "A special Action",
+    "description": "Sven is an unassuming Satellite repair man. He spends his time alone in his ship traveling to remote planets on the outskirt of the galaxy maintaining a network of exploration satellites. He is more of a lover than a fighter.",
+    "specialActionType": "stunt"
+  }
+]

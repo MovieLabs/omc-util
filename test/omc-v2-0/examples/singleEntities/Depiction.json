@@ -1,0 +1,25 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
+    "entityType": "Depiction",
+    "identifier": [
+      {
+        "identifierScope": "labkoat",
+        "identifierValue": "dep-HNvGRn9JY9wv1IwjG8Gff"
+      }
+    ],
+    "depictionType": "portrayal",
+    "Depictor": {
+      "identifier": [
+        {
+          "identifierScope": "labkoat",
+          "identifierValue": "ptc/HynO3uE6KceCGhx-fkBWo"
+        },
+        {
+          "identifierScope": "imdb",
+          "identifierValue": "nm0872514"
+        }
+      ]
+    }
+  }
+]
