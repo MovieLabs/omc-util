@@ -1,7 +1,7 @@
 /**
  * A collection of utility functions commonly used across projects
  *
- * @module mlHelpers/util
+ * @module mlHelpers
  */
 
 /**

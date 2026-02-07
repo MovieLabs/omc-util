@@ -3,7 +3,7 @@
 *
 * Utilities for building and executing GraphQL queries for OMC entities.
 *
-* @module omcQueryBuilder
+* @module omcGraphQl
 */
 
 /**
@@ -20,13 +20,12 @@
  *
  * @typedef {Object} QueryTemplate
  */
-
-import graphQlQuery from './graphQlQuery.mjs';
+import queryBuilder from './queryBuilder.mjs';
 import { entityQueries, queryVariables, stripGraphQl } from './queryUtil.mjs';
 
 export {
     stripGraphQl,
     entityQueries,
     queryVariables,
-    graphQlQuery,
+    queryBuilder,
 };

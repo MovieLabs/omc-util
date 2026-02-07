@@ -2,6 +2,11 @@
  * @module omcIdentifier
  */
 
+/**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
+ */
+
 // ToDo: Find does not belong here, it should be moved to the SDK
 // ToDo: generateIdentifier does not follow the naming convention, should create or generate.
 
@@ -49,7 +54,6 @@ export const ofScope = ((identifier, identifierScope) => (
  * @param {string | null} [params.entityType] - Will use the predefined prefix for the entityType
  * @returns {OmcIdentifier} A unique identifier value
  */
-
 export function create({ identifierScope, prefix = null, entityType = null }) {
     const p = idPrefixTemplate[entityType] ? idPrefixTemplate[entityType] : prefix;
     return {
@@ -66,7 +70,6 @@ export function create({ identifierScope, prefix = null, entityType = null }) {
  * @param {OmcIdentifier} identifier - An OMC identifier
  * @returns {string} A unique key
  */
-
 export const key = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
 
 /**
@@ -78,7 +81,6 @@ export const key = ((identifier) => `${identifier.identifierScope}:${identifier.
  * @param {OmcEntity} sourceOmcEnt - source entity, used to check against the target
  * @returns {boolean} Returns True when duplicate identifiers exist between the target and source identifiers
  */
-
 export function hasDuplicateId(targetOmcEnt, sourceOmcEnt) {
     const targetId = sourceOmcEnt.identifier.map((omcId) => `${key(omcId)}`);
     const exists = targetOmcEnt.find((ent) => (ent.identifier.find((omcId) => targetId.includes(`${key(omcId)}`))));
@@ -90,11 +92,10 @@ export function hasDuplicateId(targetOmcEnt, sourceOmcEnt) {
  *
  * @function merge
  * @static
- * @param {OmcEntity} targetOmc
+ * @param {Array<OmcEntity>} targetOmc
  * @param {OmcEntity | Array<OmcEntity>} sourceOmc
  * @returns {Array<OmcIdentifier>} A merged set of identifiers
  */
-
 export function merge(targetOmc, sourceOmc) {
     const omcMerge = makeArray(sourceOmc); // The identifiers to be merged into primary array
     const mergedIdentifiers = [...targetOmc];
@@ -115,7 +116,6 @@ export function merge(targetOmc, sourceOmc) {
  * @param {OmcEntity | Array<OmcIdentifier>} matchIdentifier
  * @returns {Boolean} True if there are matching identifiers
  */
-
 export function hasMatching(targetIdentifier, matchIdentifier) {
     const tId = normalizeIdentifier(targetIdentifier);
     const sId = normalizeIdentifier(matchIdentifier);
@@ -126,15 +126,14 @@ export function hasMatching(targetIdentifier, matchIdentifier) {
 }
 
 /**
- * Does an identifier exist
+ * Find an entity in a set of OMC entities by its identifier
  *
  * @function find
  * @static
- * @param omc
- * @param identifier
- * @returns {*|null}
+ * @param {Array<OmcEntity>} omc - Set of OMC entities to search
+ * @param {OmcIdentifier | Array<OmcIdentifier>} identifier - The identifier(s) to search for
+ * @returns {OmcEntity|null} The matching entity or null
  */
-
 export function find(omc, identifier) {
     // Do two identifiers match?
     const identifierMatch = ((id1, id2) => (

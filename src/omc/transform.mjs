@@ -4,21 +4,17 @@
  * @module omcTransform
  */
 
+/**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ * @typedef {import('../../types.mjs').OmcJson} OmcJson
+ */
+
 import { isPlainObject } from '../mlHelpers/util.mjs';
 
 import compareOmc from './compare.mjs';
 import { key as uniqueKey } from './identifier.mjs';
 
 let counter = 0; // A temp counter used in de-duplication
-
-/**
- * De-Duplicate a set of entities based on their shared identifiers
- *
- * @function deDuplicate
- * @static
- * @param {OmcJson} omc - Valid Omc-Json
- * @returns {OmcJson}
- */
 
 const assertEqual = ((a, b) => {
     const comparison = compareOmc({ original: a, comparison: b });
@@ -31,6 +27,14 @@ const tempId = () => {
     return `tempid:${counter}`;
 };
 
+/**
+ * De-Duplicate a set of entities based on their shared identifiers
+ *
+ * @function deDuplicate
+ * @static
+ * @param {OmcJson} omc - Valid Omc-Json
+ * @returns {OmcJson}
+ */
 export function deDuplicate(omc) {
     if (!omc) return null;
     const deDupe = {};
@@ -70,7 +74,6 @@ export function deDuplicate(omc) {
  * @param {OmcJson} omc - Valid Omc-Json
  * @returns {OmcJson}
  */
-
 export function toObject(omc) {
     if (!omc) return null;
     if (Array.isArray(omc)) {
@@ -95,7 +98,6 @@ export function toObject(omc) {
  * @param {OmcJson} omc - Valid Omc-Json
  * @returns {OmcJson} - Omc-Json in the Array format
  */
-
 export function toArray(omc) {
     if (!omc) return null;
     if (Object.hasOwn(omc, 'entityType')) return [omc]; // Single instance
@@ -113,7 +115,6 @@ export function toArray(omc) {
  * @param {OmcEntity} omc - Valid Omc-Json
  * @returns {OmcJson} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
  */
-
 function unEmbedEnt(omc) {
     const stash = []; // Any nested entities are stashed here for the return
 
@@ -148,7 +149,7 @@ const unEmbedSet = ((omc) => {
 });
 
 /**
- * Created flattened Omc-Json with an array of single entities
+ * Creates flattened Omc-Json with an array of single entities
  * Nested entities in the original OmsJson are removed and replaced with references
  *
  * @function unEmbed
@@ -156,7 +157,6 @@ const unEmbedSet = ((omc) => {
  * @param {OmcJson} omc - Valid Omc-Json
  * @returns {OmcJson} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
  */
-
 export function unEmbed(omc) {
     if (!omc) return null;
     if (Array.isArray(omc)) return unEmbedSet(omc); // Array of instances

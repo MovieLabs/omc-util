@@ -3,11 +3,15 @@
  */
 
 /**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ */
+
+/**
  * As set of methods for conducting operations on a single OMC entity
  *
  * @typedef {Object} EntityModel
  * @memberOf module:entityModel
- * @arguments OmcEntity
+ * @extends OmcEntity
  * @property {function(): Array<string>} getBaseKeys {@link module:omcEdges.getBaseKeys}
  * @property {function(): Object<string, *>} getBaseProps {@link module:omcEdges.getBaseProps}
  * @property {function(): Array<string>} getIntrinsicKeys {@link module:omcEdges.getIntrinsicKeys}
@@ -75,7 +79,6 @@ const entityModelProto = {
  * @param {OmcEntity} omcEntity
  * @returns {EntityModel}
  */
-
 export default function entityModel(omcEntity) {
     const model = Object.create(entityModelProto);
     return Object.assign(model, omcEntity);

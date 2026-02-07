@@ -5,6 +5,10 @@
  */
 
 /**
+ * @typedef {import('../../types.mjs').OmcJson} OmcJson
+ */
+
+/**
  * @typedef {object} ValidationOptions
  * @property {boolean} atomic - The entire update must be valid, or it will be fail
  * @property {string} schemaVersion - The schema version to validate against
@@ -68,10 +72,9 @@ function checkSingleEntity(entity, options) {
 /**
  * Given an array of OMC entities, validate each one against the schema
  * @ignore
- * @param {Omc-Json} omc - A single OMC entity
+ * @param {OmcJson} omc - A single OMC entity
  * @param {ValidationOptions} options - Additional options
  */
-
 function checkOmcArray(omc, options) {
     const { schemaVersion } = options; // Has a specific schema version been specified?
 
@@ -99,11 +102,10 @@ function checkOmcArray(omc, options) {
 
 /**
  * @ignore
- * @param {Omc-Json} omc - OMC in object format
+ * @param {OmcJson} omc - OMC in object format
  * @param {ValidationOptions} options - Additional options
  * @returns {{}}
  */
-
 function checkOmcObject(omc, options) {
     const keys = Object.keys(omc);
 
@@ -121,15 +123,14 @@ function checkOmcObject(omc, options) {
 }
 
 /**
- * Validates Omc-Json against the OMC schema
+ * Validates OmcJson against the OMC schema
  *
  * @function validate
  * @static
  * @param {OmcJson} omc - Valid JSON to be validated
  * @param {ValidationOptions} options - Additional options
- * @returns { boolean } - True if valid Omc-Json, false if not
+ * @returns { boolean } - True if valid OmcJson, false if not
  */
-
 export default function validate(omc, options = {}) {
     const {
         atomic = true, // The entire update must be valid or it will be fail

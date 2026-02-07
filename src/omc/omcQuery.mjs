@@ -4,6 +4,10 @@
  * @module omcQuery
  */
 
+/**
+ * @typedef {import('../../types.mjs').OmcJson} OmcJson
+ */
+
 import { makeArray, hasProp } from '../mlHelpers/util.mjs';
 
 /**
@@ -14,7 +18,6 @@ import { makeArray, hasProp } from '../mlHelpers/util.mjs';
  * @param {string} entityPath - A dot notated string of the path to extract
  * @returns {Array}
  */
-
 export function extractFromEntity(entity, entityPath) {
     const entities = makeArray(entity); // Make sure it is iterable
     const levels = entityPath.split('.'); // Split the path on '.'
@@ -31,11 +34,10 @@ export function extractFromEntity(entity, entityPath) {
  * Return all entities of a given entity type
  *
  * @function getEntity
- * @param {OmcJson} omc - An OMC entity
- * @param {string} entityType - A dot notated string of the path to extract
+ * @param {OmcJson} omc - An array of OMC entities
+ * @param {string} entityType - The entity type to filter by
  * @returns {OmcJson}
  */
-
 export function getEntity(omc, entityType) {
     return omc.filter((ent) => ent.entityType === entityType);
 }

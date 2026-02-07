@@ -8,7 +8,7 @@
   "source": {
     "include": ["index.mjs", "types.mjs", "src"],
     "includePattern": ".+\\.(m?js(doc|x)?)$",
-    "exclude": ["src/helpers"]
+    "exclude": ["src/mlHelpers"]
   },
   "plugins": [
     "plugins/markdown"

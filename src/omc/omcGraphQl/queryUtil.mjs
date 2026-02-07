@@ -1,5 +1,7 @@
 /**
  * Utility functions for building OMC queries
+ *
+ * @module omcGraphQl/queryUtil
  */
 
 import { graphQlTemplate as entityTemplate } from '../../entityTemplates/v2-8/index.mjs';
@@ -14,12 +16,11 @@ export const createEntitySchema = ((entityType) => (
  * Strip the graphQl wrapper from a graphQl response and return the OMC-JSON
  *
  * @function stripGraphQl
- * @memberOf module:omcQueryBuilder
+ * @memberOf module:omcGraphQl
  * @param {Object} graphQlResponse
- * @param {Omc-Json} graphQlResponse.data - Valid OMC-JSON
- * @return {Omc-Json}
+ * @param {OmcJson} graphQlResponse.data - Valid OMC-JSON
+ * @returns {OmcJson}
  */
-
 export function stripGraphQl(graphQlResponse) {
     if (!Object.hasOwn(graphQlResponse, 'data')) {
         console.log('Problem');
@@ -32,11 +33,10 @@ export function stripGraphQl(graphQlResponse) {
  * For given entityType returns the set of properties that can be filtered using a variable
  *
  * @function queryVariables
- * @memberOf module:omcQueryBuilder
+ * @memberOf module:omcGraphQl
  * @param {OmcEntityType} entityType
  * @returns {Array<QueryVariable>} Array of objects with property names as keys and their types as values
  */
-
 export function queryVariables(entityType) {
     const entity = createEntitySchema(entityType);
     const variables = [];
@@ -59,10 +59,9 @@ export function queryVariables(entityType) {
  * that can accept a variable as a filter
  *
  * @function entityQueries
- * @memberOf module:omcQueryBuilder
+ * @memberOf module:omcGraphQl
  * @returns {Array<EntityQuery>} Array of entity query configurations
  */
-
 export function entityQueries() {
     const allEntities = Object.keys(entityTemplate).filter((key) => isCapitalized(key));
     return allEntities.map((entityType) => ({

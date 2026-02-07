@@ -4,17 +4,7 @@
  *
  */
 
-/**
- * @function graphQlQuery
- * @memberOf module:omcQueryBuilder
- * @param {Object} params - Parameters used for generating the query
- * @param {OmcEntityType} params.entityType - The root entity type from which to start the query
- * @param {QueryTemplate} params.template - The template for the query
- * @param {QueryVariable} params.variables - Query variables to be included in the query as filters
- * @returns {string} A graphQl query string
- */
-
-import { graphQlTemplate as entityTemplate } from '../../entityTemplates/index.mjs';
+    import { graphQlTemplate as entityTemplate } from '../../entityTemplates/index.mjs';
 import { isCapitalized, isPlainObject } from '../../mlHelpers/util.mjs';
 
 import { graphqlSnippets } from './graphQlSnippets.mjs';
@@ -71,7 +61,6 @@ const getEntityType = ((obj, key) => {
  * @param {Object} inlineFragment
  * @returns {Object<string, *>} - An object representing the full query
  */
-
 function buildTemplate(query = {}, template = {}, inlineFragment) {
     const fragment = inlineFragment || {}; // Protect against null
     const fullTemplate = { ...template, ...(isPlainObject(query) ? query : {}) }; // Combine template and query so all keys are available
@@ -117,7 +106,16 @@ function buildTemplate(query = {}, template = {}, inlineFragment) {
     }, {});
 }
 
-export default function graphQlQuery({
+/**
+ * @function queryBuilder
+ * @memberOf module:omcGraphQl
+ * @param {Object} params - Parameters used for generating the query
+ * @param {OmcEntityType} params.entityType - The root entity type from which to start the query
+ * @param {QueryTemplate} params.template - The template for the query
+ * @param {QueryVariable} params.variables - Query variables to be included in the query as filters
+ * @returns {string} A graphQl query string
+ */
+export default function queryBuilder({
     entityType,
     template = {},
     variables = {},
@@ -126,7 +124,7 @@ export default function graphQlQuery({
 
     /**
      * Take an object that describes the shape of the query and constructs a string with the graphql query
-     *
+     * @ignore
      * @param {object} queryTemplate - An object describing the query
      * @returns {string} - The graphQl query string
      */

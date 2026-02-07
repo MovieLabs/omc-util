@@ -5,6 +5,10 @@
  */
 
 /**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ */
+
+/**
  * @typedef {Object} DiffResult - Result of a difference comparison
  * @property {OmcEntity} original - The original OMC entity
  * @property {OmcEntity} comparison - The entity to which the original was compared
@@ -27,7 +31,6 @@ const normalizeItem = ((item) => ((
  * @param {Array} arr2 - The right-hand side array being compared
  * @returns {{$remove: Array<*>, $create: Array<*>}} Items in the arrays that should be removed or created
  */
-
 function compareArrays(arr1, arr2) {
     const lhs = arr1.map((item) => normalizeItem(item));
     const rhs = arr2.map((item) => normalizeItem(item));
@@ -61,7 +64,6 @@ function compareArrays(arr1, arr2) {
  * @param {Object} rhs - The right-hand side, object being compared
  * @returns {{(Object.<string, {$remove: Array<*>} | {$create: Array<*>}>)}} Items that should be removed or created
  */
-
 function compareKeys(lhs, rhs) {
     const lhsKeys = Object.keys(lhs);
     const rhsKeys = Object.keys(rhs);
@@ -91,7 +93,6 @@ function compareKeys(lhs, rhs) {
  * @param {Object} rhs
  * @returns {{(Object.<string, {$remove: Array<*>} | {$create: Array<*>}> | {$update: *} )}} Items that should be removed or created
  */
-
 function compareValues(lhs, rhs) {
     const diff = {};
     Object.keys(lhs)
@@ -158,7 +159,6 @@ function compareValues(lhs, rhs) {
  * @param {OmcEntity} params.comparison - The OMC entity to compare against the original
  * @returns {DiffResult} The result of the comparison
  */
-
 export default function compare({ original, comparison }) {
     // If any of the entities is missing, then do not compare
     if (!original || !comparison) return { original, comparison, diff: null };

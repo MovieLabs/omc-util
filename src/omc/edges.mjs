@@ -2,6 +2,11 @@
  * @module omcEdges
  */
 
+/**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
+ */
+
 import { inverseEdgeMap } from '../entityTemplates/index.mjs';
 import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
 
@@ -37,7 +42,6 @@ const contextKeys = [
  * @param {OmcEntity} omcEntity
  * @returns {Array<string>} - An array of property names present in the entity
  */
-
 export function getBaseKeys(omcEntity) {
     return Object.keys(omcEntity).filter((k) => baseKeys.includes(k));
 }
@@ -50,7 +54,6 @@ export function getBaseKeys(omcEntity) {
  * @param {OmcEntity} omcEntity
  * @returns {Object<string, *>} - Base properties and values present on the entity
  */
-
 export function getBaseProps(omcEntity) {
     return Object.keys(omcEntity).reduce((obj, key) => (
         baseKeys.includes(key) ? { ...obj, ...{ [key]: omcEntity[key] } } : obj
@@ -70,7 +73,6 @@ export function relatedEdges(omcEntity) {
  * @param {OmcEntity} omcEntity
  * @returns {(Array<string> | null)} - An array of property names present on the entity, or null if not a Context
  */
-
 export function getContextKeys(omcEntity) {
     if (omcEntity.entityType !== 'Context') return null;
     return Object.keys(omcEntity).filter((k) => !contextKeys.includes(k));
@@ -88,7 +90,6 @@ export function intrinsic(omcEntity) {
  * @param {OmcEntity} omcEntity
  * @returns {Array<string>} - An array of intrinsic property names present on the entity
  */
-
 export function getIntrinsicKeys(omcEntity) {
     return Object.keys(omcEntity).filter((k) => k[0].toLowerCase() !== k[0]); // Intrinsic properties are upper case
 }
@@ -102,10 +103,9 @@ export function getIntrinsicKeys(omcEntity) {
  * @memberof module:omcEdges
  * @function getIntrinsicProps
  * @static
- * @param omcEntity {omcEntity} - The entity for which you want the intrinsic props
+ * @param {OmcEntity} omcEntity - The entity for which you want the intrinsic props
  * @returns {Object<string, *>}
  */
-
 export function getIntrinsicProps(omcEntity) {
     return Object.keys(omcEntity || {}).reduce((acc, key) => {
         if (!omcEntity[key]) return acc; // Ignore null and empty arrays
@@ -134,7 +134,6 @@ export function getContextProps(ent) {
  * @param {OmcEntity} omcEntity
  * @param {OmcEntity | OmcIdentifier} identifier
  */
-
 // Depending on if this is an Array, checks for matches, removes any and returns result or null if everything removed
 const chkIdentifier = ((omcEntity, removeIdentifier) => {
     if (!omcEntity) return omcEntity; // Protect against null
@@ -157,9 +156,8 @@ export function removeEdge(omcEnt, identifier) {
  * @function inverse
  * @static
  * @param {OmcEntity} omcEntity
- * @returns {Array<string>}
+ * @returns {Array<Object>}
  */
-
 const inverseRelation = ((rel) => (inverseEdgeMap[rel] ? inverseEdgeMap[rel] : rel));
 
 export function inverse(omcContext) {

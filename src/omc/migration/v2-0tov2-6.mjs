@@ -1,5 +1,5 @@
 /**
- * Migrate and OMC entity from v2.0 to v2.6
+ * Migrate an OMC entity from v2.0 to v2.6
  *
  * @ignore
  */

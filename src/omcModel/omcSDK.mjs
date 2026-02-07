@@ -4,6 +4,12 @@
  * @module omcSDK
  */
 
+/**
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
+ * @typedef {import('../../types.mjs').OmcJson} OmcJson
+ */
+
 import { omcEdges } from '../../index.mjs';
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.mjs';
 import omcCompare from '../omc/compare.mjs';
@@ -173,9 +179,9 @@ const cache = () => {
 
 /**
  * Set, or create, new entities in the store
- * @memeberOf module:omcSDK
+ * @memberOf module:omcSDK
  * @static
- * @param {OmcEntity} omc
+ * @param {OmcJson} omc
  * @returns {*|null}
  */
 function set(omc) {
@@ -191,9 +197,9 @@ function set(omc) {
 }
 
 /**
- * Set or add and entity to the cache
+ * Set or add an entity to the cache
  * @function replace
- * @param omc
+ * @param {OmcJson} omc
  * @returns {*|null}
  */
 function replace(omc) {
@@ -222,10 +228,9 @@ function get(omcId, options = {}) {
  * Remove OMC entities that exist in the internal cache
  * @function remove
  * @memberOf module:omcSDK
- * @param omc
- * @param options
+ * @param {OmcEntity} omc
+ * @param {Object} options
  */
-
 function remove(omc, options = {}) {
     if (!omc) return null; // Check for bad input
     return this.cache.remove(omc, options);
@@ -237,7 +242,6 @@ function remove(omc, options = {}) {
  * @memberOf module:omcSDK
  * @param {OmcEntity} omc
  */
-
 function removeWithEdges(omc) {
     if (!omc) return null; // Check for bad input
     return this.cache.removeWithEdges(omc);
@@ -312,7 +316,6 @@ function contextEdges(identifier) {
  * @memberOf module:omcSDK
  * @returns {OmcStore}
  */
-
 export default function omcSDK() {
     return {
         cache: cache(),

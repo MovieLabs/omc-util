@@ -5,11 +5,8 @@
  */
 
 /**
- * @function find
- * @static
- * @param {OmcJson} omc
- * @param {Object} filter - Filter criteria matching the shape of an OMC entity
- * @returns {OmcJson} - All entities matching the filter or []
+ * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
+ * @typedef {import('../../types.mjs').OmcJson} OmcJson
  */
 
 import { unEmbed, toArray } from './transform.mjs';
@@ -43,7 +40,15 @@ function matchesCriteria(obj, filter) {
     });
 }
 
-// Given an array of omc entities, return the entity matching the identifier
+/**
+ * Given an array of OMC entities, return those matching the filter criteria
+ *
+ * @function find
+ * @static
+ * @param {OmcJson} omc - Valid OMC-JSON
+ * @param {Object} filter - Filter criteria matching the shape of an OMC entity
+ * @returns {Array<OmcEntity>} All entities matching the filter or []
+ */
 export default function find(omc, filter) {
     const normalizedOmc = toArray(unEmbed(omc)); // Normalize the OMC to single entities in an array
 
