@@ -4,11 +4,6 @@
  * @module omcFind
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
 import { unEmbed, toArray } from './transform.mjs';
 
 function matchesCriteria(obj, filter) {

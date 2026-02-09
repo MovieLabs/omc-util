@@ -2,15 +2,10 @@
  * @module omcEdges
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
- */
-
 import { inverseEdgeMap } from '../entityTemplates/index.mjs';
 import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
 
-import { normalizeIdentifier, hasMatching } from './identifier.mjs';
+import { idNormalize, hasMatching } from './omcIdentifier.mjs';
 
 const baseKeys = [
     'schemaVersion',
@@ -142,7 +137,7 @@ const chkIdentifier = ((omcEntity, removeIdentifier) => {
 });
 
 export function removeEdge(omcEnt, identifier) {
-    const removeIdentifier = normalizeIdentifier(identifier);
+    const removeIdentifier = idNormalize(identifier);
     return Object.keys(omcEnt || {}).reduce((acc, key) => {
         if (isCapitalized(key)) return { ...acc, ...{ [key]: chkIdentifier(omcEnt[key], removeIdentifier) } };
         if (isPlainObject(omcEnt[key])) return { ...acc, ...{ [key]: removeEdge(omcEnt[key], removeIdentifier) } };

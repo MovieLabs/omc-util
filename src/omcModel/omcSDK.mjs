@@ -4,18 +4,12 @@
  * @module omcSDK
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
 import { omcEdges } from '../../index.mjs';
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.mjs';
 import omcCompare from '../omc/compare.mjs';
 import { relatedEdges } from '../omc/edges.mjs';
 import omcFind from '../omc/find.mjs';
-import * as omcIdentifier from '../omc/identifier.mjs';
+import * as omcIdentifier from '../omc/omcIdentifier.mjs';
 import * as omcTransform from '../omc/transform.mjs';
 
 import entityModel from './entityModel.mjs';

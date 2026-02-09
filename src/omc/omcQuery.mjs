@@ -4,10 +4,6 @@
  * @module omcQuery
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
 import { makeArray, hasProp } from '../mlHelpers/util.mjs';
 
 /**

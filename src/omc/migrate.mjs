@@ -4,10 +4,6 @@
  * @module omcMigrate
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
 import v20 from './migration/v2-0tov2-6.mjs';
 import v26 from './migration/v2-6tov2-x.mjs';
 

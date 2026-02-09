@@ -46,22 +46,22 @@
  * A single instance of an OMC entity
  * @memberof OMC
  * @typedef {object} OmcEntity
- * @property {string} schemaVersion - Describes the version of OMC-JSON schema that was used to create this instance.
- * @property {Array<OmcIdentifier>} identifier
- * @property {OmcEntityType} entityType
- * @property {string} name - A name for the entity, this is primarily for human consumption in things like user interfaces. It should not be considered a canonical name
- * @property {string} description - A brief description of the entity, primarily for human consumption
- * @property {OmcCustomData} customData
- * @property {OmcAnnotation} annotation
- * @property {OmcTag} tag
- * @property {OmcInstanceInfo} instanceInfo
+ * @property {string} [schemaVersion] - Describes the version of OMC-JSON schema that was used to create this instance.
+ * @property {OmcIdentifier[]} [identifier]
+ * @property {OmcEntityType} [entityType]
+ * @property {string | null} name - A name for the entity, this is primarily for human consumption in things like user interfaces. It should not be considered a canonical name
+ * @property {string | null} description - A brief description of the entity, primarily for human consumption
+ * @property {OmcCustomData | null} customData
+ * @property {OmcAnnotation | null} annotation
+ * @property {OmcTag | null} tag
+ * @property {OmcInstanceInfo | null} instanceInfo
  * @property {*} key - Properties specific to this instance of the entityType
  */
 
 /**
  * A valid OMC data structure
  * @memberof OMC
- * @typedef {Array<OmcEntity> | Object<string, Array<OmcEntity>>} OmcJson
+ * @typedef {Array<OmcEntity> | Object<string, Array<OmcEntity> | OmcEntity>} OmcJson
  */
 
 export {};

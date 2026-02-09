@@ -1,7 +1,6 @@
 /**
  * Utility functions for building OMC queries
  *
- * @module omcGraphQl/queryUtil
  */
 
 import { graphQlTemplate as entityTemplate } from '../../entityTemplates/v2-8/index.mjs';

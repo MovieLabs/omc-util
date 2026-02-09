@@ -3,10 +3,6 @@
  */
 
 /**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- */
-
-/**
  * As set of methods for conducting operations on a single OMC entity
  *
  * @typedef {Object} EntityModel

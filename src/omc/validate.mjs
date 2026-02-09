@@ -5,10 +5,6 @@
  */
 
 /**
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
-/**
  * @typedef {object} ValidationOptions
  * @property {boolean} atomic - The entire update must be valid, or it will be fail
  * @property {string} schemaVersion - The schema version to validate against

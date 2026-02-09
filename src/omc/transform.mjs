@@ -4,15 +4,10 @@
  * @module omcTransform
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- * @typedef {import('../../types.mjs').OmcJson} OmcJson
- */
-
 import { isPlainObject } from '../mlHelpers/util.mjs';
 
 import compareOmc from './compare.mjs';
-import { key as uniqueKey } from './identifier.mjs';
+import { idKey as uniqueKey } from './omcIdentifier.mjs';
 
 let counter = 0; // A temp counter used in de-duplication
 

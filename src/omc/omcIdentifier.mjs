@@ -2,11 +2,6 @@
  * @module omcIdentifier
  */
 
-/**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- * @typedef {import('../../types.mjs').OmcIdentifier} OmcIdentifier
- */
-
 // ToDo: Find does not belong here, it should be moved to the SDK
 // ToDo: generateIdentifier does not follow the naming convention, should create or generate.
 
@@ -15,92 +10,117 @@ import { customAlphabet } from 'nanoid';
 import { idPrefixTemplate } from '../entityTemplates/index.mjs';
 import { makeArray } from '../mlHelpers/util.mjs';
 
-const idCharacters = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
+const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
 
 /**
- * Normalizes the input based on whether and OmcEntity or OmcIdentifier was passed in
+ * Normalizes the input based on whether an OmcEntity or just OmcIdentifier was passed in
  * returning just an array of OmcIdentifiers.
  *
+ * @function idNormalize
  * @ignore
  * @static
  * @param {OmcEntity | OmcIdentifier} identifier
  * @returns {Array<OmcIdentifier>} - An array of just identifiers
  */
-export const normalizeIdentifier = ((identifier) => (
+export const idNormalize = ((identifier) => (
     Object.hasOwn(identifier, 'identifier') ? identifier.identifier : makeArray(identifier))
 );
 
 /**
- * OMC entities may have multiple identifiers, this returns the identifier for the requested scope
+ * OMC entities may have multiple identifiers, this returns the identifier of the requested scope if found
  *
- * @function ofScope
+ * @function idOfScope
  * @static
  * @param {Array<OmcIdentifier>} identifier - An array of OMC identifiers
  * @param {string} identifierScope - The scope of the required identifierValue
- * @returns {OmcIdentifier} - A single identifier
+ * @returns {OmcIdentifier | null} - A single identifier if the scope is matched, null it not
+ *
+ * @example
+ * idOfScope(
+ *  [
+ *     { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'},
+ *     { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j'},
+ *  ],
+ *  'movielabs.com'
+ * )
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'}
  */
-export const ofScope = ((identifier, identifierScope) => (
-    identifier.find((id) => id.identifierScope === identifierScope))
-);
+export const idOfScope = ((identifier, identifierScope) => {
+    const scopeMatch = identifier.find((id) => id.identifierScope === identifierScope);
+    return scopeMatch || null;
+});
 
 /**
- * Generate a unique identifier value with an optional prefix
+ * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
  *
- * @function create
+ * @function idCreate
  * @static
  * @param {Object} params
  * @param {string} params.identifierScope - The scope of the identifier
  * @param {string | null} [params.prefix] - Optional prefix for the identifier value
- * @param {string | null} [params.entityType] - Will use the predefined prefix for the entityType
- * @returns {OmcIdentifier} A unique identifier value
+ * @param {string | null} [params.entityType] - Uses a predefined prefix for the entityType [takes priority]
+ * @returns {OmcIdentifier} An OMC identifier with the specified scope and new unique value
+ *
+ * @example
+ * idCreate({ identifierScope: 'movielabs.com', entityType: 'Character' })
+ * // returns {
+ * //     identifierScope: 'movielabs.com',
+ * //     identifierValue': 'chr-Yhq5EZz4zdQxgOt'
+ * // }
+ *
  */
-export function create({ identifierScope, prefix = null, entityType = null }) {
+export function idCreate({ identifierScope, prefix = null, entityType = null }) {
     const p = idPrefixTemplate[entityType] ? idPrefixTemplate[entityType] : prefix;
     return {
-        identifierScope,
-        identifierValue: p ? `${p}-${idCharacters()}` : `${idCharacters()}`,
+        identifierScope: identifierScope || 'example.com',
+        identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,
     };
 }
 
 /**
- * Generate a unique key by combining the identifierScope and identifierValue
+ * Creates a globally unique key by combining the identifierScope and identifierValue of an OMC identifier
  *
- * @function key
+ * @function idKey
  * @static
  * @param {OmcIdentifier} identifier - An OMC identifier
  * @returns {string} A unique key
+ *
+ * @example
+ * idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
+ * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
+ *
  */
-export const key = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
+export const idKey = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
 
 /**
  * Test if an identifier from one entity already exists within a set of other entities
  *
- * @function hasDuplicateId
+ * @function idHasDuplicate
  * @static
  * @param {Array<OmcEntity>} targetOmcEnt - Set of target entities against which the source entity id's will be checked for matches
  * @param {OmcEntity} sourceOmcEnt - source entity, used to check against the target
  * @returns {boolean} Returns True when duplicate identifiers exist between the target and source identifiers
  */
-export function hasDuplicateId(targetOmcEnt, sourceOmcEnt) {
-    const targetId = sourceOmcEnt.identifier.map((omcId) => `${key(omcId)}`);
-    const exists = targetOmcEnt.find((ent) => (ent.identifier.find((omcId) => targetId.includes(`${key(omcId)}`))));
+export function idHasDuplicate(targetOmcEnt, sourceOmcEnt) {
+    const targetId = sourceOmcEnt.identifier.map((omcId) => `${idKey(omcId)}`);
+    const exists = targetOmcEnt.find((ent) => (ent.identifier.find((omcId) => targetId.includes(`${idKey(omcId)}`))));
     return !exists;
 }
 
 /**
  * Merge two sets of identifiers into a single, de-duplicated set
  *
- * @function merge
+ * @function idMerge
  * @static
  * @param {Array<OmcEntity>} targetOmc
  * @param {OmcEntity | Array<OmcEntity>} sourceOmc
  * @returns {Array<OmcIdentifier>} A merged set of identifiers
  */
-export function merge(targetOmc, sourceOmc) {
+export function idMerge(targetOmc, sourceOmc) {
     const omcMerge = makeArray(sourceOmc); // The identifiers to be merged into primary array
     const mergedIdentifiers = [...targetOmc];
     omcMerge.forEach((omcEnt) => {
-        if (hasDuplicateId(mergedIdentifiers, omcEnt)) mergedIdentifiers.push(omcEnt);
+        if (idHasDuplicate(mergedIdentifiers, omcEnt)) mergedIdentifiers.push(omcEnt);
     });
     return mergedIdentifiers;
 }
@@ -117,8 +137,8 @@ export function merge(targetOmc, sourceOmc) {
  * @returns {Boolean} True if there are matching identifiers
  */
 export function hasMatching(targetIdentifier, matchIdentifier) {
-    const tId = normalizeIdentifier(targetIdentifier);
-    const sId = normalizeIdentifier(matchIdentifier);
+    const tId = idNormalize(targetIdentifier);
+    const sId = idNormalize(matchIdentifier);
     const res = tId.filter((id1) => sId.find((id2) => (
         id1.identifierScope === id2.identifierScope) && (id1.identifierValue === id2.identifierValue
     )));

@@ -5,10 +5,6 @@
  */
 
 /**
- * @typedef {import('../../types.mjs').OmcEntity} OmcEntity
- */
-
-/**
  * @typedef {Object} DiffResult - Result of a difference comparison
  * @property {OmcEntity} original - The original OMC entity
  * @property {OmcEntity} comparison - The entity to which the original was compared

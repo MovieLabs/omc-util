@@ -1,3 +1,3 @@
-import { queryBulider } from '../../index.mjs';
+import { omcGraphQl } from '../../index.mjs';
 
 console.log('Hello');

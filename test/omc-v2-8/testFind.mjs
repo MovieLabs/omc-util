@@ -1,6 +1,6 @@
-import allCharacters from './examples/Europa/allCharacters.json' with { type: 'json' };
-
 import { omcFind } from '../../index.mjs';
+
+import allCharacters from './examples/Europa/allCharacters.json' with { type: 'json' };
 
 const res1 = omcFind(allCharacters, {
     characterName: { fullName: 'Augustus' },
