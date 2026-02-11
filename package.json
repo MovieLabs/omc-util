@@ -7,10 +7,18 @@
   "main": "./index.mjs",
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "default": "./index.mjs"
-    }
+    ".": { "import": "./index.mjs", "default": "./index.mjs" },
+    "./compare": "./src/omc/compare.mjs",
+    "./edges": "./src/omc/edges.mjs",
+    "./find": "./src/omc/find.mjs",
+    "./migrate": "./src/omc/migrate.mjs",
+    "./graphql": "./src/omc/omcGraphQl/index.mjs",
+    "./identifier": "./src/omc/omcIdentifier.mjs",
+    "./transform": "./src/omc/transform.mjs",
+    "./validate": "./src/omc/validate.mjs",
+    "./sdk": "./src/omcModel/omcSDK.mjs",
+    "./config": "./src/config/index.mjs",
+    "./entity-model": "./src/omcModel/entityModel.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -4,10 +4,9 @@
  * @module omcSDK
  */
 
-import { omcEdges } from '../../index.mjs';
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.mjs';
 import omcCompare from '../omc/compare.mjs';
-import { relatedEdges } from '../omc/edges.mjs';
+import { relatedEdges, removeEdge } from '../omc/edges.mjs';
 import omcFind from '../omc/find.mjs';
 import * as omcIdentifier from '../omc/omcIdentifier.mjs';
 import * as omcTransform from '../omc/transform.mjs';
@@ -120,7 +119,7 @@ const cache = () => {
                 remove: [omcEntity],
             };
             internalIds.forEach((storeKey) => {
-                const omcEnt = omcEdges.removeEdge(this.store[storeKey], omcEntity);
+                const omcEnt = removeEdge(this.store[storeKey], omcEntity);
                 if (JSON.stringify(omcEnt) !== JSON.stringify(this.store[storeKey])) {
                     // const diff = compare({ original: omcEnt, comparison: this.store[storeKey] });
                     storeHistory.old.push(this.store[storeKey]);
