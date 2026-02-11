@@ -15,11 +15,13 @@ import Ajv2019 from 'ajv/dist/2019.js';
 
 import schemav21 from '../schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
 import schemav26 from '../schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
+import schemav28 from '../schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
 
 const schemaValidators = {
     'https://movielabs.com/omc/json/schema/v2.0': schemav21, // 2.1 is bug fix for 2.0
     'https://movielabs.com/omc/json/schema/v2.1': schemav21,
     'https://movielabs.com/omc/json/schema/v2.6': schemav26,
+    'https://movielabs.com/omc/json/schema/v2.8': schemav28,
 };
 
 const schemaValidator = Object.keys(schemaValidators)

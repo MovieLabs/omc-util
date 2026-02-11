@@ -7,10 +7,6 @@
 */
 
 /**
- * @typedef {Object.<string, string[]>} QueryVariable
- */
-
-/**
  * - Templates only need to enumerate the entityType that is to be queried, all the properties for the entity are added automatically
  * - Will correctly handle union types in graphql by including the inline fragments needed.
  * - Any individual property in an entity can be overwritten by including an alternative in the template

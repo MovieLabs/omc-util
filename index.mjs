@@ -14,8 +14,11 @@ import * as omcGraphQl from './src/omc/omcGraphQl/index.mjs';
 import * as omcIdentifier from './src/omc/omcIdentifier.mjs';
 import * as omcTransform from './src/omc/transform.mjs';
 import omcValidate from './src/omc/validate.mjs';
-import entityModel from './src/omcModel/entityModel.mjs';
+// import entityModel from './src/omcModel/entityModel.mjs';
 import omcSDK from './src/omcModel/omcSDK.mjs';
+
+export * from './src/config';
+export * from './src/omcModel/entityModel.mjs';
 
 export {
     omcMigrate,
@@ -26,6 +29,6 @@ export {
     omcIdentifier,
     omcGraphQl,
     omcValidate,
-    entityModel,
+    // entityModel,
     omcSDK,
 };

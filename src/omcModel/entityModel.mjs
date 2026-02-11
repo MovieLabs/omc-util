@@ -16,6 +16,7 @@
  * @property {function(): Object<string, *>} getContextProps {@link module:omcEdges.getContextProps}
  */
 
+import { generalConfig } from '../config/index.mjs';
 import {
     getBaseKeys,
     getBaseProps,
@@ -68,6 +69,18 @@ const entityModelProto = {
     getContextProps() {
         return getContextProps(this);
     },
+    get color() {
+        return generalConfig[this.entityType].presentation.entityColor;
+    },
+    get label() {
+        return generalConfig[this.entityType].presentation.entityLabel;
+    },
+    get labelSuffix() {
+        const label = generalConfig[this.entityType].presentation.entityLabel;
+        return generalConfig[this.entityType].presentation?.entityLabelSuffix
+            ? `${label}${generalConfig[this.entityType].presentation?.entityLabelSuffix(this)}`
+            : label;
+    },
 };
 
 /**
@@ -75,7 +88,9 @@ const entityModelProto = {
  * @param {OmcEntity} omcEntity
  * @returns {EntityModel}
  */
-export default function entityModel(omcEntity) {
+export default function entityModel(omcEntity = {}) {
     const model = Object.create(entityModelProto);
-    return Object.assign(model, omcEntity);
+    const t = Object.assign(model, omcEntity);
+    console.log(Object.keys(t));
+    return t;
 }

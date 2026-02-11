@@ -1,0 +1,1389 @@
+[
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "col-L8NgRsRiVgYPAwY"
+			}
+		],
+		"entityType": "Collection",
+		"name": "B018C008-Turnover",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"collectionType": "vfx.turnover",
+		"collectionProperties": null,
+		"software": null,
+		"includes": {
+			"Slate": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "slt-65d68fd0d70a52b2e66cc57d"
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "308ab0490a5f4b3d2834addcfccc56c3"
+						}
+					]
+				}
+			],
+			"Collection": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "col-oyTa7cMGu3m4IQ2",
+							"url": null
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "slt-65d68fd0d70a52b2e66cc57d"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "308ab0490a5f4b3d2834addcfccc56c3"
+			}
+		],
+		"entityType": "Slate",
+		"name": "12H-2-B",
+		"description": "Scene: 12H, Take: 2, Camera: B",
+		"annotation": null,
+		"tag": null,
+		"customData": {
+			"OSD-UniqueID": "65D6726E7B280080"
+		},
+		"slateUID": "12H-2-B",
+		"cameraLabel": null,
+		"cameraUnit": "Main",
+		"cameraRoll": "B018CLTM",
+		"soundRoll": null,
+		"shootDate": "2024-02-20",
+		"shootDay": "7",
+		"recordingFPS": 24,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/slate-productionScene/308ab0490a5f4b3d2834addcfccc56c3",
+						"url": null
+					}
+				]
+			}
+		],
+		"CreativeWork": null,
+		"Director": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "FX-DMZ",
+						"identifierValue": "43c03893-2729-4adf-ad2b-42f3edfe5264",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "9505f42141f9e3690a46b6a96d4b3031",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Collection",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "col-oyTa7cMGu3m4IQ2",
+				"url": null
+			}
+		],
+		"name": "B018C008-Shot",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"collectionType": "vfx.plate",
+		"collectionProperties": {
+			"lensMetadata": {
+				"tStop": "2.9 + 5/10",
+				"focusPosition": "3.933m",
+				"focalLength": "64mm",
+				"anamorphicSqueeze": "1.8x"
+			},
+			"cameraMetadata": {
+				"captureRate": "24",
+				"isoSpeed": "3200",
+				"lutUID": "B018C008_240220JY.cdl",
+				"roll": "1.40000",
+				"shutterAngle": "180.0 @ 24fps",
+				"tilt": "-11.20000",
+				"timecodeEnd": "null",
+				"timecodeStart": "12:04:17:18",
+				"tint": "0",
+				"whiteBalance": "6500"
+			}
+		},
+		"software": null,
+		"includes": {
+			"Asset": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "ast-65d68fd0d70a52b2e66cc57d",
+							"url": null
+						}
+					]
+				},
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "ast-prx-e-cdl-65d68fd0d70a52b2e66cc57d",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "b36b0565c7ad81a912068292e365377a",
+							"url": null
+						}
+					]
+				},
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "ast-65d647356c03449706acba4c",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "e251dfdcc6ea314998db6ca29de17dd6",
+							"url": null
+						}
+					]
+				}
+			],
+			"Slate": null,
+			"Composition": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "cmp-1vKEBTNX6uI5yRJ",
+							"url": null
+						}
+					]
+				}
+			],
+			"Collection": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "col-65d68fd0d70a52b2e66cc57a",
+							"url": null
+						}
+					]
+				},
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "col-65d68fd0d70a52b2e66cc57e",
+							"url": null
+						}
+					]
+				}
+			],
+			"Infrastructure": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "inf-Vi9JWMZaHI6s0Hx",
+							"url": null
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "ProductionScene",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.shot.2553077",
+				"url": "https://app.yamdu.com/#119374/breakdowns:shots/shotprofile!id=2475857"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "4d2e9cff15284c972fe82a0605df1d1c",
+				"url": null
+			}
+		],
+		"name": "12-D",
+		"description": "",
+		"annotation": null,
+		"tag": null,
+		"customData": {
+			"scheduledDuration": "0:00",
+			"hasBeenShot": false,
+			"subject": "MASTER - FULL (MEDIUM WIDE)",
+			"setupId": "",
+			"size": "",
+			"type": "",
+			"movement": "",
+			"equipment": "",
+			"vfx": "",
+			"camera": "",
+			"lens": "",
+			"framerate": "",
+			"specialEquipment": "",
+			"sound": "",
+			"lighting": "",
+			"location": "",
+			"note": "",
+			"audioDescription": "",
+			"visualDescription": ""
+		},
+		"sceneName": {
+			"fullName": "MASTER - FULL (MEDIUM WIDE)",
+			"altName": ""
+		},
+		"sceneHeader": "INT.DAY-INT.",
+		"sceneDescriptor": "",
+		"sceneNumber": "12-D",
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/productionScene-narrativeScene/4d2e9cff15284c972fe82a0605df1d1c",
+						"url": null
+					}
+				]
+			},
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.scene.context.2553077",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "38e0dcd26b35854bb654d1566b9fef5d",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "NarrativeScene",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.scene.2475857",
+				"url": "https://app.yamdu.com/#119374/breakdowns:scenes/sceneprofile!id=2475857"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "dd7300c8dcfdf537c9f46879751126b3",
+				"url": null
+			}
+		],
+		"name": "12",
+		"description": "In a dark cave, waves lap softly in the distance as Yvette’s cracked helmet glows faintly. She struggles to stand, but upon removing her helmet, she finds she can breathe. The cave slowly illuminates, revealing a breathtaking arctic ice cavern with an endless ocean. A voice, 'Ocean,' speaks to her, acknowledging her thoughts and trusting her. Yvette’s skin glows bioluminescent as she kneels to scoop water into a test tube. But as she catches her reflection, she sees herself holding money and shaking hands with global leaders, a cold look in her eyes. Startled, she falls back, breaking the test tube.",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"sceneName": {
+			"fullName": "12",
+			"altName": ""
+		},
+		"sceneNumber": "12",
+		"slugline": [
+			{
+				"title": "DAY-INT.",
+				"text": "INT."
+			},
+			{
+				"title": "",
+				"text": "Day"
+			}
+		],
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/narrativeScene-character/dd7300c8dcfdf537c9f46879751126b3",
+						"url": null
+					}
+				]
+			},
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/narrativeScene-narrativeEntities/dd7300c8dcfdf537c9f46879751126b3",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Character",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.role.824373",
+				"url": "https://app.yamdu.com/#119374/cast:roles/roleprofile!id=824373"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "2303384a405a3b0262f50753b2fe6da9",
+				"url": null
+			}
+		],
+		"name": "Ocean",
+		"description": "Ocean is a mysterious and ethereal presence, representing the vast, ancient consciousness of Europa’s hidden depths. It is not a traditional character but rather a sentient force that communicates with Yvette through whispers and visions, embodying the primal essence of water and life. Ocean is wise, patient, and deeply connected to the natural order, possessing a profound understanding of the balance between giving and taking. Its interactions with Yvette reveal a nurturing yet cautious nature, as it seeks to protect its world from the potential harm of human interference. Ocean’s voice is both soothing and commanding, guiding Yvette toward a deeper understanding of the interconnectedness of all life. It is a character that symbolizes the power and fragility of nature, offering wisdom and a stark reminder of the responsibilities that come with exploration and discovery.",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"characterType": null,
+		"characterName": {
+			"firstGivenName": null,
+			"familyName": null,
+			"fullName": "Ocean",
+			"altName": null
+		},
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.role.context.824373",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "f42ba04014ed6671eb8529e91d1cc738",
+						"url": null
+					}
+				]
+			}
+		],
+		"Depiction": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.depictor.role.824373",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "398bf0529ded7d17b383940a18eed677",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Character",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.role.824369",
+				"url": "https://app.yamdu.com/#119374/cast:roles/roleprofile!id=824369"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "5f7ea7a0b2d5ad289f8b76f64c373587",
+				"url": null
+			}
+		],
+		"name": "Yvette",
+		"description": "Yvette is a thoughtful and introspective woman in her early 30s, characterized by a gentle demeanor and a deep connection to both nature and the cosmos. She possesses a quiet strength and intelligence, with expertise in astronomy and oceanography, which makes her uniquely attuned to the mysteries of the universe. Yvette is driven by a profound curiosity and a sense of responsibility, often reflecting on the ethical implications of humanity’s actions. Her contemplative nature is complemented by a deep empathy, making her sensitive to the environments and life forms she encounters. Throughout her journey, Yvette grapples with the weight of human impact on the natural world, balancing her scientific mission with a moral compass that guides her decisions. She is a character who seeks understanding and harmony, always striving to bridge the gap between the known and the unknown, between humanity and the greater forces of the universe.",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"characterType": null,
+		"characterName": {
+			"firstGivenName": null,
+			"familyName": null,
+			"fullName": "Yvette",
+			"altName": null
+		},
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.role.context.824369",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "93740be6a21202b612b69cd2e770eaeb",
+						"url": null
+					}
+				]
+			}
+		],
+		"Depiction": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.depictor.role.824369",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "6b2f2299c5ebdb427eb674c2d0a2a22d",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "NarrativeLocation",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.set.967330",
+				"url": "https://app.yamdu.com/#119374/locations:sets/setprofile!id=967330"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "92407d84c9752a3cafebb4997182a9d2",
+				"url": null
+			}
+		],
+		"name": "Cave",
+		"description": "The cave is a mysterious and awe-inspiring space, hidden deep beneath the surface. Initially shrouded in darkness, it slowly reveals itself as a vast arctic ice cavern. The walls are adorned with glistening stalagmites and long, delicate ice crystals that catch the faint light, creating a mesmerizing glow. The air is cold and crisp, with the soft sound of distant waves echoing through the cavern. At the heart of the cave lies a still, reflective pool of water, its surface untouched and pristine. The atmosphere is both powerful and serene, a place where the natural world holds an ancient, quiet wisdom.",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"narrativeType": null,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.set.context.967330",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "1828f4a83d8541a2f71136107966eecd",
+						"url": null
+					}
+				]
+			}
+		],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "NarrativeAudio",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.sceneattribute.144676",
+				"url": "https://app.yamdu.com/#119374/misc/sceneattributeprofile!id=144676"
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "72380cc44783df9373aadbb53cbd5f2a",
+				"url": null
+			}
+		],
+		"name": "Sound of waves",
+		"description": "",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"narrativeType": "narrativeSoundEffect",
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.sceneattribute.Context.144676",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "595dee61cee3adcb19a9f089a9a0e0c5",
+						"url": null
+					}
+				]
+			}
+		],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "NarrativeWardrobe",
+		"identifier": [
+			{
+				"identifierScope": "com.yamdu.app",
+				"identifierValue": "com.yamdu.app.rolecostume.113922",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "bc4b0355a1f0be2f04a311568c9ba7eb",
+				"url": null
+			}
+		],
+		"name": "Yvette Spacesuit",
+		"description": "Her primary outfit consists of a high-tech, form-fitting spacesuit designed for the harsh environment of Europa. The suit is made of durable, insulated material in a muted color palette—dark grays and blues—accentuated with utility straps, pockets, and reinforced padding at the joints. The suit features a clear, reinforced helmet with built-in communication and HUD (Heads-Up Display) systems, allowing him to monitor mission data in real time.",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"narrativeType": "narrativeWardrobe",
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "com.yamdu.app",
+						"identifierValue": "com.yamdu.app.rolecostume.context.113922",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "bbdb76b0b1a3e84b4e6c10a17d9366f7",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Asset",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "ast-65d68fd0d70a52b2e66cc57d",
+				"url": null
+			}
+		],
+		"name": "B018C008-Plate",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"AssetSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "astsc-65d68fd0d70a52b2e66cc57d",
+					"url": null
+				}
+			]
+		},
+		"assetFC": {
+			"functionalProperties": null,
+			"functionalType": "plate.vfx"
+		},
+		"Asset": null,
+		"Context": [],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Asset",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "ast-prx-e-cdl-65d68fd0d70a52b2e66cc57d",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "b36b0565c7ad81a912068292e365377a",
+				"url": null
+			}
+		],
+		"name": "cdl B018C008_240220JY",
+		"description": "Proxy for cdl data for shot 12H-2-B",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"AssetSC": {
+			"identifier": [
+				{
+					"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+					"identifierValue": "astsc-prx-e-cdl-65d68fd0d70a52b2e66cc57d",
+					"url": null
+				},
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "d7245f0c2f6a1ba8d209cd983724d597",
+					"url": null
+				}
+			]
+		},
+		"assetFC": {
+			"functionalProperties": {},
+			"functionalType": "transform.color.cdl"
+		},
+		"Asset": null,
+		"Context": [],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Asset",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "ast-65d647356c03449706acba4c",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "e251dfdcc6ea314998db6ca29de17dd6",
+				"url": null
+			}
+		],
+		"name": "ZoeLog-20240220_SD007_MU-65d647356c03449706acba4c",
+		"description": "ZoeLog metadata for shoot day 20240220_SD007_MU",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"AssetSC": {
+			"identifier": [
+				{
+					"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+					"identifierValue": "astsc-65d647356c03449706acba4c",
+					"url": null
+				},
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "3377c7383f112697685891bb75b33ea6",
+					"url": null
+				}
+			]
+		},
+		"assetFC": {
+			"functionalProperties": {
+				"lensMetadata": {
+					"tStop": "T3.5",
+					"focalLength": "30mm - 95mm"
+				},
+				"cameraMetadata": {
+					"cameraLabel": "B",
+					"circleTake": "false",
+					"isoSpeed": "3200EI",
+					"shutterAngle": "180 degrees"
+				}
+			},
+			"functionalType": "cameraMetadata"
+		},
+		"Asset": null,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+						"identifierValue": "ctx-d494b00fb4bf8feb77f6f36d663f58b3",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "973db4298d19f272510216311991fbf1",
+						"url": null
+					}
+				]
+			}
+		],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Composition",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "cmp-1vKEBTNX6uI5yRJ",
+				"url": null
+			}
+		],
+		"name": "B018C008-Plate",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"compositionType": "vfx.pull",
+		"compositionProperties": {
+			"startTimeCode": "13:17:57:20",
+			"endTimeCode": "13:17:58:10",
+			"handles": 10,
+			"startFrame": 1001,
+			"endFrame": 1020,
+			"fps": 24,
+			"framing": "Open matte",
+			"aspectRatio": "2.39:1",
+			"format": "SOVEN2"
+		},
+		"includes": {
+			"Asset": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "ast-65d68fd0d70a52b2e66cc57d",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "f15e7773219407db48c1b0ec40070dba",
+							"url": null
+						}
+					]
+				},
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "ast-prx-e-idt-???",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "19ffbc1adcca0440aa0a0b5ea02a312e",
+							"url": null
+						}
+					]
+				},
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "ast-prx-e-cdl-???",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "b36b0565c7ad81a912068292e365377a",
+							"url": null
+						}
+					]
+				}
+			]
+		},
+		"software": null,
+		"StartHere": null,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxt-Wwd7arpy3WHEzuF",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Collection",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "col-65d68fd0d70a52b2e66cc57a",
+				"url": null
+			}
+		],
+		"name": "12H (VFX Reference - Lens Grid)",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"collectionType": "vfx.plate",
+		"collectionProperties": null,
+		"software": null,
+		"includes": {
+			"Slate": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "slt-65d68fd0d70a52b2e66cc57a",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "6ef6a9f7887f6f6a0c4ef99717a43963",
+							"url": null
+						}
+					]
+				}
+			],
+			"Asset": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "ast-65d68fd0d70a52b2e66cc57a",
+							"url": null
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Collection",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "col-65d68fd0d70a52b2e66cc57e",
+				"url": null
+			}
+		],
+		"name": "12H (Chrome ball)",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"collectionType": "vfx.plate",
+		"collectionProperties": null,
+		"software": null,
+		"includes": {
+			"Slate": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+							"identifierValue": "slt-65d68fd0d70a52b2e66cc57e",
+							"url": null
+						},
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "66125487f76c57adc279da645669fe4f",
+							"url": null
+						}
+					]
+				}
+			],
+			"Asset": [
+				{
+					"identifier": [
+						{
+							"identifierScope": "movielabs.com/omc/europa",
+							"identifierValue": "ast-65d68fd0d70a52b2e66cc57e",
+							"url": null
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Infrastructure",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "inf-Vi9JWMZaHI6s0Hx",
+				"url": null
+			}
+		],
+		"name": "Camera - A",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"InfrastructureSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "infsc-hXo5C7V8F4uBuPS",
+					"url": null
+				}
+			]
+		},
+		"infrastructureFC": null,
+		"Infrastructure": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "inf-Ig4ZbqtJjfK2NPk",
+						"url": null
+					}
+				]
+			},
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "inf-7ctM0J1J9bvF80Q",
+						"url": null
+					}
+				]
+			}
+		],
+		"Context": []
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "AssetSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "astsc-65d68fd0d70a52b2e66cc57d",
+				"url": null
+			}
+		],
+		"name": "B018C008-Plate",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "digital.movingImage",
+		"structuralProperties": null,
+		"isAnalog": null,
+		"Carrier": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "AssetSC",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "astsc-prx-e-cdl-65d68fd0d70a52b2e66cc57d",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "d7245f0c2f6a1ba8d209cd983724d597",
+				"url": null
+			}
+		],
+		"name": "cdl B018C008_240220JY",
+		"description": "SC for cdl data for shot 12H-2-B",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "digital.data",
+		"structuralProperties": {},
+		"isAnalog": null,
+		"Carrier": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "AssetSC",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "astsc-65d647356c03449706acba4c",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "3377c7383f112697685891bb75b33ea6",
+				"url": null
+			}
+		],
+		"name": "Europa24-2024-2-20.csv",
+		"description": "SC for Metadata asset file Europa24-2024-2-20.csv",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "digital.structuredDocument",
+		"structuralProperties": {
+			"fileDetails": {
+				"fileExtension": "csv",
+				"fileName": "Europa24-2024-2-20.csv"
+			}
+		},
+		"isAnalog": null,
+		"Carrier": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Slate",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "slt-65d68fd0d70a52b2e66cc57a",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "6ef6a9f7887f6f6a0c4ef99717a43963",
+				"url": null
+			}
+		],
+		"name": "12G-5-B-_VFX",
+		"description": "Scene: 12G, Take: 5, B",
+		"annotation": null,
+		"tag": null,
+		"customData": {
+			"OSD-UniqueID": "65D6726E7B28007D"
+		},
+		"slateUID": "12G-5-B",
+		"cameraLabel": null,
+		"cameraUnit": "Main",
+		"cameraRoll": "65D6726E7B28007D",
+		"soundRoll": null,
+		"shootDate": "20240220",
+		"shootDay": "SD007",
+		"recordingFPS": 24,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/slate-editorial/6ef6a9f7887f6f6a0c4ef99717a43963",
+						"url": null
+					}
+				]
+			}
+		],
+		"CreativeWork": null,
+		"Director": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "FX-DMZ",
+						"identifierValue": "43c03893-2729-4adf-ad2b-42f3edfe5264",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "9505f42141f9e3690a46b6a96d4b3031",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Asset",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "ast-65d68fd0d70a52b2e66cc57a",
+				"url": null
+			}
+		],
+		"name": "B018C005_240220DN",
+		"description": "12G-5-B Lens Grid",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"AssetSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "astsc-65d68fd0d70a52b2e66cc57a",
+					"url": null
+				}
+			]
+		},
+		"assetFC": {
+			"functionalProperties": null,
+			"functionalType": "vfx.plate"
+		},
+		"Asset": null,
+		"Context": [],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "AssetSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "astsc-65d68fd0d70a52b2e66cc57a",
+				"url": null
+			}
+		],
+		"name": "B018C005_240220DN",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "digital.movingImage",
+		"structuralProperties": null,
+		"isAnalog": null,
+		"Carrier": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+		"entityType": "Slate",
+		"identifier": [
+			{
+				"identifierScope": "therebelfleet.co.nz-Europa_JsonEnv",
+				"identifierValue": "slt-65d68fd0d70a52b2e66cc57e",
+				"url": null
+			},
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "66125487f76c57adc279da645669fe4f",
+				"url": null
+			}
+		],
+		"name": "12H-3-BB-_VFX",
+		"description": "Scene: 12H, Take: 3, Camera: B",
+		"annotation": null,
+		"tag": null,
+		"customData": {
+			"OSD-UniqueID": "65D6726E7B280081"
+		},
+		"slateUID": "12H-3-BB",
+		"cameraLabel": null,
+		"cameraUnit": "Main",
+		"cameraRoll": "B018CLTM",
+		"soundRoll": null,
+		"shootDate": "20240220",
+		"shootDay": "SD007",
+		"recordingFPS": 24,
+		"Context": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "cxtTemp/slate-editorial/66125487f76c57adc279da645669fe4f",
+						"url": null
+					}
+				]
+			}
+		],
+		"CreativeWork": null,
+		"Director": [
+			{
+				"identifier": [
+					{
+						"identifierScope": "FX-DMZ",
+						"identifierValue": "43c03893-2729-4adf-ad2b-42f3edfe5264",
+						"url": null
+					},
+					{
+						"identifierScope": "movielabs.com/omc/europa",
+						"identifierValue": "9505f42141f9e3690a46b6a96d4b3031",
+						"url": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Asset",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "ast-65d68fd0d70a52b2e66cc57e",
+				"url": null
+			}
+		],
+		"name": "B018C009_240220C3",
+		"description": "12H-3-B (Chrome Ball)",
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"AssetSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "astsc-65d68fd0d70a52b2e66cc57e",
+					"url": null
+				}
+			]
+		},
+		"assetFC": {
+			"functionalProperties": null,
+			"functionalType": "vfx.plate"
+		},
+		"Asset": null,
+		"Context": [],
+		"Depiction": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "AssetSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "astsc-65d68fd0d70a52b2e66cc57e",
+				"url": null
+			}
+		],
+		"name": "B018C009_240220C3",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "digital.movingImage",
+		"structuralProperties": null,
+		"isAnalog": null,
+		"Carrier": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "InfrastructureSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "infsc-hXo5C7V8F4uBuPS",
+				"url": null
+			}
+		],
+		"name": "Camera - A",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "camera",
+		"structuralProperties": null
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Infrastructure",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "inf-Ig4ZbqtJjfK2NPk",
+				"url": null
+			}
+		],
+		"name": "MPC-3628 0003069 Version2.00",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"InfrastructureSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "infsc-pTHt22FBY2kWjBW",
+					"url": null
+				}
+			]
+		},
+		"infrastructureFC": {
+			"functionalType": null,
+			"functionalProperties": null
+		},
+		"Infrastructure": null,
+		"Context": []
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "Infrastructure",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "inf-7ctM0J1J9bvF80Q",
+				"url": null
+			}
+		],
+		"name": "7100.2746",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"InfrastructureSC": {
+			"identifier": [
+				{
+					"identifierScope": "movielabs.com/omc/europa",
+					"identifierValue": "infsc-PLNW3JhC5B41Xst",
+					"url": null
+				}
+			]
+		},
+		"infrastructureFC": {
+			"functionalType": null,
+			"functionalProperties": null
+		},
+		"Infrastructure": null,
+		"Context": []
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "InfrastructureSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "infsc-pTHt22FBY2kWjBW",
+				"url": null
+			}
+		],
+		"name": "MPC-3628 0003069 Version2.00",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "camera.body",
+		"structuralProperties": {
+			"cameraMetadata": {
+				"cameraMake": "Sony",
+				"cameraModel": "MPC-3628",
+				"cameraUID": "MPC-3628 0010872 Version2.00",
+				"cameraSerialNumber": "0010872",
+				"cameraFirmwareVersion": "2.0"
+			}
+		}
+	},
+	{
+		"schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+		"entityType": "InfrastructureSC",
+		"identifier": [
+			{
+				"identifierScope": "movielabs.com/omc/europa",
+				"identifierValue": "infsc-PLNW3JhC5B41Xst",
+				"url": null
+			}
+		],
+		"name": "7100.2746",
+		"description": null,
+		"annotation": null,
+		"tag": null,
+		"customData": null,
+		"structuralType": "camera.lens",
+		"structuralProperties": {
+			"lensMetadata": {
+				"lensMake": null,
+				"lensModel": "7032.5304"
+			}
+		}
+	}
+]

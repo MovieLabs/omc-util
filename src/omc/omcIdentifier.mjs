@@ -7,7 +7,7 @@
 
 import { customAlphabet } from 'nanoid';
 
-import { idPrefixTemplate } from '../entityTemplates/index.mjs';
+import { generalConfig } from '../config/index.mjs';
 import { makeArray } from '../mlHelpers/util.mjs';
 
 const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
@@ -70,7 +70,7 @@ export const idOfScope = ((identifier, identifierScope) => {
  *
  */
 export function idCreate({ identifierScope, prefix = null, entityType = null }) {
-    const p = idPrefixTemplate[entityType] ? idPrefixTemplate[entityType] : prefix;
+    const p = generalConfig[entityType] ? generalConfig[entityType].idPrefix : prefix;
     return {
         identifierScope: identifierScope || 'example.com',
         identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,
@@ -95,34 +95,51 @@ export const idKey = ((identifier) => `${identifier.identifierScope}:${identifie
 /**
  * Test if an identifier from one entity already exists within a set of other entities
  *
- * @function idHasDuplicate
+ * @function idIsDuplicate
  * @static
- * @param {Array<OmcEntity>} targetOmcEnt - Set of target entities against which the source entity id's will be checked for matches
- * @param {OmcEntity} sourceOmcEnt - source entity, used to check against the target
+ * @param {Array<OmcIdentifier>} targetId - Set of target entities against which the source entity id's will be checked for matches
+ * @param {OmcIdentifier} sourceId - source entity, used to check against the target
  * @returns {boolean} Returns True when duplicate identifiers exist between the target and source identifiers
  */
-export function idHasDuplicate(targetOmcEnt, sourceOmcEnt) {
-    const targetId = sourceOmcEnt.identifier.map((omcId) => `${idKey(omcId)}`);
-    const exists = targetOmcEnt.find((ent) => (ent.identifier.find((omcId) => targetId.includes(`${idKey(omcId)}`))));
-    return !exists;
+export function idIsDuplicate(targetId, sourceId) {
+    const idTest = makeArray(sourceId);
+    const idTestKeys = idTest.map((omcId) => `${idKey(omcId)}`);
+    return !!(targetId.find((id) => idTestKeys.includes(`${idKey(id)}`)));
 }
 
 /**
- * Merge two sets of identifiers into a single, de-duplicated set
+ * Merge an identifier into an existing array of identifiers
  *
  * @function idMerge
  * @static
- * @param {Array<OmcEntity>} targetOmc
- * @param {OmcEntity | Array<OmcEntity>} sourceOmc
- * @returns {Array<OmcIdentifier>} A merged set of identifiers
+ * @param {Array<OmcIdentifier>} targetId
+ * @param {OmcIdentifier | Array<OmcIdentifier>} mergeId
+ * @returns {Array<OmcIdentifier>} The merged set of identifiers
  */
-export function idMerge(targetOmc, sourceOmc) {
-    const omcMerge = makeArray(sourceOmc); // The identifiers to be merged into primary array
-    const mergedIdentifiers = [...targetOmc];
-    omcMerge.forEach((omcEnt) => {
-        if (idHasDuplicate(mergedIdentifiers, omcEnt)) mergedIdentifiers.push(omcEnt);
-    });
-    return mergedIdentifiers;
+export function idMerge(targetId, mergeId) {
+    const omcMerge = makeArray(mergeId); // The identifiers to be merged into primary array
+    const mergedMap = targetId.reduce((obj, omcId) => ({ ...obj, [idKey(omcId)]: omcId }), {});
+    const mergedIdentifiers = omcMerge.reduce((acc, omcId) => {
+        const key = idKey(omcId);
+        return Object.hasOwn(acc, key)
+            ? { ...acc, [key]: { ...omcId, ...acc[key] } } // Merge the two matching identifiers together
+            : { ...acc, [key]: omcId }; // Merge the missing identifier in
+    }, mergedMap);
+    return Object.values(mergedIdentifiers);
+}
+
+/**
+ * Remove an identifier from an existing array of identifiers
+ * @function idRemove
+ * @static
+ * @param {Array<OmcIdentifier>} targetId The array of identifiers targeted for removal
+ * @param {OmcIdentifier} removeId The identifier to be removed
+ * @returns {Array<OmcIdentifier>} The set with the identifier removed
+ */
+export function idRemove(targetId, removeId) {
+    return targetId.filter((omcId) => (
+        removeId.identifierValue !== omcId.identifierValue && removeId.identifierScope !== omcId.identifierScope
+    ));
 }
 
 /**

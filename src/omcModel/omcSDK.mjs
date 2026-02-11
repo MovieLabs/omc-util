@@ -57,7 +57,7 @@ const cache = () => {
         },
         mapStoreKeys(identifier) {
             return identifier.reduce((obj, id) => {
-                const idKey = omcIdentifier.key(id);
+                const idKey = omcIdentifier.idKey(id);
                 return { ...obj, [idKey]: this.idMapping[idKey] || null };
             }, {});
         },
@@ -107,7 +107,7 @@ const cache = () => {
             return true;
         },
         removeWithEdges(omcEntity) {
-            const removeId = omcIdentifier.normalizeIdentifier(omcEntity);
+            const removeId = omcIdentifier.idNormalize(omcEntity);
             const idKeys = this.mapStoreKeys(removeId);
             const storeKeys = Object.values(idKeys).filter((d, i, arr) => d && arr.indexOf(d) === i); // DeDupe and remove null
             const storeId = storeKeys.shift();
@@ -199,12 +199,13 @@ function set(omc) {
 function replace(omc) {
     if (!omc) return null; // Check for bad input
     const normalizedOmc = (transform(omc)).unEmbed().toArray();
-    normalizedOmc.omc.forEach((ent) => {
-        // const modelEnt = omcModel(ent);
-        const modelEnt = entityModel(ent);
-        this.cache.replace(modelEnt);
-    });
-    return normalizedOmc;
+    // normalizedOmc.omc.forEach((ent) => {
+    //     // const modelEnt = omcModel(ent);
+    //     const modelEnt = entityModel(ent);
+    //     this.cache.replace(modelEnt);
+    // });
+    const update = normalizedOmc.omc.map((omcEnt) => this.cache.replace(entityModel(omcEnt)));
+    return update;
 }
 
 /**

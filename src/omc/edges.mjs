@@ -2,8 +2,9 @@
  * @module omcEdges
  */
 
-import { inverseEdgeMap } from '../entityTemplates/index.mjs';
+import { inverseEdges } from '../config/index.mjs';
 import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
+import entityModel from '../omcModel/entityModel.mjs';
 
 import { idNormalize, hasMatching } from './omcIdentifier.mjs';
 
@@ -126,8 +127,9 @@ export function getContextProps(ent) {
  * @memberof module:omcEdges
  * @function removeEdge
  * @static
- * @param {OmcEntity} omcEntity
- * @param {OmcEntity | OmcIdentifier} identifier
+ * @param {OmcEntity} omcEntity - The entity from which the edge is to be removed
+ * @param {OmcEntity | OmcIdentifier} identifier - The entity or the identifier of the edge to be removed
+ * @returns {OmcEntity} The original entity with matching edges removed
  */
 // Depending on if this is an Array, checks for matches, removes any and returns result or null if everything removed
 const chkIdentifier = ((omcEntity, removeIdentifier) => {
@@ -140,8 +142,9 @@ export function removeEdge(omcEnt, identifier) {
     const removeIdentifier = idNormalize(identifier);
     return Object.keys(omcEnt || {}).reduce((acc, key) => {
         if (isCapitalized(key)) return { ...acc, ...{ [key]: chkIdentifier(omcEnt[key], removeIdentifier) } };
-        if (isPlainObject(omcEnt[key])) return { ...acc, ...{ [key]: removeEdge(omcEnt[key], removeIdentifier) } };
-        return { ...acc, ...{ [key]: omcEnt[key] } };
+        return (key !== 'customData' && isPlainObject(omcEnt[key]))
+            ? { ...acc, ...{ [key]: removeEdge(omcEnt[key], removeIdentifier) } }
+            : { ...acc, ...{ [key]: omcEnt[key] } };
     }, {});
 }
 
@@ -153,7 +156,7 @@ export function removeEdge(omcEnt, identifier) {
  * @param {OmcEntity} omcEntity
  * @returns {Array<Object>}
  */
-const inverseRelation = ((rel) => (inverseEdgeMap[rel] ? inverseEdgeMap[rel] : rel));
+const inverseRelation = ((rel) => (inverseEdges[rel] ? inverseEdges[rel] : rel));
 
 export function inverse(omcContext) {
     // Generate the relationships to the source entities in the ForEntity properties
