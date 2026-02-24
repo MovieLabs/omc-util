@@ -29,16 +29,18 @@ export default {
         Episode: null,
         ProductionCompany: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
         },
     },
     edges: {
-        has: ['Asset', 'NarrativeScene'],
+        has: {
+            allowed: ['Asset', 'NarrativeScene'],
+        },
     },
     graphQl: {
         filter: {

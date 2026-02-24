@@ -67,9 +67,9 @@ export const hasProp = function hasProp(obj, prop) {
  */
 
 export const isPlainObject = ((value) => typeof value === 'object'
-  && value !== null
-  && !Array.isArray(value)
-  && !(value instanceof Function));
+    && value !== null
+    && !Array.isArray(value)
+    && !(value instanceof Function));
 
 /**
  * Tests if a string is capitalized
@@ -93,7 +93,7 @@ export const isCapitalized = (value) => typeof value === 'string' && value.lengt
 export function deepSpread(obj, spread) {
     return Object.keys(spread).reduce((acc, key) => (
         isPlainObject(spread[key])
-            ? { ...acc, [key]: deepSpread(acc[key], spread[key]) }
+            ? { ...acc, [key]: (acc[key] ? deepSpread(acc[key], spread[key]) : spread[key]) }
             : { ...acc, [key]: spread[key] }), obj);
 }
 

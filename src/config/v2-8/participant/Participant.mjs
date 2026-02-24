@@ -17,26 +17,34 @@ export default {
         Context: null,
         Depiction: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
         },
         ParticipantSC: {
             type: 'object',
-            path: 'ParticipantSC',
             allowed: ['Organization', 'Department', 'Person', 'Service'],
         },
-        Role: {
+        Depiction: {
             type: 'array',
-            path: 'assetFC.Role',
-            allowed: ['Role'],
+            allowed: ['Depiction'],
+            biDirectional: true,
+            inverse: 'Depictor',
+        },
+        assetFC: {
+            Role: {
+                type: 'array',
+                allowed: ['Role'],
+            },
         },
     },
     edges: {
-        for: ['Asset', 'Slate'],
+        for: {
+            allowed: ['Asset', 'Slate'],
+        },
     },
     graphQl: {
         filter: {
@@ -51,5 +59,4 @@ export default {
             },
         },
     },
-    idPrefix: 'prt',
 };

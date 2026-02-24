@@ -10,23 +10,27 @@ export default {
         Context: null,
         Depiction: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
         },
         Depiction: {
             type: 'array',
-            path: 'Depiction',
             allowed: ['Depiction'],
+            inverse: 'Depicts',
             biDirectional: true,
         },
     },
     edges: {
-        featuresIn: ['NarrativeScene'],
-        neededBy: ['Character'],
+        featuresIn: {
+            allowed: ['NarrativeScene'],
+        },
+        neededBy: {
+            allowed: ['Character'],
+        },
     },
     graphQl: {
         filter: {

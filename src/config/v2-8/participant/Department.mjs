@@ -14,7 +14,7 @@ export default {
         contact: null,
         Location: null,
     },
-    intrinsicProps: {},
+    intrinsic: {},
     edges: {},
     graphQl: {
         filter: {

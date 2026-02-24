@@ -11,5 +11,6 @@ export default {
         },
         inlineFragment: null,
     },
-    idPrefix: 'prtsc',
+    intrinsic: {},
+    edges: {},
 };

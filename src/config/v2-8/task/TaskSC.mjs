@@ -10,7 +10,7 @@ export default {
         structuralProperties: null,
         customData: null,
     },
-    intrinsicProps: {},
+    intrinsic: {},
     edges: {},
     graphQl: {
         filter: {

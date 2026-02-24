@@ -20,34 +20,36 @@ export default {
         // version: null,
         // provenance: null,
     },
-    intrinsicProps: {
+    intrinsic: {
+        includes: {
+            Asset: {
+                type: 'array',
+                allowed: ['Asset'],
+            },
+            AssetSC: {
+                type: 'array',
+                allowed: ['AssetSC'],
+            },
+            Composition: {
+                type: 'array',
+                allowed: ['Composition'],
+            },
+        },
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
-        },
-        Asset: {
-            type: 'array',
-            path: 'Asset',
-            allowed: ['Asset'],
-        },
-        AssetSC: {
-            type: 'array',
-            path: 'AssetSC',
-            allowed: ['AssetSC'],
-        },
-        Composition: {
-            type: 'array',
-            path: 'Composition',
-            allowed: ['Composition'],
+            inverse: 'ForEntity',
         },
         StartHere: {
             type: 'object',
-            path: 'StartHere',
             allowed: ['Asset', 'AssetSC'],
         },
     },
-    edges: {},
+    edges: {
+        produces: {
+            allowed: ['Asset'],
+        },
+    },
     graphQl: {
         filter: {
             ...baseEntity.graphQl.filter,

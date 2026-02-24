@@ -12,16 +12,15 @@ export default {
         contextProperties: null,
         ForEntity: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
         },
         ForEntity: {
             type: 'array',
-            path: 'ForEntity',
             allowed: [
                 'Asset',
                 'Character',
@@ -47,6 +46,45 @@ export default {
         },
     },
     edges: {},
+    edges2: {
+        for: {
+            NarrativeScene: {},
+        },
+        featuresIn: {
+            NarrativeScene: {
+                allowed: ['NarrativeScene'],
+            },
+        },
+        has: {
+            NarrativeScene: {},
+            Participant: {},
+            Slate: {},
+        },
+        needs: {
+            Effect: {
+                allowed: ['Effect'],
+            },
+            NarrativeAudio: {
+                allowed: ['NarrativeAudio'],
+            },
+            NarrativeObject: {
+                allowed: ['NarrativeObject'],
+            },
+            NarrativeStyling: {
+                allowed: ['NarrativeStyling'],
+            },
+            NarrativeWardrobe: {
+                allowed: ['NarrativeWardrobe'],
+            },
+            SpecialAction: {
+                allowed: ['SpecialAction'],
+            },
+        },
+        usedIn: {
+            ProductionLocation: {},
+            productOf: {},
+        },
+    },
     graphQl: {
         filter: {
             ...baseEntity.graphQl.filter,

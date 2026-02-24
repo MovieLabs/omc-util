@@ -12,24 +12,30 @@ export default {
         slugline: note,
         Context: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
         },
         Depiction: {
             type: 'array',
-            path: 'Depiction',
             allowed: ['Depiction'],
+            inverse: 'Depicts',
             biDirectional: true,
         },
     },
     edges: {
-        features: ['Character', 'Effect', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject', 'NarrativeWardrobe', 'SpecialAction'],
-        for: ['CreativeWork'],
-        has: ['Asset', 'ProductionScene'],
+        features: {
+            allowed: ['Character', 'Effect', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject', 'NarrativeWardrobe', 'SpecialAction'],
+        },
+        for: {
+            allowed: ['CreativeWork'],
+        },
+        has: {
+            allowed: ['Asset', 'ProductionScene'],
+        },
     },
     graphQl: {
         filter: {

@@ -11,16 +11,22 @@ export default {
         Context: null,
         Location: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
+        },
+        Location: {
+            type: 'array',
+            allowed: ['Location'],
         },
     },
     edges: {
-        usedIn: ['ProductionScene'],
+        usedIn: {
+            allowed: ['ProductionScene'],
+        },
     },
     graphQl: {
         filter: {

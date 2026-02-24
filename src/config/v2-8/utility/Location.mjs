@@ -11,7 +11,7 @@ export default {
         coordinates: null,
         Context: null,
     },
-    intrinsicProps: {},
+    intrinsic: {},
     edges: {},
     graphQl: {
         filter: {
@@ -19,5 +19,4 @@ export default {
         },
         inlineFragment: null,
     },
-    idPrefix: 'loc',
 };

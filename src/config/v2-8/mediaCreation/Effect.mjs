@@ -9,17 +9,21 @@ export default {
         effectType: null,
         Context: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
         },
     },
     edges: {
-        featuresIn: ['NarrativeScene'],
-        neededBy: ['Character'],
+        featuresIn: {
+            allowed: ['NarrativeScene'],
+        },
+        neededBy: {
+            allowed: ['Character'],
+        },
     },
     graphQl: {
         filter: {

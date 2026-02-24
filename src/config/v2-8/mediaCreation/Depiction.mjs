@@ -12,28 +12,30 @@ export default {
         Depicter: null,
         Context: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: ['ForEntity'],
         },
         Depicts: {
             type: 'array',
-            path: 'Depicts',
             allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
             biDirectional: true,
+            inverse: 'Depiction',
         },
         Depictor: {
             type: 'array',
-            path: 'Depictor',
             allowed: ['Asset', 'Participant'],
             biDirectional: true,
+            inverse: 'Depiction',
         },
     },
     edges: {
-        usedIn: ['ProductionScene'],
+        usedIn: {
+            allowed: ['ProductionScene'],
+        },
     },
     graphQl: {
         filter: {

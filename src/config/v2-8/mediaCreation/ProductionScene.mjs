@@ -12,19 +12,27 @@ export default {
         sceneDescriptor: null,
         sceneNumber: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
         },
     },
     edges: {
-        for: ['NarrativeScene'],
-        has: ['Slate'],
-        related: ['ProductionScene'],
-        uses: ['Asset', 'Depiction', 'ProductionLocation'],
+        for: {
+            allowed: ['NarrativeScene'],
+        },
+        has: {
+            allowed: ['Slate'],
+        },
+        related: {
+            allowed: ['ProductionScene'],
+        },
+        uses: {
+            allowed: ['Asset', 'Depiction', 'ProductionLocation'],
+        },
     },
     graphQl: {
         filter: {

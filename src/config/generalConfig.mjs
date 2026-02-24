@@ -247,7 +247,16 @@ export const generalConfig = {
         group: 'Task',
         idPrefix: 'tsk',
         presentation: {
-
+            entityColor: '#fcf3cf',
+            entityLabel: 'Task',
+        },
+    },
+    TaskSC: {
+        group: 'Task',
+        idPrefix: 'tsksc',
+        presentation: {
+            entityColor: '#f7dc6f',
+            entityLabel: 'TaskSC',
         },
     },
     Collection: {

@@ -19,37 +19,42 @@ export default {
         // version: null,
         // provenance: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
         },
         Asset: {
             type: 'array',
-            path: 'Asset',
             allowed: ['Asset'],
             biDirectional: true,
         },
         AssetSC: {
             type: 'object',
-            path: 'AssetSC',
             allowed: ['AssetSC'],
             biDirectional: true,
         },
         Depiction: {
             type: 'array',
-            path: 'Depiction',
             allowed: ['Depiction'],
             biDirectional: true,
         },
     },
     edges: {
-        for: ['NarrativeScene', 'Composition'],
-        has: ['NarrativeScene', 'Participant', 'Slate'],
-        usedIn: ['ProductionLocation', 'ProductionScene'],
-        productOf: ['Composition'],
+        for: {
+            allowed: ['NarrativeScene', 'Composition'],
+        },
+        has: {
+            allowed: ['NarrativeScene', 'Participant', 'Slate'],
+        },
+        usedIn: {
+            allowed: ['ProductionLocation', 'ProductionScene'],
+        },
+        productOf: {
+            allowed: ['Composition'],
+        },
     },
     graphQl: {
         filter: {

@@ -15,16 +15,18 @@ export default {
         Infrastructure: null,
         Context: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
         },
     },
     edges: {
-        has: ['SpecialAction'],
+        has: {
+            allowed: ['SpecialAction'],
+        },
     },
     graphQl: {
         filter: {

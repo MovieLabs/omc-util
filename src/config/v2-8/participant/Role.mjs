@@ -9,7 +9,7 @@ export default {
         ...baseEntity.properties,
         roleType: null,
     },
-    intrinsicProps: {},
+    intrinsic: {},
     edges: {},
     graphQl: {
         filter: {

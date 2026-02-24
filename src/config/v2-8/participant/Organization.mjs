@@ -11,7 +11,7 @@ export default {
             fullName: null,
         },
     },
-    intrinsicProps: {},
+    intrinsic: {},
     edges: {},
     graphQl: {
         filter: {

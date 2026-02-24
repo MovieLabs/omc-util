@@ -22,10 +22,9 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
-import { deepSpread } from '../../mlHelpers/util.mjs';
+import { deepSpread, isCapitalized } from '../../mlHelpers/util.mjs';
 
 import { inverseEdges } from './inverseEdges.mjs';
-
 import Asset from './asset/Asset.mjs';
 import AssetSC from './asset/AssetSC.mjs';
 import Infrastructure from './infrastructure/Infrastructure.mjs';
@@ -94,6 +93,26 @@ const masterTemplate = {
     baseEntity,
 };
 
+// Flattens the intrinsic properties, and includes a JSON path
+const buildIntrinsic = ((intEdges, path) => {
+    if (!intEdges) return {};
+    return Object.keys(intEdges).reduce((obj, edge) => (
+        isCapitalized(edge)
+            ? { ...obj, [edge]: { ...intEdges[edge], path: `${path}${edge}` } }
+            : { ...obj, ...buildIntrinsic(intEdges[edge], `${edge}.`) }
+    ), {});
+});
+
+// Flattens the edge properties, and includes a JSON path
+const buildEdges = ((edges, path) => {
+    if (!edges) return {};
+    return Object.keys(edges).reduce((obj, edge) => (
+        isCapitalized(edge)
+            ? { ...obj, [edge]: { ...edges[edge], path: `${path}${edge}`, type: 'array' } }
+            : { ...obj, ...buildIntrinsic(edges[edge], `${edge}.`) }
+    ), {});
+});
+
 const graphQlTemplate = Object.keys(masterTemplate).reduce((obj, entityType) => {
     obj[entityType] = {
         properties: deepSpread(masterTemplate[entityType].properties, masterTemplate[entityType].graphQl.filter),
@@ -102,11 +121,38 @@ const graphQlTemplate = Object.keys(masterTemplate).reduce((obj, entityType) => 
     return obj;
 }, {});
 
+// Create an entries for the edge table, matching the structure of the intrinsic properties
+const allEdges = Object.keys(masterTemplate).reduce((obj, entityType) => {
+    const { edges } = masterTemplate[entityType];
+    if (!edges) return obj;
+    const template = Object.keys(edges).reduce((obj1, predicate) => {
+        const t = edges[predicate].allowed.reduce((obj2, entType) => ({
+            ...obj2,
+            [entType]: {
+                type: 'array',
+                allowed: [entType],
+                // path: `${predicate}.${entType}`,
+                // inverse: `${inverseEdges[predicate]}.${entityType}`,
+                path: `edges.${predicate}.${entType}`,
+                inverse: `edges.${inverseEdges[predicate]}.${entityType}`,
+            },
+        }), {});
+        return { ...obj1, ...t };
+    }, {});
+    return {
+        ...obj,
+        [entityType]: template,
+    };
+}, {});
+
+console.log(allEdges);
+
 const edgeTable = Object.keys(masterTemplate).reduce((obj, entityType) => ({
     ...obj,
     [entityType]: {
-        intrinsicProps: masterTemplate[entityType].intrinsicProps,
-        edges: masterTemplate[entityType].edges,
+        intrinsic: buildIntrinsic(masterTemplate[entityType].intrinsic, ''),
+        // edges: masterTemplate[entityType].edges,
+        edges: allEdges?.[entityType] || {},
     },
 }), {});
 

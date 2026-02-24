@@ -2,9 +2,8 @@
  * @module omcEdges
  */
 
-import { inverseEdges } from '../config/index.mjs';
+import { edgeTable, inverseEdges } from '../config/index.mjs';
 import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
-import entityModel from '../omcModel/entityModel.mjs';
 
 import { idNormalize, hasMatching } from './omcIdentifier.mjs';
 
@@ -29,6 +28,43 @@ const contextKeys = [
     'For',
     'ForEntity',
 ];
+
+/**
+ * Helper functions for edgeCreate
+ */
+// Depending on if this is an Array, checks for matches, removes any and returns result or null if everything removed
+// Used by removeEdge
+const chkIdentifier = ((omcEntity, removeIdentifier) => {
+    if (!omcEntity) return omcEntity; // Protect against null
+    if (Array.isArray(omcEntity)) return omcEntity.filter((omc) => !hasMatching(omc, removeIdentifier));
+    return hasMatching(omcEntity, removeIdentifier) ? null : omcEntity;
+});
+
+// Dummy call
+// Used by edgeCreate
+const idDeDupe = ((identifier) => identifier); // Dummy entry for now
+
+// Select the nested element using dotted path notation
+// Used by edgeCreate
+const recursePath = ((obj, path) => {
+    const prop = path.shift();
+    if (!path.length) return { obj, prop };
+    obj[prop] = obj[prop] || {}; // Create nested structure if the prop does not already exist
+    return recursePath(obj[prop], path);
+});
+
+// Insert an entities reference identifier into the selected edge
+// Used by edgeCreate
+const insertEdge = ((omcEnt, refEntity, selectedEdge) => {
+    const updatedEntity = { ...omcEnt };
+    const { path, type } = selectedEdge;
+    const { obj, prop } = recursePath(updatedEntity, path.split('.')); // Recurse to the correct property based on the path
+    if (type === 'array') {
+        obj[prop] = idDeDupe([...obj[prop] || [], { identifier: refEntity.identifier }]);
+    }
+    if (type === 'object') obj[prop] = { identifier: refEntity.identifier }; // ToDo: Needs to not replace an existing
+    return updatedEntity;
+});
 
 /**
  * Return an array containing property keys that are present and part of the base entity
@@ -74,9 +110,9 @@ export function getContextKeys(omcEntity) {
     return Object.keys(omcEntity).filter((k) => !contextKeys.includes(k));
 }
 
-export function intrinsic(omcEntity) {
-    return Object.keys(omcEntity).filter((k) => k[0].toLowerCase() !== k[0]); // Intrinsic properties are upper case
-}
+// export function intrinsic(omcEntity) {
+//     return Object.keys(omcEntity).filter((k) => k[0].toLowerCase() !== k[0]); // Intrinsic properties are upper case
+// }
 
 /**
  * Return an array containing intrinsic property keys that are present on the entity
@@ -112,12 +148,12 @@ export function getIntrinsicProps(omcEntity) {
 }
 
 // Returns all references to intrinsic properties
-export function getContextProps(ent) {
-    if (ent?.entityType !== 'Context') return null;
-    const cxtKeys = getContextKeys(ent);
+export function getContextProps(omcEntity) {
+    if (omcEntity?.entityType !== 'Context') return null;
+    const cxtKeys = getContextKeys(omcEntity);
     return cxtKeys.reduce((acc, edgeName) => ({
         ...acc,
-        [edgeName]: getIntrinsicProps(ent[edgeName]),
+        [edgeName]: getIntrinsicProps(omcEntity[edgeName]),
     }), {});
 }
 
@@ -131,21 +167,111 @@ export function getContextProps(ent) {
  * @param {OmcEntity | OmcIdentifier} identifier - The entity or the identifier of the edge to be removed
  * @returns {OmcEntity} The original entity with matching edges removed
  */
-// Depending on if this is an Array, checks for matches, removes any and returns result or null if everything removed
-const chkIdentifier = ((omcEntity, removeIdentifier) => {
-    if (!omcEntity) return omcEntity; // Protect against null
-    if (Array.isArray(omcEntity)) return omcEntity.filter((omc) => !hasMatching(omc, removeIdentifier));
-    return hasMatching(omcEntity, removeIdentifier) ? null : omcEntity;
-});
-
-export function removeEdge(omcEnt, identifier) {
+export function removeEdge(omcEntity, identifier) {
     const removeIdentifier = idNormalize(identifier);
-    return Object.keys(omcEnt || {}).reduce((acc, key) => {
-        if (isCapitalized(key)) return { ...acc, ...{ [key]: chkIdentifier(omcEnt[key], removeIdentifier) } };
-        return (key !== 'customData' && isPlainObject(omcEnt[key]))
-            ? { ...acc, ...{ [key]: removeEdge(omcEnt[key], removeIdentifier) } }
-            : { ...acc, ...{ [key]: omcEnt[key] } };
+    return Object.keys(omcEntity || {}).reduce((acc, key) => {
+        if (isCapitalized(key)) return { ...acc, ...{ [key]: chkIdentifier(omcEntity[key], removeIdentifier) } };
+        return (key !== 'customData' && isPlainObject(omcEntity[key]))
+            ? { ...acc, ...{ [key]: removeEdge(omcEntity[key], removeIdentifier) } }
+            : { ...acc, ...{ [key]: omcEntity[key] } };
     }, {});
+}
+
+/**
+ * Returns an array of the entity types this entity can have an edge to as per the ontology
+ * @function intrinsicAllowed
+ * @static
+ * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
+ * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
+ */
+export function intrinsicAllowed(entityType) {
+    return Object.keys(edgeTable[entityType].intrinsic).flatMap((intEdge) => edgeTable[entityType].intrinsic[intEdge].allowed);
+}
+
+/**
+ * Returns an array of the entity types this entity can have an edge to as per the ontology
+ * @function edgesAllowed
+ * @static
+ * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
+ * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
+ */
+export function edgesAllowed(entityType) {
+    return Object.keys(edgeTable[entityType].edges).flatMap((predicate) => edgeTable[entityType].edges[predicate].allowed);
+}
+
+/**
+ * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
+ * @param {OmcEntity} fromEntity
+ * @param {OmcEntity} toEntity
+ * @param {'edges'|'intrinsic'} edgeType - Check against intrinsic or regular edges
+ * @returns {Object | null}
+ */
+export function edgeValid(fromEntity, toEntity, edgeType = 'intrinsic') {
+    const { schemaVersion, entityType: fromEntityType } = fromEntity;
+    const { entityType: toEntityType } = toEntity;
+    // Check against the intrinsic edges of the entity
+    const edges = schemaVersion === 'https://movielabs.com/omc/json/schema/v3.0'
+        ? { ...edgeTable[fromEntityType].intrinsic || {}, ...edgeTable[fromEntityType].edges || {} }
+        : edgeTable[fromEntityType][edgeType] || {};
+
+    const validEdges = Object.keys(edges).reduce((obj, key) => (
+        edges[key].allowed.includes(toEntityType)
+            ? { ...obj, [key]: edges[key] }
+            : obj
+    ), {});
+    return (Object.keys(validEdges)).length ? validEdges : null;
+}
+
+/**
+ * Creates a new edge from one entity to another, based on the allowed edges for the entity
+ * - Setting the 'inverse' property will also create the inverse edge in the toEntity if applicable
+ * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific one to be specified
+ *
+ * @function edgeCreate
+ * @static
+ * @param {Object} params
+ * @param {OmcEntity} params.fromEntity - The entity on which to create the new edge
+ * @param {OmcEntity} params.toEntity - The entity to which the edge should be created
+ * @param {OmcEntity} params.forEntity - Use when setting edges in a Context, this is the entity for which the Context is For.
+ * @param {Object} params.intrinsicEdge - Specify a specific edge, for entities that have multiple valid edge patterns, this denotes the specific one to use
+ * @param {boolean} params.inverse - Whether the inverse edge should also be set if there is one
+ * @param {'edges'|'intrinsic'} params.edgeType - Which edge table to use, intrinsic or regular edges.
+ */
+export function edgeCreate({
+    fromEntity = null,
+    toEntity = null,
+    forEntity = null,
+    intrinsicEdge = null,
+    inverse = false,
+    edgeType = 'intrinsic', // Do this for intrinsic or regular edges
+}) {
+    const validEdges = forEntity
+        ? edgeValid(forEntity, toEntity, 'edges')
+        : edgeValid(fromEntity, toEntity, edgeType); // Valid edges between to the from and to entities
+    if (!validEdges) return null;
+    const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
+
+    const updatedEntity = insertEdge(fromEntity, toEntity, selectedEdge);
+
+    // If inverse edges are requested and there is one to apply, then recurse with the entities reversed
+    if (inverse && selectedEdge.inverse) {
+        const { fromEntity: updatedToEntity } = edgeCreate({
+            toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
+            fromEntity: toEntity,
+            intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
+            inverse: false, // Inverse is always false on second call
+        });
+        return {
+            fromEntity: updatedEntity,
+            toEntity: updatedToEntity,
+        };
+    }
+
+    // Return the fromEntity with the updated edge
+    return {
+        fromEntity: updatedEntity,
+        toEntity,
+    };
 }
 
 /**

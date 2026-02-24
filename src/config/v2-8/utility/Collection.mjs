@@ -10,111 +10,97 @@ export default {
         collectionProperties: null,
         software,
     },
-    intrinsicProps: {
-        Asset: {
-            type: 'array',
-            path: 'includes.Asset',
-            allowed: ['Asset'],
-        },
-        AssetSC: {
-            type: 'array',
-            path: 'includes.AssetSC',
-            allowed: ['AssetSC'],
-        },
-        Character: {
-            type: 'array',
-            path: 'includes.Character',
-            allowed: ['Character'],
-        },
-        CreativeWork: {
-            type: 'array',
-            path: 'includes.CreativeWork',
-            allowed: ['CreativeWork'],
+    intrinsic: {
+        includes: {
+            Asset: {
+                type: 'array',
+                allowed: ['Asset'],
+            },
+            AssetSC: {
+                type: 'array',
+                allowed: ['AssetSC'],
+            },
+            Character: {
+                type: 'array',
+                allowed: ['Character'],
+            },
+            CreativeWork: {
+                type: 'array',
+                allowed: ['CreativeWork'],
+            },
+            Depiction: {
+                type: 'array',
+                allowed: ['Depiction'],
+            },
+            Effect: {
+                type: 'array',
+                allowed: ['Effect'],
+            },
+            NarrativeAudio: {
+                type: 'array',
+                allowed: ['NarrativeAudio'],
+            },
+            NarrativeLocation: {
+                type: 'array',
+                allowed: ['NarrativeLocation'],
+            },
+            NarrativeScene: {
+                type: 'array',
+                allowed: ['NarrativeScene'],
+            },
+            NarrativeObject: {
+                type: 'array',
+                allowed: ['NarrativeObject'],
+            },
+            NarrativeStyling: {
+                type: 'array',
+                allowed: ['NarrativeStyling'],
+            },
+            NarrativeWardrobe: {
+                type: 'array',
+                allowed: ['NarrativeWardrobe'],
+            },
+            ProductionScene: {
+                type: 'array',
+                allowed: ['ProductionScene'],
+            },
+            ProductionLocation: {
+                type: 'array',
+                allowed: ['ProductionLocation'],
+            },
+            Slate: {
+                type: 'array',
+                allowed: ['Slate'],
+            },
+            Infrastructure: {
+                type: 'array',
+                allowed: ['Infrastructure'],
+            },
+            SpecialAction: {
+                type: 'array',
+                allowed: ['SpecialAction'],
+            },
+            Collection: {
+                type: 'array',
+                allowed: ['Collection'],
+            },
+            Composition: {
+                type: 'array',
+                allowed: ['Composition'],
+            },
+            Location: {
+                type: 'array',
+                allowed: ['Location'],
+            },
+            Participant: {
+                type: 'array',
+                allowed: ['Participant'],
+            },
         },
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
-        },
-        Depiction: {
-            type: 'array',
-            path: 'includes.Depiction',
-            allowed: ['Depiction'],
-        },
-        Effect: {
-            type: 'array',
-            path: 'includes.Effect',
-            allowed: ['Effect'],
-        },
-        NarrativeAudio: {
-            type: 'array',
-            path: 'includes.NarrativeAudio',
-            allowed: ['NarrativeAudio'],
-        },
-        NarrativeLocation: {
-            type: 'array',
-            path: 'includes.NarrativeLocation.mjs',
-            allowed: ['NarrativeLocation'],
-        },
-        NarrativeScene: {
-            type: 'array',
-            path: 'includes.NarrativeScene',
-            allowed: ['NarrativeScene'],
-        },
-        NarrativeObject: {
-            type: 'array',
-            path: 'includes.NarrativeObject',
-            allowed: ['NarrativeObject'],
-        },
-        NarrativeStyling: {
-            type: 'array',
-            path: 'includes.NarrativeStyling',
-            allowed: ['NarrativeStyling'],
-        },
-        NarrativeWardrobe: {
-            type: 'array',
-            path: 'includes.NarrativeWardrobe',
-            allowed: ['NarrativeWardrobe'],
-        },
-        ProductionScene: {
-            type: 'array',
-            path: 'includes.ProductionScene',
-            allowed: ['ProductionScene'],
-        },
-        ProductionLocation: {
-            type: 'array',
-            path: 'includes.Location',
-            allowed: ['ProductionLocation'],
-        },
-        Slate: {
-            type: 'array',
-            path: 'includes.Slate',
-            allowed: ['Slate'],
-        },
-        Infrastructure: {
-            type: 'array',
-            path: 'includes.Infrastructure',
-            allowed: ['Infrastructure'],
-        },
-        SpecialAction: {
-            type: 'array',
-            path: 'includes.SpecialAction',
-            allowed: ['SpecialAction'],
-        },
-        Collection: {
-            type: 'array',
-            path: 'includes.Collection',
-            allowed: ['Collection'],
-        },
-        Composition: {
-            type: 'array',
-            path: 'includes.Composition',
-            allowed: ['Composition'],
-        },
-        Location: {
-            type: 'array',
-            path: 'includes.Location',
-            allowed: ['Location'],
+            inverse: 'ForEntity',
         },
     },
     edges: {},

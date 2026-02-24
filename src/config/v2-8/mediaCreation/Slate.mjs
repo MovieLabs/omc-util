@@ -19,17 +19,25 @@ export default {
         CreativeWork: null,
         Director: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
+            inverse: 'ForEntity',
             biDirectional: true,
+        },
+        Director: {
+            type: 'array',
+            allowed: ['Participant'],
         },
     },
     edges: {
-        has: ['Infrastructure', 'Participant'],
-        for: ['Asset', 'ProductionScene'],
+        has: {
+            allowed: ['Infrastructure', 'Participant'],
+        },
+        for: {
+            allowed: ['Asset', 'ProductionScene'],
+        },
     },
     graphQl: {
         filter: {

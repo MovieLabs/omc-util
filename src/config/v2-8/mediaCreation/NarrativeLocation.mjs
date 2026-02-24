@@ -10,18 +10,18 @@ export default {
         Context: null,
         Depiction: null,
     },
-    intrinsicProps: {
+    intrinsic: {
         Context: {
             type: 'array',
-            path: 'Context',
             allowed: ['Context'],
             biDirectional: true,
+            inverse: 'ForEntity',
         },
         Depiction: {
             type: 'array',
-            path: 'Depiction',
             allowed: ['Depiction'],
             biDirectional: true,
+            inverse: 'Depicts',
         },
         Location: {
             type: 'array',
@@ -30,7 +30,9 @@ export default {
         },
     },
     edges: {
-        features: ['NarrativeScene'],
+        features: {
+            allowed: ['NarrativeScene'],
+        },
     },
     graphQl: {
         filter: {

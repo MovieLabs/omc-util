@@ -138,3 +138,19 @@ const edgeRemovalRes2 = omcEdges.removeEdge(testEnt2, testRemove2);
 
 console.log(edgeRemovalRes1);
 console.log(edgeRemovalRes2);
+
+const edgeValid1 = omcEdges.edgeValid('Collection', 'Asset');
+const edgeValid2 = omcEdges.edgeValid('Character', 'NarrativeScene'); // null
+const edgeValid3 = omcEdges.edgeValid('Composition', 'Asset');
+const edgeValid4 = omcEdges.edgeValid('Character', 'Depiction');
+
+console.log('Edge valid 1', edgeValid1);
+console.log('Edge valid 2', edgeValid2);
+console.log('Edge valid 3', edgeValid3);
+console.log('Edge valid 4', edgeValid4);
+
+const allowed1 = omcEdges.intrinsicAllowed('Character');
+const allowed2 = omcEdges.intrinsicAllowed('AssetSC');
+
+console.log(allowed1);
+console.log(allowed2);
