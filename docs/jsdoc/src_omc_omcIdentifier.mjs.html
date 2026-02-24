@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/omc/omcIdentifier.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.compare">compare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.inverse">inverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.find">find</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~migrate">migrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.validate">validate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/omc/omcIdentifier.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module omcIdentifier
+ */
+
+// ToDo: Find does not belong here, it should be moved to the SDK
+// ToDo: generateIdentifier does not follow the naming convention, should create or generate.
+
+import { customAlphabet } from 'nanoid';
+
+import { generalConfig } from '../config/index.mjs';
+import { makeArray } from '../mlHelpers/util.mjs';
+
+const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
+
+/**
+ * Normalizes the input based on whether an OmcEntity or just OmcIdentifier was passed in
+ * returning just an array of OmcIdentifiers.
+ *
+ * @function idNormalize
+ * @ignore
+ * @static
+ * @param {OmcEntity | OmcIdentifier} identifier
+ * @returns {Array&lt;OmcIdentifier>} - An array of just identifiers
+ */
+export const idNormalize = ((identifier) => (
+    Object.hasOwn(identifier, 'identifier') ? identifier.identifier : makeArray(identifier))
+);
+
+/**
+ * OMC entities may have multiple identifiers, this returns the identifier of the requested scope if found
+ *
+ * @function idOfScope
+ * @static
+ * @param {Array&lt;OmcIdentifier>} identifier - An array of OMC identifiers
+ * @param {string} identifierScope - The scope of the required identifierValue
+ * @returns {OmcIdentifier | null} - A single identifier if the scope is matched, null it not
+ *
+ * @example
+ * idOfScope(
+ *  [
+ *     { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'},
+ *     { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j'},
+ *  ],
+ *  'movielabs.com'
+ * )
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'}
+ */
+export const idOfScope = ((identifier, identifierScope) => {
+    const scopeMatch = identifier.find((id) => id.identifierScope === identifierScope);
+    return scopeMatch || null;
+});
+
+/**
+ * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
+ *
+ * @function idCreate
+ * @static
+ * @param {Object} params
+ * @param {string} params.identifierScope - The scope of the identifier
+ * @param {string | null} [params.prefix] - Optional prefix for the identifier value
+ * @param {string | null} [params.entityType] - Uses a predefined prefix for the entityType [takes priority]
+ * @returns {OmcIdentifier} An OMC identifier with the specified scope and new unique value
+ *
+ * @example
+ * idCreate({ identifierScope: 'movielabs.com', entityType: 'Character' })
+ * // returns {
+ * //     identifierScope: 'movielabs.com',
+ * //     identifierValue': 'chr-Yhq5EZz4zdQxgOt'
+ * // }
+ *
+ */
+export function idCreate({ identifierScope, prefix = null, entityType = null }) {
+    const p = generalConfig[entityType] ? generalConfig[entityType].idPrefix : prefix;
+    return {
+        identifierScope: identifierScope || 'example.com',
+        identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,
+    };
+}
+
+/**
+ * Creates a globally unique key by combining the identifierScope and identifierValue of an OMC identifier
+ *
+ * @function idKey
+ * @static
+ * @param {OmcIdentifier} identifier - An OMC identifier
+ * @returns {string} A unique key
+ *
+ * @example
+ * idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
+ * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
+ *
+ */
+export const idKey = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
+
+/**
+ * Test if an identifier from one entity already exists within a set of other entities
+ *
+ * @function idIsDuplicate
+ * @static
+ * @param {Array&lt;OmcIdentifier>} targetId - Set of target entities against which the source entity id's will be checked for matches
+ * @param {OmcIdentifier} sourceId - source entity, used to check against the target
+ * @returns {boolean} Returns True when duplicate identifiers exist between the target and source identifiers
+ */
+export function idIsDuplicate(targetId, sourceId) {
+    const idTest = makeArray(sourceId);
+    const idTestKeys = idTest.map((omcId) => `${idKey(omcId)}`);
+    return !!(targetId.find((id) => idTestKeys.includes(`${idKey(id)}`)));
+}
+
+/**
+ * Merge an identifier into an existing array of identifiers
+ *
+ * @function idMerge
+ * @static
+ * @param {Array&lt;OmcIdentifier>} targetId
+ * @param {OmcIdentifier | Array&lt;OmcIdentifier>} mergeId
+ * @returns {Array&lt;OmcIdentifier>} The merged set of identifiers
+ */
+export function idMerge(targetId, mergeId) {
+    const omcMerge = makeArray(mergeId); // The identifiers to be merged into primary array
+    const mergedMap = targetId.reduce((obj, omcId) => ({ ...obj, [idKey(omcId)]: omcId }), {});
+    const mergedIdentifiers = omcMerge.reduce((acc, omcId) => {
+        const key = idKey(omcId);
+        return Object.hasOwn(acc, key)
+            ? { ...acc, [key]: { ...omcId, ...acc[key] } } // Merge the two matching identifiers together
+            : { ...acc, [key]: omcId }; // Merge the missing identifier in
+    }, mergedMap);
+    return Object.values(mergedIdentifiers);
+}
+
+/**
+ * Remove an identifier from an existing array of identifiers
+ * @function idRemove
+ * @static
+ * @param {Array&lt;OmcIdentifier>} targetId The array of identifiers targeted for removal
+ * @param {OmcIdentifier} removeId The identifier to be removed
+ * @returns {Array&lt;OmcIdentifier>} The set with the identifier removed
+ */
+export function idRemove(targetId, removeId) {
+    return targetId.filter((omcId) => (
+        removeId.identifierValue !== omcId.identifierValue &amp;&amp; removeId.identifierScope !== omcId.identifierScope
+    ));
+}
+
+/**
+ * Cross-check all identifiers in the targetIdentifier with those in the remove identifier
+ * If any identifiers present in the targetIdentifier have a match in the removeIdentifier null is returned
+ * indicating it should be removed
+ *
+ * @function hasMatching
+ * @static
+ * @param {OmcEntity | Array&lt;OmcIdentifier>} targetIdentifier
+ * @param {OmcEntity | Array&lt;OmcIdentifier>} matchIdentifier
+ * @returns {Boolean} True if there are matching identifiers
+ */
+export function hasMatching(targetIdentifier, matchIdentifier) {
+    const tId = idNormalize(targetIdentifier);
+    const sId = idNormalize(matchIdentifier);
+    const res = tId.filter((id1) => sId.find((id2) => (
+        id1.identifierScope === id2.identifierScope) &amp;&amp; (id1.identifierValue === id2.identifierValue
+    )));
+    return !!res.length;
+}
+
+/**
+ * Find an entity in a set of OMC entities by its identifier
+ *
+ * @function find
+ * @static
+ * @param {Array&lt;OmcEntity>} omc - Set of OMC entities to search
+ * @param {OmcIdentifier | Array&lt;OmcIdentifier>} identifier - The identifier(s) to search for
+ * @returns {OmcEntity|null} The matching entity or null
+ */
+export function find(omc, identifier) {
+    // Do two identifiers match?
+    const identifierMatch = ((id1, id2) => (
+        id1.identifierValue === id2.identifierValue) &amp;&amp; (id1.identifierScope === id2.identifierScope)
+    );
+
+    // For each entity in the set, check each of its identifiers against the target identifier
+    const matchSingleId = () => {
+        const id = Array.isArray(identifier) ? identifier[0] : identifier;
+        return omc.find((ent) => (ent.identifier.find((entId) => identifierMatch(entId, id))));
+    };
+
+    // For each entity in the set, check each of its identifiers against all potential target identifiers
+    const matchMultipleIds = () => (
+        omc.find((ent) => (ent.identifier.find((entId) => identifier.find((trgId) => identifierMatch(entId, trgId)))
+        )));
+
+    if (!identifier) return null;
+    const res = (!Array.isArray(identifier) || identifier.length === 1)
+        ? matchSingleId()
+        : matchMultipleIds();
+    return res || null;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue Feb 10 2026 17:39:24 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>omcEdges - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.compare">compare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.inverse">inverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.find">find</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~migrate">migrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.validate">validate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">omcEdges</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getBaseKeys"><span class="type-signature type-signature-static">(static) </span>getBaseKeys<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Return an array containing property keys that are present and part of the base entity</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>An array of property names present in the entity</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getBaseProps"><span class="type-signature type-signature-static">(static) </span>getBaseProps<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Object.&lt;string, *>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Return an object containing just base entity properties and their values</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Base properties and values present on the entity</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object.&lt;string, *></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getContextKeys"><span class="type-signature type-signature-static">(static) </span>getContextKeys<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Array.&lt;string>|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>If the entityType is a Context, return an array containing property keys that specific to that Context</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>An array of property names present on the entity, or null if not a Context</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getIntrinsicKeys"><span class="type-signature type-signature-static">(static) </span>getIntrinsicKeys<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Return an array containing intrinsic property keys that are present on the entity</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line81">line 81</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>An array of intrinsic property names present on the entity</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getIntrinsicProps"><span class="type-signature type-signature-static">(static) </span>getIntrinsicProps<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Object.&lt;string, *>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Recurses through an omcEntity and returns a flattened map of all the intrinsic properties
+that have valid references</p>
+<p>intrinsic props that are singletons will be coerced into an array</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line93">line 93</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The entity for which you want the intrinsic props</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object.&lt;string, *></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".inverse"><span class="type-signature type-signature-static">(static) </span>inverse<span class="signature">(omcEntity)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Return inverse relationships</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line151">line 151</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".removeEdge"><span class="type-signature type-signature-static">(static) </span>removeEdge<span class="signature">(omcEntity, identifier)</span><span class="type-signature"> &rarr; {OmcEntity}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Remove an identifier representing the edge to another entity from anywhere it is included in the entity</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_edges.mjs.html">src/omc/edges.mjs</a>, <a href="src_omc_edges.mjs.html#line124">line 124</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The entity from which the edge is to be removed</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+|
+
+<span class="param-type">OmcIdentifier</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The entity or the identifier of the edge to be removed</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The original entity with matching edges removed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">OmcEntity</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue Feb 10 2026 17:39:24 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

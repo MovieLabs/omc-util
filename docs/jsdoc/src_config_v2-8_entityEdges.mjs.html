@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/config/v2-8/entityEdges.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.compare">compare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.inverse">inverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.find">find</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~migrate">migrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.validate">validate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/config/v2-8/entityEdges.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Entity configuration definitions containing metadata and relationships for different entity types.
+ * Each entity defines its group, ID prefix, intrinsic properties, and edge relationships.
+ * @type {Object.&lt;string, EntityDetail>}
+ */
+
+/**
+ * @typedef {Object} EntityDetail
+ * @memberOf OmcUtil
+ * @property {string} group - A logical grouping from the ontology this entity belongs to
+ * @property {string} idPrefix - A common prefix that can be used when generating IDs for this entity type
+ * @property {Object.&lt;string, intrinsicProps>} intrinsicProps - Intrinsic properties for this entity
+ * @property {Object.&lt;string, string[]>} edges - Allowed edge types for this entity (domain and range in RDF)
+ */
+
+/**
+ * @typedef {Object} intrinsicProps
+ * @memberOf OmcUtil
+ * @property {'array'|'object'} type - The data type of the property
+ * @property {string} path - The path to access this property
+ * @property {string[]} allowed - List of allowed entity types for this property
+ */
+
+/**
+ * @typedef {Object} edges - A list of allowed edges to other entity types
+ * @memberOf OmcUtil
+ * @property {string[]} * - The predicate and set of allowed entities for that predicate
+ */
+
+export const entityEdges = {
+    Asset: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Asset: {
+                type: 'array',
+                path: 'Asset',
+                allowed: ['Asset'],
+            },
+            AssetSC: {
+                type: 'object',
+                path: 'AssetSC',
+                allowed: ['AssetSC'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            for: ['NarrativeScene', 'Composition'],
+            has: ['NarrativeScene', 'Participant', 'Slate'],
+            usedIn: ['ProductionLocation', 'ProductionScene'],
+        },
+    },
+    AssetSC: {
+        intrinsicProps: {},
+        edges: {},
+    },
+    Character: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            needs: ['Effect', 'NarrativeAudio', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe', 'SpecialAction'],
+        },
+    },
+    CreativeWork: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            has: ['Asset', 'NarrativeScene'],
+        },
+    },
+    Context: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            ForEntity: {
+                type: 'array',
+                path: 'ForEntity',
+                allowed: cxtEntities,
+            },
+        },
+        edges: {},
+    },
+    Depiction: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depicts: {
+                type: 'array',
+                path: 'Depicts',
+                allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
+            },
+            Depictor: {
+                type: 'array',
+                path: 'Depictor',
+                allowed: ['Asset', 'Participant'],
+            },
+        },
+        edges: {
+            usedIn: ['ProductionScene'],
+        },
+    },
+    Effect: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    NarrativeAudio: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    NarrativeLocation: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+            Location: {
+                type: 'array',
+                path: 'Location',
+                allowed: ['Location'],
+            },
+        },
+        edges: {
+            features: ['NarrativeScene'],
+        },
+    },
+    NarrativeObject: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    NarrativeScene: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            features: ['Character', 'Effect', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject', 'NarrativeWardrobe', 'SpecialAction'],
+            for: ['CreativeWork'],
+            has: ['Asset', 'ProductionScene'],
+        },
+    },
+    NarrativeStyling: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    NarrativeWardrobe: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Depiction: {
+                type: 'array',
+                path: 'Depiction',
+                allowed: ['Depiction'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    ProductionScene: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            for: ['NarrativeScene'],
+            has: ['Slate'],
+            related: ['ProductionScene'],
+            uses: ['Asset', 'Depiction', 'ProductionLocation'],
+        },
+    },
+    ProductionLocation: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            usedIn: ['ProductionScene'],
+        },
+    },
+    Slate: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            has: ['Infrastructure', 'Participant'],
+            for: ['Asset', 'ProductionScene'],
+        },
+    },
+    SpecialAction: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            featuresIn: ['NarrativeScene'],
+            neededBy: ['Character'],
+        },
+    },
+    Participant: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            ParticipantSC: {
+                type: 'object',
+                path: 'ParticipantSC',
+                allowed: ['Organization', 'Department', 'Person', 'Service'],
+            },
+            Role: {
+                type: 'array',
+                path: 'assetFC.Role',
+                allowed: ['Role'],
+            },
+        },
+        edges: {
+            for: ['Asset', 'Slate'],
+        },
+    },
+    Person: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+    Organization: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+    Department: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+    Service: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+    Role: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+
+    Infrastructure: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {
+            has: ['SpecialAction'],
+        },
+    },
+    Task: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+    Composition: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+            Asset: {
+                type: 'array',
+                path: 'Asset',
+                allowed: ['Asset'],
+            },
+            AssetSC: {
+                type: 'array',
+                path: 'AssetSC',
+                allowed: ['AssetSC'],
+            },
+            Composition: {
+                type: 'array',
+                path: 'Composition',
+                allowed: ['Composition'],
+            },
+            StartHere: {
+                type: 'object',
+                path: 'StartHere',
+                allowed: ['Asset', 'AssetSC'],
+            },
+        },
+        edges: {},
+    },
+    Location: {
+        intrinsicProps: {
+            Context: {
+                type: 'array',
+                path: 'Context',
+                allowed: ['Context'],
+            },
+        },
+        edges: {},
+    },
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue Feb 10 2026 17:39:24 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

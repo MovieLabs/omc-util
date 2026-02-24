@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>omcIdentifier - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.compare">compare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.inverse">inverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.find">find</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~migrate">migrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.validate">validate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">omcIdentifier</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".find"><span class="type-signature type-signature-static">(static) </span>find<span class="signature">(omc, identifier)</span><span class="type-signature"> &rarr; {OmcEntity|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Find an entity in a set of OMC entities by its identifier</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line165">line 165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>omc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OmcEntity></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Set of OMC entities to search</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcIdentifier</span>
+|
+
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The identifier(s) to search for</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The matching entity or null</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">OmcEntity</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".hasMatching"><span class="type-signature type-signature-static">(static) </span>hasMatching<span class="signature">(targetIdentifier, matchIdentifier)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Cross-check all identifiers in the targetIdentifier with those in the remove identifier
+If any identifiers present in the targetIdentifier have a match in the removeIdentifier null is returned
+indicating it should be removed</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>targetIdentifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+|
+
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>matchIdentifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+|
+
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if there are matching identifiers</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idCreate"><span class="type-signature type-signature-static">(static) </span>idCreate<span class="signature">(params)</span><span class="type-signature"> &rarr; {OmcIdentifier}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>idCreate({ identifierScope: 'movielabs.com', entityType: 'Character' })// returns {//     identifierScope: 'movielabs.com',//     identifierValue': 'chr-Yhq5EZz4zdQxgOt'// }</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>identifierScope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The scope of the identifier</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Optional prefix for the identifier value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>entityType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Uses a predefined prefix for the entityType [takes priority]</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An OMC identifier with the specified scope and new unique value</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">OmcIdentifier</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idIsDuplicate"><span class="type-signature type-signature-static">(static) </span>idIsDuplicate<span class="signature">(targetId, sourceId)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Test if an identifier from one entity already exists within a set of other entities</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>targetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Set of target entities against which the source entity id's will be checked for matches</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sourceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcIdentifier</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>source entity, used to check against the target</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Returns True when duplicate identifiers exist between the target and source identifiers</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idKey"><span class="type-signature type-signature-static">(static) </span>idKey<span class="signature">(identifier)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a globally unique key by combining the identifierScope and identifierValue of an OMC identifier</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })// returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcIdentifier</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An OMC identifier</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A unique key</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idMerge"><span class="type-signature type-signature-static">(static) </span>idMerge<span class="signature">(targetId, mergeId)</span><span class="type-signature"> &rarr; {Array.&lt;OmcIdentifier>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Merge an identifier into an existing array of identifiers</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line110">line 110</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>targetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mergeId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcIdentifier</span>
+|
+
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The merged set of identifiers</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idOfScope"><span class="type-signature type-signature-static">(static) </span>idOfScope<span class="signature">(identifier, identifierScope)</span><span class="type-signature"> &rarr; {OmcIdentifier|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>OMC entities may have multiple identifiers, this returns the identifier of the requested scope if found</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>idOfScope( [    { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'},    { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j'}, ], 'movielabs.com')// returns { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'}</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An array of OMC identifiers</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>identifierScope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The scope of the required identifierValue</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>A single identifier if the scope is matched, null it not</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">OmcIdentifier</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".idRemove"><span class="type-signature type-signature-static">(static) </span>idRemove<span class="signature">(targetId, removeId)</span><span class="type-signature"> &rarr; {Array.&lt;OmcIdentifier>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Remove an identifier from an existing array of identifiers</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_omcIdentifier.mjs.html">src/omc/omcIdentifier.mjs</a>, <a href="src_omc_omcIdentifier.mjs.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>targetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The array of identifiers targeted for removal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>removeId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcIdentifier</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The identifier to be removed</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The set with the identifier removed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;OmcIdentifier></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Tue Feb 10 2026 17:39:24 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

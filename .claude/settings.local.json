@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(test:*)",
+      "Bash(cd:*)",
+      "Bash(cd \"C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/omcUtil\" && npm run build:types 2>&1)",
+      "mcp__ide__getDiagnostics",
+      "Bash(head:*)",
+      "Bash(cd \"C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/omcUtil\" && node -e \"\nconst ts = require\\('typescript'\\);\nconst program = ts.createProgram\\({\n    rootNames: ['types/index.d.mts'],\n    options: {\n        module: ts.ModuleKind.NodeNext,\n        moduleResolution: ts.ModuleResolutionKind.NodeNext,\n        target: ts.ScriptTarget.ES2022,\n        noEmit: true,\n    }\n}\\);\nconst checker = program.getTypeChecker\\(\\);\nconst sourceFile = program.getSourceFile\\('types/index.d.mts'\\);\nconst symbol = checker.getSymbolAtLocation\\(sourceFile\\);\nif \\(symbol\\) {\n    const exports = checker.getExportsOfModule\\(symbol\\);\n    exports.forEach\\(exp => {\n        const name = exp.getName\\(\\);\n        const type = checker.typeToString\\(checker.getTypeOfSymbol\\(exp\\)\\);\n        console.log\\(name + ': ' + type.substring\\(0, 120\\)\\);\n    }\\);\n}\n\" 2>&1)"
+    ]
+  }
+}
