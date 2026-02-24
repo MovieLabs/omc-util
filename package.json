@@ -27,7 +27,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.mjs -d docs/jsdoc --verbose",
-    "build:types": "tsc && cp globals.d.ts types/"
+    "build:types": "tsc && node -e \"require('fs').copyFileSync('globals.d.ts','types/globals.d.ts')\""
   },
   "dependencies": {
     "ajv": "^8.12.0",
