@@ -298,14 +298,6 @@ function contextEdges(identifier) {
 }
 
 /**
- * @typedef OmcStore
- * @memberOf module:omcSDK
- * @property {function(): string} internalId {@link module:omcSDK.internalId}
- * @property {function(): OmcEntity} get {@link module:omcSDK.get}
- * @property {function(): OmcEntity} set {@link module:omcSDK.set}
- */
-
-/**
  * @function omcSDK
  * @memberOf module:omcSDK
  * @returns {OmcStore}

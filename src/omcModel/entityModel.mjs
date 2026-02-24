@@ -3,17 +3,23 @@
  */
 
 /**
- * As set of methods for conducting operations on a single OMC entity
+ * A set of methods for conducting operations on a single OMC entity
  *
- * @typedef {Object} EntityModel
+ * @typedef {OmcEntity & EntityModelMethods} EntityModel
  * @memberOf module:entityModel
- * @extends OmcEntity
+ */
+
+/**
+ * @typedef {Object} EntityModelMethods
  * @property {function(): Array<string>} getBaseKeys {@link module:omcEdges.getBaseKeys}
  * @property {function(): Object<string, *>} getBaseProps {@link module:omcEdges.getBaseProps}
  * @property {function(): Array<string>} getIntrinsicKeys {@link module:omcEdges.getIntrinsicKeys}
  * @property {function(): Object<string, *>} getIntrinsicProps {@link module:omcEdges.getIntrinsicProps}
  * @property {function(): Array<string>} getContextKeys {@link module:omcEdges.getContextKeys}
  * @property {function(): Object<string, *>} getContextProps {@link module:omcEdges.getContextProps}
+ * @property {string} color - Entity color from generalConfig
+ * @property {string} label - Entity label from generalConfig
+ * @property {string} labelSuffix - Entity label with suffix from generalConfig
  */
 
 import { generalConfig } from '../config/index.mjs';

@@ -64,4 +64,23 @@
  * @typedef {Array<OmcEntity> | Object<string, Array<OmcEntity> | OmcEntity>} OmcJson
  */
 
+/**
+ * An in-memory store of OMC entities with methods for managing them
+ * @memberof OMC
+ * @typedef {Object} OmcStore
+ * @property {Function} internalId - Return the internal cache identifier for an entity
+ * @property {Function} getInternalId - Get an entity by its internal cache identifier
+ * @property {Function} get - Retrieve an entity from the cache by its OMC identifier
+ * @property {Function} set - Add entities to the cache
+ * @property {Function} remove - Remove an entity from the cache
+ * @property {Function} removeWithEdges - Remove an entity and clean up edges referencing it
+ * @property {Function} replace - Replace entities in the cache
+ * @property {Function} reset - Clear the cache and return the store
+ * @property {Function} exportModel - Export all cached entities as an array
+ * @property {Function} find - Find entities in the cache matching a filter
+ * @property {Function} intrinsicProps - Get intrinsic properties for an entity
+ * @property {Function} contextEdges - Get context edges for an entity
+ * @property {Object} identifier - Identifier utilities
+ */
+
 export {};
