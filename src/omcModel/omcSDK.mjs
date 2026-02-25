@@ -6,10 +6,10 @@
 
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.mjs';
 import omcCompare from '../omc/omcCompare.mjs';
-import { relatedEdges, removeEdge } from '../omc/edges.mjs';
+import { relatedEdges, removeEdge } from '../omc/omcEdges.mjs';
 import omcFind from '../omc/omcFind.mjs';
 import * as omcIdentifier from '../omc/omcIdentifier.mjs';
-import * as omcTransform from '../omc/transform.mjs';
+import * as omcTransform from '../omc/omcTransform.mjs';
 
 import entityModel from './entityModel.mjs';
 

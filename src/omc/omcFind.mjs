@@ -4,7 +4,7 @@
  * @module omcFind
  */
 
-import { unEmbed, toArray } from './transform.mjs';
+import { unEmbed, toArray } from './omcTransform.mjs';
 
 function matchesCriteria(obj, filter) {
     // Handle null/undefined
