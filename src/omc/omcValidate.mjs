@@ -123,13 +123,13 @@ function checkOmcObject(omc, options) {
 /**
  * Validates OmcJson against the OMC schema
  *
- * @function validate
+ * @function omcValidate
  * @static
  * @param {OmcJson} omc - Valid JSON to be validated
  * @param {ValidationOptions} options - Additional options
  * @returns { boolean } - True if valid OmcJson, false if not
  */
-export default function validate(omc, options = {}) {
+export default function omcValidate(omc, options = {}) {
     const {
         atomic = true, // The entire update must be valid or it will be fail
         schemaVersion = null, // The schema version to validate against

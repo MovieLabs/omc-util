@@ -38,13 +38,13 @@ function matchesCriteria(obj, filter) {
 /**
  * Given an array of OMC entities, return those matching the filter criteria
  *
- * @function find
+ * @function omcFind
  * @static
  * @param {OmcJson} omc - Valid OMC-JSON
  * @param {Object} filter - Filter criteria matching the shape of an OMC entity
  * @returns {Array<OmcEntity>} All entities matching the filter or []
  */
-export default function find(omc, filter) {
+export default function omcFind(omc, filter) {
     const normalizedOmc = toArray(unEmbed(omc)); // Normalize the OMC to single entities in an array
 
     return normalizedOmc.filter((item) => matchesCriteria(item, filter));

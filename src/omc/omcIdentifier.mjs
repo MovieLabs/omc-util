@@ -3,7 +3,6 @@
  */
 
 // ToDo: Find does not belong here, it should be moved to the SDK
-// ToDo: generateIdentifier does not follow the naming convention, should create or generate.
 
 import { customAlphabet } from 'nanoid';
 

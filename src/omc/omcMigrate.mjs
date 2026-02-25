@@ -64,12 +64,12 @@ const migrateSet = ((omc, toSchemaVersion) => omc.map((ent) => migrateNested(ent
 /**
  * Migrate either an array of OMC entities a single OMC entity or an object of OMC entities
  *
- * @function migrate
+ * @function omcMigrate
  * @param {OmcJson} omc - The OMC entity or entities to migrate
  * @param {string} [toSchemaVersion] - Migrate up to this schema version (defaults to latest)
  * @returns {OmcJson}
  */
-export default function migrate(omc, toSchemaVersion = latestSchemaVersion) {
+export default function omcMigrate(omc, toSchemaVersion = latestSchemaVersion) {
     if (Array.isArray(omc)) return migrateSet(omc, toSchemaVersion); // Array of instances
     if (Object.hasOwn(omc, 'entityType')) return migrateNested(omc, toSchemaVersion); // Single instance
     return Object.keys(omc).reduce((obj, entKey) => (

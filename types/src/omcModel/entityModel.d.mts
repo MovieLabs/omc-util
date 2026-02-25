@@ -7,7 +7,7 @@ export default function entityModel(omcEntity?: OmcEntity): EntityModel;
 /**
  * A set of methods for conducting operations on a single OMC entity
  */
-export type EntityModel = OmcEntity & EntityModelMethods;
+export type EntityModel = any;
 export type EntityModelMethods = {
     /**
      * {@link module :omcEdges.getBaseKeys}

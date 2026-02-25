@@ -5,7 +5,7 @@
 /**
  * A set of methods for conducting operations on a single OMC entity
  *
- * @typedef {OmcEntity & EntityModelMethods} EntityModel
+ * @typedef EntityModel
  * @memberOf module:entityModel
  */
 
@@ -30,7 +30,7 @@ import {
     getIntrinsicProps,
     getContextKeys,
     getContextProps,
-} from '../omc/edges.mjs';
+} from '../omc/omcEdges.mjs';
 
 const entityModelProto = {
     /**

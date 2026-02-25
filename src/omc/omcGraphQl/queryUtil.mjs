@@ -71,7 +71,7 @@ export function queryVariables(entityType) {
  * @function entityQueries
  * @static
  * @memberOf module:omcGraphQl
- * @returns {Array<{entityType: string, variables: ReturnType<typeof queryVariables>}>} Array of entity query configurations
+ * @returns {Array<{entityType: string, variables: Array<queryVariables>}>} Array of entity query configurations
  */
 export function entityQueries() {
     const allEntities = Object.keys(entityTemplate).filter((key) => isCapitalized(key));

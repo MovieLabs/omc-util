@@ -277,14 +277,14 @@ export function edgeCreate({
 /**
  * Return inverse relationships
  * @memberof module:omcEdges
- * @function inverse
+ * @function edgeInverse
  * @static
  * @param {OmcEntity} omcEntity
  * @returns {Array<Object>}
  */
 const inverseRelation = ((rel) => (inverseEdges[rel] ? inverseEdges[rel] : rel));
 
-export function inverse(omcContext) {
+export function edgeInverse(omcContext) {
     // Generate the relationships to the source entities in the ForEntity properties
     const sourceRelated = ((sourceEntity) => sourceEntity.reduce((obj, srcEnt) => {
         const { entityType, identifier } = srcEnt;// The type and identifier of the source entity

@@ -6,7 +6,7 @@
 
 import { isPlainObject } from '../mlHelpers/util.mjs';
 
-import compareOmc from './compare.mjs';
+import compareOmc from './omcCompare.mjs';
 import { idKey as uniqueKey } from './omcIdentifier.mjs';
 
 let counter = 0; // A temp counter used in de-duplication

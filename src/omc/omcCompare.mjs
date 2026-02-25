@@ -148,14 +148,14 @@ function compareValues(lhs, rhs) {
  * i.e. in this example [{ a: '1'}, { b: '1' }] and [{ a: '1'}, { b: '2' }], the object with 'a' is considered the same
  * in both, and there is no action, the object 'b' is different, { b: '1' } would be removed and { b: '2' } created.
  *
- * @function compare
+ * @function omcCompare
  * @static
  * @param {Object} params
  * @param {OmcEntity} params.original - The source OMC entity
  * @param {OmcEntity} params.comparison - The OMC entity to compare against the original
  * @returns {DiffResult} The result of the comparison
  */
-export default function compare({ original, comparison }) {
+export default function omcCompare({ original, comparison }) {
     // If any of the entities is missing, then do not compare
     if (!original || !comparison) return { original, comparison, diff: null };
 

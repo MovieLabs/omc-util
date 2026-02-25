@@ -39,10 +39,10 @@ export function queryVariables(entityType: OmcEntityType): Array<{
  * @function entityQueries
  * @static
  * @memberOf module:omcGraphQl
- * @returns {Array<{entityType: string, variables: ReturnType<typeof queryVariables>}>} Array of entity query configurations
+ * @returns {Array<{entityType: string, variables: Array<queryVariables>}>} Array of entity query configurations
  */
 export function entityQueries(): Array<{
     entityType: string;
-    variables: ReturnType<typeof queryVariables>;
+    variables: Array<typeof queryVariables>;
 }>;
 export function createEntitySchema(entityType: any): any;

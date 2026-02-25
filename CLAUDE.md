@@ -33,14 +33,14 @@ All exports are organized into namespaced modules:
 
 | Export | Module | Purpose |
 |--------|--------|---------|
-| `omcCompare` | `src/omc/compare.mjs` | Deep-diff two entities → `{$create, $remove, $update}` |
-| `omcEdges` | `src/omc/edges.mjs` | Extract edges/relationships; distinguish base vs intrinsic (capitalized) properties |
-| `omcFind` | `src/omc/find.mjs` | Filter entities by nested criteria |
-| `omcMigrate` | `src/omc/migrate.mjs` | Migrate entities across schema versions (v2.0 → v2.6 → v2.x) |
-| `omcTransform` | `src/omc/transform.mjs` | `toArray`, `toObject`, `unEmbed`, `deDuplicate` |
-| `omcIdentifier` | `src/omc/omcIdentifier.mjs` | Create, merge, find, match identifiers (uses `nanoid`) |
+| `omcCompare` | `src/omc/omcCompare.mjs` | Deep-diff two entities → `{$create, $remove, $update}` |
+| `omcEdges` | `src/omc/omcEdges.mjs` | Extract edges/relationships; distinguish base vs intrinsic (capitalized) properties |
+| `omcFind` | `src/omc/omcFind.mjs` | Filter entities by nested criteria |
+| `omcMigrate` | `src/omc/omcMigrate.mjs` | Migrate entities across schema versions (v2.0 → v2.6 → v2.x) |
+| `omcTransform` | `src/omc/omcTransform.mjs` | `toArray`, `toObject`, `unEmbed`, `deDuplicate` |
+| `omcIdentifier` | `src/omc/omcIdentifier.mjs` | Create, merge, omcFind, match identifiers (uses `nanoid`) |
 | `omcGraphQl` | `src/omc/omcGraphQl/` | Build GraphQL queries from entity templates |
-| `omcValidate` | `src/omc/validate.mjs` | Validate against JSON schemas (v2.0–v2.8, via `ajv`) |
+| `omcValidate` | `src/omc/omcValidate.mjs` | Validate against JSON schemas (v2.0–v2.8, via `ajv`) |
 | `omcSDK` | `src/omcModel/omcSDK.mjs` | In-memory entity cache with add/remove/retrieve/transform |
 | `entityModel` | `src/omcModel/entityModel.mjs` | Prototype model extending entities with edge/property methods |
 | `generalConfig` | `src/config/generalConfig.mjs` | Entity metadata: colors, labels, ID prefixes |
@@ -62,7 +62,7 @@ All exports are organized into namespaced modules:
 
 ### Directory Layout
 
-- `src/omc/` — Core stateless utilities (compare, edges, find, identifier, migrate, transform, validate)
+- `src/omc/` — Core stateless utilities (omcCompare, edges, omcFind, identifier, omcMigrate, transform, omcValidate)
 - `src/omc/omcGraphQl/` — GraphQL query builder (`queryBuilder`, `queryUtil`, `graphQlSnippets`)
 - `src/omc/migration/` — Schema migration implementations (`v2-0tov2-6.mjs`, `v2-6tov2-x.mjs`)
 - `src/omcModel/` — Stateful entity model and SDK
