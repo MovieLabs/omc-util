@@ -27,6 +27,7 @@ const contextKeys = [
     'contextProperties',
     'For',
     'ForEntity',
+    'Context',
 ];
 
 /**

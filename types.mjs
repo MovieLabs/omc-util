@@ -45,7 +45,7 @@
 /**
  * A single instance of an OMC entity
  * @memberof OMC
- * @typedef {object} OmcEntity
+ * @typedef {Object} OmcEntity
  * @property {string} [schemaVersion] - Describes the version of OMC-JSON schema that was used to create this instance.
  * @property {OmcIdentifier[]} [identifier]
  * @property {OmcEntityType} [entityType]

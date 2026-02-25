@@ -51,7 +51,7 @@ export default {
         }
         return updatedOmc;
     }),
-    CreativeWork: (omc) => {
+    CreativeWork: ((omc) => {
         const updatedOmc = {
             ...omc,
             schemaVersion,
@@ -71,7 +71,7 @@ export default {
         }
         delete updatedOmc.title; // Remove the old title
         return updatedOmc;
-    },
+    }),
     Depiction: ((omc) => {
         const updatedOmc = {
             ...omc,

@@ -64,7 +64,7 @@ All exports are organized into namespaced modules:
 
 - `src/omc/` — Core stateless utilities (omcCompare, edges, omcFind, identifier, omcMigrate, transform, omcValidate)
 - `src/omc/omcGraphQl/` — GraphQL query builder (`queryBuilder`, `queryUtil`, `graphQlSnippets`)
-- `src/omc/migration/` — Schema migration implementations (`v2-0tov2-6.mjs`, `v2-6tov2-x.mjs`)
+- `src/omc/migration/` — Schema migration implementations (`v2-0tov2-6.mjs`, `v2-6tov2-8.mjs`)
 - `src/omcModel/` — Stateful entity model and SDK
 - `src/config/` — Entity configuration, templates, and edge definitions
 - `src/config/v2-8/` — v2.8 schema templates organized by domain (asset, infrastructure, mediaCreation, participant, task, utility)

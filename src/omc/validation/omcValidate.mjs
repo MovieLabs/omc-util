@@ -5,23 +5,31 @@
  */
 
 /**
- * @typedef {object} ValidationOptions
- * @property {boolean} atomic - The entire update must be valid, or it will be fail
- * @property {string} schemaVersion - The schema version to validate against
- * @property {string} errorResponse - The type of response to return if there is an error
+ * @typedef {Object} ValidationOptions
+ * @property {boolean} atomic - When true, all entities in the OmcJson must pass validation, or the result will be false
+ * @property {string | null} schemaVersion - The schema version to validate against if not the native schema of the entity
+ */
+
+/**
+ * @typeDef {Object} ValidationResult
+ * @property {boolean} valid - Whether this entity passed validation or not
+ * @property {Object | null} error - The error report from the validator or null if no error
+ * @property {OmcEntity} omcEntity - The entity that was being validated
  */
 
 import Ajv2019 from 'ajv/dist/2019.js';
 
-import schemav21 from '../schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
-import schemav26 from '../schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
-import schemav28 from '../schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
+import schemav21 from './schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
+import schemav26 from './schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
+import schemav28 from './schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
+import schemav30 from './schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 
 const schemaValidators = {
     'https://movielabs.com/omc/json/schema/v2.0': schemav21, // 2.1 is bug fix for 2.0
     'https://movielabs.com/omc/json/schema/v2.1': schemav21,
     'https://movielabs.com/omc/json/schema/v2.6': schemav26,
     'https://movielabs.com/omc/json/schema/v2.8': schemav28,
+    'https://movielabs.com/omc/json/schema/v3.0': schemav30,
 };
 
 const schemaValidator = Object.keys(schemaValidators)
@@ -123,25 +131,29 @@ function checkOmcObject(omc, options) {
 /**
  * Validates OmcJson against the OMC schema
  *
+ * - Each entity in an array are validated separately
+ * - Nested entities are validated in a single validation, mixing different schema versions in nested entities could cause validation errors
+ * - Setting options.atomic to true, will evaluate all entities after validation and only respond true if all entities pass
+ * - Setting options.schemaVersion to a specific schema, regardless of what the entity was encoded in, will validate against that version
+ *
  * @function omcValidate
  * @static
  * @param {OmcJson} omc - Valid JSON to be validated
  * @param {ValidationOptions} options - Additional options
- * @returns { boolean } - True if valid OmcJson, false if not
+ * @returns { ValidationResult | boolean } - The full result, or atomic was true then a simple true/false
  */
 export default function omcValidate(omc, options = {}) {
-    const {
-        atomic = true, // The entire update must be valid or it will be fail
-        schemaVersion = null, // The schema version to validate against
-        errorResponse = 'verbose', // The type of response to return if there is an error
-    } = options;
+    const defaultOptions = {
+        atomic: true, // The entire update must be valid or will be fail
+        schemaVersion: null, // Uses the schemaVersion of from the entity
+        ...options,
+    };
 
     const testResult = Array.isArray(omc)
-        ? checkOmcArray(omc, options)
-        : checkOmcObject(omc, options);
+        ? checkOmcArray(omc, defaultOptions)
+        : checkOmcObject(omc, defaultOptions);
 
-    if (atomic) {
-        return atomicResult(testResult);
-    }
-    return testResult;
+    return defaultOptions.atomic
+        ? atomicResult(testResult) // Returns a single true/false based on whether all entities pass validation
+        : testResult; // Returns an array with results for each entity being checked
 }

@@ -1,0 +1,55 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "Depiction",
+    "identifier": [
+      {
+        "identifierScope": "labkoat",
+        "identifierValue": "dep-HNvGRn9JY9wv1IwjG8Gff"
+      }
+    ],
+    "depictionType": "portrayal",
+    "customData": {
+      "testValue": "Hello World"
+    },
+    "Depicts": {
+      "identifier": [
+        {
+          "identifierScope": "labkoat",
+          "identifierValue": "ptc/HynO3uE6KceCGhx-fkBWo"
+        }
+      ]
+    },
+    "Depictor": {
+      "identifier": [
+        {
+          "identifierScope": "labkoat",
+          "identifierValue": "ptc/HynO3uE6KceCGhx-fkBWo"
+        },
+        {
+          "identifierScope": "imdb",
+          "identifierValue": "nm0872514"
+        }
+      ]
+    }
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.6",
+    "entityType": "Depiction",
+    "identifier": [
+      {
+        "identifierScope": "labkoat",
+        "identifierValue": "dep-HNvGRn9JY9wv1IwjG8Gff"
+      }
+    ],
+    "customData": [
+      {
+        "value": "test value"
+      }
+    ],
+    "depictionType": "depiction",
+    "Depicts": null,
+    "Depictor": null,
+    "Context": null
+  }
+]

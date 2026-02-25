@@ -4,16 +4,19 @@
  * @module omcMigrate
  */
 
-import v20 from './migration/v2-0tov2-6.mjs';
-import v26 from './migration/v2-6tov2-x.mjs';
+import v26 from './v2-0tov2-6.mjs'; // Migrate from v2.0 & v2.1 to 2.6
+import v28 from './v2-6tov2-8.mjs'; // Migrate from v2.6 to 2.8
+import v30 from './v2-8tov3-0.mjs'; // Migrate from 2.8 to 3.0
 
 const schemaMigration = {
-    'https://movielabs.com/omc/json/schema/v2.0': v20,
-    'https://movielabs.com/omc/json/schema/v2.1': v20,
-    'https://movielabs.com/omc/json/schema/v2.6': v26, // Placeholder for future migration
+    'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v2.8': v28, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v3.0': v30, // Migrate from 2.8 to 3.0
 };
 
-const latestSchemaVersion = 'https://movielabs.com/omc/json/schema/v2.6';
+const schemaOrder = Object.keys(schemaMigration);
+
+const latestSchemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
 
 // Migrate a single instance
 function migrateInstance(omc, toSchemaVersion) {
@@ -24,10 +27,15 @@ function migrateInstance(omc, toSchemaVersion) {
 
     if (!entityType || !schemaVersion) return { ...omc }; // Cannot migrate without these
 
-    const migrationPattern = schemaMigration[schemaVersion]; // Use pattern for current schema version
+    const migrationPattern = schemaMigration[toSchemaVersion]; // Use pattern for current schema version
 
     if (!migrationPattern) {
-        console.log(`No migration pattern found for schema version ${schemaVersion}`);
+        console.log(`No migration pattern found for schema version ${toSchemaVersion}`);
+        return { ...omc };
+    }
+
+    if (schemaOrder.indexOf(toSchemaVersion) < schemaOrder.indexOf(schemaVersion)) {
+        console.log(`Entity uses schemaVersion ${schemaVersion}, cannot be downgraded to ${toSchemaVersion}`);
         return { ...omc };
     }
 

@@ -78,7 +78,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_omc_omcValidate.mjs.html">src/omc/omcValidate.mjs</a>, <a href="src_omc_omcValidate.mjs.html#line1">line 1</a>
+        <a href="src_omc_validation_omcValidate.mjs.html">src/omc/validation/omcValidate.mjs</a>, <a href="src_omc_validation_omcValidate.mjs.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -169,7 +169,7 @@
 
     
 
-    <h4 class="name" id=".omcValidate"><span class="type-signature type-signature-static">(static) </span>omcValidate<span class="signature">(omc, options)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id=".omcValidate"><span class="type-signature type-signature-static">(static) </span>omcValidate<span class="signature">(omc, options)</span><span class="type-signature"> &rarr; {ValidationResult|boolean}</span></h4>
 
     
 
@@ -179,13 +179,19 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Validates OmcJson against the OMC schema</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Validates OmcJson against the OMC schema</p>
+<ul>
+<li>Each entity in an array are validated separately</li>
+<li>Nested entities are validated in a single validation, mixing different schema versions in nested entities could cause validation errors</li>
+<li>Setting options.atomic to true, will evaluate all entities after validation and only respond true if all entities pass</li>
+<li>Setting options.schemaVersion to a specific schema, regardless of what the entity was encoded in, will validate against that version</li>
+</ul></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_omc_omcValidate.mjs.html">src/omc/omcValidate.mjs</a>, <a href="src_omc_omcValidate.mjs.html#line123">line 123</a>
+        <a href="src_omc_validation_omcValidate.mjs.html">src/omc/validation/omcValidate.mjs</a>, <a href="src_omc_validation_omcValidate.mjs.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -325,7 +331,7 @@
         
 <div class="param-desc">
     <ul>
-<li>True if valid OmcJson, false if not</li>
+<li>The full result, or atomic was true then a simple true/false</li>
 </ul>
 </div>
 
@@ -337,6 +343,9 @@
     </dt>
     <dd>
         
+<span class="param-type">ValidationResult</span>
+|
+
 <span class="param-type">boolean</span>
 
 
@@ -368,7 +377,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_omc_omcValidate.mjs.html">src/omc/omcValidate.mjs</a>, <a href="src_omc_omcValidate.mjs.html#line7">line 7</a>
+        <a href="src_omc_validation_omcValidate.mjs.html">src/omc/validation/omcValidate.mjs</a>, <a href="src_omc_validation_omcValidate.mjs.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -448,7 +457,7 @@
 
             
 
-            <td class="description last"><p>The entire update must be valid, or it will be fail</p></td>
+            <td class="description last"><p>When true, all entities in the OmcJson must pass validation, or the result will be false</p></td>
         </tr>
 
     
@@ -462,6 +471,9 @@
             
                 
 <span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
 
 
 
@@ -472,31 +484,7 @@
 
             
 
-            <td class="description last"><p>The schema version to validate against</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>errorResponse</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The type of response to return if there is an error</p></td>
+            <td class="description last"><p>The schema version to validate against if not the native schema of the entity</p></td>
         </tr>
 
     
@@ -514,7 +502,182 @@
     <ul>
         <li>
             
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~ValidationResult">ValidationResult</h4>
+
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_omc_validation_omcValidate.mjs.html">src/omc/validation/omcValidate.mjs</a>, <a href="src_omc_validation_omcValidate.mjs.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>valid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Whether this entity passed validation or not</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error report from the validator or null if no error</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>omcEntity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OmcEntity</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The entity that was being validated</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
 
 
 
@@ -544,7 +707,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 08:34:25 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 12:48:35 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
