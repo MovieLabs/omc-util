@@ -1304,6 +1304,7 @@
               "description": "Describes the specific type of Character, equivalent to the sub-class used in OMC-RDF.",
               "default": "character",
               "enum": [
+                null,
                 "character",
                 "extra"
               ]
@@ -1561,6 +1562,7 @@
             "creativeWorkType": {
               "default": "creativeWork",
               "enum": [
+                null,
                 "creativeWork",
                 "series",
                 "season",
@@ -1770,6 +1772,7 @@
               "description": "A categorization of the type of depiction",
               "default": "depiction",
               "enum": [
+                null,
                 "depiction",
                 "portrayal"
               ]
@@ -1834,6 +1837,7 @@
               "description": "A categorization of the type of effect.",
               "default": "effect",
               "enum": [
+                null,
                 "effect",
                 "specialEffect",
                 "visualEffect"
@@ -1872,6 +1876,7 @@
               "title": "Narrative Type (narrative audio)",
               "description": "Describes the specific type of Narrative Audio, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
+                null,
                 "narrativeAudio",
                 "narrativeMusic",
                 "narrativeSoundEffect"
@@ -1920,7 +1925,10 @@
               "const": "NarrativeLocation"
             },
             "narrativeType": {
-              "enum": ["narrativeLocation"],
+              "enum": [
+                null,
+                "narrativeLocation"
+              ],
               "title": "narrativeType - narrative location",
               "description": "Describes the specific type of Narrative Location, equivalent to the sub-class used in OMC-RDF.",
               "default": "narrativeLocation"
@@ -1980,6 +1988,7 @@
               "title": "narrativeType - narrative object",
               "description": "Describes the specific type of Narrative Object, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
+                null,
                 "narrativeObject",
                 "narrativeProp",
                 "narrativeGreenery",
@@ -2047,7 +2056,10 @@
             "narrativeType": {
               "title": "narrativeType - narrative scene",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
-              "enum": ["narrativeScene"],
+              "enum": [
+                null,
+                "narrativeScene"
+              ],
               "default": "narrativeScene"
             },
             "sceneName": {
@@ -2123,6 +2135,7 @@
               "title": "narrativeType - narrative styling",
               "description": "Describes the specific type of Narrative Styling, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
+                null,
                 "narrativeStyling",
                 "narrativeHair",
                 "narrativeMakeup",
@@ -2174,7 +2187,10 @@
             "narrativeType": {
               "title": "narrativeType - narrative wardrobe",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
-              "enum": ["narrativeWardrobe"],
+              "enum": [
+                null,
+                "narrativeWardrobe"
+              ],
               "default": "narrativeWardrobe"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
@@ -2221,6 +2237,7 @@
             "locationType": {
               "description": "Describes whether this is production location or more specifically a shooting location",
               "enum": [
+                null,
                 "production",
                 "shooting"
               ],
@@ -3266,17 +3283,26 @@
                   "domain": {
                     "title": "Custom Data Domain",
                     "description": "Indicates the set or system in which the Custom Data is relevant or defined",
-                    "type": ["string", "null"]
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "namespace": {
                     "title": "Custom Data Namespace",
                     "description": "The namespace used by the Custom Data",
-                    "type": ["string", "null"]
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "schema": {
                     "title": "Custom Data Schema",
                     "description": "URL for the schema used by the Custom Data",
-                    "type": ["string", "null"]
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "value": {
                     "title": "Custom Data Value",
@@ -5422,7 +5448,7 @@
                 "https://movielabs.com/omc/json/schema/v2.1",
                 "https://movielabs.com/omc/json/schema/v2.6",
                 "https://movielabs.com/omc/json/schema/v2.8",
-                "https://movielabs.com/omc/json/schema/v3.0" 
+                "https://movielabs.com/omc/json/schema/v3.0"
               ],
               "description": "Describes the version of OMC-JSON schema that was used to create this instance."
             },

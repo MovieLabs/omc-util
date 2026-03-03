@@ -30,12 +30,11 @@ export default {
         };
         const background = omc?.profile?.background || null;
         if (background) {
-            const updateBg = Object.keys(background).map((key) => ({
+            updatedOmc.profile.background = Object.keys(background).map((key) => ({
                 author: null,
                 title: key,
                 text: background[key],
             }));
-            updatedOmc.profile.background = updateBg;
         }
         return updatedOmc;
     }),

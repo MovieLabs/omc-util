@@ -9,6 +9,7 @@
  * @typedef {Object} OmcIdentifier
  * @property {string} identifierScope - The scope of the identifier
  * @property {string} identifierValue - The value of the identifier
+ * @property {string} combinedForm - The conjunction of identifierScope & identifierValue, which should be globally unique
  * @property {string} [url] - A URL for the identifier
  */
 

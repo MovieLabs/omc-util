@@ -25,8 +25,8 @@ import schemav28 from './schema/OMC-JSON-v2.8.schema.json' with { type: 'json' }
 import schemav30 from './schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 
 const schemaValidators = {
-    'https://movielabs.com/omc/json/schema/v2.0': schemav21, // 2.1 is bug fix for 2.0
-    'https://movielabs.com/omc/json/schema/v2.1': schemav21,
+    'https://movielabs.com/omc/json/schema/v2.0': schemav21,
+    'https://movielabs.com/omc/json/schema/v2.1': schemav21, // 2.1 is bug fix for 2.0
     'https://movielabs.com/omc/json/schema/v2.6': schemav26,
     'https://movielabs.com/omc/json/schema/v2.8': schemav28,
     'https://movielabs.com/omc/json/schema/v3.0': schemav30,
