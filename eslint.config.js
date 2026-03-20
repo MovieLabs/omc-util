@@ -44,6 +44,11 @@ export default [
     },
 
     {
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
         rules: {
             ...reactHooksPlugin.configs.recommended.rules,
             ...jsxA11yPlugin.configs.recommended.rules,
@@ -70,7 +75,7 @@ export default [
             '@stylistic/arrow-parens': ['error', 'always'],
             '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
             '@stylistic/no-extra-parens': 'off',
-            '@stylistic/jsx-indent': ['error', 2],
+            // '@stylistic/jsx-indent': ['error', 2],
             '@stylistic/jsx-indent-props': ['error', 2],
 
             // Modern JS best practices
