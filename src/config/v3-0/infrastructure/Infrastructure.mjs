@@ -22,6 +22,16 @@ export default {
             inverse: 'ForEntity',
             biDirectional: true,
         },
+        Infrastructure: {
+            type: 'array',
+            allowed: ['Infrastructure'],
+            biDirectional: true,
+        },
+        InfrastructureSC: {
+            type: 'object',
+            allowed: ['InfrastructureSC'],
+            biDirectional: true,
+        },
     },
     edges: {
         has: {

@@ -236,7 +236,7 @@ export const generalConfig = {
         },
     },
     InfrastructureSC: {
-        group: 'InfrastructureSC',
+        group: 'Infrastructure',
         idPrefix: 'inf',
         presentation: {
             entityColor: '#F0B27A',

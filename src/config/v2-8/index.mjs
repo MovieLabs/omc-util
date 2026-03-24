@@ -135,6 +135,7 @@ const allEdges = Object.keys(masterTemplate).reduce((obj, entityType) => {
                 // inverse: `${inverseEdges[predicate]}.${entityType}`,
                 path: `edges.${predicate}.${entType}`,
                 inverse: `edges.${inverseEdges[predicate]}.${entityType}`,
+                predicate,
             },
         }), {});
         return { ...obj1, ...t };
