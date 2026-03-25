@@ -11,7 +11,7 @@
  */
 
 /**
- * @typeDef {Object} ValidationResult
+ * @typedef {Object} ValidationResult
  * @property {boolean} valid - Whether this entity passed validation or not
  * @property {Object | null} error - The error report from the validator or null if no error
  * @property {OmcEntity} omcEntity - The entity that was being validated

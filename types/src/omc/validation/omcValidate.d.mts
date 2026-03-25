@@ -33,3 +33,17 @@ export type ValidationOptions = {
      */
     schemaVersion?: string | null;
 };
+export type ValidationResult = {
+    /**
+     * - Whether this entity passed validation or not
+     */
+    valid: boolean;
+    /**
+     * - The error report from the validator or null if no error
+     */
+    error: any | null;
+    /**
+     * - The entity that was being validated
+     */
+    omcEntity: OmcEntity;
+};
