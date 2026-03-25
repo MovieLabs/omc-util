@@ -5,9 +5,11 @@
   "author": "DML",
   "license": "ISC",
   "main": "./index.mjs",
+  "types": "./types/index.d.mts",
   "type": "module",
   "exports": {
     ".": {
+      "types": "./types/index.d.mts",
       "import": "./index.mjs",
       "default": "./index.mjs"
     },
@@ -43,6 +45,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^16.0.0",
     "jsdoc": "^4.0.3",
-    "jsdoc-to-markdown": "^9.0.2"
+    "jsdoc-to-markdown": "^9.0.2",
+    "typescript": "^6.0.2"
   }
 }
