@@ -8,18 +8,28 @@
  *
  * @function omcValidate
  * @static
+ * @overload
  * @param {OmcJson} omc - Valid JSON to be validated
- * @param {ValidationOptions} options - Additional options
- * @returns { ValidationResult | boolean } - The full result, or atomic was true then a simple true/false
+ * @param {ValidationOptions & { atomic: false }} options
+ * @returns {ValidationResult[]}
  */
-export default function omcValidate(omc: OmcJson, options?: ValidationOptions): ValidationResult | boolean;
+export default function omcValidate(omc: OmcJson, options: ValidationOptions & {
+    atomic: false;
+}): ValidationResult[];
+/**
+ * @overload
+ * @param {OmcJson} omc - Valid JSON to be validated
+ * @param {ValidationOptions} [options]
+ * @returns {boolean}
+ */
+export default function omcValidate(omc: OmcJson, options?: ValidationOptions): boolean;
 export type ValidationOptions = {
     /**
-     * - When true, all entities in the OmcJson must pass validation, or the result will be false
+     * - When true, all entities must pass or result is false
      */
-    atomic: boolean;
+    atomic?: boolean;
     /**
      * - The schema version to validate against if not the native schema of the entity
      */
-    schemaVersion: string | null;
+    schemaVersion?: string | null;
 };

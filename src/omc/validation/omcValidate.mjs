@@ -6,8 +6,8 @@
 
 /**
  * @typedef {Object} ValidationOptions
- * @property {boolean} atomic - When true, all entities in the OmcJson must pass validation, or the result will be false
- * @property {string | null} schemaVersion - The schema version to validate against if not the native schema of the entity
+ * @property {boolean} [atomic=true] - When true, all entities must pass or result is false
+ * @property {string | null} [schemaVersion=null] - The schema version to validate against if not the native schema of the entity
  */
 
 /**
@@ -138,9 +138,20 @@ function checkOmcObject(omc, options) {
  *
  * @function omcValidate
  * @static
+ * @overload
  * @param {OmcJson} omc - Valid JSON to be validated
- * @param {ValidationOptions} options - Additional options
- * @returns { ValidationResult | boolean } - The full result, or atomic was true then a simple true/false
+ * @param {ValidationOptions & { atomic: false }} options
+ * @returns {ValidationResult[]}
+ */
+/**
+ * @overload
+ * @param {OmcJson} omc - Valid JSON to be validated
+ * @param {ValidationOptions} [options]
+ * @returns {boolean}
+ */
+/**
+ * @param {OmcJson} omc
+ * @param {ValidationOptions} [options]
  */
 export default function omcValidate(omc, options = {}) {
     const defaultOptions = {
