@@ -11,6 +11,10 @@ export type OmcIdentifier = {
      */
     identifierValue: string;
     /**
+     * - The conjunction of identifierScope & identifierValue, which should be globally unique
+     */
+    combinedForm: string;
+    /**
      * - A URL for the identifier
      */
     url?: string;
