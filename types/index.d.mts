@@ -1,3 +1,4 @@
+/// <reference path="./globals.d.ts" />
 export { default as omcCompare } from "./src/omc/omcCompare.mjs";
 export * as omcEdges from "./src/omc/omcEdges.mjs";
 export { default as omcFind } from "./src/omc/omcFind.mjs";
