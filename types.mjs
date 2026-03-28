@@ -9,7 +9,7 @@
  * @typedef {Object} OmcIdentifier
  * @property {string} identifierScope - The scope of the identifier
  * @property {string} identifierValue - The value of the identifier
- * @property {string} combinedForm - The conjunction of identifierScope & identifierValue, which should be globally unique
+ * @property {string} [combinedForm] - The conjunction of identifierScope & identifierValue, which should be globally unique
  * @property {string} [url] - A URL for the identifier
  */
 
@@ -23,18 +23,27 @@
  * A user defined set of custom data in the payload of the instance, used where the formal schema lacks required properties.
  * @memberof OMC
  * @typedef {Object} OmcCustomData
+ * @property {string | null} domain - Indicates the set or system in which the custom data is relevant or defined.
+ * @property {string | null} namespace - The namespace used by the custom data.
+ * @property {string | null} schema - URL for the schema used by the custom data.
+ * @property {* | null} value - The user defined custom data.
  */
 
 /**
- * Additional annotations about the entity.
+ * Human readable commentary, explanation, or information.
  * @memberof OMC
  * @typedef {Object} OmcAnnotation
+ * @property {string | null} author - Who wrote or added this annotation
+ * @property {string | null} title - A title for the note or annotation.
+ * @property {string | null} text - The text of the note or annotation.
  */
 
 /**
- * User defined tags for the entity.
+ * A short string from a particular set, used for categorization and description.
  * @memberof OMC
  * @typedef {Object} OmcTag
+ * @property {string | null} domain - An indication of the set or system in which the tag values are relevant or defined.
+ * @property {Array<string> | null} value - A set of tags taken from the domain.
  */
 
 /**
@@ -48,13 +57,13 @@
  * @memberof OMC
  * @typedef {Object} OmcEntity
  * @property {string} [schemaVersion] - Describes the version of OMC-JSON schema that was used to create this instance.
- * @property {OmcIdentifier[]} [identifier]
+ * @property {Array<OmcIdentifier>} [identifier]
  * @property {OmcEntityType} [entityType]
  * @property {string | null} name - A name for the entity, this is primarily for human consumption in things like user interfaces. It should not be considered a canonical name
  * @property {string | null} description - A brief description of the entity, primarily for human consumption
- * @property {OmcCustomData | null} customData
- * @property {OmcAnnotation | null} annotation
- * @property {OmcTag | null} tag
+ * @property {Array<OmcCustomData> | null} customData - A array of OmcCustomData
+ * @property {Array<OmcAnnotation> | null} annotation - An array of OmcAnnotation
+ * @property {Array<OmcTag> | null} tag
  * @property {OmcInstanceInfo | null} instanceInfo
  * @property {*} key - Properties specific to this instance of the entityType
  */

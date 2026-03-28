@@ -13,7 +13,7 @@ export type OmcIdentifier = {
     /**
      * - The conjunction of identifierScope & identifierValue, which should be globally unique
      */
-    combinedForm: string;
+    combinedForm?: string;
     /**
      * - A URL for the identifier
      */
@@ -26,15 +26,54 @@ export type OmcEntityType = string;
 /**
  * A user defined set of custom data in the payload of the instance, used where the formal schema lacks required properties.
  */
-export type OmcCustomData = any;
+export type OmcCustomData = {
+    /**
+     * - Indicates the set or system in which the custom data is relevant or defined.
+     */
+    domain: string | null;
+    /**
+     * - The namespace used by the custom data.
+     */
+    namespace: string | null;
+    /**
+     * - URL for the schema used by the custom data.
+     */
+    schema: string | null;
+    /**
+     * - The user defined custom data.
+     */
+    value: any | null;
+};
 /**
- * Additional annotations about the entity.
+ * Human readable commentary, explanation, or information.
  */
-export type OmcAnnotation = any;
+export type OmcAnnotation = {
+    /**
+     * - Who wrote or added this annotation
+     */
+    author: string | null;
+    /**
+     * - A title for the note or annotation.
+     */
+    title: string | null;
+    /**
+     * - The text of the note or annotation.
+     */
+    text: string | null;
+};
 /**
- * User defined tags for the entity.
+ * A short string from a particular set, used for categorization and description.
  */
-export type OmcTag = any;
+export type OmcTag = {
+    /**
+     * - An indication of the set or system in which the tag values are relevant or defined.
+     */
+    domain: string | null;
+    /**
+     * - A set of tags taken from the domain.
+     */
+    value: Array<string> | null;
+};
 /**
  * Properties that describe information about this particular instance of an entity
  */
@@ -47,7 +86,7 @@ export type OmcEntity = {
      * - Describes the version of OMC-JSON schema that was used to create this instance.
      */
     schemaVersion?: string;
-    identifier?: OmcIdentifier[];
+    identifier?: Array<OmcIdentifier>;
     entityType?: OmcEntityType;
     /**
      * - A name for the entity, this is primarily for human consumption in things like user interfaces. It should not be considered a canonical name
@@ -57,9 +96,15 @@ export type OmcEntity = {
      * - A brief description of the entity, primarily for human consumption
      */
     description: string | null;
-    customData: OmcCustomData | null;
-    annotation: OmcAnnotation | null;
-    tag: OmcTag | null;
+    /**
+     * - A array of OmcCustomData
+     */
+    customData: Array<OmcCustomData> | null;
+    /**
+     * - An array of OmcAnnotation
+     */
+    annotation: Array<OmcAnnotation> | null;
+    tag: Array<OmcTag> | null;
     instanceInfo: OmcInstanceInfo | null;
     /**
      * - Properties specific to this instance of the entityType

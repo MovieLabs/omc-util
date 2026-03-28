@@ -44,6 +44,7 @@ declare namespace _default {
             export { biDirectional_1 as biDirectional };
             let inverse_1: string;
             export { inverse_1 as inverse };
+            export let predicate: string;
         }
     }
     namespace edges {

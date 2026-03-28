@@ -1,4 +1,35 @@
 /**
+ * Normalizes the input based on whether an OmcEntity or just OmcIdentifier was passed in
+ * returning just an array of OmcIdentifiers.
+ *
+ * @function idNormalize
+ * @ignore
+ * @static
+ * @param {OmcEntity | OmcIdentifier} identifier
+ * @returns {Array<OmcIdentifier>} - An array of just identifiers
+ */
+export function idNormalize(identifier: OmcEntity | OmcIdentifier): Array<OmcIdentifier>;
+/**
+ * OMC entities may have multiple identifiers, this returns the identifier of the requested scope if found
+ *
+ * @function idOfScope
+ * @static
+ * @param {Array<OmcIdentifier>} identifier - An array of OMC identifiers
+ * @param {string} identifierScope - The scope of the required identifierValue
+ * @returns {OmcIdentifier | null} - A single identifier if the scope is matched, null it not
+ *
+ * @example
+ * idOfScope(
+ *  [
+ *     { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'},
+ *     { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j'},
+ *  ],
+ *  'movielabs.com'
+ * )
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'}
+ */
+export function idOfScope(identifier: Array<OmcIdentifier>, identifierScope: string): OmcIdentifier | null;
+/**
  * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
  *
  * @function idCreate
@@ -22,6 +53,20 @@ export function idCreate({ identifierScope, prefix, entityType }: {
     prefix?: string | null;
     entityType?: string | null;
 }): OmcIdentifier;
+/**
+ * Creates a globally unique key by combining the identifierScope and identifierValue of an OMC identifier
+ *
+ * @function idKey
+ * @static
+ * @param {OmcIdentifier} identifier - An OMC identifier
+ * @returns {string} A unique key
+ *
+ * @example
+ * idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
+ * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
+ *
+ */
+export function idKey(identifier: OmcIdentifier): string;
 /**
  * Test if an identifier from one entity already exists within a set of other entities
  *
@@ -73,6 +118,3 @@ export function hasMatching(targetIdentifier: OmcEntity | Array<OmcIdentifier>, 
  * @returns {OmcEntity|null} The matching entity or null
  */
 export function find(omc: Array<OmcEntity>, identifier: OmcIdentifier | Array<OmcIdentifier>): OmcEntity | null;
-export function idNormalize(identifier: any): any;
-export function idOfScope(identifier: any, identifierScope: any): any;
-export function idKey(identifier: any): string;

@@ -24,6 +24,7 @@ export default {
             allowed: ['Depiction'],
             biDirectional: true,
             inverse: 'Depicts',
+            predicate: 'hasDepiction',
         },
     },
     edges: {

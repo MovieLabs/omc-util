@@ -181,13 +181,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Additional annotations about the entity.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Human readable commentary, explanation, or information.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line27">line 27</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -224,10 +224,120 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>author</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Who wrote or added this annotation</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A title for the note or annotation.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The text of the note or annotation.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <div class="description usertext">
-    <p>Additional annotations about the entity.</p>
+    <p>Human readable commentary, explanation, or information.</p>
 </div>
 
 
@@ -265,7 +375,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line21">line 21</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -299,6 +409,143 @@
 
     
 </dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>domain</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Indicates the set or system in which the custom data is relevant or defined.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The namespace used by the custom data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>schema</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>URL for the schema used by the custom data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The user defined custom data.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
 
 
 
@@ -343,7 +590,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line45">line 45</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -576,7 +823,7 @@
             <td class="type">
             
                 
-<span class="param-type">OmcCustomData</span>
+<span class="param-type">Array.&lt;OmcCustomData></span>
 |
 
 <span class="param-type">null</span>
@@ -596,7 +843,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>A array of OmcCustomData</p></td>
         </tr>
 
     
@@ -609,7 +856,7 @@
             <td class="type">
             
                 
-<span class="param-type">OmcAnnotation</span>
+<span class="param-type">Array.&lt;OmcAnnotation></span>
 |
 
 <span class="param-type">null</span>
@@ -629,7 +876,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>An array of OmcAnnotation</p></td>
         </tr>
 
     
@@ -642,7 +889,7 @@
             <td class="type">
             
                 
-<span class="param-type">OmcTag</span>
+<span class="param-type">Array.&lt;OmcTag></span>
 |
 
 <span class="param-type">null</span>
@@ -776,7 +1023,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line15">line 15</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -979,6 +1226,38 @@
 
         <tr>
             
+                <td class="name"><code>combinedForm</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The conjunction of identifierScope &amp; identifierValue, which should be globally unique</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>url</code></td>
             
 
@@ -1055,7 +1334,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line39">line 39</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -1133,7 +1412,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line61">line 61</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -1214,7 +1493,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line67">line 67</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -1627,13 +1906,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>User defined tags for the entity.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>A short string from a particular set, used for categorization and description.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line33">line 33</a>
+        <a href="types.mjs.html">types.mjs</a>, <a href="types.mjs.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -1670,10 +1949,93 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>domain</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An indication of the set or system in which the tag values are relevant or defined.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A set of tags taken from the domain.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <div class="description usertext">
-    <p>User defined tags for the entity.</p>
+    <p>A short string from a particular set, used for categorization and description.</p>
 </div>
 
 
@@ -1712,7 +2074,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 12:48:35 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Fri Mar 27 2026 10:26:22 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

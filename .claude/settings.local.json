@@ -7,7 +7,23 @@
       "Bash(cd \"C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/omcUtil\" && npm run build:types 2>&1)",
       "mcp__ide__getDiagnostics",
       "Bash(head:*)",
-      "Bash(cd \"C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/omcUtil\" && node -e \"\nconst ts = require\\('typescript'\\);\nconst program = ts.createProgram\\({\n    rootNames: ['types/index.d.mts'],\n    options: {\n        module: ts.ModuleKind.NodeNext,\n        moduleResolution: ts.ModuleResolutionKind.NodeNext,\n        target: ts.ScriptTarget.ES2022,\n        noEmit: true,\n    }\n}\\);\nconst checker = program.getTypeChecker\\(\\);\nconst sourceFile = program.getSourceFile\\('types/index.d.mts'\\);\nconst symbol = checker.getSymbolAtLocation\\(sourceFile\\);\nif \\(symbol\\) {\n    const exports = checker.getExportsOfModule\\(symbol\\);\n    exports.forEach\\(exp => {\n        const name = exp.getName\\(\\);\n        const type = checker.typeToString\\(checker.getTypeOfSymbol\\(exp\\)\\);\n        console.log\\(name + ': ' + type.substring\\(0, 120\\)\\);\n    }\\);\n}\n\" 2>&1)"
+      "Bash(cd \"C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/omcUtil\" && node -e \"\nconst ts = require\\('typescript'\\);\nconst program = ts.createProgram\\({\n    rootNames: ['types/index.d.mts'],\n    options: {\n        module: ts.ModuleKind.NodeNext,\n        moduleResolution: ts.ModuleResolutionKind.NodeNext,\n        target: ts.ScriptTarget.ES2022,\n        noEmit: true,\n    }\n}\\);\nconst checker = program.getTypeChecker\\(\\);\nconst sourceFile = program.getSourceFile\\('types/index.d.mts'\\);\nconst symbol = checker.getSymbolAtLocation\\(sourceFile\\);\nif \\(symbol\\) {\n    const exports = checker.getExportsOfModule\\(symbol\\);\n    exports.forEach\\(exp => {\n        const name = exp.getName\\(\\);\n        const type = checker.typeToString\\(checker.getTypeOfSymbol\\(exp\\)\\);\n        console.log\\(name + ': ' + type.substring\\(0, 120\\)\\);\n    }\\);\n}\n\" 2>&1)",
+      "Bash(rm -rf types/)",
+      "Bash(npm run:*)",
+      "Bash(cp:*)",
+      "Bash(node -e \"console.log\\(require\\(''C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-Labkoat-Portal-3/node_modules/typescript/package.json''\\).version\\)\")",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(grep -rl .mjs C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/src/ --include=*.mjs)",
+      "Bash(grep -r .mjs C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/Dockerfile C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/docker-compose* C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/package.json)",
+      "Bash(find C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam -maxdepth 1 -name *.mjs -o -path */src/*.mjs)",
+      "Bash(while read:*)",
+      "Bash(do mv:*)",
+      "Bash(done)",
+      "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -not -path \"*/omcUtil/*\" -not -path \"*/mlHelpers/*\" -exec grep -l \"\\\\.mjs\" {})",
+      "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -not -path \"*/omcUtil/*\" -not -path \"*/mlHelpers/*\" -exec sed -i \"s/\\\\.mjs''/\\\\.js''/g; s/\\\\.mjs\"\"/.js\"\"/g\" {} +)",
+      "Bash(grep -r \"\\\\.mjs\" --include=\"*.js\" -l -not --include-dir=node_modules)",
+      "Bash(grep -r \"mlHelpers\\\\|omcUtil\" C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/ --include=*.js -l)"
     ]
   }
 }

@@ -5,25 +5,58 @@
   "author": "DML",
   "license": "ISC",
   "main": "./index.mjs",
-  "types": "./types/index.d.mts",
+  "types": "./types/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./types/index.d.mts",
+      "types": "./types/index.d.ts",
       "import": "./index.mjs",
       "default": "./index.mjs"
     },
-    "./compare": "./src/omc/compare.mjs",
-    "./edges": "./src/omc/edges.mjs",
-    "./find": "./src/omc/find.mjs",
-    "./migrate": "./src/omc/migrate.mjs",
-    "./graphql": "./src/omc/omcGraphQl/index.mjs",
-    "./identifier": "./src/omc/omcIdentifier.mjs",
-    "./transform": "./src/omc/transform.mjs",
-    "./validate": "./src/omc/validate.mjs",
-    "./sdk": "./src/omcModel/omcSDK.mjs",
-    "./config": "./src/config/index.mjs",
-    "./entity-model": "./src/omcModel/entityModel.mjs"
+    "./compare": {
+      "types": "./types/src/omc/omcCompare.d.ts",
+      "import": "./src/omc/omcCompare.mjs"
+    },
+    "./edges": {
+      "types": "./types/src/omc/omcEdges.d.ts",
+      "import": "./src/omc/omcEdges.mjs"
+    },
+    "./find": {
+      "types": "./types/src/omc/omcFind.d.ts",
+      "import": "./src/omc/omcFind.mjs"
+    },
+    "./migrate": {
+      "types": "./types/src/omc/migration/omcMigrate.d.ts",
+      "import": "./src/omc/migration/omcMigrate.mjs"
+    },
+    "./graphql": {
+      "types": "./types/src/omc/omcGraphQl/index.d.ts",
+      "import": "./src/omc/omcGraphQl/index.mjs"
+    },
+    "./identifier": {
+      "types": "./types/src/omc/omcIdentifier.d.ts",
+      "import": "./src/omc/omcIdentifier.mjs"
+    },
+    "./transform": {
+      "types": "./types/src/omc/omcTransform.d.ts",
+      "import": "./src/omc/omcTransform.mjs"
+    },
+    "./validate": {
+      "types": "./types/src/omc/validation/omcValidate.d.ts",
+      "import": "./src/omc/validation/omcValidate.mjs"
+    },
+    "./sdk": {
+      "types": "./types/src/omcModel/omcSDK.d.ts",
+      "import": "./src/omcModel/omcSDK.mjs"
+    },
+    "./config": {
+      "types": "./types/src/config/index.d.ts",
+      "import": "./src/config/index.mjs"
+    },
+    "./entity-model": {
+      "types": "./types/src/omcModel/entityModel.d.ts",
+      "import": "./src/omcModel/entityModel.mjs"
+    }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

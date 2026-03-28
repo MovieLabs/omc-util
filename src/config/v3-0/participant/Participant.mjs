@@ -38,6 +38,7 @@ export default {
             Role: {
                 type: 'array',
                 allowed: ['Role'],
+                predicate: 'has',
             },
         },
     },

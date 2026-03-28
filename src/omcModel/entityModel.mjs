@@ -97,6 +97,6 @@ const entityModelProto = {
 export default function entityModel(omcEntity = {}) {
     const model = Object.create(entityModelProto);
     const t = Object.assign(model, omcEntity);
-    console.log(Object.keys(t));
+    // console.log(Object.keys(t));
     return t;
 }

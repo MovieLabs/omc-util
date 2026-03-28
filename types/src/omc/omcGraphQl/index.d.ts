@@ -7,8 +7,8 @@
  * - Custom variables can be passed into the top level entity as query filters
  */
 export type QueryTemplate = any;
-import { stripGraphQl } from './queryUtil.mjs';
-import { entityQueries } from './queryUtil.mjs';
-import { queryVariables } from './queryUtil.mjs';
-import queryBuilder from './queryBuilder.mjs';
+import { stripGraphQl } from './queryUtil';
+import { entityQueries } from './queryUtil';
+import { queryVariables } from './queryUtil';
+import queryBuilder from './queryBuilder';
 export { stripGraphQl, entityQueries, queryVariables, queryBuilder };

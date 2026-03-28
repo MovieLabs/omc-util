@@ -21,9 +21,9 @@ const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
  * @param {OmcEntity | OmcIdentifier} identifier
  * @returns {Array<OmcIdentifier>} - An array of just identifiers
  */
-export const idNormalize = ((identifier) => (
-    Object.hasOwn(identifier, 'identifier') ? identifier.identifier : makeArray(identifier))
-);
+export function idNormalize(identifier) {
+    return Object.hasOwn(identifier, 'identifier') ? identifier.identifier : makeArray(identifier);
+}
 
 /**
  * OMC entities may have multiple identifiers, this returns the identifier of the requested scope if found
@@ -44,10 +44,10 @@ export const idNormalize = ((identifier) => (
  * )
  * // returns { identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt'}
  */
-export const idOfScope = ((identifier, identifierScope) => {
+export function idOfScope(identifier, identifierScope) {
     const scopeMatch = identifier.find((id) => id.identifierScope === identifierScope);
     return scopeMatch || null;
-});
+}
 
 /**
  * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
@@ -89,7 +89,9 @@ export function idCreate({ identifierScope, prefix = null, entityType = null }) 
  * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
  *
  */
-export const idKey = ((identifier) => `${identifier.identifierScope}:${identifier.identifierValue}`);
+export function idKey(identifier) {
+    return `${identifier.identifierScope}:${identifier.identifierValue}`;
+}
 
 /**
  * Test if an identifier from one entity already exists within a set of other entities

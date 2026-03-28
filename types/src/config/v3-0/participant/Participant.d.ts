@@ -56,6 +56,7 @@ declare namespace _default {
                 export { type_3 as type };
                 let allowed_3: string[];
                 export { allowed_3 as allowed };
+                export let predicate: string;
             }
         }
     }
