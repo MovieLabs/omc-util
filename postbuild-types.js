@@ -14,6 +14,7 @@ const TYPES_DIR = 'types';
 const GLOBALS_SRC = 'globals.d.ts';
 const GLOBALS_DEST = join(TYPES_DIR, 'globals.d.ts');
 const INDEX_DTS = join(TYPES_DIR, 'index.d.ts');
+const ROOT_DTS = 'index.d.ts';
 const REFERENCE = '/// <reference path="./globals.d.ts" />\n';
 
 // --- Step 1: Copy globals.d.ts into types/ ---
@@ -24,3 +25,9 @@ const indexContent = readFileSync(INDEX_DTS, 'utf8');
 if (!indexContent.startsWith(REFERENCE)) {
     writeFileSync(INDEX_DTS, REFERENCE + indexContent);
 }
+
+// --- Step 3: Create root index.d.ts sidecar for IDE compatibility ---
+// IDEs (WebStorm, etc.) prioritize sidecar .d.ts files next to .js files
+// over the "types" field in package.json when indexing node_modules packages.
+const rootDts = `/// <reference path="./globals.d.ts" />\nexport * from './types/index.js';\n`;
+writeFileSync(ROOT_DTS, rootDts);

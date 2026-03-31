@@ -1,10 +1,27 @@
+export default omcFind;
 /**
- * Given an array of OMC entities, return those matching the filter criteria
+ * Find all objects in an array that match a template.
+ * Only fields present in the template are compared.
  *
- * @function omcFind
- * @static
- * @param {OmcJson} omc - Valid OMC-JSON
- * @param {Object} filter - Filter criteria matching the shape of an OMC entity
- * @returns {Array<OmcEntity>} All entities matching the filter or []
+ * @function
+ * @param {Array<OmcEntity>} arr - Array of JSON objects to search
+ * @param {Object} template - Template object defining the match criteria
+ * @param {Object} [options] - Options
+ * @param {boolean} [options.normalize=false] - Trim whitespace and compare strings case-insensitively
+ * @returns {Array<OmcEntity>} - All matching objects
+ *
+ * @example
+ * // Find all NarrativeScene entities
+ * omcFind(data, { entityType: 'NarrativeScene' });
+ *
+ * @example
+ * // Find characters named "Phoebe"
+ * omcFind(data, { entityType: 'Character', characterName: { fullName: 'Phoebe' } });
+ *
+ * @example
+ * // Find entities with a specific identifier
+ * omcFind(data, { identifier: [{ identifierScope: 'movielabs.com' }] });
  */
-export default function omcFind(omc: OmcJson, filter: any): Array<OmcEntity>;
+declare function omcFind(arr: Array<OmcEntity>, template: any, options?: {
+    normalize?: boolean;
+}): Array<OmcEntity>;
