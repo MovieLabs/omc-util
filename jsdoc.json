@@ -6,7 +6,7 @@
   "recurseDepth": 10,
   "sourceType": "module",
   "source": {
-    "include": ["index.mjs", "types.mjs", "src"],
+    "include": ["index.js", "types.js", "src"],
     "includePattern": ".+\\.(m?js(doc|x)?)$",
     "exclude": ["src/mlHelpers"]
   },

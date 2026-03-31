@@ -1,0 +1,22 @@
+/**
+ * Template details for InfrastructureSC
+ */
+
+import { baseEntity } from '../utility/utility.js';
+
+export default {
+    properties: {
+        ...baseEntity.properties,
+        structuralType: null,
+        structuralProperties: null,
+    },
+    intrinsic: {},
+    edges: {},
+    graphQl: {
+        filter: {
+            ...baseEntity.graphQl.filter,
+        },
+        inlineFragment: {},
+    },
+    idPrefix: 'infsc',
+};

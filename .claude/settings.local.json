@@ -23,7 +23,9 @@
       "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -not -path \"*/omcUtil/*\" -not -path \"*/mlHelpers/*\" -exec grep -l \"\\\\.mjs\" {})",
       "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -not -path \"*/omcUtil/*\" -not -path \"*/mlHelpers/*\" -exec sed -i \"s/\\\\.mjs''/\\\\.js''/g; s/\\\\.mjs\"\"/.js\"\"/g\" {} +)",
       "Bash(grep -r \"\\\\.mjs\" --include=\"*.js\" -l -not --include-dir=node_modules)",
-      "Bash(grep -r \"mlHelpers\\\\|omcUtil\" C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/ --include=*.js -l)"
+      "Bash(grep -r \"mlHelpers\\\\|omcUtil\" C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/ --include=*.js -l)",
+      "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -exec sed -i \"s/\\\\.mjs''/\\\\.js''/g; s/\\\\.mjs\"\"/.js\"\"/g\" {} +)",
+      "Bash(grep -r .mjs C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-Labkoat-Portal-API-2/ --include=*.js -l)"
     ]
   }
 }

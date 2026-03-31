@@ -4,64 +4,64 @@
   "description": "Utilities for working with OMC-JSON",
   "author": "DML",
   "license": "ISC",
-  "main": "./index.mjs",
+  "main": "./index.js",
   "types": "./types/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "import": "./index.mjs",
-      "default": "./index.mjs"
+      "import": "./index.js",
+      "default": "./index.js"
     },
     "./compare": {
       "types": "./types/src/omc/omcCompare.d.ts",
-      "import": "./src/omc/omcCompare.mjs"
+      "import": "./src/omc/omcCompare.js"
     },
     "./edges": {
       "types": "./types/src/omc/omcEdges.d.ts",
-      "import": "./src/omc/omcEdges.mjs"
+      "import": "./src/omc/omcEdges.js"
     },
     "./find": {
       "types": "./types/src/omc/omcFind.d.ts",
-      "import": "./src/omc/omcFind.mjs"
+      "import": "./src/omc/omcFind.js"
     },
     "./migrate": {
       "types": "./types/src/omc/migration/omcMigrate.d.ts",
-      "import": "./src/omc/migration/omcMigrate.mjs"
+      "import": "./src/omc/migration/omcMigrate.js"
     },
     "./graphql": {
       "types": "./types/src/omc/omcGraphQl/index.d.ts",
-      "import": "./src/omc/omcGraphQl/index.mjs"
+      "import": "./src/omc/omcGraphQl/index.js"
     },
     "./identifier": {
       "types": "./types/src/omc/omcIdentifier.d.ts",
-      "import": "./src/omc/omcIdentifier.mjs"
+      "import": "./src/omc/omcIdentifier.js"
     },
     "./transform": {
       "types": "./types/src/omc/omcTransform.d.ts",
-      "import": "./src/omc/omcTransform.mjs"
+      "import": "./src/omc/omcTransform.js"
     },
     "./validate": {
       "types": "./types/src/omc/validation/omcValidate.d.ts",
-      "import": "./src/omc/validation/omcValidate.mjs"
+      "import": "./src/omc/validation/omcValidate.js"
     },
     "./sdk": {
       "types": "./types/src/omcModel/omcSDK.d.ts",
-      "import": "./src/omcModel/omcSDK.mjs"
+      "import": "./src/omcModel/omcSDK.js"
     },
     "./config": {
       "types": "./types/src/config/index.d.ts",
-      "import": "./src/config/index.mjs"
+      "import": "./src/config/index.js"
     },
     "./entity-model": {
       "types": "./types/src/omcModel/entityModel.d.ts",
-      "import": "./src/omcModel/entityModel.mjs"
+      "import": "./src/omcModel/entityModel.js"
     }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.mjs -d docs/jsdoc --verbose",
-    "build:types": "tsc && node postbuild-types.mjs"
+    "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc --verbose",
+    "build:types": "tsc && node postbuild-types.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",

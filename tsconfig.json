@@ -12,6 +12,6 @@
     "skipLibCheck": true,
     "strict": false
   },
-  "include": ["globals.d.ts", "index.mjs", "types.mjs", "src/**/*.mjs"],
+  "include": ["globals.d.ts", "index.js", "types.js", "src/**/*.js"],
   "exclude": ["node_modules", "docs"]
 }
