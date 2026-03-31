@@ -4,6 +4,7 @@
     "checkJs": false,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "declarationMap":  true,
     "declarationDir": "./types",
     "module": "es2022",
     "moduleResolution": "bundler",

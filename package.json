@@ -5,11 +5,11 @@
   "author": "DML",
   "license": "ISC",
   "main": "./index.js",
-  "types": "./types/index.d.ts",
+  "types": "./index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./types/index.d.ts",
+      "types": "./index.d.ts",
       "import": "./index.js",
       "default": "./index.js"
     },
