@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/omc/migration/omcMigrate.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.omcCompare">omcCompare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeCreate">edgeCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeInverse">edgeInverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeValid">edgeValid</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgesAllowed">edgesAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.intrinsicAllowed">intrinsicAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~chkIdentifier">chkIdentifier</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.omcFind">omcFind</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMerge.html">omcMerge</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeEntity">mergeEntity</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeIdentifier">mergeIdentifier</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeNonDestructive">mergeNonDestructive</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~omcMigrate">omcMigrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.omcValidate">omcValidate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/omc/migration/omcMigrate.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Migrate Omc-Json across versions of the schema
+ *
+ * @module omcMigrate
+ */
+
+import v26 from './v2-0tov2-6.mjs'; // Migrate from v2.0 &amp; v2.1 to 2.6
+import v28 from './v2-6tov2-8.mjs'; // Migrate from v2.6 to 2.8
+import v30 from './v2-8tov3-0.mjs'; // Migrate from 2.8 to 3.0
+
+const schemaMigration = {
+    'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v2.8': v28, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v3.0': v30, // Migrate from 2.8 to 3.0
+};
+
+const schemaOrder = Object.keys(schemaMigration);
+
+const latestSchemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
+
+// Migrate a single instance
+function migrateInstance(omc, toSchemaVersion) {
+    const {
+        entityType,
+        schemaVersion,
+    } = omc;
+
+    if (!entityType || !schemaVersion) return { ...omc }; // Cannot migrate without these
+
+    const migrationPattern = schemaMigration[toSchemaVersion]; // Use pattern for current schema version
+
+    if (!migrationPattern) {
+        console.log(`No migration pattern found for schema version ${toSchemaVersion}`);
+        return { ...omc };
+    }
+
+    if (schemaOrder.indexOf(toSchemaVersion) &lt; schemaOrder.indexOf(schemaVersion)) {
+        console.log(`Entity uses schemaVersion ${schemaVersion}, cannot be downgraded to ${toSchemaVersion}`);
+        return { ...omc };
+    }
+
+    if (toSchemaVersion === schemaVersion) return omc; // Already at the target schema version
+    return migrationPattern[entityType](omc);
+}
+
+/*
+ Recurse down a nested entity migrating all instances to the latest schema version
+ */
+function migrateNested(ent, toSchemaVersion) {
+    if (!Array.isArray(ent) &amp;&amp; (typeof ent !== 'object' || ent === null)) {
+        return ent; // Down to a primitive, null or undefined, so we are at a leaf
+    }
+    const refEnt = migrateInstance(ent, toSchemaVersion); // Migrate the entity if there is a migration path
+
+    // If this is an array, then we parse each element (used in Context)
+    if (Array.isArray(refEnt)) return refEnt.map((e1) => migrateNested(e1));
+
+    const refKeys = Object.keys(refEnt);
+    refKeys.forEach((refKey) => {
+        if (ent[refKey] !== null) {
+            refEnt[refKey] = Array.isArray(refEnt[refKey])
+                ? refEnt[refKey].flatMap((e1) => migrateNested(e1))
+                : migrateNested(refEnt[refKey]);
+        }
+    });
+    return refEnt;
+}
+
+// Migrate a set of entities
+const migrateSet = ((omc, toSchemaVersion) => omc.map((ent) => migrateNested(ent, toSchemaVersion)));
+
+/**
+ * Migrate either an array of OMC entities a single OMC entity or an object of OMC entities
+ *
+ * @function omcMigrate
+ * @param {OmcJson} omc - The OMC entity or entities to migrate
+ * @param {string} [toSchemaVersion] - Migrate up to this schema version (defaults to latest)
+ * @returns {OmcJson}
+ */
+export default function omcMigrate(omc, toSchemaVersion = latestSchemaVersion) {
+    if (Array.isArray(omc)) return migrateSet(omc, toSchemaVersion); // Array of instances
+    if (Object.hasOwn(omc, 'entityType')) return migrateNested(omc, toSchemaVersion); // Single instance
+    return Object.keys(omc).reduce((obj, entKey) => (
+        { ...obj, ...{ [entKey]: migrateSet(omc[entKey], toSchemaVersion) } }), {});
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Fri Mar 27 2026 10:26:22 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

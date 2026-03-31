@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/omc/validation/omcValidate.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.omcCompare">omcCompare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeCreate">edgeCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeInverse">edgeInverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeValid">edgeValid</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgesAllowed">edgesAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.intrinsicAllowed">intrinsicAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~chkIdentifier">chkIdentifier</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.omcFind">omcFind</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMerge.html">omcMerge</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeEntity">mergeEntity</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeIdentifier">mergeIdentifier</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeNonDestructive">mergeNonDestructive</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~omcMigrate">omcMigrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.omcValidate">omcValidate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/omc/validation/omcValidate.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Validate OMC JSON against the schema
+ *
+ * @module omcValidate
+ */
+
+/**
+ * @typedef {Object} ValidationOptions
+ * @property {boolean} [atomic=true] - When true, all entities must pass or result is false
+ * @property {string | null} [schemaVersion=null] - The schema version to validate against if not the native schema of the entity
+ */
+
+/**
+ * @typedef {Object} ValidationResult
+ * @property {boolean} valid - Whether this entity passed validation or not
+ * @property {Object | null} error - The error report from the validator or null if no error
+ * @property {OmcEntity} omcEntity - The entity that was being validated
+ */
+
+import Ajv2019 from 'ajv/dist/2019.js';
+
+import schemav21 from './schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
+import schemav26 from './schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
+import schemav28 from './schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
+import schemav30 from './schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
+
+const schemaValidators = {
+    'https://movielabs.com/omc/json/schema/v2.0': schemav21,
+    'https://movielabs.com/omc/json/schema/v2.1': schemav21, // 2.1 is bug fix for 2.0
+    'https://movielabs.com/omc/json/schema/v2.6': schemav26,
+    'https://movielabs.com/omc/json/schema/v2.8': schemav28,
+    'https://movielabs.com/omc/json/schema/v3.0': schemav30,
+};
+
+const schemaValidator = Object.keys(schemaValidators)
+    .reduce((obj, versionName) => {
+        const ajv = new Ajv2019({ allowUnionTypes: true, strict: 'log' })
+            .addKeyword('$anchor')
+            .addKeyword('controlledValues') // Annotation for controlled values
+            .compile(schemaValidators[versionName]);
+        return {
+            ...obj,
+            [versionName]: ajv,
+        };
+    }, {});
+
+// Check all the entities in an OMC array are valid, or return false
+function atomicResult(results) {
+    const validationResults = Array.isArray(results)
+        ? results.map((res) => res.valid)
+        : Object.values(results).flat().map((res) => res.valid);
+    return validationResults.every((b) => b);
+}
+
+function checkSingleEntity(entity, options) {
+    const { schemaVersion } = options; // Has a specific schema version been specified?
+    const testSchemaVersion = schemaVersion || entity.schemaVersion;
+
+    // Ensure the schema version is supported
+    if (!Object.hasOwn(schemaValidator, testSchemaVersion)) {
+        return {
+            valid: false,
+            error: `Invalid schema version: ${testSchemaVersion}`,
+            omcEntity: entity,
+        };
+    }
+
+    // Validate the entity against the schema
+    const valid = schemaValidator[testSchemaVersion](entity); // This entity has a valid schema version
+
+    return {
+        valid,
+        error: valid ? null : schemaValidator[testSchemaVersion].errors,
+        omcEntity: entity,
+    };
+}
+
+/**
+ * Given an array of OMC entities, validate each one against the schema
+ * @ignore
+ * @param {OmcJson} omc - A single OMC entity
+ * @param {ValidationOptions} options - Additional options
+ */
+function checkOmcArray(omc, options) {
+    const { schemaVersion } = options; // Has a specific schema version been specified?
+
+    return omc.map((entity) => {
+        const testSchemaVersion = schemaVersion || entity.schemaVersion;
+        // Ensure the schema version is supported
+        if (!Object.hasOwn(schemaValidator, testSchemaVersion)) {
+            return {
+                valid: false,
+                error: `Invalid schema version: ${testSchemaVersion}`,
+                omcEntity: entity,
+            };
+        }
+
+        // Validate the entity against the schema
+        const valid = schemaValidator[testSchemaVersion]([entity]); // This entity has a valid schema version
+
+        return {
+            valid,
+            error: valid ? null : schemaValidator[testSchemaVersion].errors,
+            omcEntity: entity,
+        };
+    });
+}
+
+/**
+ * @ignore
+ * @param {OmcJson} omc - OMC in object format
+ * @param {ValidationOptions} options - Additional options
+ * @returns {{}}
+ */
+function checkOmcObject(omc, options) {
+    const keys = Object.keys(omc);
+
+    if (keys.find((k) => k === 'schemaVersion')) {
+        return checkSingleEntity(omc, options);
+    }
+
+    return keys.reduce((obj, entityType) => {
+        const entityTypeResults = checkOmcArray(omc[entityType], options); // For each entity type, validate the entities
+        return {
+            ...obj,
+            [entityType]: entityTypeResults,
+        };
+    }, {});
+}
+
+/**
+ * Validates OmcJson against the OMC schema
+ *
+ * - Each entity in an array are validated separately
+ * - Nested entities are validated in a single validation, mixing different schema versions in nested entities could cause validation errors
+ * - Setting options.atomic to true, will evaluate all entities after validation and only respond true if all entities pass
+ * - Setting options.schemaVersion to a specific schema, regardless of what the entity was encoded in, will validate against that version
+ *
+ * @function omcValidate
+ * @static
+ * @overload
+ * @param {OmcJson} omc - Valid JSON to be validated
+ * @param {ValidationOptions &amp; { atomic: false }} options
+ * @returns {ValidationResult[]}
+ */
+/**
+ * @overload
+ * @param {OmcJson} omc - Valid JSON to be validated
+ * @param {ValidationOptions} [options]
+ * @returns {boolean}
+ */
+/**
+ * @param {OmcJson} omc
+ * @param {ValidationOptions} [options]
+ */
+export default function omcValidate(omc, options = {}) {
+    const defaultOptions = {
+        atomic: true, // The entire update must be valid or will be fail
+        schemaVersion: null, // Uses the schemaVersion of from the entity
+        ...options,
+    };
+
+    const testResult = Array.isArray(omc)
+        ? checkOmcArray(omc, defaultOptions)
+        : checkOmcObject(omc, defaultOptions);
+
+    return defaultOptions.atomic
+        ? atomicResult(testResult) // Returns a single true/false based on whether all entities pass validation
+        : testResult; // Returns an array with results for each entity being checked
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Fri Mar 27 2026 10:26:22 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

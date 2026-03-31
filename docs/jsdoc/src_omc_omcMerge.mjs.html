@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/omc/omcMerge.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.omcCompare">omcCompare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeCreate">edgeCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeInverse">edgeInverse</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgeValid">edgeValid</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgesAllowed">edgesAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.intrinsicAllowed">intrinsicAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~chkIdentifier">chkIdentifier</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#.omcFind">omcFind</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMerge.html">omcMerge</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeEntity">mergeEntity</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeIdentifier">mergeIdentifier</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#.mergeNonDestructive">mergeNonDestructive</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~omcMigrate">omcMigrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.omcValidate">omcValidate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/omc/omcMerge.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module omcMerge
+ */
+
+import { isCapitalized, isPlainObject } from '../mlHelpers/util.mjs';
+
+import { idKey } from './omcIdentifier.mjs';
+
+const idKeyMapping = ((identifier) => identifier.reduce((obj, id) => ({
+    ...obj,
+    [idKey(id)]: id,
+}), {}));
+
+/**
+ * @memberof module:omcMerge
+ * @function mergeNonDestructive
+ * @static
+ * @param obj1
+ * @param obj2
+ * @returns {*}
+ */
+export function mergeNonDestructive(obj1, obj2) {
+    if (!obj1) return obj2;
+    if (!obj2) return obj1;
+    const result = { ...obj1 };
+    // Iterate through obj2's properties
+    for (const key in obj2) {
+        if (Object.hasOwn(obj2, key)) {
+            // If obj2's value is null, keep obj1's value (if it exists)
+            if (obj2[key] === null) {
+                // Only keep obj1's value if it exists, otherwise set to null
+                result[key] = key in obj1 ? obj1[key] : null;
+            } else {
+                // Otherwise, obj2's non-null value takes precedence
+                result[key] = obj2[key];
+            }
+        }
+    }
+    return result;
+}
+
+/**
+ * Takes in two sets of identifiers and merges them into a single set in a non-destructive manner
+ *
+ * - The two sets of array can be unordered both in the entities they refer to and for the
+ * list of identifiers that are used within each Omc Identifier
+ *
+ * - The two sets are paired up based on having the same scope/value pair, where one set contains
+ * fewer OMC identifiers the result will contain all unique scope/value pairings for a given entity
+ *
+ * - When merging identifiers, properties are preserved if they are missing or null in the other identifier,
+ * i.e. the url property will survive even when missing on one of the pairs.
+ *
+ * @memberof module:omcMerge
+ * @function mergeIdentifier
+ * @static
+ * @param {OmcIdentifier} omcId1
+ * @param {OmcIdentifier} omcId2
+ * @returns {Array&lt;OmcIdentifier>}
+ */
+export function mergeIdentifier(omcId1, omcId2) {
+    const id1 = omcId1 ? omcId1 : []; // Convert null to empty array
+    const id2 = omcId2 ? omcId2 : [];
+
+    const blendedSet1 = id1.map((omcIdentifier) => idKeyMapping(omcIdentifier.identifier));
+    const blendedSet2 = id2.map((omcIdentifier) => idKeyMapping(omcIdentifier.identifier));
+
+    const matchedSet = blendedSet1.map((idSet) => {
+        const matchKeys = Object.keys(idSet);
+        const matchingId = matchKeys.find((key) => blendedSet2.find((id) => Object.keys(id).includes(key)));
+        if (!matchingId) return [idSet, null]; // Nothing matching in the other set
+        const matchingIdentifier = blendedSet2.find((id) => Object.keys(id).includes(matchingId));
+        const matchingIndex = blendedSet2.findIndex((id) => Object.keys(id).includes(matchingId));
+        blendedSet2.splice(matchingIndex, 1);
+        return [idSet, matchingIdentifier];
+    });
+
+    const allMatchedSet = [
+        ...matchedSet,
+        ...(blendedSet2.map((idSet) => [idSet, null])),
+    ];
+
+    const finalIds = allMatchedSet.reduce((arr, [idSet1, idSet2]) => {
+        let mergedSet;
+        if (!idSet1) mergedSet = idSet2;
+        if (!idSet2) mergedSet = idSet1;
+        if (idSet1 &amp;&amp; idSet2) {
+            const idKeySet = [...(new Set(Object.keys(idSet1), Object.keys(idSet2)))];
+            mergedSet = idKeySet.reduce((obj, idKeyVal) => ({
+                ...obj,
+                [idKeyVal]: mergeNonDestructive(idSet1[idKeyVal] || null, idSet2[idKeyVal] || null),
+            }), {});
+        }
+
+        return [
+            ...arr,
+            { identifier: [...Object.values(mergedSet)] },
+        ];
+    }, []);
+    return finalIds;
+}
+
+/**
+ * @memberof module:omcMerge
+ * @function mergeEntity
+ * @static
+ * @param {OmcEntity} omc1
+ * @param {OmcEntity} omc2
+ * @returns {OmcEntity}
+ */
+export function mergeEntity(omc1, omc2) {
+    const result = { ...omc1, ...omc2 }; // Combine objects so properties from omc2 are merged in // ToDo: Use deep
+    for (const key in omc2) {
+        if (key === 'identifier') {
+            result.identifier = mergeIdentifier(omc1.identifier, omc2.identifier);
+        }
+        if (isCapitalized(key)) {
+            result[key] = Array.isArray(omc2[key]) ? mergeIdentifier(omc1[key], omc2[key]) : omc2[key];
+        } else if (isPlainObject(omc2[key])) {
+            result[key] = result[key] ? mergeEntity(result[key], omc2[key]) : omc2[key];
+        } else {
+            result[key] = Object.hasOwn(omc2, key) ? omc2[key] : result[key]; // The 2nd entity will prevail in conflicts if there is a value set
+        }
+    }
+    return result;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Fri Mar 27 2026 10:26:22 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
