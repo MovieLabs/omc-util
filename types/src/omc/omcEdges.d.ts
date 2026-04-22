@@ -71,7 +71,6 @@ export function removeEdge(omcEntity: OmcEntity, identifier: OmcEntity | OmcIden
  * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
  * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
  */
-export function intrinsicAllowed(entityType: OmcEntityType): Array<OmcEntityType>;
 /**
  * Returns an array of the entity types this entity can have an edge to as per the ontology
  * @function edgesAllowed
@@ -79,7 +78,6 @@ export function intrinsicAllowed(entityType: OmcEntityType): Array<OmcEntityType
  * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
  * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
  */
-export function edgesAllowed(entityType: OmcEntityType): Array<OmcEntityType>;
 /**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
  * @param {OmcEntity} fromEntity
@@ -91,7 +89,7 @@ export function edgeValid(fromEntity: OmcEntity, toEntity: OmcEntity, edgeType?:
 /**
  * Creates a new edge from one entity to another, based on the allowed edges for the entity
  * - Setting the 'inverse' property will also create the inverse edge in the toEntity if applicable
- * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific one to be specified
+ * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific property to be targeted
  *
  * @function edgeCreate
  * @static
@@ -112,3 +110,4 @@ export function edgeCreate({ fromEntity, toEntity, forEntity, intrinsicEdge, inv
     edgeType: "edges" | "intrinsic";
 }): any;
 export function edgeInverse(omcContext: any): any[];
+//# sourceMappingURL=omcEdges.d.ts.map

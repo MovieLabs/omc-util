@@ -25,3 +25,4 @@ export default omcFind;
 declare function omcFind(arr: Array<OmcEntity>, template: any, options?: {
     normalize?: boolean;
 }): Array<OmcEntity>;
+//# sourceMappingURL=omcFind.d.ts.map

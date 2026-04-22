@@ -52,3 +52,4 @@ export type EntityModelMethods = {
      */
     labelSuffix: string;
 };
+//# sourceMappingURL=entityModel.d.ts.map

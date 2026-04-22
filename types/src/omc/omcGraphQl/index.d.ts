@@ -12,3 +12,4 @@ import { entityQueries } from './queryUtil.js';
 import { queryVariables } from './queryUtil.js';
 import queryBuilder from './queryBuilder.js';
 export { stripGraphQl, entityQueries, queryVariables, queryBuilder };
+//# sourceMappingURL=index.d.ts.map

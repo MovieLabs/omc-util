@@ -33,3 +33,4 @@ declare namespace _default {
     function Composition(omc: any): any;
 }
 export default _default;
+//# sourceMappingURL=v2-6tov2-8.d.ts.map

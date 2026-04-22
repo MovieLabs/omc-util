@@ -18,3 +18,4 @@ export namespace inverseEdges {
     export let hasProduct: string;
     export let productOf: string;
 }
+//# sourceMappingURL=inverseEdges.d.ts.map

@@ -174,3 +174,4 @@ export type OmcStore = {
      */
     identifier: any;
 };
+//# sourceMappingURL=types.d.ts.map

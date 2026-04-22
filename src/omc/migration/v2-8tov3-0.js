@@ -4,29 +4,82 @@
  * @ignore
  */
 
+import { deepMerge } from '../omcMerge.js';
+
 import v28 from './v2-6tov2-8.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
 
+/**
+ * Hoist edges carried on resolved Context entities onto the entity itself.
+ *
+ * In v2.x edges for an entity were carried on a Context (e.g. features, has,
+ * for). v3.x moves those edges directly onto the entity's `edges` property.
+ * This helper expects `omc.Context` to already contain fully-resolved Context
+ * entities (the client inlines them before calling migrate). Any item without
+ * an entityType is treated as an unresolved reference and skipped.
+ *
+ * Non-edge Context metadata (schemaVersion, entityType, identifier, name,
+ * description, contextType, contextCategory, ForEntity) is stripped; whatever
+ * remains on the Context is, by definition, an edge. When multiple Contexts
+ * contribute edges they are deep-merged into a single `edges` object, and
+ * merged on top of any pre-existing `edges` property on the entity.
+ *
+ * @param {OmcEntity} omc
+ * @returns {OmcEntity}
+ */
+function setEdgesFromContext(omc) {
+    if (!omc || !Array.isArray(omc.Context) || omc.Context.length === 0) return omc;
+
+    const edgeFragments = omc.Context
+        .filter((ctx) => ctx && ctx.entityType === 'Context') // Skip unresolved refs
+        .map((ctx) => {
+            const {
+                schemaVersion: _sv,
+                entityType: _et,
+                identifier: _id,
+                name: _name,
+                description: _desc,
+                contextType: _ctxType,
+                contextCategory: _ctxCat,
+                ForEntity: _for,
+                ...edges
+            } = ctx;
+            return edges;
+        });
+
+    if (edgeFragments.length === 0) return { ...omc, Context: null };
+
+    const merged = edgeFragments.reduce((acc, frag) => deepMerge(acc, frag), {});
+    if (Object.keys(merged).length === 0) return { ...omc, Context: null };
+
+    const existing = omc.edges && typeof omc.edges === 'object' ? omc.edges : {};
+    return {
+        ...omc,
+        edges: deepMerge(existing, merged),
+        Context: null,
+    };
+}
+
 export default {
     Asset: (omc) => ({
-        ...v28.Asset(omc),
+        ...setEdgesFromContext(v28.Asset(omc)),
         schemaVersion,
     }),
     AssetSC: (omc) => ({
-        ...v28.AssetSC(omc),
+        ...setEdgesFromContext(v28.AssetSC(omc)),
         schemaVersion,
     }),
     Infrastructure: (omc) => ({
-        ...v28.Infrastructure(omc),
+        ...setEdgesFromContext(v28.Infrastructure(omc)),
         schemaVersion,
     }),
     InfrastructureSC: (omc) => ({
-        ...v28.InfrastructureSC(omc),
+        ...setEdgesFromContext(v28.InfrastructureSC(omc)),
         schemaVersion,
     }),
     Character: (omc) => ({
-        ...v28.Character(omc),
+        ...setEdgesFromContext(v28.Character(omc)),
         schemaVersion,
     }),
     Context: (omc) => ({
@@ -34,104 +87,104 @@ export default {
         schemaVersion,
     }),
     CreativeWork: (omc) => ({
-        ...v28.CreativeWork(omc),
+        ...setEdgesFromContext(v28.CreativeWork(omc)),
         schemaVersion,
     }),
     Depiction: (omc) => ({
-        ...v28.Depiction(omc),
+        ...setEdgesFromContext(v28.Depiction(omc)),
         schemaVersion,
     }),
     Effect: (omc) => ({
-        ...v28.Effect(omc),
+        ...setEdgesFromContext(v28.Effect(omc)),
         schemaVersion,
     }),
     NarrativeAudio: (omc) => ({
-        ...v28.NarrativeAudio(omc),
+        ...setEdgesFromContext(v28.NarrativeAudio(omc)),
         schemaVersion,
     }),
     NarrativeAction: (omc) => ({
-        ...v28.NarrativeAction(omc),
+        ...setEdgesFromContext(v28.NarrativeAction(omc)),
         schemaVersion,
     }),
     NarrativeLocation: (omc) => ({
-        ...v28.NarrativeLocation(omc),
+        ...setEdgesFromContext(v28.NarrativeLocation(omc)),
         schemaVersion,
     }),
     NarrativeObject: (omc) => ({
-        ...v28.NarrativeObject(omc),
+        ...setEdgesFromContext(v28.NarrativeObject(omc)),
         schemaVersion,
     }),
     NarrativeScene: (omc) => ({
-        ...v28.NarrativeScene(omc),
+        ...setEdgesFromContext(v28.NarrativeScene(omc)),
         schemaVersion,
     }),
     NarrativeStyling: (omc) => ({
-        ...v28.NarrativeStyling(omc),
+        ...setEdgesFromContext(v28.NarrativeStyling(omc)),
         schemaVersion,
     }),
     NarrativeWardrobe: (omc) => ({
-        ...v28.NarrativeWardrobe(omc),
+        ...setEdgesFromContext(v28.NarrativeWardrobe(omc)),
         schemaVersion,
     }),
     ProductionLocation: (omc) => ({
-        ...v28.NarrativeLocation(omc),
+        ...setEdgesFromContext(v28.NarrativeLocation(omc)),
         schemaVersion,
     }),
     ProductionScene: (omc) => ({
-        ...v28.ProductionScene(omc),
+        ...setEdgesFromContext(v28.ProductionScene(omc)),
         schemaVersion,
     }),
     Sequence: (omc) => (omc), // Sequence is fully deprecated and will fail validation
     Slate: (omc) => ({
-        ...v28.Slate(omc),
+        ...setEdgesFromContext(v28.Slate(omc)),
         schemaVersion,
     }),
     SpecialAction: (omc) => ({
-        ...v28.SpecialAction(omc),
+        ...setEdgesFromContext(v28.SpecialAction(omc)),
         schemaVersion,
     }),
     Participant: (omc) => ({
-        ...v28.Participant(omc),
+        ...setEdgesFromContext(v28.Participant(omc)),
         schemaVersion,
     }),
     Organization: (omc) => ({
-        ...v28.Organization(omc),
+        ...setEdgesFromContext(v28.Organization(omc)),
         schemaVersion,
     }),
     Department: (omc) => ({
-        ...v28.Department(omc),
+        ...setEdgesFromContext(v28.Department(omc)),
         schemaVersion,
     }),
     Person: (omc) => ({
-        ...v28.Person(omc),
+        ...setEdgesFromContext(v28.Person(omc)),
         schemaVersion,
     }),
     Service: (omc) => ({
-        ...v28.Service(omc),
+        ...setEdgesFromContext(v28.Service(omc)),
         schemaVersion,
     }),
     Role: (omc) => ({
-        ...v28.Role(omc),
+        ...setEdgesFromContext(v28.Role(omc)),
         schemaVersion,
     }),
     Task: (omc) => ({
-        ...v28.Task(omc),
+        ...setEdgesFromContext(v28.Task(omc)),
         schemaVersion,
     }),
     TaskSC: (omc) => ({
-        ...v28.TaskSC(omc),
+        ...setEdgesFromContext(v28.TaskSC(omc)),
         schemaVersion,
     }),
     Location: (omc) => ({
-        ...v28.Location(omc),
+        ...setEdgesFromContext(v28.Location(omc)),
         schemaVersion,
     }),
     Collection: (omc) => ({
-        ...v28.Collection(omc),
+        ...setEdgesFromContext(v28.Collection(omc)),
         schemaVersion,
     }),
     Composition: (omc) => ({
-        ...v28.Composition(omc),
+        ...setEdgesFromContext(v28.Composition(omc)),
         schemaVersion,
     }),
 };

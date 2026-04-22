@@ -1,7 +1,7 @@
 /**
  * A collection of utility functions commonly used across projects
  *
- * @module mlHelpers
+ * @module util
  */
 
 /**
@@ -44,19 +44,6 @@ export const convertNum = (value) => +value.replace(/,/g, '');
  */
 
 export const makeArray = (value) => (Array.isArray(value) ? value : [value]);
-
-/**
- * Safely check whether a property exists as one of its own properties
- *
- * @function hasProp
- * @param {object} obj - The object on which to check the property
- * @param {string} prop - The property name to be checked
- * @returns {boolean} True if the property is its own property, otherwise false
- */
-
-export const hasProp = function hasProp(obj, prop) {
-    return Object.prototype.hasOwnProperty.call(obj, prop);
-};
 
 /**
  * Test if a value is a Javascript plain Object

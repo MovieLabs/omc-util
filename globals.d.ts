@@ -12,6 +12,7 @@
 // --- Core OMC types (from types.mjs) ---
 
 type OmcIdentifier = {
+    combinedForm: string;
     identifierScope: string;
     identifierValue: string;
     url?: string;

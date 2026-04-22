@@ -61,3 +61,4 @@ export type DiffResult = {
         };
     } | null);
 };
+//# sourceMappingURL=omcCompare.d.ts.map

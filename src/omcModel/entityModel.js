@@ -22,7 +22,7 @@
  * @property {string} labelSuffix - Entity label with suffix from generalConfig
  */
 
-import { generalConfig } from '../config/index.js';
+import { generalConfig } from '../templates/index.js';
 import {
     getBaseKeys,
     getBaseProps,

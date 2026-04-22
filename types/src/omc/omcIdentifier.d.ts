@@ -64,9 +64,21 @@ export function idCreate({ identifierScope, prefix, entityType }: {
  * @example
  * idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
  * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
- *
  */
 export function idKey(identifier: OmcIdentifier): string;
+/**
+ * Returns the combinedForm of an identifier which is the conjunction of its scope and value, this should be globally unique
+ *
+ * @function idCombinedForm
+ * @static
+ * @param {OmcIdentifier} identifier - An OMC identifier
+ * @returns {string} A unique key representing the combined form of the identifier
+ *
+ * @example
+ * idCombinedForm({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
+ * // returns 'movielabs.comchr-Yhq5EZz4zdQxgOt'
+ */
+export function idCombinedForm(identifier: OmcIdentifier): string;
 /**
  * Test if an identifier from one entity already exists within a set of other entities
  *
@@ -118,3 +130,4 @@ export function hasMatching(targetIdentifier: OmcEntity | Array<OmcIdentifier>, 
  * @returns {OmcEntity|null} The matching entity or null
  */
 export function find(omc: Array<OmcEntity>, identifier: OmcIdentifier | Array<OmcIdentifier>): OmcEntity | null;
+//# sourceMappingURL=omcIdentifier.d.ts.map

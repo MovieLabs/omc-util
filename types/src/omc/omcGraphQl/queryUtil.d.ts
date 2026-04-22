@@ -46,3 +46,4 @@ export function entityQueries(): Array<{
     variables: Array<typeof queryVariables>;
 }>;
 export function createEntitySchema(entityType: any): any;
+//# sourceMappingURL=queryUtil.d.ts.map

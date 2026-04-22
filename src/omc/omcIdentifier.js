@@ -6,7 +6,7 @@
 
 import { customAlphabet } from 'nanoid';
 
-import { generalConfig } from '../config/index.js';
+import { generalConfig } from '../templates/index.js';
 import { makeArray } from '../mlHelpers/util.js';
 
 const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
@@ -87,10 +87,25 @@ export function idCreate({ identifierScope, prefix = null, entityType = null }) 
  * @example
  * idKey({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
  * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
- *
  */
 export function idKey(identifier) {
     return `${identifier.identifierScope}:${identifier.identifierValue}`;
+}
+
+/**
+ * Returns the combinedForm of an identifier which is the conjunction of its scope and value, this should be globally unique
+ *
+ * @function idCombinedForm
+ * @static
+ * @param {OmcIdentifier} identifier - An OMC identifier
+ * @returns {string} A unique key representing the combined form of the identifier
+ *
+ * @example
+ * idCombinedForm({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
+ * // returns 'movielabs.comchr-Yhq5EZz4zdQxgOt'
+ */
+export function idCombinedForm(identifier) {
+    return identifier?.combinedForm || `${identifier.identifierScope}${identifier.identifierValue}`;
 }
 
 /**

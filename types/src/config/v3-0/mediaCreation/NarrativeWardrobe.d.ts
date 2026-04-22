@@ -63,3 +63,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=NarrativeWardrobe.d.ts.map

@@ -28,3 +28,4 @@ export type OmcGeneralConfig = {
      */
     entityLabelSuffix: Function;
 };
+//# sourceMappingURL=generalConfig.d.ts.map

@@ -37,3 +37,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=Organization.d.ts.map

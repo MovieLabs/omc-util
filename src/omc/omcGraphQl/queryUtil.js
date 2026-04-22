@@ -3,7 +3,7 @@
  *
  */
 
-import { graphQlTemplate as entityTemplate } from '../../config/v2-8/index.js';
+import { graphQlTemplate as entityTemplate } from '../../templates/v2-8/index.js';
 import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js';
 
 // Create an entity object for the given entityType including the base entity properties

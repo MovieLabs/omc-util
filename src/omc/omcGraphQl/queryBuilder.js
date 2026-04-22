@@ -4,7 +4,7 @@
  *
  */
 
-import { graphQlTemplate as entityTemplate } from '../../config/index.js';
+import { graphQlTemplate as entityTemplate } from '../../templates/index.js';
 import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js';
 
 import { graphqlSnippets } from './graphQlSnippets.js';

@@ -35,3 +35,4 @@ export function toArray(omc: OmcJson): OmcJson;
  * @returns {OmcJson} - Omc-Json with all nested entities replaced with a reference and the entities at the top level of the array
  */
 export function unEmbed(omc: OmcJson): OmcJson;
+//# sourceMappingURL=omcTransform.d.ts.map

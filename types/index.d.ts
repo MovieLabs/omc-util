@@ -9,5 +9,6 @@ export * as omcMerge from "./src/omc/omcMerge.js";
 export * as omcTransform from "./src/omc/omcTransform.js";
 export { default as omcValidate } from "./src/omc/validation/omcValidate.js";
 export { default as omcSDK } from "./src/omcModel/omcSDK.js";
-export * from "./src/config/index.js";
+export * from "./src/templates/index.js";
 export * from "./src/omcModel/entityModel.js";
+//# sourceMappingURL=index.d.ts.map

@@ -12,3 +12,4 @@ export default function queryBuilder({ entityType, template, variables, }: {
     template: QueryTemplate;
     variables: QueryVariable;
 }): string;
+//# sourceMappingURL=queryBuilder.d.ts.map

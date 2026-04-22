@@ -70,3 +70,4 @@ export namespace completeName {
     let altName_1: string[];
     export { altName_1 as altName };
 }
+//# sourceMappingURL=utility.d.ts.map

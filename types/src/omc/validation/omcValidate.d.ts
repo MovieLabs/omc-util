@@ -47,3 +47,4 @@ export type ValidationResult = {
      */
     omcEntity: OmcEntity;
 };
+//# sourceMappingURL=omcValidate.d.ts.map

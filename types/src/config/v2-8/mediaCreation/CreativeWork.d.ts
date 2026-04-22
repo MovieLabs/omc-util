@@ -68,3 +68,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=CreativeWork.d.ts.map

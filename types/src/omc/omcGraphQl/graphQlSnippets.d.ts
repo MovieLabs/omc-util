@@ -19,3 +19,4 @@ declare const identifierFragment: "\n    fragment idFields on Identifier {\n    
 declare const baseEntityFragment: "\n    fragment baseEntity on baseEntity {\n        schemaVersion\n        entityType\n        identifier {\n            identifierScope\n            identifierValue\n            url\n        }\n        name\n        description\n        annotation {\n            author\n            title\n            text\n        }\n        tag {\n            domain\n            value\n        }\n        customData\n    }\n";
 declare const entityQuery: "\n    query ($project: String) {\n    _get_(project: $project) {\n    _query_\n    }\n    }\n";
 export {};
+//# sourceMappingURL=graphQlSnippets.d.ts.map

@@ -87,3 +87,4 @@ declare namespace _default {
     }
 }
 export default _default;
+//# sourceMappingURL=Participant.d.ts.map

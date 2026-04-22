@@ -1143,6 +1143,25 @@
                     "string",
                     "null"
                   ]
+                },
+                "fileNameCompound": {
+                  "type": "object",
+                  "properties": {
+                    "fileNamePattern": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "fileNameRegex": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "title": "File Name Compound",
+                  "description": "Used to describe a compound asset, a set of essence files can be treated as a single unit and collectivly identified using a pattern or regex on the filename"
                 }
               },
               "additionalProperties": false,
@@ -4325,6 +4344,20 @@
                 {"$ref": "#/$defs/Asset/properties/AssetSC"}
               ]
             },
+            "Product": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"}
+                ]
+              },
+              "title": "Product",
+              "description": "The product of the Composition, an Asset or Assets"
+            },
             "Depiction": {
               "type": [
                 "array",
@@ -4438,10 +4471,11 @@
           "oneOf": [
             {"type": "null"},
             {
-              "type": "object",
-              "maxProperties": 0,
+              "type": ["object"],
               "deprecated": true,
-              "description": "Deprecated in favor of an array objects, with explicit provenance to allow for disambiguation."
+              "$comment": "Deprecated in favor of an array objects, with explicit provenance to allow for disambiguation.",
+              "properties": {},
+              "additionalProperties": true
             },
             {
               "type": "array",

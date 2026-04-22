@@ -30,6 +30,6 @@ export function emptyString(value: string): (string | null);
 export function capitalize(value: string): (string | null);
 export function convertNum(value: string): number;
 export function makeArray(value: any): any[];
-export function hasProp(obj: object, prop: string): boolean;
 export function isPlainObject(value: any): boolean;
 export function isCapitalized(value: any): boolean;
+//# sourceMappingURL=util.d.ts.map

@@ -36,3 +36,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=TaskSC.d.ts.map

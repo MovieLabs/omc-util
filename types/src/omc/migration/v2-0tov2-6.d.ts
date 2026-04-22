@@ -31,3 +31,4 @@ declare namespace _default {
     function Location(omc: any): any;
 }
 export default _default;
+//# sourceMappingURL=v2-0tov2-6.d.ts.map

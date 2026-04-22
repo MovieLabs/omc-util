@@ -69,3 +69,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=Infrastructure.d.ts.map

@@ -80,3 +80,4 @@ declare namespace _default {
     let idPrefix: string;
 }
 export default _default;
+//# sourceMappingURL=NarrativeScene.d.ts.map

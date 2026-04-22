@@ -7,3 +7,4 @@
  * @returns {OmcJson}
  */
 export default function omcMigrate(omc: OmcJson, toSchemaVersion?: string): OmcJson;
+//# sourceMappingURL=omcMigrate.d.ts.map

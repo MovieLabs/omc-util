@@ -14,3 +14,4 @@ declare namespace _default {
     let edges: {};
 }
 export default _default;
+//# sourceMappingURL=ParticipantSC.d.ts.map
