@@ -12,7 +12,6 @@
  * @param {string} value - The string to be checked and trimmed
  * @returns {(string|null)} A valid non-empty string or null
  */
-
 export const emptyString = (value) => (typeof value !== 'string' || value.trim().length === 0 ? null : value.trim());
 
 /**
@@ -22,8 +21,17 @@ export const emptyString = (value) => (typeof value !== 'string' || value.trim()
  * @param {string} value - String to be capitalized
  * @returns {(string|null)} String with first letter capitalized or if not a string null is returned
  */
-
 export const capitalize = (value) => (typeof value === 'string' ? value.charAt(0).toUpperCase() + value.slice(1) : null);
+
+/**
+ * Assets whether a string is all caps
+ *
+ * @param {string} str - String to be tested
+ * @returns {boolean} True if all uppercase, false if not a string or not all uppercase
+ */
+export function assertAllCaps(str) {
+    return typeof str === 'string' && str === str.toUpperCase();
+}
 
 /**
  * Convert a string to a number, handles any comma separators in the string
@@ -32,7 +40,6 @@ export const capitalize = (value) => (typeof value === 'string' ? value.charAt(0
  * @param {string} value - String to be converted to a number
  * @returns {number} A string converted to a number primitive
  */
-
 export const convertNum = (value) => +value.replace(/,/g, '');
 
 /**
@@ -42,17 +49,15 @@ export const convertNum = (value) => +value.replace(/,/g, '');
  * @param {*} value - Value to be placed in an array
  * @returns {Array}
  */
-
 export const makeArray = (value) => (Array.isArray(value) ? value : [value]);
 
 /**
- * Test if a value is a Javascript plain Object
+ * Test if a value is a JavaScript plain Object
  *
  * @function isPlainObject
  * @param {*} value  - The value to be tested
  * @returns {boolean} True if a plain Object was passed, false for other types of Objects and primitives
  */
-
 export const isPlainObject = ((value) => typeof value === 'object'
     && value !== null
     && !Array.isArray(value)
@@ -65,7 +70,6 @@ export const isPlainObject = ((value) => typeof value === 'object'
  * @param {*} value - The string to be tested
  * @returns {boolean} True if the value is a string and the first letter is capitalized, false otherwise
  */
-
 export const isCapitalized = (value) => typeof value === 'string' && value.length > 0 && /^[A-Z]/.test(value);
 
 /**
@@ -76,7 +80,6 @@ export const isCapitalized = (value) => typeof value === 'string' && value.lengt
  * @param {Object} spread - The object to be spread into obj, only the specific properties are spread into the target object
  * @returns {Object} A new Object with the combined properties
  */
-
 export function deepSpread(obj, spread) {
     return Object.keys(spread).reduce((acc, key) => (
         isPlainObject(spread[key])
@@ -91,7 +94,6 @@ export function deepSpread(obj, spread) {
  * @param {Object|Array<Object>} obj
  * @returns {*}
  */
-
 export function recursiveDeepCopy(obj) {
     let newO;
     let i;
@@ -128,7 +130,6 @@ export function recursiveDeepCopy(obj) {
  * @param {function} qDone - Callback when queue has emptied
  * @returns {Promise<{push: push}>}
  */
-
 export async function asyncQueue(concurrency = 2, qDone = null) {
     let running = 0;
     const taskQueue = [];

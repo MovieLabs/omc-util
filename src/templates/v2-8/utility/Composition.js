@@ -1,25 +1,60 @@
 /**
  * Template details for Composition
  */
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
+
 import { baseEntity, software } from './utility.js';
 
+const entityType = 'Composition';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        compositionType: null,
-        compositionProperties: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        compositionType: { $type: 'string' },
+        compositionProperties: { $type: 'object' },
         includes: {
-            Asset: null,
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            AssetSC: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['AssetSC'],
+                },
+            },
+            Composition: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Composition'],
+                },
+            },
         },
-        software,
+        software: software.template,
         StartHere: {
-            Asset: null,
-            AssetSC: null,
+            $type: 'array',
+            $edge: {
+                $allowed: ['Asset', 'AssetSC'],
+            },
         },
         Product: {
-            Asset: null,
+            $type: 'array',
+            $edge: {
+                $allowed: ['Asset'],
+            },
         },
-        Context: null,
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
         // version: null,
         // provenance: null,
     },
@@ -45,14 +80,41 @@ export default {
         },
         StartHere: {
             type: 'object',
+            // path: 'StartHere',
             allowed: ['Asset', 'AssetSC'],
         },
         Product: {
             type: 'array',
+            // path: 'Product',
             allowed: ['Asset'],
+            inverse: 'productOf',
         },
     },
+    edges: {
+        // produces: {
+        //     allowed: ['Asset'],
+        // },
+    },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            compositionType: null,
+            compositionProperties: null,
+            includes: {
+                Asset: null,
+            },
+            software: software.graphQl.properties,
+            StartHere: {
+                Asset: null,
+                AssetSC: null,
+            },
+            Product: {
+                Asset: null,
+            },
+            Context: null,
+            // version: null,
+            // provenance: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

@@ -4,16 +4,35 @@
 
 import { baseEntity } from './utility.js';
 
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
+
+const entityType = 'Location';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
         address: null,
         coordinates: null,
-        Context: null,
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
     },
     intrinsic: {},
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            address: null,
+            coordinates: null,
+            Context: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

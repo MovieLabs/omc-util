@@ -1,40 +1,98 @@
 /**
  * Template details for CreativeWork
  */
+
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'CreativeWork';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        creativeWorkType: null,
-        creativeWorkCategory: null,
-        seasonNumber: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        creativeWorkType: {
+            $type: 'string',
+        },
+        creativeWorkCategory: {
+            $type: 'string',
+        },
+        seasonNumber: {
+            $type: 'string',
+        },
         episodeSequence: {
-            houseSequence: null,
+            houseSequence: {
+                $type: 'string',
+            },
             distributionNumber: {
-                value: null,
-                domain: null,
+                value: {
+                    $type: 'string',
+                },
+                domain: {
+                    $type: 'string',
+                },
             },
         },
         title: {
-            titleName: null,
-            titleType: null,
-            titleLanguage: null,
+            titleName: {
+                $type: 'string',
+            },
+            titleType: {
+                $type: 'string',
+            },
+            titleLanguage: {
+                $type: 'string',
+            },
         },
-        approximateLength: null,
-        originalLanguage: null,
-        countryOfOrigin: null,
-        Context: null,
-        Series: null,
-        Episode: null,
-        ProductionCompany: null,
+        approximateLength: {
+            $type: 'string',
+        },
+        originalLanguage: {
+            $type: 'string',
+        },
+        countryOfOrigin: {
+            $type: 'string',
+        },
+        edges: {
+            has: {
+                Asset: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Asset'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+            },
+        },
+        Context: {
+            type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
+        // Series: null,
+        // Episode: null,
+        // ProductionCompany: null,
     },
     intrinsic: {
         Context: {
             type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
+            allowed:
+                ['Context'],
+            inverse:
+                'ForEntity',
+            biDirectional:
+                true,
         },
     },
     edges: {
@@ -43,10 +101,36 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            creativeWorkType: null,
+            creativeWorkCategory: null,
+            seasonNumber: null,
+            episodeSequence: {
+                houseSequence: null,
+                distributionNumber:
+                    {
+                        value: null,
+                        domain:
+                            null,
+                    },
+            },
+            title: {
+                titleName: null,
+                titleType: null,
+                titleLanguage: null,
+            },
+            approximateLength: null,
+            originalLanguage: null,
+            countryOfOrigin: null,
+            Context: null,
+            Series: null,
+            Episode: null,
+            ProductionCompany: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },
         inlineFragment: null,
     },
-    idPrefix: 'cw',
 };

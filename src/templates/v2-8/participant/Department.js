@@ -2,21 +2,41 @@
  * Template details for Department
  */
 
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'Department';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        structuralType: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        structuralType: { $type: 'string' },
         departmentName: {
-            fullName: null,
+            fullName: { $type: 'string' },
         },
         contact: null,
-        Location: null,
+        Location: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Location'],
+            },
+        },
     },
     intrinsic: {},
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            structuralType: null,
+            departmentName: {
+                fullName: null,
+            },
+            contact: null,
+            Location: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

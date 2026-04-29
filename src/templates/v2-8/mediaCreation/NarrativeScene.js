@@ -2,15 +2,33 @@
  * Template details for NarrativeScene
  */
 
+import { generalConfig } from '../../generalConfig.js';
 import { baseEntity, basicName, note } from '../utility/utility.js';
 
+const entityType = 'NarrativeScene';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        sceneName: basicName,
-        sceneNumber: null,
-        slugline: note,
-        Context: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        sceneName: {
+            ...basicName.template,
+            scriptName: {
+                $type: 'string',
+            },
+        },
+        sceneNumber: {
+            $type: 'string',
+        },
+        slugline: note.template,
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
     },
     intrinsic: {
         Context: {
@@ -38,6 +56,13 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            sceneName: basicName.graphQl.properties,
+            sceneNumber: null,
+            slugline: note.graphQl.properties,
+            Context: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
             sceneName: {
@@ -48,5 +73,4 @@ export default {
         },
         inlineFragment: null,
     },
-    idPrefix: 'nscn',
 };

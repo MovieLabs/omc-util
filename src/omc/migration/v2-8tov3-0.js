@@ -10,6 +10,26 @@ import v28 from './v2-6tov2-8.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
 
+const cxtEdges = ((cxt) => {
+    const {
+        schemaVersion: _sv,
+        entityType: _et,
+        identifier: _id,
+        name: _name,
+        description: _desc,
+        annotation: _anno,
+        tag: _tag,
+        customData: _cd,
+        instanceInfo: _if,
+        contextType: _ctxType,
+        contextCategory: _ctxCat,
+        Context: _cxt,
+        ForEntity: _for,
+        ...edges
+    } = cxt;
+    return edges;
+});
+
 /**
  * Hoist edges carried on resolved Context entities onto the entity itself.
  *
@@ -33,20 +53,7 @@ function setEdgesFromContext(omc) {
 
     const edgeFragments = omc.Context
         .filter((ctx) => ctx && ctx.entityType === 'Context') // Skip unresolved refs
-        .map((ctx) => {
-            const {
-                schemaVersion: _sv,
-                entityType: _et,
-                identifier: _id,
-                name: _name,
-                description: _desc,
-                contextType: _ctxType,
-                contextCategory: _ctxCat,
-                ForEntity: _for,
-                ...edges
-            } = ctx;
-            return edges;
-        });
+        .map((cxt) => cxtEdges(cxt)); // Just the edge properties
 
     if (edgeFragments.length === 0) return { ...omc, Context: null };
 
@@ -58,6 +65,29 @@ function setEdgesFromContext(omc) {
         ...omc,
         edges: deepMerge(existing, merged),
         Context: null,
+    };
+}
+
+/**
+ * Hoist edges carried on resolved Context entities onto the entity itself.
+ *
+ * @param {OmcEntity} omc
+ * @returns {OmcEntity}
+ */
+
+const baseKeys = ['entityType', 'identifier', 'name', 'description', 'annotation', 'tag', 'customData', 'instanceInfo', 'contextType', 'contextCategory', 'Context'];
+
+function setContextEdges(omc) {
+    if (omc.entityType !== 'Context') return omc;
+
+    // Copy the non-edge properties that need to be preserved
+    const migratedContext = baseKeys.reduce((cxt, key) => (omc[key] ? { ...cxt, [key]: omc[key] } : cxt), {});
+    const edges = cxtEdges(omc); // Just the edges;
+
+    return {
+        schemaVersion,
+        ...migratedContext,
+        edges,
     };
 }
 
@@ -83,7 +113,8 @@ export default {
         schemaVersion,
     }),
     Context: (omc) => ({
-        ...v28.Context(omc),
+        ...setContextEdges(v28.Context(omc)),
+        // ...v28.Context(omc),
         schemaVersion,
     }),
     CreativeWork: (omc) => ({

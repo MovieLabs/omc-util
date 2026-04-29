@@ -1,11 +1,17 @@
 /**
  * Template details for TaskSC
  */
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'TaskSC';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
         structuralType: null,
         structuralProperties: null,
         customData: null,
@@ -13,6 +19,12 @@ export default {
     intrinsic: {},
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            structuralType: null,
+            structuralProperties: null,
+            customData: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

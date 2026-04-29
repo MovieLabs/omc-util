@@ -1,21 +1,41 @@
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
+
+const entityType = 'Service';
+const entityGeneral = generalConfig[entityType];
 
 /**
  * Template details for Service
  */
 export default {
-    properties: {
-        ...baseEntity.properties,
-        structuralType: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        structuralType: { $type: 'string' },
         serviceName: {
-            fullName: null,
+            fullName: { $type: 'string' },
         },
         contact: null,
-        Location: null,
+        Location: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Location'],
+            },
+        },
     },
     intrinsic: {},
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            structuralType: null,
+            serviceName: {
+                fullName: null,
+            },
+            contact: null,
+            Location: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

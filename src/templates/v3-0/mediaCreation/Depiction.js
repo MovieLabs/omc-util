@@ -2,33 +2,65 @@
  * Template details for Depiction
  */
 
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'Depiction';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        depictionType: null,
-        Depicts: null,
-        Depicter: null,
-        Context: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        depictionType: { $type: 'string' },
+        edges: {
+            usedIn: {
+                ProductionScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionScene'],
+                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                    },
+                },
+            },
+        },
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                // $inverse: 'ForEntity',
+            },
+        },
+        Depicts: {
+            $type: 'object',
+            $edge: {
+                $allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
+                $inverse: 'Depiction',
+            },
+        },
+        Depictor: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Asset', 'Participant'],
+                $inverse: 'Depiction',
+            },
+        },
     },
     intrinsic: {
         Context: {
             type: 'array',
             allowed: ['Context'],
-            biDirectional: true,
-            inverse: ['ForEntity'],
+            inverse: 'ForEntity',
         },
         Depicts: {
             type: 'object',
             allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
-            biDirectional: true,
             inverse: 'Depiction',
         },
         Depictor: {
             type: 'array',
             allowed: ['Asset', 'Participant'],
-            biDirectional: true,
             inverse: 'Depiction',
         },
     },
@@ -38,6 +70,22 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            depictionType: null,
+            Depicts: {
+                Character: null,
+                NarrativeLocation: null,
+                NarrativeObject: null,
+                NarrativeStyling: null,
+                NarrativeWardrobe: null,
+            },
+            Depicter: {
+                Participant: null,
+                Asset: null,
+            },
+            Context: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
             depictionType: 'string',
@@ -56,5 +104,4 @@ export default {
             },
         },
     },
-    idPrefix: 'dpc',
 };

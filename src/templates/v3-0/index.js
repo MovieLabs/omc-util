@@ -64,7 +64,41 @@ import Composition from './utility/Composition.js';
 import Location from './utility/Location.js';
 import { baseEntity } from './utility/utility.js';
 
-const masterTemplate = {
+const omcTemplate = {
+    Asset,
+    AssetSC,
+    Character,
+    CreativeWork,
+    Context,
+    Depiction,
+    Effect,
+    NarrativeAudio,
+    NarrativeLocation,
+    NarrativeScene,
+    NarrativeObject,
+    NarrativeStyling,
+    NarrativeWardrobe,
+    ProductionScene,
+    ProductionLocation,
+    Slate,
+    SpecialAction,
+    Participant,
+    ParticipantSC,
+    Organization,
+    Department,
+    Person,
+    Service,
+    Role,
+    Infrastructure,
+    InfrastructureSC,
+    Task,
+    TaskSC,
+    Collection,
+    Composition,
+    Location,
+};
+
+const oldTemplate = {
     Asset,
     AssetSC,
     Character,
@@ -119,17 +153,18 @@ const buildEdges = ((edges, path) => {
     ), {});
 });
 
-const graphQlTemplate = Object.keys(masterTemplate).reduce((obj, entityType) => {
+const graphQlTemplate = Object.keys(oldTemplate).reduce((obj, entityType) => {
     obj[entityType] = {
-        properties: deepSpread(masterTemplate[entityType].properties, masterTemplate[entityType].graphQl.filter),
-        inlineFragment: masterTemplate[entityType].graphQl.inlineFragment,
+        properties: deepSpread(oldTemplate[entityType].graphQl.properties, oldTemplate[entityType].graphQl.filter),
+        inlineFragment: oldTemplate[entityType].graphQl.inlineFragment,
     };
     return obj;
 }, {});
 
 // Create an entries for the edge table, matching the structure of the intrinsic properties
-const allEdges = Object.keys(masterTemplate).reduce((obj, entityType) => {
-    const { edges } = masterTemplate[entityType];
+const allEdges = Object.keys(oldTemplate).reduce((obj, entityType) => {
+    // console.log(entityType);
+    const { edges } = oldTemplate[entityType];
     if (!edges) return obj;
     const template = Object.keys(edges).reduce((obj1, predicate) => {
         const t = edges[predicate].allowed.reduce((obj2, entType) => ({
@@ -152,17 +187,63 @@ const allEdges = Object.keys(masterTemplate).reduce((obj, entityType) => {
 
 // console.log(allEdges);
 
-const edgeTable = Object.keys(masterTemplate).reduce((obj, entityType) => ({
+// Flattens the edge properties, and includes a JSON path
+const buildEdges2 = ((edges, path) => {
+    if (!edges || edges.$type) return {};
+    return Object.keys(edges).reduce((obj, edge) => (
+        isCapitalized(edge)
+            ? {
+                ...obj, [edge]: {
+                    allowed: edges[edge].$edge.$allowed,
+                    path: `${path}${edge}`,
+                    type: edges[edge].$type,
+                    inverse: edges[edge].$edge.$inverse || null,
+                    predicate: edges[edge].$edge.$omcPredicate || null,
+                },
+            }
+            : { ...obj, ...buildEdges2(edges[edge], `${path}.${edge}.`) }
+    ), {});
+});
+
+// Old Edge table, keep until deprecated
+const edgeTable = Object.keys(oldTemplate).reduce((obj, entityType) => ({
     ...obj,
     [entityType]: {
-        intrinsic: buildIntrinsic(masterTemplate[entityType].intrinsic, ''),
+        intrinsic: buildIntrinsic(oldTemplate[entityType].intrinsic, ''),
         // edges: masterTemplate[entityType].edges,
         edges: allEdges?.[entityType] || {},
     },
 }), {});
 
+/**
+ * New style entity templates, setup for functions to return values based on schema version
+ * For each entity type it builds a table specific to a certain task based off the templates
+ */
+console.log('v3.0');
+const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
+    console.log(entityType);
+    const { edges, ...rest } = omcTemplate[entityType].template;
+    const intrinsic = buildEdges2(rest, '');
+    const ed = buildEdges2(edges, 'edges');
+    return {
+        ...obj,
+        [entityType]: {
+            idPrefix: omcTemplate[entityType].idPrefix,
+            schemaGroup: omcTemplate[entityType].group,
+            presentation: omcTemplate[entityType].presentation,
+            edgeTable: { intrinsic, edges: ed },
+            graphQl: omcTemplate[entityType].graphQl,
+        },
+    };
+}, {});
+
+// The graphQl table also needs access to the baseEntity, this is added as special case
+entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
+
+// Add the inverse edge table
+entityTemplate.inverseEdges = inverseEdges;
+
 export {
-    graphQlTemplate,
-    edgeTable,
     inverseEdges,
+    entityTemplate,
 };

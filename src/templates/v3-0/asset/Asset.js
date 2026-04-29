@@ -2,20 +2,107 @@
  * Template details for Asset
  */
 
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'Asset';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        AssetSC: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        AssetSC: {
+            $type: 'object',
+            $edge: {
+                $allowed: ['AssetSC'],
+            },
+        },
         assetFC: {
-            functionalProperties: null,
-            functionalType: null,
+            functionalType: { $type: 'string' },
+            functionalProperties: { $type: 'object' },
             // customData: null,
         },
-        Asset: null,
-        Context: null,
-        Depiction: null,
+        edges: {
+            for: {
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                    },
+                },
+                Composition: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Composition'],
+                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                    },
+                },
+            },
+            has: {
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                Participant: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Participant'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                Slate: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Slate'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+            },
+            usedIn: {
+                ProductionLocation: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionLocation'],
+                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                    },
+                },
+                ProductionScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionScene'],
+                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                    },
+                },
+            },
+        },
+        Asset: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Asset'],
+                // $inverse: '',
+            },
+        },
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
+        Depiction: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Depiction'],
+                $inverse: 'Depictor',
+                $omcPredicate: 'hasDepiction',
+            },
+        },
         // version: null,
         // provenance: null,
     },
@@ -58,12 +145,43 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            AssetSC: null,
+            assetFC: {
+                functionalProperties: null,
+                functionalType: null,
+                // customData: null,
+            },
+            Asset: null,
+            Context: {
+                type: 'array',
+                intrinsic: {
+                    allowed: ['Context'],
+                    biDirectional: true,
+                    inverse: 'ForEntity',
+                },
+            },
+            Depiction: {
+                type: 'array',
+                intrinsic: {
+                    allowed: ['Depiction'],
+                    biDirectional: true,
+                    inverse: 'Depictor',
+                    omcPredicate: 'hasDepiction',
+                },
+            },
+            // version: null,
+            // provenance: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
             assetFC: {
                 functionalType: ['string'],
             },
         },
-        inlineFragment: null,
+        inlineFragment: {
+            ...baseEntity.graphQl.inlineFragment,
+        },
     },
 };

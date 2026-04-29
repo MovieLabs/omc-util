@@ -3,13 +3,16 @@
  *
  */
 
-import { graphQlTemplate as entityTemplate } from '../../templates/v2-8/index.js';
-import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js';
+// import { graphQlTemplate as entityTemplate } from '../../templates/v2-8/index.js';
+import { isPlainObject } from '../../mlHelpers/util.js';
+import { omcTemplate } from '../../templates/index.js';
 
 // Create an entity object for the given entityType including the base entity properties
-export const createEntitySchema = ((entityType) => (
-    entityTemplate[entityType] ? entityTemplate[entityType].properties : {})
-);
+export const createEntitySchema = (({ entityType, schemaVersion }) => {
+    const { properties } = omcTemplate.graphQl({ entityType, schemaVersion });
+    return properties;
+    // entityTemplate[entityType] ? entityTemplate[entityType].properties : {})
+});
 
 /**
  * Strip the graphQl wrapper from a graphQl response and return the OmcJson
@@ -47,8 +50,8 @@ export function stripGraphQl(graphQlResponse) {
  * //    { "depictionType": "string" }
  * // ]
  */
-export function queryVariables(entityType) {
-    const entity = createEntitySchema(entityType);
+export function queryVariables({ entityType, schemaVersion }) {
+    const entity = createEntitySchema({ entityType, schemaVersion });
     const variables = [];
 
     const traverse = ((ent) => {
@@ -73,10 +76,11 @@ export function queryVariables(entityType) {
  * @memberOf module:omcGraphQl
  * @returns {Array<{entityType: string, variables: Array<queryVariables>}>} Array of entity query configurations
  */
-export function entityQueries() {
-    const allEntities = Object.keys(entityTemplate).filter((key) => isCapitalized(key));
+export function entityQueries({ schemaVersion }) {
+    // const allEntities = Object.keys(entityTemplate).filter((key) => isCapitalized(key));
+    const allEntities = omcTemplate.graphQlEntities({ schemaVersion });
     return allEntities.map((entityType) => ({
         entityType,
-        variables: queryVariables(entityType),
+        variables: queryVariables({ entityType, schemaVersion }),
     }));
 }

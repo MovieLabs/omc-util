@@ -1,19 +1,42 @@
 /**
  * Template details for Infrastructure
  */
+
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'Infrastructure';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        InfrastructureSC: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        // InfrastructureSC: null,
         infrastructureFC: {
             functionalType: null,
             functionalProperties: null,
             // customData: null,
         },
-        Infrastructure: null,
-        Context: null,
+        edges: {
+            has: {
+                SpecialAction: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['SpecialAction'],
+                    }
+                }
+            },
+        },
+        // Infrastructure: null,
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
     },
     intrinsic: {
         Context: {
@@ -39,6 +62,17 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            InfrastructureSC: null,
+            infrastructureFC: {
+                functionalType: null,
+                functionalProperties: null,
+                // customData: null,
+            },
+            Infrastructure: null,
+            Context: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

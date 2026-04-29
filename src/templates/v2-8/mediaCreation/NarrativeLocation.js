@@ -1,14 +1,35 @@
 /**
  * Template details for NarrativeLocation
  */
+
+import { generalConfig } from '../../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'NarrativeLocation';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        narrativeType: null,
-        Context: null,
-        Depiction: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        narrativeType: {
+            $type: 'string',
+        },
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
+        Depiction: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Depiction'],
+                $inverse: 'Depicts',
+                $omcPredicate: 'hasDepiction',
+            },
+        },
     },
     intrinsic: {
         Context: {
@@ -35,11 +56,16 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            narrativeType: null,
+            Context: null,
+            Depiction: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
             narrativeType: 'string',
         },
         inlineFragment: null,
     },
-    idPrefix: 'nloc',
 };

@@ -1,14 +1,28 @@
 /**
  * Template details for Collection
  */
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
+
 import { baseEntity, software } from './utility.js';
 
+const entityType = 'Collection';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        collectionType: null,
-        collectionProperties: null,
-        software,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        collectionType: { $type: 'string' },
+        collectionProperties: { $type: 'object' },
+        software: software.template,
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
     },
     intrinsic: {
         includes: {
@@ -105,6 +119,12 @@ export default {
     },
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            collectionType: null,
+            collectionProperties: null,
+            software: software.graphQl.properties,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },

@@ -2,15 +2,33 @@
  * Template details for ProductionScene
  */
 
+import { generalConfig } from '../../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
+const entityType = 'ProductionScene';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        sceneName: basicName,
-        sceneHeader: null,
-        sceneDescriptor: null,
-        sceneNumber: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        sceneName: basicName.template,
+        sceneHeader: {
+            $type: 'string',
+        },
+        sceneDescriptor: {
+            $type: 'string',
+        },
+        sceneNumber: {
+            $type: 'string',
+        },
+        Context: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Context'],
+                $inverse: 'ForEntity',
+            },
+        },
     },
     intrinsic: {
         Context: {
@@ -35,8 +53,15 @@ export default {
         },
     },
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            sceneName: basicName.graphQl.properties,
+            sceneHeader: null,
+            sceneDescriptor: null,
+            sceneNumber: null,
+        },
         filter: {
-            ...baseEntity.graphQl.filter,
+            ...baseEntity.graphQl.properties,
             sceneName: {
                 fullName: ['string'],
                 altName: ['string'],
@@ -44,5 +69,4 @@ export default {
         },
         inlineFragment: null,
     },
-    idPrefix: 'pscn',
 };

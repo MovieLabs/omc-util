@@ -2,23 +2,45 @@
  * Template details for Person
  */
 
+import { generalConfig } from '../../generalConfig.js';
+import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
+const entityType = 'Person';
+const entityGeneral = generalConfig[entityType];
+
 export default {
-    properties: {
-        ...baseEntity.properties,
-        structuralType: null,
+    ...entityGeneral, // Include the general properties
+    template: {
+        ...baseEntity.template,
+        structuralType: { $type: 'string' },
         personName: {
-            fullName: null,
+            fullName: { $type: 'string' },
         },
-        jobTitle: null,
+        jobTitle: { $type: 'string' },
         gender: null,
         contact: null,
-        Location: null,
+        Location: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Location'],
+            },
+        },
     },
     intrinsic: {},
     edges: {},
     graphQl: {
+        properties: {
+            ...baseEntity.graphQl.properties,
+            structuralType: null,
+            personName: {
+                fullName: null,
+            },
+            jobTitle: null,
+            gender: null,
+            contact: null,
+            Location: null,
+        },
         filter: {
             ...baseEntity.graphQl.filter,
         },
