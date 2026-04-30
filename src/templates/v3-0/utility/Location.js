@@ -2,10 +2,9 @@
  * Template details for Location
  */
 
-import { baseEntity } from './utility.js';
+import { generalConfig } from '../generalConfig.js';
 
-import { generalConfig } from '../../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
+import { baseEntity } from './utility.js';
 
 const entityType = 'Location';
 const entityGeneral = generalConfig[entityType];

@@ -2,7 +2,7 @@
  * Template details for NarrativeScene
  */
 
-import { generalConfig } from '../../generalConfig.js';
+import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName, note } from '../utility/utility.js';
 
 const entityType = 'NarrativeScene';

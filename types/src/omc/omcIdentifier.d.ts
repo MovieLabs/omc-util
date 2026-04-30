@@ -48,7 +48,7 @@ export function idOfScope(identifier: Array<OmcIdentifier>, identifierScope: str
  * // }
  *
  */
-export function idCreate({ identifierScope, prefix, entityType }: {
+export function idCreate({ identifierScope, prefix, entityType, schemaVersion, }: {
     identifierScope: string;
     prefix?: string | null;
     entityType?: string | null;

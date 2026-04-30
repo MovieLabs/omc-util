@@ -109,5 +109,4 @@ export function edgeCreate({ fromEntity, toEntity, forEntity, intrinsicEdge, inv
     inverse: boolean;
     edgeType: "edges" | "intrinsic";
 }): any;
-export function edgeInverse(omcContext: any): any[];
 //# sourceMappingURL=omcEdges.d.ts.map

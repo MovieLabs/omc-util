@@ -17,12 +17,8 @@
  * @property {function(): Object<string, *>} getIntrinsicProps {@link module:omcEdges.getIntrinsicProps}
  * @property {function(): Array<string>} getContextKeys {@link module:omcEdges.getContextKeys}
  * @property {function(): Object<string, *>} getContextProps {@link module:omcEdges.getContextProps}
- * @property {string} color - Entity color from generalConfig
- * @property {string} label - Entity label from generalConfig
- * @property {string} labelSuffix - Entity label with suffix from generalConfig
  */
 
-import { generalConfig } from '../templates/index.js';
 import {
     getBaseKeys,
     getBaseProps,
@@ -74,18 +70,6 @@ const entityModelProto = {
      */
     getContextProps() {
         return getContextProps(this);
-    },
-    get color() {
-        return generalConfig[this.entityType].presentation.entityColor;
-    },
-    get label() {
-        return generalConfig[this.entityType].presentation.entityLabel;
-    },
-    get labelSuffix() {
-        const label = generalConfig[this.entityType].presentation.entityLabel;
-        return generalConfig[this.entityType].presentation?.entityLabelSuffix
-            ? `${label}${generalConfig[this.entityType].presentation?.entityLabelSuffix(this)}`
-            : label;
     },
 };
 

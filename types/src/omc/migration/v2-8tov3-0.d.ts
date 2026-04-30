@@ -1,15 +1,5 @@
 declare namespace _default {
-    function Asset(omc: any): {
-        schemaVersion: string;
-        identifier?: OmcIdentifier[];
-        entityType?: OmcEntityType;
-        name: string | null;
-        description: string | null;
-        customData: OmcCustomData | null;
-        annotation: OmcAnnotation | null;
-        tag: OmcTag | null;
-        instanceInfo: OmcInstanceInfo | null;
-    };
+    function Asset(omc: any): any;
     function AssetSC(omc: any): {
         schemaVersion: string;
         identifier?: OmcIdentifier[];

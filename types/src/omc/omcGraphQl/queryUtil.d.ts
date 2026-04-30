@@ -29,7 +29,7 @@ export function stripGraphQl(graphQlResponse: {
  * //    { "depictionType": "string" }
  * // ]
  */
-export function queryVariables(entityType: OmcEntityType): Array<{
+export function queryVariables({ entityType, schemaVersion }: OmcEntityType): Array<{
     [x: string]: string;
 }>;
 /**
@@ -41,9 +41,14 @@ export function queryVariables(entityType: OmcEntityType): Array<{
  * @memberOf module:omcGraphQl
  * @returns {Array<{entityType: string, variables: Array<queryVariables>}>} Array of entity query configurations
  */
-export function entityQueries(): Array<{
+export function entityQueries({ schemaVersion }: {
+    schemaVersion: any;
+}): Array<{
     entityType: string;
     variables: Array<typeof queryVariables>;
 }>;
-export function createEntitySchema(entityType: any): any;
+export function createEntitySchema({ entityType, schemaVersion }: {
+    entityType: any;
+    schemaVersion: any;
+}): any;
 //# sourceMappingURL=queryUtil.d.ts.map

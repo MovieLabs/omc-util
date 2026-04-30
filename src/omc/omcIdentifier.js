@@ -6,8 +6,8 @@
 
 import { customAlphabet } from 'nanoid';
 
-import { generalConfig } from '../templates/index.js';
 import { makeArray } from '../mlHelpers/util.js';
+import { omcTemplate } from '../templates/index.js';
 
 const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
 
@@ -68,8 +68,13 @@ export function idOfScope(identifier, identifierScope) {
  * // }
  *
  */
-export function idCreate({ identifierScope, prefix = null, entityType = null }) {
-    const p = generalConfig[entityType] ? generalConfig[entityType].idPrefix : prefix;
+export function idCreate({
+    identifierScope,
+    prefix = null,
+    entityType = null,
+    schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
+}) {
+    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
     return {
         identifierScope: identifierScope || 'example.com',
         identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,

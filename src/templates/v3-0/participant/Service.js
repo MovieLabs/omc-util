@@ -1,5 +1,4 @@
-import { generalConfig } from '../../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
+import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'Service';

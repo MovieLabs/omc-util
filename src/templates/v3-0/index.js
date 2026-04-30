@@ -26,8 +26,10 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
-import { deepSpread, isCapitalized } from '../../mlHelpers/util.js';
+import { isCapitalized } from '../../mlHelpers/util.js';
 
+// eslint-disable-next-line import/order
+import { generalConfig } from './generalConfig.js';
 // eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
 
@@ -53,7 +55,6 @@ import SpecialAction from './mediaCreation/SpecialAction.js';
 import Department from './participant/Department.js';
 import Organization from './participant/Organization.js';
 import Participant from './participant/Participant.js';
-import ParticipantSC from './participant/ParticipantSC.js';
 import Person from './participant/Person.js';
 import Role from './participant/Role.js';
 import Service from './participant/Service.js';
@@ -83,7 +84,6 @@ const omcTemplate = {
     Slate,
     SpecialAction,
     Participant,
-    ParticipantSC,
     Organization,
     Department,
     Person,
@@ -97,98 +97,9 @@ const omcTemplate = {
     Composition,
     Location,
 };
-
-const oldTemplate = {
-    Asset,
-    AssetSC,
-    Character,
-    CreativeWork,
-    Context,
-    Depiction,
-    Effect,
-    NarrativeAudio,
-    NarrativeLocation,
-    NarrativeScene,
-    NarrativeObject,
-    NarrativeStyling,
-    NarrativeWardrobe,
-    ProductionScene,
-    ProductionLocation,
-    Slate,
-    SpecialAction,
-    Participant,
-    ParticipantSC,
-    Organization,
-    Department,
-    Person,
-    Service,
-    Role,
-    Infrastructure,
-    InfrastructureSC,
-    Task,
-    TaskSC,
-    Collection,
-    Composition,
-    Location,
-    baseEntity,
-};
-
-// Flattens the intrinsic properties, and includes a JSON path
-const buildIntrinsic = ((intEdges, path) => {
-    if (!intEdges) return {};
-    return Object.keys(intEdges).reduce((obj, edge) => (
-        isCapitalized(edge)
-            ? { ...obj, [edge]: { ...intEdges[edge], path: `${path}${edge}` } }
-            : { ...obj, ...buildIntrinsic(intEdges[edge], `${edge}.`) }
-    ), {});
-});
 
 // Flattens the edge properties, and includes a JSON path
 const buildEdges = ((edges, path) => {
-    if (!edges) return {};
-    return Object.keys(edges).reduce((obj, edge) => (
-        isCapitalized(edge)
-            ? { ...obj, [edge]: { ...edges[edge], path: `${path}${edge}`, type: 'array' } }
-            : { ...obj, ...buildIntrinsic(edges[edge], `${edge}.`) }
-    ), {});
-});
-
-const graphQlTemplate = Object.keys(oldTemplate).reduce((obj, entityType) => {
-    obj[entityType] = {
-        properties: deepSpread(oldTemplate[entityType].graphQl.properties, oldTemplate[entityType].graphQl.filter),
-        inlineFragment: oldTemplate[entityType].graphQl.inlineFragment,
-    };
-    return obj;
-}, {});
-
-// Create an entries for the edge table, matching the structure of the intrinsic properties
-const allEdges = Object.keys(oldTemplate).reduce((obj, entityType) => {
-    // console.log(entityType);
-    const { edges } = oldTemplate[entityType];
-    if (!edges) return obj;
-    const template = Object.keys(edges).reduce((obj1, predicate) => {
-        const t = edges[predicate].allowed.reduce((obj2, entType) => ({
-            ...obj2,
-            [entType]: {
-                type: 'array',
-                allowed: [entType],
-                path: `edges.${predicate}.${entType}`,
-                inverse: `edges.${inverseEdges[predicate]}.${entityType}`,
-                predicate,
-            },
-        }), {});
-        return { ...obj1, ...t };
-    }, {});
-    return {
-        ...obj,
-        [entityType]: template,
-    };
-}, {});
-
-// console.log(allEdges);
-
-// Flattens the edge properties, and includes a JSON path
-const buildEdges2 = ((edges, path) => {
     if (!edges || edges.$type) return {};
     return Object.keys(edges).reduce((obj, edge) => (
         isCapitalized(edge)
@@ -201,37 +112,25 @@ const buildEdges2 = ((edges, path) => {
                     predicate: edges[edge].$edge.$omcPredicate || null,
                 },
             }
-            : { ...obj, ...buildEdges2(edges[edge], `${path}.${edge}.`) }
+            : { ...obj, ...buildEdges(edges[edge], `${path}.${edge}.`) }
     ), {});
 });
 
-// Old Edge table, keep until deprecated
-const edgeTable = Object.keys(oldTemplate).reduce((obj, entityType) => ({
-    ...obj,
-    [entityType]: {
-        intrinsic: buildIntrinsic(oldTemplate[entityType].intrinsic, ''),
-        // edges: masterTemplate[entityType].edges,
-        edges: allEdges?.[entityType] || {},
-    },
-}), {});
-
 /**
- * New style entity templates, setup for functions to return values based on schema version
- * For each entity type it builds a table specific to a certain task based off the templates
+ * For each entity type build a table specific to a certain request based off the core templates
  */
-console.log('v3.0');
+
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
-    console.log(entityType);
     const { edges, ...rest } = omcTemplate[entityType].template;
-    const intrinsic = buildEdges2(rest, '');
-    const ed = buildEdges2(edges, 'edges');
+    const intrinsic = buildEdges(rest, '');
+    const edge = buildEdges(edges, 'edges'); // Path for edges, always starts with edges
     return {
         ...obj,
         [entityType]: {
             idPrefix: omcTemplate[entityType].idPrefix,
             schemaGroup: omcTemplate[entityType].group,
             presentation: omcTemplate[entityType].presentation,
-            edgeTable: { intrinsic, edges: ed },
+            edgeTable: { intrinsic, edges: edge, cxtEdges: edge },
             graphQl: omcTemplate[entityType].graphQl,
         },
     };

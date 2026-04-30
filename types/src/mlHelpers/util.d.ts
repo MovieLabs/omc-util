@@ -1,4 +1,11 @@
 /**
+ * Assets whether a string is all caps
+ *
+ * @param {string} str - String to be tested
+ * @returns {boolean} True if all uppercase, false if not a string or not all uppercase
+ */
+export function assertAllCaps(str: string): boolean;
+/**
  * Spreads an object into another deeply, recursing down the object only overwriting keys in the object being spread
  *
  * @function deepSpread

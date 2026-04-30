@@ -1,7 +1,7 @@
 /**
  * Template details for Collection
  */
-import { generalConfig } from '../../generalConfig.js';
+import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
 
 import { baseEntity, software } from './utility.js';

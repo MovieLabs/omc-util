@@ -7,7 +7,7 @@
  * @param {QueryVariable} params.variables - Query variables to be included in the query as filters
  * @returns {string} A graphQl query string
  */
-export default function queryBuilder({ entityType, template, variables, }: {
+export default function queryBuilder({ entityType, schemaVersion, template, variables, }: {
     entityType: OmcEntityType;
     template: QueryTemplate;
     variables: QueryVariable;

@@ -1,9 +1,7 @@
 /**
  * Template details for Composition
  */
-import { generalConfig } from '../../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
-
+import { generalConfig } from '../generalConfig.js';
 import { baseEntity, software } from './utility.js';
 
 const entityType = 'Composition';

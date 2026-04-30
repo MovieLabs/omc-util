@@ -2,7 +2,7 @@
  * Template details for Asset
  */
 
-import { generalConfig } from '../../generalConfig.js';
+import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 

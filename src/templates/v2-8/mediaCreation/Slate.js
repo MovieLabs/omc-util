@@ -2,7 +2,7 @@
  * Template details for Slate
  */
 
-import { generalConfig } from '../../generalConfig.js';
+import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'Slate';

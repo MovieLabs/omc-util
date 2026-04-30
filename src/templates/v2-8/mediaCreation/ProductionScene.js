@@ -2,7 +2,7 @@
  * Template details for ProductionScene
  */
 
-import { generalConfig } from '../../generalConfig.js';
+import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'ProductionScene';

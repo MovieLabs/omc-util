@@ -39,17 +39,5 @@ export type EntityModelMethods = {
     getContextProps: () => {
         [x: string]: any;
     };
-    /**
-     * - Entity color from generalConfig
-     */
-    color: string;
-    /**
-     * - Entity label from generalConfig
-     */
-    label: string;
-    /**
-     * - Entity label with suffix from generalConfig
-     */
-    labelSuffix: string;
 };
 //# sourceMappingURL=entityModel.d.ts.map

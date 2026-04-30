@@ -91,11 +91,33 @@ function setContextEdges(omc) {
     };
 }
 
+/**
+ * Migrate the entity 'group' property to the new Member property and deletes the original
+ * @param entityType
+ * @param omc
+ */
+function migrateMember(entityType, omc) {
+    const { [entityType]: Member, ...rest } = omc;
+    return typeof Member === 'undefined' ? { ...rest } : { ...rest, Member };
+}
+
+/**
+ * Migrate the name property to use the new property label
+ */
+function migrateLabel(omc) {
+    const { name: label, ...rest } = omc;
+    return typeof label === 'undefined' ? { ...rest } : { ...rest, label };
+}
+
 export default {
-    Asset: (omc) => ({
-        ...setEdgesFromContext(v28.Asset(omc)),
-        schemaVersion,
-    }),
+    Asset: (omc) => {
+        const base1 = migrateMember('Asset', {
+            ...setEdgesFromContext(v28.Asset(omc)),
+            schemaVersion,
+        });
+        const base2 = migrateLabel(base1);
+        return base2;
+    },
     AssetSC: (omc) => ({
         ...setEdgesFromContext(v28.AssetSC(omc)),
         schemaVersion,
