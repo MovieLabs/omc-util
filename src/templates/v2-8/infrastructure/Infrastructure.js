@@ -13,52 +13,29 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        // InfrastructureSC: null,
+        InfrastructureSC: {
+            $type: 'object',
+            $edge: {
+                $allowed: ['InfrastructureSC'],
+            },
+        },
         infrastructureFC: {
             functionalType: null,
             functionalProperties: null,
             // customData: null,
         },
-        // edges: {
-        //     has: {
-        //         SpecialAction: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['SpecialAction'],
-        //             },
-        //         },
-        //     },
-        // },
-        // Infrastructure: null,
+        Infrastructure: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Infrastructure'],
+            },
+        },
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
                 $inverse: 'ForEntity',
             },
-        },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        Infrastructure: {
-            type: 'array',
-            allowed: ['Infrastructure'],
-            biDirectional: true,
-        },
-        InfrastructureSC: {
-            type: 'object',
-            allowed: ['InfrastructureSC'],
-            biDirectional: true,
-        },
-    },
-    edges: {
-        has: {
-            allowed: ['SpecialAction'],
         },
     },
     graphQl: {

@@ -24,8 +24,8 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['SpecialAction'],
-                    }
-                }
+                    },
+                },
             },
         },
         // Infrastructure: null,
@@ -35,29 +35,6 @@ export default {
                 $allowed: ['Context'],
                 $inverse: 'ForEntity',
             },
-        },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        Infrastructure: {
-            type: 'array',
-            allowed: ['Infrastructure'],
-            biDirectional: true,
-        },
-        InfrastructureSC: {
-            type: 'object',
-            allowed: ['InfrastructureSC'],
-            biDirectional: true,
-        },
-    },
-    edges: {
-        has: {
-            allowed: ['SpecialAction'],
         },
     },
     graphQl: {

@@ -25,61 +25,6 @@ export default {
                 $validate: assertAllCaps,
             },
         },
-        // edges: {
-        //     featuresIn: {
-        //         NarrativeScene: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeScene'],
-        //                 $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
-        //             },
-        //         },
-        //     },
-        //     needs: {
-        //         Effect: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['Effect'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //         NarrativeAudio: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeAudio'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //         NarrativeObject: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeObject'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //         NarrativeStyling: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeStyling'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //         NarrativeWardrobe: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeWardrobe'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //         SpecialAction: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['SpecialAction'],
-        //                 $inverse: `edges.${inverseEdges.needs}.${entityType}`,
-        //             },
-        //         },
-        //     },
-        // },
         Context: {
             $type: 'array',
             $edge: {
@@ -96,27 +41,52 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depicts',
-            omcPredicate: 'hasDepiction',
-        },
-    },
-    edges: {
+    cxtEdges: {
         featuresIn: {
-            allowed: ['NarrativeScene'],
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
         },
         needs: {
-            allowed: ['Effect', 'NarrativeAudio', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe', 'SpecialAction'],
+            Effect: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Effect'],
+                },
+            },
+            NarrativeAudio: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeAudio'],
+                },
+            },
+            NarrativeObject: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeObject'],
+                },
+            },
+            NarrativeStyling: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeStyling'],
+                },
+            },
+            NarrativeWardrobe: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeWardrobe'],
+                },
+            },
+            SpecialAction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['SpecialAction'],
+                },
+            },
         },
     },
     graphQl: {

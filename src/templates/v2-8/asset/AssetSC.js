@@ -20,8 +20,6 @@ export default {
         // version: null,
         // provenance: null,
     },
-    intrinsic: {},
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

@@ -55,24 +55,6 @@ export default {
         countryOfOrigin: {
             $type: 'string',
         },
-        edges: {
-            has: {
-                Asset: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Asset'],
-                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                    },
-                },
-                NarrativeScene: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['NarrativeScene'],
-                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                    },
-                },
-            },
-        },
         Context: {
             type: 'array',
             $edge: {
@@ -82,22 +64,27 @@ export default {
         },
         // Series: null,
         // Episode: null,
-        // ProductionCompany: null,
-    },
-    intrinsic: {
-        Context: {
+        ProductionCompany: {
             type: 'array',
-            allowed:
-                ['Context'],
-            inverse:
-                'ForEntity',
-            biDirectional:
-                true,
+            $edge: {
+                $allowed: ['Participant'],
+            },
         },
     },
-    edges: {
+    cxtEdges: {
         has: {
-            allowed: ['Asset', 'NarrativeScene'],
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
         },
     },
     graphQl: {

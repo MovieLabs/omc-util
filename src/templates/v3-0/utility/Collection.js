@@ -14,6 +14,134 @@ export default {
         collectionType: { $type: 'string' },
         collectionProperties: { $type: 'object' },
         software: software.template,
+        includes: {
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            AssetSC: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['AssetSC'],
+                },
+            },
+            Character: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Character'],
+                },
+            },
+            CreativeWork: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['CreativeWork'],
+                },
+            },
+            Depiction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Depiction'],
+                },
+            },
+            Effect: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Effect'],
+                },
+            },
+            NarrativeAudio: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeAudio'],
+                },
+            },
+            NarrativeLocation: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeLocation'],
+                },
+            },
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
+            NarrativeObject: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeObject'],
+                },
+            },
+            NarrativeStyling: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeStyling'],
+                },
+            },
+            NarrativeWardrobe: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeWardrobe'],
+                },
+            },
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                },
+            },
+            ProductionLocation: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionLocation'],
+                },
+            },
+            Slate: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Slate'],
+                },
+            },
+            Infrastructure: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Infrastructure'],
+                },
+            },
+            SpecialAction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['SpecialAction'],
+                },
+            },
+            Collection: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Collection'],
+                },
+            },
+            Composition: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Composition'],
+                },
+            },
+            Location: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Location'],
+                },
+            },
+            Participant: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Participant'],
+                },
+            },
+        },
         Context: {
             $type: 'array',
             $edge: {
@@ -22,100 +150,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        includes: {
-            Asset: {
-                type: 'array',
-                allowed: ['Asset'],
-            },
-            AssetSC: {
-                type: 'array',
-                allowed: ['AssetSC'],
-            },
-            Character: {
-                type: 'array',
-                allowed: ['Character'],
-            },
-            CreativeWork: {
-                type: 'array',
-                allowed: ['CreativeWork'],
-            },
-            Depiction: {
-                type: 'array',
-                allowed: ['Depiction'],
-            },
-            Effect: {
-                type: 'array',
-                allowed: ['Effect'],
-            },
-            NarrativeAudio: {
-                type: 'array',
-                allowed: ['NarrativeAudio'],
-            },
-            NarrativeLocation: {
-                type: 'array',
-                allowed: ['NarrativeLocation'],
-            },
-            NarrativeScene: {
-                type: 'array',
-                allowed: ['NarrativeScene'],
-            },
-            NarrativeObject: {
-                type: 'array',
-                allowed: ['NarrativeObject'],
-            },
-            NarrativeStyling: {
-                type: 'array',
-                allowed: ['NarrativeStyling'],
-            },
-            NarrativeWardrobe: {
-                type: 'array',
-                allowed: ['NarrativeWardrobe'],
-            },
-            ProductionScene: {
-                type: 'array',
-                allowed: ['ProductionScene'],
-            },
-            ProductionLocation: {
-                type: 'array',
-                allowed: ['ProductionLocation'],
-            },
-            Slate: {
-                type: 'array',
-                allowed: ['Slate'],
-            },
-            Infrastructure: {
-                type: 'array',
-                allowed: ['Infrastructure'],
-            },
-            SpecialAction: {
-                type: 'array',
-                allowed: ['SpecialAction'],
-            },
-            Collection: {
-                type: 'array',
-                allowed: ['Collection'],
-            },
-            Composition: {
-                type: 'array',
-                allowed: ['Composition'],
-            },
-            Location: {
-                type: 'array',
-                allowed: ['Location'],
-            },
-            Participant: {
-                type: 'array',
-                allowed: ['Participant'],
-            },
-        },
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-        },
-    },
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

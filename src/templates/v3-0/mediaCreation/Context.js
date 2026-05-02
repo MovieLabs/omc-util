@@ -117,6 +117,14 @@ export default {
                     },
                 },
             },
+            isFor: {
+                Character: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Character'],
+                    },
+                },
+            },
         },
         Context: {
             $type: 'array',
@@ -124,79 +132,6 @@ export default {
                 $allowed: ['Context'],
                 $inverse: 'ForEntity',
             },
-        },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-        // ForEntity: {
-        //     type: 'array',
-        //     allowed: [
-        //         'Asset',
-        //         'Character',
-        //         'CreativeWork',
-        //         'Context',
-        //         'Depiction',
-        //         'Effect',
-        //         'Collection',
-        //         'Composition',
-        //         'Location',
-        //         'NarrativeAudio',
-        //         'NarrativeScene',
-        //         'NarrativeLocation',
-        //         'NarrativeObject',
-        //         'NarrativeStyling',
-        //         'NarrativeWardrobe',
-        //         'Participant',
-        //         'ProductionLocation',
-        //         'ProductionScene',
-        //         'Slate',
-        //         'SpecialAction',
-        //     ],
-        // },
-    },
-    edges: {},
-    edges2: {
-        for: {
-            NarrativeScene: {},
-        },
-        featuresIn: {
-            NarrativeScene: {
-                allowed: ['NarrativeScene'],
-            },
-        },
-        has: {
-            NarrativeScene: {},
-            Participant: {},
-            Slate: {},
-        },
-        needs: {
-            Effect: {
-                allowed: ['Effect'],
-            },
-            NarrativeAudio: {
-                allowed: ['NarrativeAudio'],
-            },
-            NarrativeObject: {
-                allowed: ['NarrativeObject'],
-            },
-            NarrativeStyling: {
-                allowed: ['NarrativeStyling'],
-            },
-            NarrativeWardrobe: {
-                allowed: ['NarrativeWardrobe'],
-            },
-            SpecialAction: {
-                allowed: ['SpecialAction'],
-            },
-        },
-        usedIn: {
-            ProductionLocation: {},
-            productOf: {},
         },
     },
     graphQl: {

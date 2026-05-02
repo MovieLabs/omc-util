@@ -4,6 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
+import { inverseEdges } from '../../v3-0/index.js';
 
 const entityType = 'ProductionScene';
 const entityGeneral = generalConfig[entityType];
@@ -30,26 +31,50 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-    },
-    edges: {
+    cxtEdges: {
         for: {
-            allowed: ['NarrativeScene'],
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
         },
         has: {
-            allowed: ['Slate'],
+            Slate: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Slate'],
+                },
+            },
         },
         related: {
-            allowed: ['ProductionScene'],
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                },
+            },
         },
         uses: {
-            allowed: ['Asset', 'Depiction', 'ProductionLocation'],
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            Depiction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Depiction'],
+                },
+            },
+            ProductionLocation: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionLocation'],
+                },
+            },
         },
     },
     graphQl: {

@@ -106,44 +106,6 @@ export default {
         // version: null,
         // provenance: null,
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-            predicate: '',
-        },
-        Asset: {
-            type: 'array',
-            allowed: ['Asset'],
-            biDirectional: true,
-        },
-        AssetSC: {
-            type: 'object',
-            allowed: ['AssetSC'],
-            biDirectional: true,
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-        },
-    },
-    edges: {
-        for: {
-            allowed: ['NarrativeScene', 'Composition'],
-        },
-        has: {
-            allowed: ['NarrativeScene', 'Participant', 'Slate'],
-        },
-        usedIn: {
-            allowed: ['ProductionLocation', 'ProductionScene'],
-        },
-        productOf: {
-            allowed: ['Composition'],
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

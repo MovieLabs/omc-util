@@ -84,7 +84,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                // $inverse: 'ForEntity',
+                $inverse: `edges.isFor.${entityType}`,
             },
         },
         Depiction: {
@@ -94,36 +95,6 @@ export default {
                 $inverse: 'Depicts',
                 $omcPredicate: 'hasDepiction',
             },
-        },
-    },
-    properties: {
-        ...baseEntity.properties,
-        characterType: null,
-        characterName: completeName,
-        Context: null,
-        Depiction: null,
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depicts',
-            omcPredicate: 'hasDepiction',
-        },
-    },
-    edges: {
-        featuresIn: {
-            allowed: ['NarrativeScene'],
-        },
-        needs: {
-            allowed: ['Effect', 'NarrativeAudio', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe', 'SpecialAction'],
         },
     },
     graphQl: {

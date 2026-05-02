@@ -30,8 +30,7 @@ export const generalConfig = {
             entityLabel: 'Asset',
             entityLabelSuffix: (omc) => omc?.assetFC?.functionalType ? `: ${omc.assetFC.functionalType}` : '',
             header: {
-                // backgroundColor: '#EBDEF0',
-                backgroundColor: '#AA0000',
+                backgroundColor: '#EBDEF0',
                 fontColor: '#000',
                 entityLabel: 'Asset',
                 entityLabelSuffix: (omc) => omc?.assetFC?.functionalType ? `: ${omc.assetFC.functionalType}` : '',
@@ -233,7 +232,7 @@ export const generalConfig = {
                 entityLabel: 'Nar. Styling',
                 entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
             },
-            propRows: ['label', 'narrativeType',],
+            propRows: ['label', 'narrativeType'],
         },
     },
     NarrativeWardrobe: {

@@ -22,63 +22,6 @@ export default {
             functionalType: { $type: 'string' },
             functionalProperties: { $type: 'object' },
         },
-        // edges: {
-        //     for: {
-        //         NarrativeScene: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeScene'],
-        //                 $inverse: `edges.${inverseEdges.for}.${entityType}`,
-        //             },
-        //         },
-        //         Composition: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['Composition'],
-        //                 $inverse: `edges.${inverseEdges.for}.${entityType}`,
-        //             },
-        //         },
-        //     },
-        //     has: {
-        //         NarrativeScene: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['NarrativeScene'],
-        //                 $inverse: `edges.${inverseEdges.has}.${entityType}`,
-        //             },
-        //         },
-        //         Participant: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['Participant'],
-        //                 $inverse: `edges.${inverseEdges.has}.${entityType}`,
-        //             },
-        //         },
-        //         Slate: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['Slate'],
-        //                 $inverse: `edges.${inverseEdges.has}.${entityType}`,
-        //             },
-        //         },
-        //     },
-        //     usedIn: {
-        //         ProductionLocation: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['ProductionLocation'],
-        //                 $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
-        //             },
-        //         },
-        //         ProductionScene: {
-        //             $type: 'array',
-        //             $edge: {
-        //                 $allowed: ['ProductionScene'],
-        //                 $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
-        //             },
-        //         },
-        //     },
-        // },
         Asset: {
             $type: 'array',
             $edge: {
@@ -104,42 +47,54 @@ export default {
         // version: null,
         // provenance: null,
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-            predicate: '',
-        },
-        Asset: {
-            type: 'array',
-            allowed: ['Asset'],
-            biDirectional: true,
-        },
-        AssetSC: {
-            type: 'object',
-            allowed: ['AssetSC'],
-            biDirectional: true,
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-        },
-    },
-    edges: {
+    cxtEdges: {
         for: {
-            allowed: ['NarrativeScene', 'Composition'],
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
+            Composition: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Composition'],
+                },
+            },
         },
         has: {
-            allowed: ['NarrativeScene', 'Participant', 'Slate'],
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
+            Participant: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Participant'],
+                },
+            },
+            Slate: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Slate'],
+                },
+            },
         },
         usedIn: {
-            allowed: ['ProductionLocation', 'ProductionScene'],
-        },
-        productOf: {
-            allowed: ['Composition'],
+            ProductionLocation: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionLocation'],
+                },
+            },
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                },
+            },
         },
     },
     graphQl: {

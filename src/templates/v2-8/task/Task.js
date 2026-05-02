@@ -12,8 +12,18 @@ export default {
     ...entityGeneral,
     template: {
         ...baseEntity.template,
-        // Task: null,
-        // TaskSC: null,
+        TaskSC: {
+            $type: 'object',
+            $edge: {
+                $allowed: ['TaskSC'],
+            },
+        },
+        Task: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Task'],
+            },
+        },
         taskFC: {
             functionalType: { $type: 'string' },
             functionalProperties: { $type: 'string' },
@@ -27,15 +37,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-    },
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

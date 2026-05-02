@@ -26,15 +26,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-    },
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

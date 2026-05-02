@@ -84,22 +84,6 @@ export default {
         // Episode: null,
         // ProductionCompany: null,
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed:
-                ['Context'],
-            inverse:
-                'ForEntity',
-            biDirectional:
-                true,
-        },
-    },
-    edges: {
-        has: {
-            allowed: ['Asset', 'NarrativeScene'],
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

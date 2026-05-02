@@ -45,35 +45,22 @@ export default {
                 $omcPredicate: 'hasDepiction',
             },
         },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        ParticipantSC: {
-            type: 'object',
-            allowed: ['Organization', 'Department', 'Person', 'Service'],
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depictor',
-        },
-        assetFC: {
-            Role: {
-                type: 'array',
-                allowed: ['Role'],
-                predicate: 'has',
+        edges: {
+            for: {
+                Asset: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Asset'],
+                    },
+                },
+                Slate: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Slate'],
+                        $inverse: 'Director',
+                    },
+                },
             },
-        },
-    },
-    edges: {
-        for: {
-            allowed: ['Asset', 'Slate'],
         },
     },
     graphQl: {

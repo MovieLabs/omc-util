@@ -47,28 +47,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-        },
-        Depicts: {
-            type: 'object',
-            allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
-            inverse: 'Depiction',
-        },
-        Depictor: {
-            type: 'array',
-            allowed: ['Asset', 'Participant'],
-            inverse: 'Depiction',
-        },
-    },
-    edges: {
-        usedIn: {
-            allowed: ['ProductionScene'],
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

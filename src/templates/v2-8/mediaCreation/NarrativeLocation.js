@@ -30,29 +30,19 @@ export default {
                 $omcPredicate: 'hasDepiction',
             },
         },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depicts',
-        },
         Location: {
-            type: 'array',
-            path: 'Location',
-            allowed: ['Location'],
+            $type: 'array',
+            $edge: {
+                $allowed: ['Location'],
+            },
         },
     },
-    edges: {
-        features: {
-            allowed: ['NarrativeScene'],
+    cxtEdges: {
+        featuresIn: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['NarrativeScene'],
+            },
         },
     },
     graphQl: {

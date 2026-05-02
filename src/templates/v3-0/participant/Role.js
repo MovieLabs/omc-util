@@ -15,8 +15,6 @@ export default {
         ...baseEntity.template,
         roleType: { $type: 'string' },
     },
-    intrinsic: {},
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

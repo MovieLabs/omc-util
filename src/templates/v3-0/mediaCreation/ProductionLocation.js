@@ -4,6 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
+import { inverseEdges } from '../inverseEdges.js';
 
 const entityType = 'ProductionLocation';
 const entityGeneral = generalConfig[entityType];
@@ -29,23 +30,23 @@ export default {
                 $inverse: 'Depicts',
                 $omcPredicate: 'hasDepiction',
             },
+            Location: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Location'],
+                },
+            },
         },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-        Location: {
-            type: 'array',
-            allowed: ['Location'],
-        },
-    },
-    edges: {
-        usedIn: {
-            allowed: ['ProductionScene'],
+        edges: {
+            usedIn: {
+                ProductionScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionScene'],
+                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                    },
+                },
+            },
         },
     },
     graphQl: {

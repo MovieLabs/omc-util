@@ -14,22 +14,12 @@ export default {
     template: {
         ...baseEntity.template,
         depictionType: { $type: 'string' },
-        edges: {
-            usedIn: {
-                ProductionScene: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['ProductionScene'],
-                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
-                    },
-                },
-            },
-        },
+
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                // $inverse: 'ForEntity',
+                $inverse: 'ForEntity',
             },
         },
         Depicts: {
@@ -47,26 +37,14 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-        },
-        Depicts: {
-            type: 'object',
-            allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
-            inverse: 'Depiction',
-        },
-        Depictor: {
-            type: 'array',
-            allowed: ['Asset', 'Participant'],
-            inverse: 'Depiction',
-        },
-    },
-    edges: {
+    cxtEdges: {
         usedIn: {
-            allowed: ['ProductionScene'],
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                },
+            },
         },
     },
     graphQl: {

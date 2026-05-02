@@ -15,8 +15,6 @@ export default {
         structuralType: null,
         structuralProperties: null,
     },
-    intrinsic: {},
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

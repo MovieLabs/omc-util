@@ -4,6 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
+import { inverseEdges } from '../inverseEdges.js';
 
 const entityType = 'ProductionScene';
 const entityGeneral = generalConfig[entityType];
@@ -29,27 +30,57 @@ export default {
                 $inverse: 'ForEntity',
             },
         },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-    },
-    edges: {
-        for: {
-            allowed: ['NarrativeScene'],
-        },
-        has: {
-            allowed: ['Slate'],
-        },
-        related: {
-            allowed: ['ProductionScene'],
-        },
-        uses: {
-            allowed: ['Asset', 'Depiction', 'ProductionLocation'],
+        edges: {
+            for: {
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                    },
+                },
+            },
+            has: {
+                Slate: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Slate'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+            },
+            related: {
+                ProductionScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionScene'],
+                        $inverse: `edges.${inverseEdges.related}.${entityType}`,
+                    },
+                },
+            },
+            uses: {
+                Asset: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Asset'],
+                        $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                    },
+                },
+                Depiction: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Depiction'],
+                        $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                    },
+                },
+                ProductionLocation: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionLocation'],
+                        $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                    },
+                },
+            },
         },
     },
     graphQl: {

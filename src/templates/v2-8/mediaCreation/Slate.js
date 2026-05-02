@@ -4,6 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
+import { inverseEdges } from '../../v3-0/index.js';
 
 const entityType = 'Slate';
 const entityGeneral = generalConfig[entityType];
@@ -44,26 +45,41 @@ export default {
             },
         },
         // CreativeWork: null,
-        // Director: null,
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
         Director: {
-            type: 'array',
-            allowed: ['Participant'],
+            $type: 'array',
+            $edge: {
+                $allowed: ['Participant'],
+            },
         },
     },
-    edges: {
+    cxtEdges: {
         has: {
-            allowed: ['Infrastructure', 'Participant'],
+            Infrastructure: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Infrastructure'],
+                },
+            },
+            Participant: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Participant'],
+                },
+            },
         },
         for: {
-            allowed: ['Asset', 'ProductionScene'],
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                },
+            },
         },
     },
     graphQl: {

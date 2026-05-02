@@ -104,22 +104,23 @@ const buildEdges = ((edges, path) => {
             ? {
                 ...obj, [edge]: {
                     allowed: edges[edge].$edge.$allowed,
-                    path: `${path}${edge}`,
+                    path: `${path ? `${path}${edge}` : edge}`,
                     type: edges[edge].$type,
                     inverse: edges[edge].$edge.$inverse || null,
                     predicate: edges[edge].$edge.$omcPredicate || null,
                 },
             }
-            : { ...obj, ...buildEdges(edges[edge], `${path}.${edge}.`) }
+            : { ...obj, ...buildEdges(edges[edge], `${path ? `${path}.${edge}.` : `${edge}.`}`) }
     ), {});
 });
 
 console.log('v2.8');
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
     console.log(entityType);
-    const { edges, ...rest } = omcTemplate[entityType].template;
-    const intrinsic = buildEdges(rest, '');
-    const cxtEdge = buildEdges(edges, 'edges');
+    const { template } = omcTemplate[entityType];
+    const { cxtEdges = {} } = omcTemplate[entityType];
+    const intrinsic = buildEdges(template, null);
+    const cxtEdge = buildEdges(cxtEdges, null);
     return {
         ...obj,
         [entityType]: {
@@ -134,6 +135,7 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
 entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
+console.log(entityTemplate);
 
 export {
 

@@ -27,8 +27,6 @@ export default {
             },
         },
     },
-    intrinsic: {},
-    edges: {},
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

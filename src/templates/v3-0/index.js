@@ -106,13 +106,14 @@ const buildEdges = ((edges, path) => {
             ? {
                 ...obj, [edge]: {
                     allowed: edges[edge].$edge.$allowed,
-                    path: `${path}${edge}`,
+                    path: `${path ? `${path}${edge}` : edge}`,
                     type: edges[edge].$type,
                     inverse: edges[edge].$edge.$inverse || null,
                     predicate: edges[edge].$edge.$omcPredicate || null,
                 },
             }
-            : { ...obj, ...buildEdges(edges[edge], `${path}.${edge}.`) }
+            // : { ...obj, ...buildEdges(edges[edge], `${path}.${edge}.`) }
+            : { ...obj, ...buildEdges(edges[edge], `${path ? `${path}.${edge}.` : `${edge}.`}`) }
     ), {});
 });
 
@@ -121,8 +122,9 @@ const buildEdges = ((edges, path) => {
  */
 
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
+    // console.log(entityType);
     const { edges, ...rest } = omcTemplate[entityType].template;
-    const intrinsic = buildEdges(rest, '');
+    const intrinsic = buildEdges(rest, null);
     const edge = buildEdges(edges, 'edges'); // Path for edges, always starts with edges
     return {
         ...obj,
@@ -141,6 +143,8 @@ entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
 
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;
+
+// console.log(entityTemplate);
 
 export {
     inverseEdges,

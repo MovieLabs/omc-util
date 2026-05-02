@@ -56,28 +56,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depicts',
-        },
-    },
-    edges: {
-        featuresIn: {
-            allowed: ['NarrativeScene'],
-        },
-        neededBy: {
-            allowed: ['Character'],
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

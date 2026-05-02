@@ -14,26 +14,6 @@ export default {
     template: {
         ...baseEntity.template,
         effectType: { $type: 'string' },
-        edges: {
-            featuresIn: {
-                NarrativeScene: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['NarrativeScene'],
-                        $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
-                    },
-                },
-            },
-            neededBy: {
-                Character: {
-                    $type: 'string',
-                    $edge: {
-                        $allowed: ['Character'],
-                        $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
-                    },
-                },
-            },
-        },
         Context: {
             $type: 'array',
             $edge: {
@@ -42,20 +22,22 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            biDirectional: true,
-            inverse: 'ForEntity',
-        },
-    },
-    edges: {
+    cxtEdges: {
         featuresIn: {
-            allowed: ['NarrativeScene'],
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                },
+            },
         },
         neededBy: {
-            allowed: ['Character'],
+            Character: {
+                $type: 'string',
+                $edge: {
+                    $allowed: ['Character'],
+                },
+            },
         },
     },
     graphQl: {

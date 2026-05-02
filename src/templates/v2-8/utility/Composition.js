@@ -15,6 +15,7 @@ export default {
         ...baseEntity.template,
         compositionType: { $type: 'string' },
         compositionProperties: { $type: 'object' },
+        software: software.template,
         includes: {
             Asset: {
                 $type: 'array',
@@ -35,7 +36,6 @@ export default {
                 },
             },
         },
-        software: software.template,
         StartHere: {
             $type: 'array',
             $edge: {
@@ -46,6 +46,7 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Asset'],
+                $inverse: `edges.productOf.${entityType}`,
             },
         },
         Context: {

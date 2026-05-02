@@ -3,7 +3,6 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'NarrativeObject';
@@ -22,24 +21,7 @@ export default {
         size: {
             $type: 'string',
         },
-        edges: {
-            featuresIn: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['NarrativeScene'],
-                    $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
-                },
-            },
-            neededBy: {
-                Character: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Character'],
-                        $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
-                    },
-                },
-            },
-        },
+
         Context: {
             $type: 'array',
             $edge: {
@@ -56,26 +38,20 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depicts',
-        },
-    },
-    edges: {
+    cxtEdges: {
         featuresIn: {
-            allowed: ['NarrativeScene'],
+            $type: 'array',
+            $edge: {
+                $allowed: ['NarrativeScene'],
+            },
         },
         neededBy: {
-            allowed: ['Character'],
+            Character: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Character'],
+                },
+            },
         },
     },
     graphQl: {

@@ -46,34 +46,20 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-        ParticipantSC: {
-            type: 'object',
-            allowed: ['Organization', 'Department', 'Person', 'Service'],
-        },
-        Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            biDirectional: true,
-            inverse: 'Depictor',
-        },
-        assetFC: {
-            Role: {
-                type: 'array',
-                allowed: ['Role'],
-                predicate: 'has',
-            },
-        },
-    },
-    edges: {
+    cxtEdges: {
         for: {
-            allowed: ['Asset', 'Slate'],
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                },
+            },
+            Slate: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Slate'],
+                },
+            },
         },
     },
     graphQl: {

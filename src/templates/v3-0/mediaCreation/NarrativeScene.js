@@ -4,6 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName, note } from '../utility/utility.js';
+import { inverseEdges } from '../inverseEdges.js';
 
 const entityType = 'NarrativeScene';
 const entityGeneral = generalConfig[entityType];
@@ -29,30 +30,90 @@ export default {
                 $inverse: 'ForEntity',
             },
         },
-    },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
         Depiction: {
-            type: 'array',
-            allowed: ['Depiction'],
-            inverse: 'Depicts',
-            biDirectional: true,
+            $type: 'array',
+            $edge: {
+                $allowed: ['Depiction'],
+                $inverse: 'Depicts',
+            },
         },
-    },
-    edges: {
-        features: {
-            allowed: ['Character', 'Effect', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject', 'NarrativeWardrobe', 'SpecialAction'],
-        },
-        for: {
-            allowed: ['CreativeWork'],
-        },
-        has: {
-            allowed: ['Asset', 'ProductionScene'],
+        edges: {
+            features: {
+                Character: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Character'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                Effect: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Effect'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                NarrativeAudio: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeAudio'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                NarrativeLocation: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeLocation'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                NarrativeObject: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeObject'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                NarrativeWardrobe: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeWardrobe'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+                SpecialAction: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['SpecialAction'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                    },
+                },
+            },
+            for: {
+                CreativeWork: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['CreativeWork'],
+                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                    },
+                },
+            },
+            has: {
+                Asset: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Asset'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                ProductionScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['ProductionScene'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+            },
         },
     },
     graphQl: {

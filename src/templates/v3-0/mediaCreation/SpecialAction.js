@@ -42,22 +42,6 @@ export default {
             },
         },
     },
-    intrinsic: {
-        Context: {
-            type: 'array',
-            allowed: ['Context'],
-            inverse: 'ForEntity',
-            biDirectional: true,
-        },
-    },
-    edges: {
-        featuresIn: {
-            allowed: ['NarrativeScene'],
-        },
-        neededBy: {
-            allowed: ['Character'],
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

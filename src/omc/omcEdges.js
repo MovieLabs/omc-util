@@ -202,24 +202,31 @@ export function removeEdge(omcEntity, identifier) {
 
 /**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
- * @param {OmcEntity} fromEntity
- * @param {OmcEntity} toEntity
- * @param {'edges'|'intrinsic'} edgeType - Check against intrinsic or regular edges
- * @returns {Object | null}
+ * @param {Object} params
+ * @param {OmcEntity} params.fromEntity - The entity from which the edge is from
+ * @param {OmcEntity} params.toEntity - The entity from which the edge is to
+ * @param {OmcEntity} params.forEntity - If toEntity is a Context, this is the entity which the Context is related to
+ * @returns {Object | null} - An array of the valid entityTypes the fromEntity may connect to
  */
-export function edgeValid(fromEntity, toEntity, edgeType = 'intrinsic') {
-    const { schemaVersion, entityType: fromEntityType } = fromEntity;
+export function edgeValid({
+    fromEntity = null,
+    toEntity = null,
+    forEntity = null,
+}) {
+    const { entityType: fromEntityType } = fromEntity;
     const { entityType: toEntityType } = toEntity;
-    // Check against the intrinsic edges of the entity
-    const { intrinsic, edges } = omcTemplate.edgeTable({ schemaVersion, entityType: fromEntityType });
-    const allEdges = { ...intrinsic, ...edges };
+    // Select the right set if edges dependent on whether this is a Context or not
+    const isContext = (fromEntityType === 'Context' && forEntity);
+    const edgeSet = isContext ? omcTemplate.edgeTable(forEntity) : omcTemplate.edgeTable(fromEntity);
+    const allEdges = isContext ? edgeSet.cxtEdges : { ...edgeSet.intrinsic, ...edgeSet.edges };
 
-    const validEdges = Object.keys(allEdges).reduce((obj, key) => (
+    const onlyValidEdges = Object.keys(allEdges).reduce((obj, key) => (
         allEdges[key].allowed.includes(toEntityType)
             ? { ...obj, [key]: allEdges[key] }
             : obj
     ), {});
-    return Object.keys(validEdges).length ? validEdges : null;
+    // return validEdges;
+    return Object.keys(onlyValidEdges).length ? onlyValidEdges : null;
 }
 
 /**
@@ -237,17 +244,17 @@ export function edgeValid(fromEntity, toEntity, edgeType = 'intrinsic') {
  * @param {boolean} params.inverse - Whether the inverse edge should also be set if there is one
  * @param {'edges'|'intrinsic'} params.edgeType - Which edge table to use, intrinsic or regular edges.
  */
-export function edgeCreate({
-    fromEntity = null,
-    toEntity = null,
-    forEntity = null,
-    intrinsicEdge = null,
-    inverse = false,
-    edgeType = 'intrinsic', // Do this for intrinsic or regular edges
-}) {
-    const validEdges = forEntity
-        ? edgeValid(forEntity, toEntity, 'edges')
-        : edgeValid(fromEntity, toEntity, edgeType); // Valid edges between to the from and to entities
+export function edgeCreate(params) {
+    const {
+        fromEntity = null,
+        toEntity = null,
+        forEntity = null,
+        intrinsicEdge = null,
+        inverse = false,
+        edgeType = 'intrinsic', // Do this for intrinsic or regular edges
+    } = params;
+
+    const validEdges = edgeValid(params);
     if (!validEdges) return null;
 
     const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
