@@ -29,8 +29,6 @@
 import { isCapitalized } from '../../mlHelpers/util.js';
 
 // eslint-disable-next-line import/order
-import { generalConfig } from './generalConfig.js';
-// eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
 
 import Asset from './asset/Asset.js';

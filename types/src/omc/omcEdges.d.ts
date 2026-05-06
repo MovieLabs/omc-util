@@ -80,33 +80,36 @@ export function removeEdge(omcEntity: OmcEntity, identifier: OmcEntity | OmcIden
  */
 /**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
- * @param {OmcEntity} fromEntity
- * @param {OmcEntity} toEntity
- * @param {'edges'|'intrinsic'} edgeType - Check against intrinsic or regular edges
- * @returns {Object | null}
+ * @function edgeValid
+ * @param {Object} params
+ * @param {OmcEntity} params.fromEntity - The entity from which the edge is from
+ * @param {OmcEntity} params.toEntity - The entity from which the edge is to
+ * @param {OmcEntity} params.forEntity - If toEntity is a Context, this is the entity which the Context is related to
+ * @returns {Object | null} - An array of the valid entityTypes the fromEntity may connect to
  */
-export function edgeValid(fromEntity: OmcEntity, toEntity: OmcEntity, edgeType?: "edges" | "intrinsic"): any | null;
+export function edgeValid({ fromEntity, toEntity, forEntity, }: {
+    fromEntity: OmcEntity;
+    toEntity: OmcEntity;
+    forEntity: OmcEntity;
+}): any | null;
 /**
  * Creates a new edge from one entity to another, based on the allowed edges for the entity
  * - Setting the 'inverse' property will also create the inverse edge in the toEntity if applicable
  * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific property to be targeted
  *
  * @function edgeCreate
- * @static
  * @param {Object} params
  * @param {OmcEntity} params.fromEntity - The entity on which to create the new edge
  * @param {OmcEntity} params.toEntity - The entity to which the edge should be created
- * @param {OmcEntity} params.forEntity - Use when setting edges in a Context, this is the entity for which the Context is For.
+ * @param {OmcEntity} params.forEntity - The entity which a Context is for, when the fromEntity is a Context
  * @param {Object} params.intrinsicEdge - Specify a specific edge, for entities that have multiple valid edge patterns, this denotes the specific one to use
  * @param {boolean} params.inverse - Whether the inverse edge should also be set if there is one
- * @param {'edges'|'intrinsic'} params.edgeType - Which edge table to use, intrinsic or regular edges.
  */
-export function edgeCreate({ fromEntity, toEntity, forEntity, intrinsicEdge, inverse, edgeType, }: {
+export function edgeCreate(params: {
     fromEntity: OmcEntity;
     toEntity: OmcEntity;
     forEntity: OmcEntity;
     intrinsicEdge: any;
     inverse: boolean;
-    edgeType: "edges" | "intrinsic";
 }): any;
 //# sourceMappingURL=omcEdges.d.ts.map
