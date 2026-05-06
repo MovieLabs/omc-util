@@ -28,6 +28,10 @@
               "title": "Entity Type",
               "const": "Asset"
             },
+            "assetName": {
+              "title": "Asset Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "version": {
               "type": [
                 "object",
@@ -112,13 +116,13 @@
               "$ref": "#/$defs/Utility/properties/provenance",
               "title": "Provenance"
             },
-            "Asset": {
+            "Member": {
               "type": [
                 "array",
                 "null"
               ],
-              "title": "Asset Group",
-              "description": "The set of Assets that make up an an asset group and has a structuralType of 'assetGroup'",
+              "title": "Asset Group Members",
+              "description": "The set of Assets that make up the members of an asset group.",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
@@ -859,6 +863,10 @@
               "title": "Entity Type",
               "const": "AssetSC"
             },
+            "assetSCName": {
+              "title": "Asset Structural Characteristics Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "version": {
               "type": [
                 "object",
@@ -1195,13 +1203,17 @@
               "title": "Entity Type",
               "const": "Infrastructure"
             },
-            "Infrastructure": {
+            "infrastructureName": {
+              "title": "Infrastructure Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
+            "Member": {
               "type": [
                 "array",
                 "null"
               ],
-              "title": "Infrastructure Group",
-              "description": "The set of Infrastructure that make up an an infrastructure group and has a structuralType of 'nfrastructureGroup'",
+              "title": "Infrastructure Group Member",
+              "description": "The set of Infrastructure that make up the members of an infrastructure group.",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
@@ -1249,6 +1261,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "InfrastructureSC"
+            },
+            "infrastructureSCName": {
+              "title": "Infrastructure Structural Characteristics Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "structuralType": {
               "type": [
@@ -1492,6 +1508,10 @@
                   "$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"
                 }
               ]
+            },
+            "contextName": {
+              "title": "Context Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Context": {
@@ -1787,7 +1807,7 @@
               "const": "Depiction"
             },
             "depictionType": {
-              "title": "Object type",
+              "title": "Depiction type",
               "description": "A categorization of the type of depiction",
               "default": "depiction",
               "enum": [
@@ -1795,6 +1815,10 @@
                 "depiction",
                 "portrayal"
               ]
+            },
+            "depictionName": {
+              "title": "Depiction Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Depicts": {
@@ -1852,7 +1876,7 @@
               "const": "Effect"
             },
             "effectType": {
-              "title": "effectType",
+              "title": "Effect Type",
               "description": "A categorization of the type of effect.",
               "default": "effect",
               "enum": [
@@ -1861,6 +1885,10 @@
                 "specialEffect",
                 "visualEffect"
               ]
+            },
+            "effectName": {
+              "title": "Effect Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Context": {
@@ -1901,6 +1929,10 @@
                 "narrativeSoundEffect"
               ],
               "default": "narrativeAudio"
+            },
+            "narrativeAudioName": {
+              "title": "Narrative Audio Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Depiction": {
@@ -1948,9 +1980,13 @@
                 null,
                 "narrativeLocation"
               ],
-              "title": "narrativeType - narrative location",
+              "title": "Narrative Type (narrative location)",
               "description": "Describes the specific type of Narrative Location, equivalent to the sub-class used in OMC-RDF.",
               "default": "narrativeLocation"
+            },
+            "narrativeLocationName": {
+              "title": "Narrative Location Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Location": {
@@ -2004,7 +2040,7 @@
               "const": "NarrativeObject"
             },
             "narrativeType": {
-              "title": "narrativeType - narrative object",
+              "title": "Narrative Type (narrative object)",
               "description": "Describes the specific type of Narrative Object, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
                 null,
@@ -2015,6 +2051,10 @@
                 "narrativeSetDressing"
               ],
               "default": "narrativeObject"
+            },
+            "narrativeObjectName": {
+              "title": "Narrative Object Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "size": {
               "type": [
@@ -2073,7 +2113,7 @@
               "const": "NarrativeScene"
             },
             "narrativeType": {
-              "title": "narrativeType - narrative scene",
+              "title": "Narrative Type (narrative scene)",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
                 null,
@@ -2081,31 +2121,9 @@
               ],
               "default": "narrativeScene"
             },
-            "sceneName": {
-              "type": [
-                "object",
-                "null"
-              ],
+            "narrativeSceneName": {
               "title": "Narrative Scene Name",
-              "description": "A human readable name for the scene",
-              "properties": {
-                "fullName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Scene full name",
-                  "description": "A full descriptive name for the scene"
-                },
-                "altName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Scene alternate name",
-                  "description": "An alternate, often shorter, name used in applications to identify the scenes."
-                }
-              }
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "sceneNumber": {
               "type": [
@@ -2151,7 +2169,7 @@
               "const": "NarrativeStyling"
             },
             "narrativeType": {
-              "title": "narrativeType - narrative styling",
+              "title": "Narrative Type (narrative styling)",
               "description": "Describes the specific type of Narrative Styling, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
                 null,
@@ -2161,6 +2179,10 @@
                 "narrativeProsthetics"
               ],
               "default": "narrativeStyling"
+            },
+            "narrativeStylingName": {
+              "title": "Narrative Styling Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Context": {
@@ -2204,13 +2226,17 @@
               "const": "NarrativeWardrobe"
             },
             "narrativeType": {
-              "title": "narrativeType - narrative wardrobe",
+              "title": "Narrative Type (narrative wardrobe)",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
                 null,
                 "narrativeWardrobe"
               ],
               "default": "narrativeWardrobe"
+            },
+            "narrativeWardrobeName": {
+              "title": "Narrative Wardrobe Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Context": {
@@ -2262,6 +2288,10 @@
               ],
               "default": "production"
             },
+            "productionLocationName": {
+              "title": "Production Location Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Location": {
               "oneOf": [
@@ -2301,8 +2331,8 @@
               "title": "Entity Type",
               "const": "ProductionScene"
             },
-            "sceneName": {
-              "title": "Scene Name",
+            "productionSceneName": {
+              "title": "Production Scene Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
             "sceneHeader": {
@@ -2470,7 +2500,7 @@
               "const": "SpecialAction"
             },
             "specialActionType": {
-              "title": "specialActionType",
+              "title": "Special Action Type",
               "description": "A categorization of the type action.",
               "enum": [
                 "stunt",
@@ -2483,7 +2513,14 @@
               ],
               "default": "specialAction"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
+            "specialActionName": {
+              "title": "Special Action Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
+            "edges": {
+              "$ref": "#/$defs/core/properties/edges",
+              "title": "Edges"
+            },
             "Context": {
               "type": [
                 "array",
@@ -2577,13 +2614,13 @@
               "description": "The use or purpose of a Participant within the production process"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Participant": {
+            "Member": {
               "type": [
                 "array",
                 "null"
               ],
-              "title": "Participant Group",
-              "description": "Any Participants that are members of this Participant group",
+              "title": "Participant Group Member",
+              "description": "The set of Participants that make up the members of a participant group.",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
@@ -2829,6 +2866,10 @@
               "title": "Entity Type",
               "const": "Task"
             },
+            "taskName": {
+              "title": "Task Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "TaskSC": {
               "title": "Task Structural Characteristics",
               "oneOf": [
@@ -2869,6 +2910,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "TaskSC"
+            },
+            "taskSCName": {
+              "title": "Task Structural Characteristics Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "structuralType": {
               "type": [
@@ -2949,6 +2994,10 @@
               "title": "Collection Type",
               "description": "The type, or sub-class, of this specific Collection.",
               "x-controlledValues": ["collection"]
+            },
+            "collectionName": {
+              "title": "Collection Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "collectionProperties": {
               "type": [
@@ -3098,6 +3147,10 @@
                 "sequence.vfxImage"
               ]
             },
+            "compositionName": {
+              "title": "Composition Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "compositionProperties": {
               "type": [
                 "object",
@@ -3238,6 +3291,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "Location"
+            },
+            "locationName": {
+              "title": "Location Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "address": {
               "title": "Address",
@@ -3658,6 +3715,40 @@
           },
           "additionalProperties": false,
           "description": "A canonical name and alternative name for the entity."
+        },
+        "narrativeName": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "fullName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Full Name",
+              "description": "The full an complete name of the entity."
+            },
+            "altName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Alternate Name",
+              "description": "An alternate, often shortened name for the entity."
+            },
+            "scriptName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Script Name",
+              "description": "The name as it appears in the script (often capitalized)"
+            }
+          },
+          "title": "Narrative Name",
+          "description": "A canonical name and alternative name for narrative entities, that may have a script name."
         },
         "completeName": {
           "type": [
@@ -5489,7 +5580,7 @@
               "title": "Identifier",
               "$ref": "#/$defs/Utility/properties/identifier"
             },
-            "name": {
+            "label": {
               "type": [
                 "string",
                 "null"
