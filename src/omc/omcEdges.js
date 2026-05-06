@@ -202,6 +202,7 @@ export function removeEdge(omcEntity, identifier) {
 
 /**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
+ * @function edgeValid
  * @param {Object} params
  * @param {OmcEntity} params.fromEntity - The entity from which the edge is from
  * @param {OmcEntity} params.toEntity - The entity from which the edge is to
@@ -215,9 +216,12 @@ export function edgeValid({
 }) {
     const { entityType: fromEntityType } = fromEntity;
     const { entityType: toEntityType } = toEntity;
-    // Select the right set if edges dependent on whether this is a Context or not
-    const isContext = (fromEntityType === 'Context' && forEntity);
-    const edgeSet = isContext ? omcTemplate.edgeTable(forEntity) : omcTemplate.edgeTable(fromEntity);
+    // Select the right set of edges dependent on whether this is a Context or not
+    const isContext = !!(fromEntityType === 'Context' && forEntity);
+    // If this is a context, use the edges of the forEntity, but they need the schemaVersion of the from because this is where they are placed
+    const edgeSet = isContext
+        ? omcTemplate.edgeTable({ ...forEntity, schemaVersion: fromEntity.schemaVersion })
+        : omcTemplate.edgeTable(fromEntity);
     const allEdges = isContext ? edgeSet.cxtEdges : { ...edgeSet.intrinsic, ...edgeSet.edges };
 
     const onlyValidEdges = Object.keys(allEdges).reduce((obj, key) => (
@@ -225,7 +229,6 @@ export function edgeValid({
             ? { ...obj, [key]: allEdges[key] }
             : obj
     ), {});
-    // return validEdges;
     return Object.keys(onlyValidEdges).length ? onlyValidEdges : null;
 }
 
@@ -235,23 +238,19 @@ export function edgeValid({
  * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific property to be targeted
  *
  * @function edgeCreate
- * @static
  * @param {Object} params
  * @param {OmcEntity} params.fromEntity - The entity on which to create the new edge
  * @param {OmcEntity} params.toEntity - The entity to which the edge should be created
- * @param {OmcEntity} params.forEntity - Use when setting edges in a Context, this is the entity for which the Context is For.
+ * @param {OmcEntity} params.forEntity - The entity which a Context is for, when the fromEntity is a Context
  * @param {Object} params.intrinsicEdge - Specify a specific edge, for entities that have multiple valid edge patterns, this denotes the specific one to use
  * @param {boolean} params.inverse - Whether the inverse edge should also be set if there is one
- * @param {'edges'|'intrinsic'} params.edgeType - Which edge table to use, intrinsic or regular edges.
  */
 export function edgeCreate(params) {
     const {
         fromEntity = null,
         toEntity = null,
-        forEntity = null,
         intrinsicEdge = null,
         inverse = false,
-        edgeType = 'intrinsic', // Do this for intrinsic or regular edges
     } = params;
 
     const validEdges = edgeValid(params);
@@ -262,15 +261,18 @@ export function edgeCreate(params) {
 
     // If inverse edges are requested and there is one to apply, then recurse with the entities reversed
     if (inverse && selectedEdge.inverse) {
-        const updatedToEntity = edgeCreate({
+        const updatedInverse = edgeCreate({
             toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
             fromEntity: toEntity,
             intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
             inverse: false, // Inverse is always false on second call
+            toEdgePath: selectedEdge.path,
         });
         return {
             fromEntity: updatedEntity,
-            toEntity: updatedToEntity,
+            toEntity: updatedInverse.fromEntity,
+            fromEdgePath: selectedEdge.path,
+            toEdgePath: updatedInverse.fromEdgePath,
         };
     }
 
@@ -278,6 +280,7 @@ export function edgeCreate(params) {
     return {
         fromEntity: updatedEntity,
         toEntity,
+        fromEdgePath: selectedEdge.path,
     };
 }
 

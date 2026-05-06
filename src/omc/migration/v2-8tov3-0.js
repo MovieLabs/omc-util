@@ -61,9 +61,10 @@ function setEdgesFromContext(omc) {
     if (Object.keys(merged).length === 0) return { ...omc, Context: null };
 
     const existing = omc.edges && typeof omc.edges === 'object' ? omc.edges : {};
+    const edges = deepMerge(existing, merged);
     return {
         ...omc,
-        edges: deepMerge(existing, merged),
+        edges,
         Context: null,
     };
 }
@@ -109,135 +110,242 @@ function migrateLabel(omc) {
     return typeof label === 'undefined' ? { ...rest } : { ...rest, label };
 }
 
+/**
+ * Populate the new name property on entities where it did not previously exist
+ */
+function migrateName(omc, nameKey) {
+    const { label = null } = omc; // Use the label for the name
+    omc[nameKey] = { fullName: label };
+    return omc;
+}
+
 export default {
     Asset: (omc) => {
-        const base1 = migrateMember('Asset', {
+        const update = migrateMember('Asset', {
             ...setEdgesFromContext(v28.Asset(omc)),
             schemaVersion,
         });
-        const base2 = migrateLabel(base1);
-        return base2;
+        return migrateName(migrateLabel(update), 'assetName');
     },
-    AssetSC: (omc) => ({
-        ...setEdgesFromContext(v28.AssetSC(omc)),
-        schemaVersion,
-    }),
-    Infrastructure: (omc) => ({
-        ...setEdgesFromContext(v28.Infrastructure(omc)),
-        schemaVersion,
-    }),
-    InfrastructureSC: (omc) => ({
-        ...setEdgesFromContext(v28.InfrastructureSC(omc)),
-        schemaVersion,
-    }),
-    Character: (omc) => ({
-        ...setEdgesFromContext(v28.Character(omc)),
-        schemaVersion,
-    }),
-    Context: (omc) => ({
-        ...setContextEdges(v28.Context(omc)),
-        // ...v28.Context(omc),
-        schemaVersion,
-    }),
-    CreativeWork: (omc) => ({
-        ...setEdgesFromContext(v28.CreativeWork(omc)),
-        schemaVersion,
-    }),
-    Depiction: (omc) => ({
-        ...setEdgesFromContext(v28.Depiction(omc)),
-        schemaVersion,
-    }),
-    Effect: (omc) => ({
-        ...setEdgesFromContext(v28.Effect(omc)),
-        schemaVersion,
-    }),
-    NarrativeAudio: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeAudio(omc)),
-        schemaVersion,
-    }),
-    NarrativeAction: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeAction(omc)),
-        schemaVersion,
-    }),
-    NarrativeLocation: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeLocation(omc)),
-        schemaVersion,
-    }),
-    NarrativeObject: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeObject(omc)),
-        schemaVersion,
-    }),
-    NarrativeScene: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeScene(omc)),
-        schemaVersion,
-    }),
-    NarrativeStyling: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeStyling(omc)),
-        schemaVersion,
-    }),
-    NarrativeWardrobe: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeWardrobe(omc)),
-        schemaVersion,
-    }),
-    ProductionLocation: (omc) => ({
-        ...setEdgesFromContext(v28.NarrativeLocation(omc)),
-        schemaVersion,
-    }),
-    ProductionScene: (omc) => ({
-        ...setEdgesFromContext(v28.ProductionScene(omc)),
-        schemaVersion,
-    }),
+    AssetSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.AssetSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'assetSCName');
+    },
+    Infrastructure: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Infrastructure(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'infrastructureName');
+    },
+    InfrastructureSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.InfrastructureSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'infrastructureSCName');
+    },
+    Character: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Character(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Context: (omc) => {
+        const update = {
+            ...setContextEdges(v28.Context(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'contextName');
+    },
+    CreativeWork: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.CreativeWork(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Depiction: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Depiction(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'depictionName');
+    },
+    Effect: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Effect(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'effectName');
+    },
+    NarrativeAudio: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeAudio(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeAudioName');
+    },
+    NarrativeAction: (omc) => {
+        const specialActionType = omc.narrativeActionType || 'specialAction';
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeAction(omc)),
+            schemaVersion,
+            entityType: 'specialAction',
+            specialActionType,
+        };
+        delete update.narrativeActionType;
+        return migrateName(migrateLabel(update), 'specialActionName');
+    },
+    NarrativeLocation: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeLocation(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeLocationName');
+    },
+    NarrativeObject: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeObject(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeObjectName');
+    },
+    NarrativeScene: (omc) => {
+        const { sceneName } = omc || null;
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeScene(omc)),
+            schemaVersion,
+            narrativeSceneName: sceneName,
+        };
+        delete update.sceneName;
+        return migrateLabel(update);
+    },
+    NarrativeStyling: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeStyling(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeStylingName');
+    },
+    NarrativeWardrobe: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeWardrobe(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeWardrobeName');
+    },
+    ProductionLocation: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeLocation(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'productionLocationName');
+    },
+    ProductionScene: (omc) => {
+        const { sceneName = null } = omc;
+        const update = {
+            ...setEdgesFromContext(v28.ProductionScene(omc)),
+            schemaVersion,
+            productionSceneName: sceneName,
+        };
+        delete update.sceneName;
+        return migrateName(migrateLabel(update), 'productionSceneName');
+    },
     Sequence: (omc) => (omc), // Sequence is fully deprecated and will fail validation
-    Slate: (omc) => ({
-        ...setEdgesFromContext(v28.Slate(omc)),
-        schemaVersion,
-    }),
-    SpecialAction: (omc) => ({
-        ...setEdgesFromContext(v28.SpecialAction(omc)),
-        schemaVersion,
-    }),
-    Participant: (omc) => ({
-        ...setEdgesFromContext(v28.Participant(omc)),
-        schemaVersion,
-    }),
-    Organization: (omc) => ({
-        ...setEdgesFromContext(v28.Organization(omc)),
-        schemaVersion,
-    }),
-    Department: (omc) => ({
-        ...setEdgesFromContext(v28.Department(omc)),
-        schemaVersion,
-    }),
-    Person: (omc) => ({
-        ...setEdgesFromContext(v28.Person(omc)),
-        schemaVersion,
-    }),
-    Service: (omc) => ({
-        ...setEdgesFromContext(v28.Service(omc)),
-        schemaVersion,
-    }),
-    Role: (omc) => ({
-        ...setEdgesFromContext(v28.Role(omc)),
-        schemaVersion,
-    }),
-    Task: (omc) => ({
-        ...setEdgesFromContext(v28.Task(omc)),
-        schemaVersion,
-    }),
-    TaskSC: (omc) => ({
-        ...setEdgesFromContext(v28.TaskSC(omc)),
-        schemaVersion,
-    }),
-    Location: (omc) => ({
-        ...setEdgesFromContext(v28.Location(omc)),
-        schemaVersion,
-    }),
-    Collection: (omc) => ({
-        ...setEdgesFromContext(v28.Collection(omc)),
-        schemaVersion,
-    }),
-    Composition: (omc) => ({
-        ...setEdgesFromContext(v28.Composition(omc)),
-        schemaVersion,
-    }),
+    Slate: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Slate(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    SpecialAction: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.SpecialAction(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'specialActionName');
+    },
+    Participant: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Participant(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Organization: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Organization(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Department: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Department(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Person: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Person(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Service: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Service(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Role: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Role(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Task: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Task(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'taskName');
+    },
+    TaskSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.TaskSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'taskSCName');
+    },
+    Location: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Location(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'locationName');
+    },
+    Collection: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Collection(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'collectionName');
+    },
+    Composition: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Composition(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'compositionName');
+    },
 };

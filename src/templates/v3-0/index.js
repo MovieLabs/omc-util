@@ -144,8 +144,6 @@ entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;
 
-// console.log(entityTemplate);
-
 export {
     inverseEdges,
     entityTemplate,

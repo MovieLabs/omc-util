@@ -4485,17 +4485,26 @@
                   "domain": {
                     "title": "Custom Data Domain",
                     "description": "Indicates the set or system in which the Custom Data is relevant or defined",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "namespace": {
                     "title": "Custom Data Namespace",
                     "description": "The namespace used by the Custom Data",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "schema": {
                     "title": "Custom Data Schema",
                     "description": "URL for the schema used by the Custom Data",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "value": {
                     "title": "Custom Data Value",

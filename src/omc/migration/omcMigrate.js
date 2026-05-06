@@ -4,9 +4,11 @@
  * @module omcMigrate
  */
 
+import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js'; // Migrate from 2.8 to 3.0
+
 import v26 from './v2-0tov2-6.js'; // Migrate from v2.0 & v2.1 to 2.6
 import v28 from './v2-6tov2-8.js'; // Migrate from v2.6 to 2.8
-import v30 from './v2-8tov3-0.js'; // Migrate from 2.8 to 3.0
+import v30 from './v2-8tov3-0.js';
 
 const schemaMigration = {
     'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
@@ -52,17 +54,22 @@ function migrateNested(ent, toSchemaVersion) {
     }
     const refEnt = migrateInstance(ent, toSchemaVersion); // Migrate the entity if there is a migration path
 
-    // If this is an array, then we parse each element (used in Context)
-    if (Array.isArray(refEnt)) return refEnt.map((e1) => migrateNested(e1));
-
-    const refKeys = Object.keys(refEnt);
-    refKeys.forEach((refKey) => {
-        if (ent[refKey] !== null) {
-            refEnt[refKey] = Array.isArray(refEnt[refKey])
-                ? refEnt[refKey].flatMap((e1) => migrateNested(e1))
-                : migrateNested(refEnt[refKey]);
-        }
+    const recurse = ((obj) => {
+        const refKeys = Object.keys(obj);
+        refKeys.forEach((refKey) => {
+            if (isCapitalized(refKey)) {
+                obj[refKey] = Array.isArray(obj[refKey])
+                    ? obj[refKey].map((rEnt) => migrateNested(rEnt, toSchemaVersion))
+                    : obj[refKey] = migrateNested(obj[refKey], toSchemaVersion);
+                return;
+            }
+            if (refKey !== 'customData' && isPlainObject(obj[refKey])) {
+                recurse(obj[refKey], toSchemaVersion);
+            }
+        });
     });
+
+    recurse(refEnt);
     return refEnt;
 }
 

@@ -26,7 +26,7 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
-import { deepSpread, isCapitalized } from '../../mlHelpers/util.js';
+import { isCapitalized } from '../../mlHelpers/util.js';
 
 // eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
@@ -114,9 +114,9 @@ const buildEdges = ((edges, path) => {
     ), {});
 });
 
-console.log('v2.8');
+// console.log('v2.8');
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
-    console.log(entityType);
+    // console.log(entityType);
     const { template } = omcTemplate[entityType];
     const { cxtEdges = {} } = omcTemplate[entityType];
     const intrinsic = buildEdges(template, null);
@@ -135,7 +135,7 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
 entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
-console.log(entityTemplate);
+// console.log(entityTemplate);
 
 export {
 
