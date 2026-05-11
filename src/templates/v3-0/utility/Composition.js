@@ -3,7 +3,7 @@
  */
 import { generalConfig } from '../generalConfig.js';
 
-import { baseEntity, software } from './utility.js';
+import { baseEntity, basicName, software } from './utility.js';
 
 const entityType = 'Composition';
 const entityGeneral = generalConfig[entityType];
@@ -13,6 +13,7 @@ export default {
     template: {
         ...baseEntity.template,
         compositionType: { $type: 'string' },
+        compositionName: basicName.template,
         compositionProperties: { $type: 'object' },
         software: { ...software.template },
         includes: {
@@ -52,7 +53,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         // version: null,
@@ -62,6 +64,7 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             compositionType: null,
+            compositionName: basicName.graphQl.properties,
             compositionProperties: null,
             includes: {
                 Asset: null,
@@ -80,6 +83,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            compositionName: basicName.graphQl.filter,
         },
         inlineFragment: {
             StartHere: {

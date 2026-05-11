@@ -110,7 +110,6 @@ const buildEdges = ((edges, path) => {
                     predicate: edges[edge].$edge.$omcPredicate || null,
                 },
             }
-            // : { ...obj, ...buildEdges(edges[edge], `${path}.${edge}.`) }
             : { ...obj, ...buildEdges(edges[edge], `${path ? `${path}.${edge}.` : `${edge}.`}`) }
     ), {});
 });
@@ -120,7 +119,6 @@ const buildEdges = ((edges, path) => {
  */
 
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
-    // console.log(entityType);
     const { edges, ...rest } = omcTemplate[entityType].template;
     const intrinsic = buildEdges(rest, null);
     const edge = buildEdges(edges, 'edges'); // Path for edges, always starts with edges

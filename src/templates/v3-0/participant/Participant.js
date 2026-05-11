@@ -34,7 +34,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -58,6 +59,13 @@ export default {
                     $edge: {
                         $allowed: ['Slate'],
                         $inverse: 'Director',
+                    },
+                },
+                CreativeWork: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['CreativeWork'],
+                        $inverse: 'ProductionCompany',
                     },
                 },
             },

@@ -3,8 +3,8 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, basicName, note } from '../utility/utility.js';
 import { inverseEdges } from '../inverseEdges.js';
+import { baseEntity, scriptName, note } from '../utility/utility.js';
 
 const entityType = 'NarrativeScene';
 const entityGeneral = generalConfig[entityType];
@@ -13,12 +13,7 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        sceneName: {
-            ...basicName.template,
-            scriptName: {
-                $type: 'string',
-            },
-        },
+        narrativeSceneName: scriptName.template,
         sceneNumber: {
             $type: 'string',
         },
@@ -27,7 +22,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -119,17 +115,14 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            sceneName: basicName.graphQl.properties,
+            narrativeSceneName: scriptName.graphQl.properties,
             sceneNumber: null,
             slugline: note.graphQl.properties,
             Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            sceneName: {
-                fullName: ['string'],
-                altName: ['string'],
-            },
+            narrativeSceneName: scriptName.graphQl.filter,
             sceneNumber: 'string',
         },
         inlineFragment: null,

@@ -3,8 +3,8 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, basicName } from '../utility/utility.js';
 import { inverseEdges } from '../inverseEdges.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'ProductionScene';
 const entityGeneral = generalConfig[entityType];
@@ -13,7 +13,7 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        sceneName: basicName.template,
+        productionSceneName: basicName.template,
         sceneHeader: {
             $type: 'string',
         },
@@ -27,7 +27,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         edges: {
@@ -86,17 +87,14 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            sceneName: basicName.graphQl.properties,
+            productionSceneName: basicName.graphQl.properties,
             sceneHeader: null,
             sceneDescriptor: null,
             sceneNumber: null,
         },
         filter: {
             ...baseEntity.graphQl.properties,
-            sceneName: {
-                fullName: ['string'],
-                altName: ['string'],
-            },
+            productionSceneName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

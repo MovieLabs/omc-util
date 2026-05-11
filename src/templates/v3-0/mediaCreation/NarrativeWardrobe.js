@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'NarrativeWardrobe';
 const entityGeneral = generalConfig[entityType];
@@ -16,6 +16,7 @@ export default {
         narrativeType: {
             $type: 'string',
         },
+        narrativeWardrobeName: basicName.template,
         edges: {
             featuresIn: {
                 $type: 'array',
@@ -38,7 +39,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -54,10 +56,12 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             narrativeType: null,
+            narrativeWardrobeName: basicName.graphQl.properties,
             Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            narrativeWardrobeName: basicName.graphQl.filter,
             narrativeType: 'string',
         },
         inlineFragment: null,

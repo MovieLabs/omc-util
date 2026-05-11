@@ -3,8 +3,8 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity } from '../utility/utility.js';
 import { inverseEdges } from '../inverseEdges.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'ProductionLocation';
 const entityGeneral = generalConfig[entityType];
@@ -16,11 +16,13 @@ export default {
         locationType: {
             $type: 'string',
         },
+        productionLocationName: basicName.template,
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -30,11 +32,11 @@ export default {
                 $inverse: 'Depicts',
                 $omcPredicate: 'hasDepiction',
             },
-            Location: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['Location'],
-                },
+        },
+        Location: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Location'],
             },
         },
         edges: {
@@ -53,12 +55,14 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             locationType: null,
+            productionLocationName: basicName.graphQl.properties,
             Context: null,
             Location: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
             locationType: 'string',
+            productionLocationName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

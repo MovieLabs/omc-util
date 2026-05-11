@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Context';
 const entityGeneral = generalConfig[entityType];
@@ -16,6 +16,7 @@ export default {
         contextType: {
             $type: 'string',
         },
+        contextName: basicName.template,
         contextCategory: {
             $type: 'string',
         },
@@ -117,7 +118,7 @@ export default {
                     },
                 },
             },
-            isFor: {
+            isIn: {
                 Character: {
                     $type: 'array',
                     $edge: {
@@ -130,7 +131,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
     },
@@ -138,6 +140,7 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             contextType: null,
+            contextName: basicName.graphQl.properties,
             contextCategory: null,
             contextProperties: null,
             ForEntity: null,
@@ -145,6 +148,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.filter,
             contextType: ['string'],
+            contextName: basicName.graphQl.filter,
             contextCategory: ['string'],
         },
         inlineFragment: null,

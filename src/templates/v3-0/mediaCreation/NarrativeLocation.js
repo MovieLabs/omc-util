@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, scriptName } from '../utility/utility.js';
 
 const entityType = 'NarrativeLocation';
 const entityGeneral = generalConfig[entityType];
@@ -16,11 +16,13 @@ export default {
         narrativeType: {
             $type: 'string',
         },
+        narrativeLocationName: scriptName.template,
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -53,12 +55,14 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             narrativeType: null,
+            narrativeLocationName: scriptName.graphQl.properties,
             Context: null,
             Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
             narrativeType: 'string',
+            narrativeLocationName: scriptName.graphQl.filter,
         },
         inlineFragment: null,
     },

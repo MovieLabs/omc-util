@@ -62,6 +62,7 @@ export default {
                     $edge: {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $omcPredicate: 'hasScript',
                     },
                 },
                 NarrativeScene: {
@@ -69,6 +70,7 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $omcPredicate: 'hasNarrativeScene',
                     },
                 },
             },
@@ -77,12 +79,21 @@ export default {
             type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
+            },
+        },
+        ProductionCompany: {
+            type: 'array',
+            $edge: {
+                $allowed: ['Participant'],
+                $inverse: `edges.for.${entityType}`,
+                $omcPredicate: 'hasProductionCompany',
             },
         },
         // Series: null,
         // Episode: null,
-        // ProductionCompany: null,
+
     },
     graphQl: {
         properties: {

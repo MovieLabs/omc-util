@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName, scriptName } from '../utility/utility.js';
 
 const entityType = 'Depiction';
 const entityGeneral = generalConfig[entityType];
@@ -14,6 +14,7 @@ export default {
     template: {
         ...baseEntity.template,
         depictionType: { $type: 'string' },
+        depictionName: basicName.template,
         edges: {
             usedIn: {
                 ProductionScene: {
@@ -29,7 +30,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                // $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depicts: {
@@ -37,6 +39,7 @@ export default {
             $edge: {
                 $allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
                 $inverse: 'Depiction',
+                $omcPredicate: 'Depicts',
             },
         },
         Depictor: {
@@ -51,6 +54,7 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             depictionType: null,
+            depictionName: basicName.graphQl.properties,
             Depicts: {
                 Character: null,
                 NarrativeLocation: null,
@@ -67,6 +71,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.filter,
             depictionType: 'string',
+            depictionName: basicName.graphQl.filter,
         },
         inlineFragment: {
             Depicts: {

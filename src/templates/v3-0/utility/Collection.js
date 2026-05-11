@@ -2,7 +2,8 @@
  * Template details for Collection
  */
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, software } from './utility.js';
+
+import { baseEntity, basicName, software } from './utility.js';
 
 const entityType = 'Collection';
 const entityGeneral = generalConfig[entityType];
@@ -12,6 +13,7 @@ export default {
     template: {
         ...baseEntity.template,
         collectionType: { $type: 'string' },
+        collectionName: basicName.template,
         collectionProperties: { $type: 'object' },
         software: software.template,
         includes: {
@@ -146,19 +148,22 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
+            collectionName: basicName.graphQl.properties,
             collectionType: null,
             collectionProperties: null,
             software: software.graphQl.properties,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            collectionName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

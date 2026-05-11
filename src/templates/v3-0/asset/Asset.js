@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Asset';
 const entityGeneral = generalConfig[entityType];
@@ -24,6 +24,7 @@ export default {
             functionalProperties: { $type: 'object' },
             // customData: null,
         },
+        assetName: basicName.template,
         edges: {
             for: {
                 NarrativeScene: {
@@ -81,18 +82,20 @@ export default {
                 },
             },
         },
-        Asset: {
+        Member: {
             $type: 'array',
             $edge: {
                 $allowed: ['Asset'],
-                // $inverse: '',
+                $inverse: `edges.memberOf.${entityType}`,
+                $omcPredicate: 'isMemberOf',
             },
         },
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -109,35 +112,22 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
+            assetName: basicName.graphQl.properties,
             AssetSC: null,
             assetFC: {
                 functionalProperties: null,
                 functionalType: null,
                 // customData: null,
             },
-            Asset: null,
-            Context: {
-                type: 'array',
-                intrinsic: {
-                    allowed: ['Context'],
-                    biDirectional: true,
-                    inverse: 'ForEntity',
-                },
-            },
-            Depiction: {
-                type: 'array',
-                intrinsic: {
-                    allowed: ['Depiction'],
-                    biDirectional: true,
-                    inverse: 'Depictor',
-                    omcPredicate: 'hasDepiction',
-                },
-            },
+            Member: null,
+            Context: null,
+            Depiction: null,
             // version: null,
             // provenance: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            assetName: basicName.graphQl.filter,
             assetFC: {
                 functionalType: ['string'],
             },

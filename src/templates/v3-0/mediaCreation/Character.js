@@ -84,8 +84,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                // $inverse: 'ForEntity',
-                $inverse: `edges.isFor.${entityType}`,
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {

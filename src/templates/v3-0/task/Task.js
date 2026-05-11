@@ -2,7 +2,7 @@
  * Template details for Task
  */
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Task';
 const entityGeneral = generalConfig[entityType];
@@ -11,24 +11,37 @@ export default {
     ...entityGeneral,
     template: {
         ...baseEntity.template,
-        // Task: null,
-        // TaskSC: null,
+        taskName: basicName.template,
+        TaskSC: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['TaskSC'],
+            },
+        },
         taskFC: {
             functionalType: { $type: 'string' },
             functionalProperties: { $type: 'string' },
             customData: null,
         },
+        Member: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Task'],
+            },
+        },
         Context: {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
+            taskName: basicName.graphQl.properties,
             Task: null,
             TaskSC: null,
             taskFC: {
@@ -36,10 +49,12 @@ export default {
                 functionalProperties: null,
                 customData: null,
             },
+            Member: null,
             Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            taskName: basicName.graphQl.filter,
         },
         inlineFragment: null,
         idPrefix: 'tsk',

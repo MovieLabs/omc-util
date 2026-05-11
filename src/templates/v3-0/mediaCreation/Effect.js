@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, scriptName } from '../utility/utility.js';
 
 const entityType = 'Effect';
 const entityGeneral = generalConfig[entityType];
@@ -14,6 +14,7 @@ export default {
     template: {
         ...baseEntity.template,
         effectType: { $type: 'string' },
+        effectName: scriptName.template,
         edges: {
             featuresIn: {
                 NarrativeScene: {
@@ -38,18 +39,21 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Context'],
-                $inverse: 'ForEntity',
+                $inverse: `edges.isIn.${entityType}`,
+                $omcPredicate: 'isInContext',
             },
         },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
+            effectName: scriptName.graphQl.properties,
             effectType: null,
             Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            effectName: scriptName.graphQl.filter,
         },
         inlineFragment: null,
     },

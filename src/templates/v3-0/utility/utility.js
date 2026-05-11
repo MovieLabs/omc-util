@@ -62,7 +62,31 @@ export const basicName = {
             fullName: 'string',
             altName: 'string',
         },
-        filter: null,
+        filter: {
+            fullName: 'string',
+            altName: 'string',
+        },
+        inlineFragment: null,
+    },
+};
+
+export const scriptName = {
+    template: {
+        fullName: { $type: 'string' },
+        altName: { $type: 'string' },
+        scriptName: { $type: 'string' },
+    },
+    graphQl: {
+        properties: {
+            fullName: 'string',
+            altName: 'string',
+            scriptName: 'string',
+        },
+        filter: {
+            fullName: 'string',
+            altName: 'string',
+            scriptName: 'string',
+        },
         inlineFragment: null,
     },
 };
@@ -90,7 +114,7 @@ export const baseEntity = {
             identifierValue: { $type: 'string' },
         },
         entityType: { $type: 'string' },
-        name: { $type: 'string' },
+        label: { $type: 'string' },
         description: { $type: 'string' },
         annotation: {
             author: { $type: 'string' },
@@ -111,7 +135,7 @@ export const baseEntity = {
                 identifierValue: 'string',
             },
             entityType: null,
-            name: 'string',
+            label: 'string',
             description: null,
             annotation: {
                 author: null,
@@ -129,7 +153,7 @@ export const baseEntity = {
                 identifierScope: 'string',
                 identifierValue: 'string',
             },
-            name: 'string',
+            label: 'string',
         },
         inlineFragment: null,
     },
