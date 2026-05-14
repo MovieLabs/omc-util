@@ -76,17 +76,17 @@ export default {
                     },
                 },
             },
-            isin: {
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: 'Context',
-                        $predicate: 'isIn',
-                        $omcPredicate: 'isInContext',
-                    },
-                },
-            },
+            // isin: {
+            //     Context: {
+            //         $type: 'array',
+            //         $edge: {
+            //             $allowed: ['Context'],
+            //             $inverse: 'Context',
+            //             $predicate: 'isIn',
+            //             $omcPredicate: 'isInContext',
+            //         },
+            //     },
+            // },
             related: {
                 CreativeWork: {
                     $type: 'array',
