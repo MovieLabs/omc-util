@@ -7,7 +7,7 @@
 import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js';
 import { omcTemplate } from '../../templates/index.js';
 
-import { graphqlSnippets } from './graphQlSnippets.js';
+// import { graphqlSnippets } from './graphQlSnippets.js';
 
 // Checks if a set of keys all have null values
 const allNullValues = ((propKeys, obj) => {
@@ -45,11 +45,13 @@ const filterVariables = ((entity, vars = {}) => {
     }, {});
 });
 
-const getEntityType = ((obj, key, schemaVersion) => {
+const getEntityType = ((obj, key, schemaVersion, fragment) => {
     const entityType = typeof obj[key] === 'string' ? obj[key] : key;
     // if (!entityTemplate[entityType]) {
     if (!omcTemplate.graphQl({ entityType, schemaVersion })) {
-        console.log(`Unknown entityType requested ${key}`);
+        if (!fragment || !fragment[key]) {
+            console.warn(`Unknown entityType requested: ${key}`);
+        }
         return null;
     }
     return entityType;
@@ -88,30 +90,15 @@ function buildTemplate(query = {}, template = {}, inlineFragment, schemaVersion)
         }
 
         // Deal with an entity that needs to be expanded
-        const entityType = getEntityType(fullTemplate, key, schemaVersion); // Checks for valid entity
-
-        // const nextInlineFragment = (entityType && entityTemplate?.[entityType].inlineFragment)
-        //     ? entityTemplate[entityType].inlineFragment
-        //     : fragment[key] || null; // Use an existing matching fragment if there is one
-
-        // const nextTemplate = entityType ? entityTemplate[entityType].properties : fullTemplate[key];
-        // const templateKeyValue = buildTemplate(query[key], nextTemplate, nextInlineFragment, schemaVersion);
+        const entityType = getEntityType(fullTemplate, key, schemaVersion, fragment); // Checks for valid entity
 
         const nextEntity = omcTemplate.graphQl({ entityType, schemaVersion }); // Inline fragment for this entity
         const nextInlineFragment = (nextEntity && nextEntity.inlineFragment)
             ? nextEntity.inlineFragment
             : fragment[key] || null; // Use an existing matching fragment if there is one
-        // if (JSON.stringify(nextInlineFragment) !== JSON.stringify(testInlineFragment)) {
-        //     console.log();
-        // }
+
         const nextTemplate = entityType ? nextEntity.properties : fullTemplate[key];
         const templateKeyValue = buildTemplate(query[key], nextTemplate, nextInlineFragment, schemaVersion);
-        // if (JSON.stringify(nextTemplate) !== JSON.stringify(testTemplate)) {
-        //     console.log(entityType);
-        //     console.log(JSON.stringify(nextTemplate));
-        //     console.log(JSON.stringify(testTemplate));
-        //     console.log();
-        // }
 
         // If this is a defined entity then a baseEntity fragment can be used if there are no filter on the properties
         const { cleanBase, _fragment } = entityType
@@ -142,6 +129,7 @@ export default function queryBuilder({
     variables = {},
 }) {
     const fragmentUsed = new Set(); // Track the fragments used in the query, they are added to the graphql query
+    const graphqlSnippets = omcTemplate.graphQlSnippets({ schemaVersion });
 
     /**
      * Take an object that describes the shape of the query and constructs a string with the graphql query
@@ -200,7 +188,7 @@ export default function queryBuilder({
     // const queryFragment = entityTemplate?.[entityType].inlineFragment;
     const { properties: queryTemplate, inlineFragment: queryFragment } = omcTemplate.graphQl({
         entityType,
-        schemaVersion
+        schemaVersion,
     });
     const queryBase = filterVariables(queryTemplate, variables);
     const mainQuery = buildTemplate({ ...queryBase, ...template }, queryTemplate, queryFragment, schemaVersion);
@@ -213,7 +201,7 @@ export default function queryBuilder({
         .replace('_get_', `get${entityType}`) // Add the base query with the starting entity type
         .replace('_query_', graphql); // Insert the final query
 
-    console.log(mainQuery);
-    console.log(graphqlQuery);
+    // console.log(mainQuery);
+    // console.log(graphqlQuery);
     return graphqlQuery;
 }

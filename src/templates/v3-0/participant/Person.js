@@ -3,8 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, gender, contact } from '../utility/utility.js';
 
 const entityType = 'Person';
 const entityGeneral = generalConfig[entityType];
@@ -18,8 +17,8 @@ export default {
             fullName: { $type: 'string' },
         },
         jobTitle: { $type: 'string' },
-        gender: null,
-        contact: null,
+        gender: gender.template,
+        contact: contact.template,
         Location: {
             $type: 'array',
             $edge: {
@@ -35,8 +34,8 @@ export default {
                 fullName: null,
             },
             jobTitle: null,
-            gender: null,
-            contact: null,
+            gender: gender.graphQl.properties,
+            contact: contact.graphQl.properties,
             Location: null,
         },
         filter: {

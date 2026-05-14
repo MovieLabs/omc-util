@@ -29,6 +29,8 @@
 import { isCapitalized } from '../../mlHelpers/util.js';
 
 // eslint-disable-next-line import/order
+import { graphQlSnippets } from './graphQlSnippets.js';
+// eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
 
 import Asset from './asset/Asset.js';
@@ -107,7 +109,7 @@ const buildEdges = ((edges, path) => {
                     path: `${path ? `${path}${edge}` : edge}`,
                     type: edges[edge].$type,
                     inverse: edges[edge].$edge.$inverse || null,
-                    predicate: edges[edge].$edge.$omcPredicate || null,
+                    omcPredicate: edges[edge].$edge.$omcPredicate || null,
                 },
             }
             : { ...obj, ...buildEdges(edges[edge], `${path ? `${path}.${edge}.` : `${edge}.`}`) }
@@ -138,7 +140,7 @@ entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
 // console.log(entityTemplate);
 
 export {
-
     inverseEdges,
+    graphQlSnippets,
     entityTemplate,
 };

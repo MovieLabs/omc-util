@@ -62,6 +62,7 @@ export default {
                     $edge: {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
                         $omcPredicate: 'hasScript',
                     },
                 },
@@ -70,7 +71,30 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                        $omcPredicate: 'hasNarrativeScene',
+                        $predicate: 'has',
+                        $omcPredicate: 'aCreativeWorkHas',
+                    },
+                },
+            },
+            isin: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: 'Context',
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
+            related: {
+                CreativeWork: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['CreativeWork'],
+                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'related',
+                        $omcPredicate: 'related',
                     },
                 },
             },
@@ -80,7 +104,8 @@ export default {
             $edge: {
                 $allowed: ['Context'],
                 $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
+                $predicate: 'Context',
+                $omcPredicate: 'hasContext',
             },
         },
         ProductionCompany: {
@@ -88,6 +113,7 @@ export default {
             $edge: {
                 $allowed: ['Participant'],
                 $inverse: `edges.for.${entityType}`,
+                $predicate: 'ProductionCompany',
                 $omcPredicate: 'hasProductionCompany',
             },
         },

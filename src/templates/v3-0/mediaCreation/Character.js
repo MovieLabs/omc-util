@@ -32,6 +32,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                        $predicate: 'featuresIn',
+                        $omcPredicate: 'aCharacterFeaturesIn',
                     },
                 },
             },
@@ -41,6 +43,8 @@ export default {
                     $edge: {
                         $allowed: ['Effect'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'aCharacterNeeds',
                     },
                 },
                 NarrativeAudio: {
@@ -48,6 +52,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeAudio'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'aCharacterNeeds',
                     },
                 },
                 NarrativeObject: {
@@ -55,6 +61,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeObject'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'aCharacterNeeds',
                     },
                 },
                 NarrativeStyling: {
@@ -62,6 +70,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeStyling'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'aCharacterNeeds',
                     },
                 },
                 NarrativeWardrobe: {
@@ -69,6 +79,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeWardrobe'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'usesWardrobe',
                     },
                 },
                 SpecialAction: {
@@ -76,6 +88,8 @@ export default {
                     $edge: {
                         $allowed: ['SpecialAction'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
+                        $predicate: 'needs',
+                        $omcPredicate: 'aCharacterNeeds',
                     },
                 },
             },
@@ -85,6 +99,7 @@ export default {
             $edge: {
                 $allowed: ['Context'],
                 $inverse: `edges.isIn.${entityType}`,
+                $predicate: 'Context',
                 $omcPredicate: 'isInContext',
             },
         },
@@ -93,7 +108,8 @@ export default {
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
-                $omcPredicate: 'hasDepiction',
+                $predicate: 'Depiction',
+                $omcPredicate: 'aCharacterPortrayedIn',
             },
         },
     },

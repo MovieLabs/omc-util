@@ -29,7 +29,7 @@ export default {
                 $inverse: 'Depiction',
             },
         },
-        Depictor: {
+        Depicter: {
             $type: 'array',
             $edge: {
                 $allowed: ['Asset', 'Participant'],

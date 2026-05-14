@@ -23,7 +23,7 @@ const baseEntityFragment = `
             identifierValue
             url
         }
-        name
+        label
         description
         annotation {
             author
@@ -47,7 +47,7 @@ const entityQuery = `
     }
 `;
 
-export const graphqlSnippets = {
+export const graphQlSnippets = {
     idFields: {
         text: 'identifier {...idFields}',
         fragment: identifierFragment,

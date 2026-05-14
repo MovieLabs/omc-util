@@ -34,7 +34,7 @@
  * @property {Array<string>} allowed - The entity types allowed for this edge
  * @property {string} path - The path on this entity (source) that the edge is stored
  * @property {string} inverse - The path on the target entity that carries the inverse edge
- * @property {string} predicate - The formal predicate for this edge, from RDF model
+ * @property {string} omcPredicate - The formal predicate for this edge, from RDF model
  */
 
 /**
@@ -156,6 +156,9 @@ const omcTemplate = {
     graphQlEntities: (({ schemaVersion }) => (
         Object.keys(versionTemplates[schemaVersion].entityTemplate).filter((e) => isCapitalized(e))
             .filter((eType) => Object.hasOwn(versionTemplates[schemaVersion].entityTemplate[eType], 'graphQl'))
+    )),
+    graphQlSnippets: (({ schemaVersion }) => (
+        versionTemplates[schemaVersion].graphQlSnippets || null
     )),
     inverseEdge: (({ edge, schemaVersion }) => (
         versionTemplates[schemaVersion].inverseEdges[edge] || null

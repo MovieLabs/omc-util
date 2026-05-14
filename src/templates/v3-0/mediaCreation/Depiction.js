@@ -4,7 +4,7 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
-import { baseEntity, basicName, scriptName } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Depiction';
 const entityGeneral = generalConfig[entityType];
@@ -22,6 +22,19 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                        $predicate: 'usedIn',
+                        $omcPredicate: 'usedIn',
+                    },
+                },
+            },
+            uses: {
+                Asset: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Asset'],
+                        $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                        $predicate: 'uses',
+                        $omcPredicate: 'usesProduction...',
                     },
                 },
             },
@@ -31,6 +44,7 @@ export default {
             $edge: {
                 $allowed: ['Context'],
                 $inverse: `edges.isIn.${entityType}`,
+                $predicate: 'Context',
                 $omcPredicate: 'isInContext',
             },
         },
@@ -39,14 +53,17 @@ export default {
             $edge: {
                 $allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
                 $inverse: 'Depiction',
-                $omcPredicate: 'Depicts',
+                $predicate: 'Depicts',
+                $omcPredicate: 'depicts',
             },
         },
-        Depictor: {
+        Depicter: {
             $type: 'array',
             $edge: {
-                $allowed: ['Asset', 'Participant'],
+                $allowed: ['Asset', 'Participant', 'Composition'],
                 $inverse: 'Depiction',
+                $predicate: 'Depicter',
+                $omcPredicate: 'isDepictedBy',
             },
         },
     },

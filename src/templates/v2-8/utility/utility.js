@@ -82,6 +82,48 @@ export const note = {
     },
 };
 
+export const gender = {
+    template: {
+        gender: { $type: 'string' },
+        genderPronoun: { $type: 'string' },
+    },
+    graphQl: {
+        properties: {
+            gender: null,
+            genderPronoun: null,
+        },
+        filter: null,
+        inlineFragment: null,
+    },
+};
+
+export const contact = {
+    template: {
+        email: {
+            business: { $type: 'string' },
+            personal: { $type: 'string' },
+        },
+        telephone: {
+            business: { $type: 'string' },
+            personal: { $type: 'string' },
+        },
+    },
+    graphQl: {
+        properties: {
+            email: {
+                business: null,
+                personal: null,
+            },
+            telephone: {
+                business: null,
+                personal: null,
+            },
+        },
+        filter: null,
+        inlineFragment: null,
+    },
+};
+
 export const baseEntity = {
     template: {
         schemaVersion: { $type: 'string' },

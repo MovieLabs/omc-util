@@ -74,7 +74,12 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            ParticipantSC: null,
+            ParticipantSC: {
+                Organization: null,
+                Department: null,
+                Person: null,
+                Service: null,
+            },
             participantFC: {
                 functionalType: null,
                 jobTitle: null,

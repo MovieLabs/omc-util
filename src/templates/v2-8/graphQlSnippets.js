@@ -47,7 +47,7 @@ const entityQuery = `
     }
 `;
 
-export const graphqlSnippets = {
+export const graphQlSnippets = {
     idFields: {
         text: 'identifier {...idFields}',
         fragment: identifierFragment,

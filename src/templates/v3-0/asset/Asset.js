@@ -43,13 +43,13 @@ export default {
                 },
             },
             has: {
-                NarrativeScene: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['NarrativeScene'],
-                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                    },
-                },
+                // NarrativeScene: {
+                //     $type: 'array',
+                //     $edge: {
+                //         $allowed: ['NarrativeScene'],
+                //         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                //     },
+                // },
                 Participant: {
                     $type: 'array',
                     $edge: {
@@ -62,6 +62,7 @@ export default {
                     $edge: {
                         $allowed: ['Slate'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $omcPredicate: 'anAssetHas',
                     },
                 },
             },

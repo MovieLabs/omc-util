@@ -17,6 +17,7 @@ export const inverseEdges = {
     uses: 'usedIn',
     related: 'related',
     idea: 'subject',
+    isIn: 'isIn', // Not sure about this?
     subject: 'idea',
     hasProduct: 'productOf',
     productOf: 'hasProduct',
