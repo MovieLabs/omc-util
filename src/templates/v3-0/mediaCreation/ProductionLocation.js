@@ -17,14 +17,6 @@ export default {
             $type: 'string',
         },
         productionLocationName: basicName.template,
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         Depiction: {
             $type: 'array',
             $edge: {
@@ -40,6 +32,16 @@ export default {
             },
         },
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             usedIn: {
                 ProductionScene: {
                     $type: 'array',
@@ -56,7 +58,6 @@ export default {
             ...baseEntity.graphQl.properties,
             locationType: null,
             productionLocationName: basicName.graphQl.properties,
-            Context: null,
             Location: null,
         },
         filter: {

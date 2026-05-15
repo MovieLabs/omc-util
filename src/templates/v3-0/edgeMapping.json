@@ -1,0 +1,1724 @@
+{
+  "_meta": {
+    "version": "0.1-draft",
+    "purpose": "First-pass mapping between OMC RDF v2.8 predicates and OMC-JSON v3.0 schema paths, organized by JSON entity. Use as a basis for review and alignment, not as a finished spec.",
+    "rdf_source": "https://movielabs.com/omc/rdf/schema/v2.8",
+    "json_source": "https://movielabs.com/omc/json/schema/v3.0",
+    "conventions": {
+      "rdf_predicates": "Array — multiple entries when canonical + tentative + legacy variants express the same triple. Layer is prefixed: 'omc:' canonical, 'omcT:' tentative, 'omc-legacy:' dot-notation.",
+      "json_path": "Path relative to the entity instance, using square brackets to mark arrays. 'null' means no direct JSON-schema equivalent was found.",
+      "direction": "outgoing = this entity is the source/subject. incoming = this entity is the target/object."
+    },
+    "known_systematic_gaps": [
+      "Production* subtree (ProductionProp, ProductionVehicle, ProductionGreenery, ProductionMakeup, ProductionHair, ProductionProsthetics, ProductionSetDressing, ProductionSet) is absent from JSON — all collapse to Asset or to NarrativeStyling/NarrativeWardrobe.",
+      "Portrayal/Portrayer are absent from JSON — collapsed into Depiction with depictionType='portrayal' and Depicter field.",
+      "RDF subPropertyOf hierarchy is not represented in JSON.",
+      "RDF inverse-property pairs become naming conventions on the JSON edges block — no enforcement possible.",
+      "RDF dual-classification entities (AssetAsFunction/AssetAsStructure, ParticipantAsFunction/AsStructure, TaskAsFunction/AsStructure) become inline nested sub-objects (assetFC/AssetSC, participantFC/ParticipantSC, taskFC/TaskSC) rather than independently-referenceable entities.",
+      "NarrativeMakeup, NarrativeHair, NarrativeProsthetics from RDF are merged into NarrativeStyling in JSON.",
+      "NarrativeMusic, NarrativeSoundEffect — not present as distinct JSON entities, may fold into NarrativeAudio.",
+      "Concept and ConceptArt are absent from JSON entirely; the JSON 'idea'/'subject' edges fill some of this gap."
+    ]
+  },
+  "Asset": {
+    "rdf_class": "omc:Asset",
+    "json_def": "#/$defs/Asset/properties/Asset",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasAssetFunctionalCharacteristic"
+        ],
+        "rdf_range": "omc:AssetAsFunction",
+        "json_path": "Asset.assetFC",
+        "notes": "Inlined as a nested sub-object instead of an independent entity. JSON also has a parallel functionalType discriminator."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasAssetStructuralCharacteristic"
+        ],
+        "rdf_range": "omc:AssetAsStructure",
+        "json_path": "Asset.AssetSC",
+        "notes": "Capital-S SC is itself a referenceable entity (in entityType enum) — slight asymmetry with assetFC which is nested-only."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasProvenance",
+          "omcT:anAssetHas.Provenance"
+        ],
+        "rdf_range": "omc:Provenance",
+        "json_path": "Asset.provenance",
+        "notes": "Provenance is now a first-class entity in v3.0 — can be inlined or referenced."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasAssetGroup",
+          "omcT:anAssetHas.AssetGroup"
+        ],
+        "rdf_range": "omc:AssetGroup",
+        "json_path": null,
+        "notes": "AssetGroup as a class doesn't exist in JSON. Group membership is expressed via Asset.Member[] (inverse direction) or via the new edges.memberOf / edges.isIn verbs."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isAssetComponentOf",
+          "omcT:anAssetIsMemberOf.AssetGroup"
+        ],
+        "rdf_range": "omc:AssetGroup",
+        "json_path": "Asset.edges.memberOf[]",
+        "notes": "Inferred — verify against actual edges.memberOf target list."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isCreatedByTask",
+          "omcT:anAssetIsOutputFor.Task"
+        ],
+        "rdf_range": "omc:Task",
+        "json_path": "Asset.edges.productOf.Task[]",
+        "notes": "Confirm Task is a valid target on productOf — may currently only accept Composition."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:anAssetIsInputFor.Task"
+        ],
+        "rdf_range": "omc:Task",
+        "json_path": null,
+        "notes": "Inverse direction. The JSON puts inputs on Task.edges.uses.Asset[] — no Asset→Task reverse pointer."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isIdeaFor",
+          "omcT:anAssetIn.Concept"
+        ],
+        "rdf_range": "omc:Concept",
+        "json_path": "Asset.edges.subject[]",
+        "notes": "Concept is missing as a JSON entity — the closest analogue is the subject edge or the inverse Asset←edges.idea."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasVersion",
+          "omc:isVersionOf"
+        ],
+        "rdf_range": [
+          "omc:Asset",
+          "omc:Composition",
+          "omc:ColorSpaceConfiguration"
+        ],
+        "json_path": "Asset.version",
+        "notes": "Versioning collapsed into a sub-object with DerivationOf/RevisionOf/VariantOf (single parent) and Alternative/Derivation/Revision/Variant (array of children). ColorSpaceConfiguration not modelled."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isDerivationOf",
+          "omcT:hasDerivationDescribedBy.DerivationInfo",
+          "omcT:isDerivationDescribedBy.DerivationInfo"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Asset.version.DerivationOf",
+        "notes": "RDF's DerivationInfo intermediary class is collapsed into a direct reference."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isRevisionOf",
+          "omcT:hasRevisionDescribedBy.RevisionInfo",
+          "omcT:isRevisionDescribedBy.RevisionInfo"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Asset.version.RevisionOf",
+        "notes": "RevisionInfo intermediary collapsed."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isVariantOf",
+          "omcT:anAssetHasVariant.VariantInfo",
+          "omcT:anAssetHas.VariantInfo"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Asset.version.VariantOf",
+        "notes": "VariantInfo intermediary collapsed."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasAlternative",
+          "omcT:hasAlternativeDescribedBy.AlternativeInfo",
+          "omcT:isAlternativeDescribedBy.AlternativeInfo"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Asset.version.Alternative[]",
+        "notes": "AlternativeInfo intermediary collapsed."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasRepresentation",
+          "omc:isRepresentationOf",
+          "omcT:hasRepresentationDescribedBy.RepresentationInfo",
+          "omcT:isRepresentationDescribedBy.RepresentationInfo"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": null,
+        "notes": "No 'Representation' field in Asset.version. RDF asset-to-asset representation chain is absent. Worth examining."
+      },
+      {
+        "rdf_predicates": [
+          "omc-legacy:isProducedBy.Composition"
+        ],
+        "rdf_range": "omc:Composition",
+        "json_path": "Asset.edges.productOf.Composition[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:anAssetHas.Slate"
+        ],
+        "rdf_range": "omc:Slate",
+        "json_path": "Asset.edges.for.Slate[] or Asset.edges.has.Slate[]",
+        "notes": "Verify which verb the JSON uses for asset→slate."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasIdentifier"
+        ],
+        "rdf_range": "omc:Identifier",
+        "json_path": "Asset.identifier[]",
+        "notes": "Inherited from baseEntity."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasAssetComponent"
+        ],
+        "rdf_domain": "omc:AssetGroup",
+        "json_path": "Asset.Member[]",
+        "notes": "Group membership inverse — JSON puts the Member array on the group-acting entity."
+      },
+      {
+        "rdf_predicates": [
+          "omc:includesAsset"
+        ],
+        "rdf_domain": "omc:Composition",
+        "json_path": "Composition (via Collection.includes or related)",
+        "notes": "Composition doesn't have an explicit 'includesAsset' field; the membership goes through edges or version-info."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasConfigurationFile"
+        ],
+        "rdf_domain": "omc:Software",
+        "json_path": null,
+        "notes": "Software is a Utility sub-object, not an entity — no edge to a config-file Asset."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasIdea"
+        ],
+        "rdf_domain": "omc:Concept",
+        "json_path": "<Entity>.edges.idea.Asset[]",
+        "notes": "Concept missing from JSON; the 'idea' edge can be used from any entity that conceptually serves as a Concept."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isRepresentationOf"
+        ],
+        "rdf_domain": "omc:Asset",
+        "json_path": null,
+        "notes": "Same gap as outgoing."
+      },
+      {
+        "rdf_predicates": [
+          "omc:startHere"
+        ],
+        "rdf_domain": "omc:Composition",
+        "json_path": null,
+        "notes": "Composition's entry-point pointer — confirm if Composition has an analogous field."
+      },
+      {
+        "rdf_predicates": [
+          "omc:representedBy"
+        ],
+        "rdf_domain": "omc:ProductionScene",
+        "json_path": "ProductionScene.edges.representedBy.Asset[]",
+        "notes": "Verify; representedBy edge target may currently be ProductionScene only."
+      }
+    ]
+  },
+  "AssetSC": {
+    "rdf_class": "omc:AssetAsStructure",
+    "json_def": "#/$defs/Asset/properties/AssetSC",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:isAssetStructuralCharacteristicFor"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "AssetSC referenced from Asset.AssetSC",
+        "notes": "Inverse — modelled as parent containment in JSON."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasAssetStructuralCharacteristic"
+        ],
+        "rdf_domain": "omc:Asset",
+        "json_path": "Asset.AssetSC",
+        "notes": null
+      }
+    ]
+  },
+  "Character": {
+    "rdf_class": "omc:Character",
+    "json_def": "#/$defs/MediaCreationContext/properties/Character",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:usesWardrobe"
+        ],
+        "rdf_range": "omc:NarrativeWardrobe",
+        "json_path": "Character.edges.uses.NarrativeWardrobe[]",
+        "notes": "JSON may not list NarrativeWardrobe under 'uses' currently — verify; the conceptual mapping points at it."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isPortrayedBy"
+        ],
+        "rdf_range": "omc:Portrayal",
+        "json_path": "Character.Depiction[]",
+        "notes": "Portrayal-as-class is absent in JSON; the link goes through a Depiction with depictionType='portrayal'."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isDepictedThingOf"
+        ],
+        "rdf_range": "omc:Depiction",
+        "json_path": "Character.Depiction[]",
+        "notes": "Same Depiction field handles both general depictions and portrayals."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "Character.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterPortrayedIn.Portrayal"
+        ],
+        "rdf_range": "omc:Portrayal",
+        "json_path": "Character.Depiction[]",
+        "notes": "Collapses with Depiction; rely on depictionType field for portrayal/non-portrayal distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.AerialAction",
+          "omcT:aCharacterNeeds.Choreography",
+          "omcT:aCharacterNeeds.Fight",
+          "omcT:aCharacterNeeds.MarineAction",
+          "omcT:aCharacterNeeds.MotionCapture",
+          "omcT:aCharacterNeeds.Stunt"
+        ],
+        "rdf_range": "omc:SpecialAction (and subclasses)",
+        "json_path": "Character.edges.needs.SpecialAction[]",
+        "notes": "Six fine-grained RDF SpecialAction subclasses (Aerial, Choreo, Fight, Marine, MotionCap, Stunt) collapse to one JSON path. The specific kind has to be carried on the SpecialAction.specialActionType field."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeProp",
+          "omcT:aCharacterNeeds.NarrativeVehicle",
+          "omcT:aCharacterNeeds.NarrativeObject"
+        ],
+        "rdf_range": "omc:NarrativeObject (or subclasses)",
+        "json_path": "Character.edges.needs.NarrativeObject[]",
+        "notes": "RDF NarrativeProp and NarrativeVehicle subclasses collapse to NarrativeObject; narrativeType field on the target carries the distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeHair",
+          "omcT:aCharacterNeeds.NarrativeMakeup",
+          "omcT:aCharacterNeeds.NarrativeProsthetics"
+        ],
+        "rdf_range": "omc:NarrativeHair, omc:NarrativeMakeup, omc:NarrativeProsthetics",
+        "json_path": "Character.edges.needs.NarrativeStyling[]",
+        "notes": "Three separate RDF classes collapse to NarrativeStyling in JSON; narrativeType field carries the distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeWardrobe"
+        ],
+        "rdf_range": "omc:NarrativeWardrobe",
+        "json_path": "Character.edges.needs.NarrativeWardrobe[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeGreenery"
+        ],
+        "rdf_range": "omc:NarrativeGreenery",
+        "json_path": null,
+        "notes": "NarrativeGreenery is not a distinct JSON entity. May collapse to NarrativeObject with type=greenery; verify."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.SpecialEffect",
+          "omcT:aCharacterNeeds.VisualEffect"
+        ],
+        "rdf_range": "omc:SpecialEffect, omc:VisualEffect",
+        "json_path": "Character.edges.needs.Effect[]",
+        "notes": "SpecialEffect/VisualEffect subclasses collapse to Effect; effectType field carries the distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omc:interactsWithCharacter"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": null,
+        "notes": "Self-referential 'interacts with' relation — no obvious JSON equivalent. Could use edges.related but no Character target there."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:depicts"
+        ],
+        "rdf_domain": "omc:Depiction",
+        "json_path": "Depiction.Depicts (oneOf: Character, ...)",
+        "notes": "Depicts is a field on Depiction with a oneOf containing Character."
+      },
+      {
+        "rdf_predicates": [
+          "omc:portrays"
+        ],
+        "rdf_domain": "omc:Portrayal",
+        "json_path": "Depiction.Depicts when depictionType='portrayal'",
+        "notes": "Same Depicts field, distinguished by depictionType."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.Character"
+        ],
+        "rdf_domain": "omc:NarrativeScene",
+        "json_path": "NarrativeScene.edges.features.Character[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aPortrayalPortraying.Character"
+        ],
+        "rdf_domain": "omc:Portrayal",
+        "json_path": "Depiction.Depicts (when depictionType='portrayal')",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeAudioHas.Character"
+        ],
+        "rdf_domain": "omc:NarrativeAudio",
+        "json_path": "NarrativeAudio.edges.has.Character[]?",
+        "notes": "Verify whether Character is a valid target under has from NarrativeAudio."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSpecialActionInvolves.Character",
+          "omcT:anEffectInvolves.Character"
+        ],
+        "rdf_domain": "omc:SpecialAction, omc:Effect",
+        "json_path": "SpecialAction.edges.has.Character[] or via inverse neededBy",
+        "notes": "JSON SpecialAction.edges.neededBy.Character is the inverse of Character.edges.needs.SpecialAction; covers same triple."
+      }
+    ]
+  },
+  "Depiction": {
+    "rdf_class": "omc:Depiction",
+    "json_def": "#/$defs/MediaCreationContext/properties/Depiction",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:depicts",
+          "omcT:aDepictionDepicts.NarrativeObject"
+        ],
+        "rdf_range": [
+          "omc:NarrativeProp",
+          "omc:NarrativeLocation",
+          "omc:Character",
+          "omc:NarrativeObject"
+        ],
+        "json_path": "Depiction.Depicts (oneOf: Character | NarrativeLocation | NarrativeObject | NarrativeStyling | NarrativeWardrobe)",
+        "notes": "JSON broadens the target set vs. canonical RDF (adds NarrativeStyling/NarrativeWardrobe) and matches the tentative-layer generalization."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isDepictedBy",
+          "omcT:aDepictionDepicter.ProductionObject"
+        ],
+        "rdf_range": [
+          "omc:ProductionProp",
+          "omc:Person",
+          "omc:ProductionLocation",
+          "omc:CGAssembly",
+          "omc:CGModel",
+          "omc:ProductionObject"
+        ],
+        "json_path": "Depiction.Depicter (oneOf: Asset | Participant | Composition)",
+        "notes": "Production* subtypes are absent — Asset covers props/locations/CG, Participant covers Person."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aDepictionUsedIn.ProductionScene"
+        ],
+        "rdf_range": "omc:ProductionScene",
+        "json_path": "Depiction.edges.usedIn.ProductionScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aDepictionUsedIn.Portrayal"
+        ],
+        "rdf_range": "omc:Portrayal",
+        "json_path": null,
+        "notes": "Portrayal is not a distinct JSON entity — there's no Depiction→Portrayal link because a portrayal IS a Depiction."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasDepiction"
+        ],
+        "rdf_domain": "(no declared domain — many entities)",
+        "json_path": "<Entity>.Depiction[]",
+        "notes": "Multiple JSON entities (Character, NarrativeObject, NarrativeLocation, etc.) have a Depiction[] array as a field — this is the canonical inverse."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isDepictedThingOf"
+        ],
+        "rdf_domain": "omc:NarrativeObject and subclasses, omc:Character, omc:NarrativeLocation",
+        "json_path": "<NarrativeEntity>.Depiction[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:isDepictorIn"
+        ],
+        "rdf_domain": "omc:ProductionProp, omc:Person, omc:ProductionLocation, omc:CGAssembly, omc:CGModel",
+        "json_path": "Participant.Depiction[] (and presumably Asset.Depiction[])",
+        "notes": "Only Participant has a Depiction[] field currently. Asset/Composition don't — gap to consider."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aPortrayalUses.Depiction"
+        ],
+        "rdf_domain": "omc:Portrayal",
+        "json_path": null,
+        "notes": "Inside the JSON's collapsed Depiction model, a 'portrayal' Depiction using another 'depiction' Depiction would need an explicit edge — currently no such target on uses."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneUses.Depiction"
+        ],
+        "rdf_domain": "omc:ProductionScene",
+        "json_path": "ProductionScene.edges.uses.Depiction[]",
+        "notes": null
+      }
+    ]
+  },
+  "CreativeWork": {
+    "rdf_class": "omc:CreativeWork",
+    "json_def": "#/$defs/MediaCreationContext/properties/CreativeWork",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasCountryOfOrigin",
+          "omc:hasCountry"
+        ],
+        "rdf_range": "omc:Country",
+        "json_path": "CreativeWork.countryOfOrigin[]",
+        "notes": "Country is a Utility sub-object (ISO 3166-1 alpha-2 string), not a referenceable entity."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasNarrativeScene",
+          "omcT:aCreativeWorkHas.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "CreativeWork.edges.has.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.Script"
+        ],
+        "rdf_range": "omc:Script",
+        "json_path": "CreativeWork.edges.has.Asset[] (where Asset is a Script)",
+        "notes": "Script-as-class is absent in JSON; a Script is represented as an Asset with appropriate FC type."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.Portrayal"
+        ],
+        "rdf_range": "omc:Portrayal",
+        "json_path": null,
+        "notes": "Portrayal absent. Could be expressed via Depiction inclusion but no direct CreativeWork→Depiction edge in JSON."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.Slate"
+        ],
+        "rdf_range": "omc:Slate",
+        "json_path": "CreativeWork.edges.has.Slate[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.Contribution"
+        ],
+        "rdf_range": "omc:Contribution",
+        "json_path": null,
+        "notes": "Contribution-as-class is absent in JSON. Contributors live on edges.contributor.Participant[]."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.ProductionCompany"
+        ],
+        "rdf_range": "omc:Participant",
+        "json_path": "CreativeWork.ProductionCompany[]",
+        "notes": "Direct field on CreativeWork. Note: RDF range is Participant, JSON range is also Participant (no narrower 'ProductionCompany' entity type)."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkRelated.CreativeWork"
+        ],
+        "rdf_range": "omc:CreativeWork",
+        "json_path": "CreativeWork.edges.related[]?",
+        "notes": "Currently edges.related lists only ProductionScene as a target — CreativeWork-to-CreativeWork related is missing."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasCreativeWork",
+          "omc-legacy:isSlateFor.CreativeWork",
+          "omcT:aSlateFor.CreativeWork"
+        ],
+        "rdf_domain": "omc:Slate, omc:ShootDayContext",
+        "json_path": "Slate.CreativeWork (direct field, oneOf reference|inline)",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:isFromWork",
+          "omcT:aNarrativeSceneFor.CreativeWork"
+        ],
+        "rdf_domain": "omc:NarrativeScene",
+        "json_path": "NarrativeScene.edges.for.CreativeWork[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aContributionFor.CreativeWork"
+        ],
+        "rdf_domain": "omc:Contribution",
+        "json_path": "<Participant>.edges.contributesTo.CreativeWork[]",
+        "notes": "Contribution intermediary collapses — direct Participant→CreativeWork via contributesTo."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aPortrayalFor.CreativeWork",
+          "omcT:aScriptFor.CreativeWork"
+        ],
+        "rdf_domain": "omc:Portrayal, omc:Script",
+        "json_path": "Depiction or Asset.edges.for.CreativeWork[]",
+        "notes": null
+      }
+    ]
+  },
+  "Effect": {
+    "rdf_class": "omc:Effect (covering SpecialEffect, VisualEffect)",
+    "json_def": "#/$defs/MediaCreationContext/properties/Effect",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:anEffectInvolves.Character",
+          "omcT:aVisualEffectNeededBy.Character",
+          "omcT:aSpecialEffectNeededBy.Character"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": "Effect.edges.neededBy.Character[] (via inverse of Character.edges.needs.Effect[])",
+        "notes": "RDF's 'involves' and 'neededBy' patterns collapse; effectType discriminates Special vs Visual."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:anEffectInvolves.NarrativeProp",
+          "omcT:anEffectInvolves.NarrativeVehicle"
+        ],
+        "rdf_range": "omc:NarrativeProp, omc:NarrativeVehicle",
+        "json_path": "Effect.edges.has.NarrativeObject[]?",
+        "notes": "Verify; no direct 'involves' verb in JSON. May map to has or uses."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:anEffectInvolves.NarrativeScene",
+          "omcT:aSpecialEffectFeaturesIn.NarrativeScene",
+          "omcT:aVisualEffectFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "Effect.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.SpecialEffect",
+          "omcT:aNarrativeSceneFeatures.VisualEffect"
+        ],
+        "rdf_domain": "omc:NarrativeScene",
+        "json_path": "NarrativeScene.edges.features.Effect[]",
+        "notes": null
+      }
+    ]
+  },
+  "NarrativeScene": {
+    "rdf_class": "omc:NarrativeScene",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeScene",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFor.CreativeWork",
+          "omcT:aNarrativeSceneFor.Script"
+        ],
+        "rdf_range": "omc:CreativeWork, omc:Script",
+        "json_path": "NarrativeScene.edges.for.CreativeWork[] / NarrativeScene.edges.for.Asset[]",
+        "notes": "Script collapses into Asset."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneHas.AnimatedStoryboard",
+          "omcT:aNarrativeSceneHas.Storyboard"
+        ],
+        "rdf_range": "omc:AnimatedStoryboard, omc:Storyboard",
+        "json_path": "NarrativeScene.edges.has.Asset[]",
+        "notes": "Storyboard/AnimatedStoryboard absent as distinct JSON entities — represented as Assets with appropriate type."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneHas.ProductionScene"
+        ],
+        "rdf_range": "omc:ProductionScene",
+        "json_path": "NarrativeScene.edges.representedBy.ProductionScene[]",
+        "notes": "Verify; the RDF has both 'has' and 'represents' relations between these scene types."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.Character",
+          "omcT:aNarrativeSceneFeatures.AerialAction",
+          "omcT:aNarrativeSceneFeatures.Choreography",
+          "omcT:aNarrativeSceneFeatures.Fight",
+          "omcT:aNarrativeSceneFeatures.MarineAction",
+          "omcT:aNarrativeSceneFeatures.MotionCapture",
+          "omcT:aNarrativeSceneFeatures.Stunt"
+        ],
+        "rdf_range": "omc:Character, omc:SpecialAction (and subclasses)",
+        "json_path": "NarrativeScene.edges.features.Character[] | features.SpecialAction[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.NarrativeGreenery",
+          "omcT:aNarrativeSceneFeatures.NarrativeObject",
+          "omcT:aNarrativeSceneFeatures.NarrativeProp",
+          "omcT:aNarrativeSceneFeatures.NarrativeSetDressing",
+          "omcT:aNarrativeSceneFeatures.NarrativeVehicle"
+        ],
+        "rdf_range": "omc:NarrativeObject (and subclasses)",
+        "json_path": "NarrativeScene.edges.features.NarrativeObject[]",
+        "notes": "Five RDF subclasses collapse into one JSON target; narrativeType on the target carries the distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.NarrativeHair",
+          "omcT:aNarrativeSceneFeatures.NarrativeMakeup",
+          "omcT:aNarrativeSceneFeatures.NarrativeProsthetics"
+        ],
+        "rdf_range": "omc:NarrativeHair, omc:NarrativeMakeup, omc:NarrativeProsthetics",
+        "json_path": "NarrativeScene.edges.features.NarrativeStyling[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.NarrativeMusic",
+          "omcT:aNarrativeSceneFeatures.NarrativeSoundEffect"
+        ],
+        "rdf_range": "omc:NarrativeMusic, omc:NarrativeSoundEffect",
+        "json_path": "NarrativeScene.edges.features.NarrativeAudio[]",
+        "notes": "Music and SoundEffect are RDF subclasses that collapse to NarrativeAudio."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.SpecialEffect",
+          "omcT:aNarrativeSceneFeatures.VisualEffect"
+        ],
+        "rdf_range": "omc:Effect (subclasses)",
+        "json_path": "NarrativeScene.edges.features.Effect[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasNarrativeScene"
+        ],
+        "rdf_domain": "omc:Script, omc:ProductionScene, omc:CreativeWork, omc:NarrativeLocation, omc:NarrativeObject, omc:NarrativeWardrobe, omc:NarrativeSceneContext, omc:Act",
+        "json_path": "<Entity>.edges.has.NarrativeScene[]",
+        "notes": "Domain union in RDF — every entity in the union can use the JSON has edge."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneFor.NarrativeScene"
+        ],
+        "rdf_domain": "omc:ProductionScene",
+        "json_path": "ProductionScene.edges.represents.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterFeaturesIn.NarrativeScene",
+          "omcT:aXFeaturesIn.NarrativeScene (many X)"
+        ],
+        "rdf_domain": "omc:Character, omc:NarrativeObject (and subclasses), omc:Effect, omc:SpecialAction (and subclasses), omc:NarrativeStyling-equivalents",
+        "json_path": "<Entity>.edges.featuresIn.NarrativeScene[]",
+        "notes": "Many parallel RDF predicates collapse to one JSON path."
+      }
+    ]
+  },
+  "NarrativeObject": {
+    "rdf_class": "omc:NarrativeObject (covering NarrativeProp, NarrativeVehicle, NarrativeGreenery, NarrativeSetDressing)",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeObject",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeObjectFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "NarrativeObject.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeObjectIn.Depiction"
+        ],
+        "rdf_range": "omc:Depiction",
+        "json_path": "NarrativeObject.Depiction[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc-legacy:needed.by.Character",
+          "omcT:aNarrativeObjectNeededBy.Character"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": "NarrativeObject.edges.neededBy.Character[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:interactsWithCharacter"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": null,
+        "notes": "Same gap as on Character side."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:depicts",
+          "omcT:aDepictionDepicts.NarrativeObject"
+        ],
+        "rdf_domain": "omc:Depiction",
+        "json_path": "Depiction.Depicts (NarrativeObject branch)",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeObject",
+          "omcT:aCharacterNeeds.NarrativeProp",
+          "omcT:aCharacterNeeds.NarrativeVehicle"
+        ],
+        "rdf_domain": "omc:Character",
+        "json_path": "Character.edges.needs.NarrativeObject[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:anEffectInvolves.NarrativeProp",
+          "omcT:anEffectInvolves.NarrativeVehicle"
+        ],
+        "rdf_domain": "omc:Effect",
+        "json_path": null,
+        "notes": "Verify whether Effect.edges has NarrativeObject as a target."
+      }
+    ]
+  },
+  "NarrativeStyling": {
+    "rdf_class": "omc:NarrativeHair, omc:NarrativeMakeup, omc:NarrativeProsthetics (merged)",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeStyling",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeHairFeaturesIn.NarrativeScene",
+          "omcT:aNarrativeMakeupFeaturesIn.NarrativeScene",
+          "omcT:aNarrativeProstheticsFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "NarrativeStyling.edges.featuresIn.NarrativeScene[]",
+        "notes": "Three RDF classes → one JSON entity. narrativeType field carries the distinction."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeHairNeededBy.Character",
+          "omcT:aNarrativeMakeupNeededBy.Character",
+          "omcT:aNarrativeProstheticsNeededBy.Character"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": "NarrativeStyling.edges.neededBy.Character[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.NarrativeHair",
+          "omcT:aCharacterNeeds.NarrativeMakeup",
+          "omcT:aCharacterNeeds.NarrativeProsthetics"
+        ],
+        "rdf_domain": "omc:Character",
+        "json_path": "Character.edges.needs.NarrativeStyling[]",
+        "notes": null
+      }
+    ]
+  },
+  "NarrativeWardrobe": {
+    "rdf_class": "omc:NarrativeWardrobe",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:isWardrobeFor"
+        ],
+        "rdf_range": "omc:Character (or NarrativeObject)",
+        "json_path": "NarrativeWardrobe.edges.neededBy.Character[]",
+        "notes": "Verify; the wardrobe-character link uses needs/neededBy in JSON."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeWardrobeFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "NarrativeWardrobe.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeWardrobeNeededBy.Character"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": "NarrativeWardrobe.edges.neededBy.Character[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:usesWardrobe"
+        ],
+        "rdf_domain": "omc:Character",
+        "json_path": "Character.edges.uses.NarrativeWardrobe[]?",
+        "notes": "Currently uses edge target list may not include NarrativeWardrobe — verify."
+      }
+    ]
+  },
+  "NarrativeAudio": {
+    "rdf_class": "omc:NarrativeAudio (covering NarrativeMusic, NarrativeSoundEffect)",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeAudio",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeAudioHas.Character"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": null,
+        "notes": "Verify whether NarrativeAudio.edges.has accepts Character."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeAudioHas.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "NarrativeAudio.edges.featuresIn.NarrativeScene[]?",
+        "notes": "Or via has — verify which verb."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeSceneFeatures.NarrativeMusic",
+          "omcT:aNarrativeSceneFeatures.NarrativeSoundEffect"
+        ],
+        "rdf_domain": "omc:NarrativeScene",
+        "json_path": "NarrativeScene.edges.features.NarrativeAudio[]",
+        "notes": null
+      }
+    ]
+  },
+  "NarrativeLocation": {
+    "rdf_class": "omc:NarrativeLocation",
+    "json_def": "#/$defs/MediaCreationContext/properties/NarrativeLocation",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeLocationFeaturesIn.NarrativeScene"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "NarrativeLocation.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeLocationHas.Location"
+        ],
+        "rdf_range": "omc:Location",
+        "json_path": "NarrativeLocation.Location",
+        "notes": "Direct field, not an edge."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:depicts (NarrativeLocation branch)"
+        ],
+        "rdf_domain": "omc:Depiction",
+        "json_path": "Depiction.Depicts (NarrativeLocation branch)",
+        "notes": null
+      }
+    ]
+  },
+  "ProductionScene": {
+    "rdf_class": "omc:ProductionScene",
+    "json_def": "#/$defs/MediaCreationContext/properties/ProductionScene",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneFor.NarrativeScene",
+          "omc:represents"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "ProductionScene.edges.represents.NarrativeScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneRepresentedBy.Capture"
+        ],
+        "rdf_range": "omc:Capture",
+        "json_path": "ProductionScene.edges.representedBy.??? (currently lists only Asset/ProductionScene)",
+        "notes": "Capture-as-class absent in JSON; would be an Asset."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneRelated.ProductionScene"
+        ],
+        "rdf_range": "omc:ProductionScene",
+        "json_path": "ProductionScene.edges.related.ProductionScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneHas.Slate"
+        ],
+        "rdf_range": "omc:Slate",
+        "json_path": "ProductionScene.edges.has.Slate[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneUses.Costume",
+          "omcT:aProductionSceneUses.Depiction",
+          "omcT:aProductionSceneUses.Portrayal",
+          "omcT:aProductionSceneUses.ProductionGreenery",
+          "omcT:aProductionSceneUses.ProductionHair",
+          "omcT:aProductionSceneUses.ProductionLocation",
+          "omcT:aProductionSceneUses.ProductionMakeup",
+          "omcT:aProductionSceneUses.ProductionProp",
+          "omcT:aProductionSceneUses.ProductionProsthetics",
+          "omcT:aProductionSceneUses.ProductionSet",
+          "omcT:aProductionSceneUses.ProductionSetDressing",
+          "omcT:aProductionSceneUses.ProductionVehicle"
+        ],
+        "rdf_range": "omc:Costume, omc:Depiction, omc:Portrayal, omc:Production* (many)",
+        "json_path": "ProductionScene.edges.uses.{Asset|Composition|Depiction|Infrastructure|ProductionLocation}[]",
+        "notes": "Twelve RDF 'uses.X' predicates collapse to JSON edges.uses with a fixed target set. Most Production* targets fold into Asset; Costume folds into Asset/Composition."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasProductionScene"
+        ],
+        "rdf_domain": "omc:Capture, omc:Depiction, omc:ProductionLocation, omc:ProductionProp, omc:ProductionSet, omc:ProductionSetDressing, omc:Costume, omc:ShootDayContext, omc:ProductionSceneContext",
+        "json_path": "<Entity>.edges.has.ProductionScene[] or edges.related.ProductionScene[]",
+        "notes": null
+      }
+    ]
+  },
+  "ProductionLocation": {
+    "rdf_class": "omc:ProductionLocation",
+    "json_def": "#/$defs/MediaCreationContext/properties/ProductionLocation",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aProductionLocationHas.Location"
+        ],
+        "rdf_range": "omc:Location",
+        "json_path": "ProductionLocation.Location",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionLocationUsedIn.ProductionScene"
+        ],
+        "rdf_range": "omc:ProductionScene",
+        "json_path": "ProductionLocation.edges.usedIn.ProductionScene[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionLocationUses.ProductionSet"
+        ],
+        "rdf_range": "omc:ProductionSet",
+        "json_path": "ProductionLocation.edges.uses.??? (no ProductionSet target)",
+        "notes": "ProductionSet not modelled in JSON."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneUses.ProductionLocation"
+        ],
+        "rdf_domain": "omc:ProductionScene",
+        "json_path": "ProductionScene.edges.uses.ProductionLocation[]",
+        "notes": null
+      }
+    ]
+  },
+  "Slate": {
+    "rdf_class": "omc:Slate",
+    "json_def": "#/$defs/MediaCreationContext/properties/Slate",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasCreativeWork",
+          "omc-legacy:isSlateFor.CreativeWork",
+          "omcT:aSlateFor.CreativeWork"
+        ],
+        "rdf_range": "omc:CreativeWork",
+        "json_path": "Slate.CreativeWork",
+        "notes": "Direct field on Slate."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasDirector",
+          "omcT:aSlateHas.Director"
+        ],
+        "rdf_range": "omc:Participant",
+        "json_path": "Slate.Director[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasCameraUnit",
+          "omcT:aSlateHas.CameraUnit"
+        ],
+        "rdf_range": "omc:Participant",
+        "json_path": "Slate.cameraUnit (string)",
+        "notes": "JSON cameraUnit is a free-text string field, not a Participant reference — semantic downgrade."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSlateHas.Camera"
+        ],
+        "rdf_range": "omc:Camera",
+        "json_path": "Slate.cameraLabel (string)",
+        "notes": "Same — string field, not entity reference."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSlateFor.Asset",
+          "omcT:aSlateFor.Capture",
+          "omcT:aSlateFor.CameraMetadata",
+          "omcT:aSlateFor.ProductionScene",
+          "omcT:aSlateFor.Shot"
+        ],
+        "rdf_range": "omc:Asset, omc:Capture, omc:CameraMetadata, omc:ProductionScene, omc:Shot",
+        "json_path": "Slate.edges.for.{Asset|ProductionScene}[] (Shot, Capture, CameraMetadata absent)",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aProductionSceneHas.Slate",
+          "omcT:aShotHas.Slate",
+          "omcT:anAssetHas.Slate",
+          "omcT:aCreativeWorkHas.Slate"
+        ],
+        "rdf_domain": "omc:ProductionScene, omc:Shot, omc:Asset, omc:CreativeWork",
+        "json_path": "<Entity>.edges.has.Slate[]",
+        "notes": null
+      }
+    ]
+  },
+  "SpecialAction": {
+    "rdf_class": "omc:SpecialAction (covering AerialAction, Choreography, Fight, MarineAction, MotionCapture, Stunt)",
+    "json_def": "#/$defs/MediaCreationContext/properties/SpecialAction",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omcT:aSpecialActionInvolves.Character",
+          "omcT:aXNeededBy.Character (six subclass variants)"
+        ],
+        "rdf_range": "omc:Character",
+        "json_path": "SpecialAction.edges.neededBy.Character[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSpecialActionInvolves.NarrativeProp",
+          "omcT:aSpecialActionInvolves.NarrativeVehicle"
+        ],
+        "rdf_range": "omc:NarrativeProp, omc:NarrativeVehicle",
+        "json_path": null,
+        "notes": "Verify; no SpecialAction edge target for NarrativeObject currently."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aXFeaturesIn.NarrativeScene (six subclass variants)"
+        ],
+        "rdf_range": "omc:NarrativeScene",
+        "json_path": "SpecialAction.edges.featuresIn.NarrativeScene[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aCharacterNeeds.AerialAction",
+          "omcT:aCharacterNeeds.Choreography",
+          "omcT:aCharacterNeeds.Fight",
+          "omcT:aCharacterNeeds.MarineAction",
+          "omcT:aCharacterNeeds.MotionCapture",
+          "omcT:aCharacterNeeds.Stunt"
+        ],
+        "rdf_domain": "omc:Character",
+        "json_path": "Character.edges.needs.SpecialAction[]",
+        "notes": "specialActionType field discriminates the six RDF subclasses."
+      }
+    ]
+  },
+  "Participant": {
+    "rdf_class": "omc:Participant",
+    "json_def": "#/$defs/Participant/properties/Participant",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasParticipantFunctionalCharacteristic"
+        ],
+        "rdf_range": "omc:ParticipantAsFunction",
+        "json_path": "Participant.participantFC",
+        "notes": "Inlined sub-object."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasParticipantStructuralCharacteristic"
+        ],
+        "rdf_range": "omc:ParticipantAsStructure",
+        "json_path": "Participant.ParticipantSC (oneOf: Person | Department | Organization | Service)",
+        "notes": "ParticipantSC selects one of four concrete structural types."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasProductionRole"
+        ],
+        "rdf_range": "(no declared range)",
+        "json_path": "Participant.participantFC.Role[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:isCameraUnitFor",
+          "omc:isDirectorFor"
+        ],
+        "rdf_range": "omc:Slate",
+        "json_path": null,
+        "notes": "Inverse direction. Forward edge Slate.Director[] / Slate.cameraUnit captures the data."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aParticipantIn.WorkUnit",
+          "omcT:aWorkUnitHas.Participant"
+        ],
+        "rdf_range": "omc:WorkUnit",
+        "json_path": null,
+        "notes": "WorkUnit class absent in JSON."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aParticipantIn.Contribution",
+          "omcT:aContributionHas.Contributor"
+        ],
+        "rdf_range": "omc:Contribution",
+        "json_path": "Participant.edges.contributesTo.CreativeWork[]",
+        "notes": "Contribution intermediary class is absent — direct Participant→CreativeWork."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aParticipantCreated.Provenance"
+        ],
+        "rdf_range": "omc:Provenance",
+        "json_path": "Provenance.CreatedBy (inverse direction)",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aScreenwriterFor.Script"
+        ],
+        "rdf_range": "omc:Script",
+        "json_path": "Participant.edges.contributesTo.Asset[]?",
+        "notes": "Script as Asset; specific role expressed via Role."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProductionCompanyFor.CreativeWork"
+        ],
+        "rdf_range": "omc:CreativeWork",
+        "json_path": "Participant referenced via CreativeWork.ProductionCompany[]",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasParticipant"
+        ],
+        "rdf_domain": "omc:Role",
+        "json_path": null,
+        "notes": "Role is a JSON entity with roleType only — no Participant reference field. Verify."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasAuthor"
+        ],
+        "rdf_domain": "(no domain)",
+        "json_path": "Provenance.CreatedBy",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aCreativeWorkHas.ProductionCompany"
+        ],
+        "rdf_domain": "omc:CreativeWork",
+        "json_path": "CreativeWork.ProductionCompany[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSlateHas.Director"
+        ],
+        "rdf_domain": "omc:Slate",
+        "json_path": "Slate.Director[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aScriptHas.Screenwriter"
+        ],
+        "rdf_domain": "omc:Script",
+        "json_path": "Asset (Script).edges.contributor.Participant[]",
+        "notes": null
+      }
+    ]
+  },
+  "Person": {
+    "rdf_class": "omc:Person",
+    "json_def": "#/$defs/Participant/properties/Person",
+    "outgoing": [],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:isDepictorIn"
+        ],
+        "rdf_domain": "omc:Person (via union)",
+        "json_path": "Person.Depiction[] (inherited from Participant?)",
+        "notes": "Verify whether Person inherits the Depiction[] field."
+      }
+    ]
+  },
+  "Role": {
+    "rdf_class": "omc:Role",
+    "json_def": "#/$defs/Participant/properties/Role",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasParticipant"
+        ],
+        "rdf_range": "omc:Participant",
+        "json_path": null,
+        "notes": "JSON Role has only roleType. No Participant or Task reference field — surprising gap."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasTask"
+        ],
+        "rdf_range": "omc:Task",
+        "json_path": null,
+        "notes": "Same."
+      }
+    ],
+    "incoming": []
+  },
+  "Task": {
+    "rdf_class": "omc:Task",
+    "json_def": "#/$defs/Task/properties/Task",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasTaskFunctionalCharacteristic"
+        ],
+        "rdf_range": "omc:TaskAsFunction",
+        "json_path": "Task.taskFC",
+        "notes": "Inlined."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasTaskStructuralCharacteristic"
+        ],
+        "rdf_range": "omc:TaskAsStructure",
+        "json_path": "Task.TaskSC",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasScheduling",
+          "omcT:aTaskHas.Scheduling"
+        ],
+        "rdf_range": "omc:Scheduling",
+        "json_path": null,
+        "notes": "Scheduling class absent in JSON. Time fields may live directly on Task."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasState"
+        ],
+        "rdf_range": "omc:State",
+        "json_path": null,
+        "notes": "State class absent in JSON."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasTaskGroup",
+          "omc:isTaskComponentOf",
+          "omcT:aTaskHas.TaskGroup",
+          "omcT:aTaskIsMemberOf.TaskGroup"
+        ],
+        "rdf_range": "omc:TaskGroup",
+        "json_path": "Task.edges.memberOf[]?",
+        "notes": "TaskGroup class absent — group membership expressed via edges.memberOf."
+      },
+      {
+        "rdf_predicates": [
+          "omc:informs",
+          "omc:isInformedBy",
+          "omcT:aTaskInforms.Task",
+          "omcT:aTaskInformedBy.Task"
+        ],
+        "rdf_range": "omc:Task",
+        "json_path": "Task.edges.related.Task[]? (no Task target currently)",
+        "notes": "Task-to-Task informs relationship has no direct JSON path; edges.related currently only allows ProductionScene."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aTaskHasInput.Asset"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Task.edges.uses.Asset[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aTaskHasOutput.Asset"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Task.edges.produces.Asset[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aTaskIn.WorkUnit"
+        ],
+        "rdf_range": "omc:WorkUnit",
+        "json_path": null,
+        "notes": "WorkUnit absent."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:isCreatedByTask",
+          "omcT:anAssetIsOutputFor.Task"
+        ],
+        "rdf_domain": "omc:Asset",
+        "json_path": "Asset.edges.productOf.Task[]?",
+        "notes": "Verify whether Task is a productOf target."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasTask"
+        ],
+        "rdf_domain": "omc:Role",
+        "json_path": null,
+        "notes": null
+      }
+    ]
+  },
+  "Provenance": {
+    "rdf_class": "omc:Provenance",
+    "json_def": "#/$defs/Utility/properties/provenance (now also entity-level)",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:isCreatedBy",
+          "omcT:aProvenanceCreatedBy.Participant"
+        ],
+        "rdf_range": "omc:Participant",
+        "json_path": "Provenance.CreatedBy",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProvenanceFor.Asset"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Provenance.Origin",
+        "notes": "Origin field on Provenance points at an Asset (or reference)."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aProvenanceFor.VersionInfo"
+        ],
+        "rdf_range": "omc:VersionInfo",
+        "json_path": null,
+        "notes": "VersionInfo intermediary absent — version metadata is inline on Asset/Composition."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasProvenance",
+          "omcT:anAssetHas.Provenance"
+        ],
+        "rdf_domain": "omc:Asset",
+        "json_path": "<Entity>.provenance",
+        "notes": null
+      }
+    ]
+  },
+  "Composition": {
+    "rdf_class": "omc:Composition",
+    "json_def": "#/$defs/Utility/properties/Composition",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:includesAsset"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Composition.edges.has.Asset[] or via Composition.compositionProperties",
+        "notes": "No explicit 'includes' field on Composition — verify."
+      },
+      {
+        "rdf_predicates": [
+          "omc:hasVersion",
+          "omc:isVersionOf"
+        ],
+        "rdf_range": "omc:Composition (and Asset via union)",
+        "json_path": "Composition.version",
+        "notes": "Same versioning pattern as Asset."
+      },
+      {
+        "rdf_predicates": [
+          "omc-legacy:produces.Asset"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": "Composition.edges.produces.Asset[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc:startHere"
+        ],
+        "rdf_range": "omc:Asset",
+        "json_path": null,
+        "notes": "No entry-point field on JSON Composition."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc-legacy:isProducedBy.Composition"
+        ],
+        "rdf_domain": "omc:Asset",
+        "json_path": "Asset.edges.productOf.Composition[]",
+        "notes": null
+      }
+    ]
+  },
+  "Context": {
+    "rdf_class": "omc:MediaCreationContext (covering NarrativeContext, ProductionContext, ShootDayContext, NarrativeSceneContext, ProductionSceneContext, EditorialSequenceContext)",
+    "json_def": "#/$defs/MediaCreationContext/properties/Context",
+    "outgoing": [
+      {
+        "rdf_predicates": [
+          "omc:hasContextComponent"
+        ],
+        "rdf_range": "omc:MediaCreationContextComponent",
+        "json_path": "Context.ForEntity[]",
+        "notes": "Verify; Context.ForEntity is the closest analogue."
+      },
+      {
+        "rdf_predicates": [
+          "omc:isContextFor"
+        ],
+        "rdf_range": "(undeclared)",
+        "json_path": "Context.ForEntity[]",
+        "notes": null
+      },
+      {
+        "rdf_predicates": [
+          "omc-legacy:related.context"
+        ],
+        "rdf_range": "omc:MediaCreationContext",
+        "json_path": "Context.Context[] (self-reference array)",
+        "notes": null
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omc:hasContext",
+          "omc-legacy:in.context"
+        ],
+        "rdf_domain": "omc:MediaCreationContextComponent",
+        "json_path": "<Entity>.Context[]",
+        "notes": "Most JSON entities carry a Context[] array for back-references."
+      },
+      {
+        "rdf_predicates": [
+          "omcT:aSchedulingFor.Task",
+          "omcT:aTaskHas.Scheduling (Scheduling-as-Context interpretation)"
+        ],
+        "rdf_domain": "omc:Task",
+        "json_path": "Context with contextCategory='scheduling' may stand in",
+        "notes": "Speculative — Scheduling absent as distinct entity."
+      }
+    ]
+  },
+  "Location": {
+    "rdf_class": "omc:Location",
+    "json_def": "#/$defs/Utility/properties/Location",
+    "outgoing": [],
+    "incoming": [
+      {
+        "rdf_predicates": [
+          "omcT:aNarrativeLocationHas.Location",
+          "omcT:aProductionLocationHas.Location"
+        ],
+        "rdf_domain": "omc:NarrativeLocation, omc:ProductionLocation",
+        "json_path": "NarrativeLocation.Location | ProductionLocation.Location",
+        "notes": "Direct fields rather than edges."
+      }
+    ]
+  },
+  "Infrastructure": {
+    "rdf_class": "omc:Infrastructure",
+    "json_def": "#/$defs/Infrastructure/properties/Infrastructure",
+    "outgoing": [
+      {
+        "rdf_predicates": [],
+        "rdf_range": null,
+        "json_path": "Infrastructure.InfrastructureSC | Infrastructure.infrastructureFC",
+        "notes": "Infrastructure is sparse in RDF — JSON has its own dual-classification pattern."
+      }
+    ],
+    "incoming": [
+      {
+        "rdf_predicates": [],
+        "rdf_domain": null,
+        "json_path": "<Entity>.edges.has.Infrastructure[] | edges.uses.Infrastructure[]",
+        "notes": "Infrastructure appears as a target in has and uses edge lists."
+      }
+    ]
+  },
+  "Collection": {
+    "rdf_class": "omc:Collection",
+    "json_def": "#/$defs/Utility/properties/Collection",
+    "outgoing": [
+      {
+        "rdf_predicates": [],
+        "rdf_range": null,
+        "json_path": "Collection.includes",
+        "notes": "Collection is loosely modelled in RDF; JSON adds an includes pattern."
+      }
+    ],
+    "incoming": []
+  },
+  "_unmapped_rdf_classes": {
+    "purpose": "RDF classes with no JSON entity equivalent. Listed here so consumers can decide how to handle them.",
+    "classes": [
+      "omc:Portrayal (collapses into Depiction via depictionType)",
+      "omc:Portrayer (collapses into Depiction.Depicter)",
+      "omc:Concept (no equivalent; partially covered by edges.idea/subject)",
+      "omc:ConceptArt (no equivalent; would be an Asset)",
+      "omc:Script (no equivalent; would be an Asset with appropriate type)",
+      "omc:Storyboard / omc:AnimatedStoryboard (would be Assets)",
+      "omc:Capture / omc:CameraMetadata (would be Assets)",
+      "omc:Shot / omc:Sequence / omc:Act (sequence/structure layer absent)",
+      "omc:ProductionProp / Vehicle / Greenery / Makeup / Hair / Prosthetics / SetDressing / Set (all absent — Asset stands in)",
+      "omc:NarrativeProp / Vehicle / Greenery / SetDressing (collapse into NarrativeObject with narrativeType discriminator)",
+      "omc:NarrativeHair / Makeup / Prosthetics (merged into NarrativeStyling)",
+      "omc:NarrativeMusic / NarrativeSoundEffect (merged into NarrativeAudio)",
+      "omc:Costume (no equivalent; would be Asset or Composition)",
+      "omc:Contribution (collapsed — Participant.edges.contributesTo replaces it)",
+      "omc:WorkUnit (no equivalent)",
+      "omc:State (no equivalent)",
+      "omc:Scheduling (no equivalent; date fields inline)",
+      "omc:AssetGroup / TaskGroup / ParticipantGroup (collapsed into Member[] arrays and edges.memberOf)",
+      "omc:VariantInfo / VersionInfo / DerivationInfo / RevisionInfo / RepresentationInfo / AlternativeInfo (all collapsed into the inline version sub-object)",
+      "omc:AssetAsFunction / AssetAsStructure / TaskAsFunction / TaskAsStructure / ParticipantAsFunction / ParticipantAsStructure (collapsed into FC/SC sub-objects)",
+      "omc:AnythingWithAName / AnythingWithAnID / Attributable / Utility (abstract mixins — folded into baseEntity)",
+      "omc:VocabularyTerm (replaced by enums and x-controlledValues lists)",
+      "omc:CGModel / CGAssembly (would be Assets)",
+      "omc:Camera / Lens / Mag (would be Assets; currently only camera-related fields are strings on Slate)"
+    ]
+  },
+  "_unmapped_json_features": {
+    "purpose": "JSON features that have no clear RDF analogue.",
+    "items": [
+      "schemaVersion field on baseEntity (JSON-specific versioning)",
+      "instanceInfo block on baseEntity (flagged as Beta in the schema itself)",
+      "label and description fields on baseEntity (the RDF uses rdfs:label and skos:definition for class-level metadata, not instance-level)",
+      "customData (an open extension point — RDF has omc:CustomData class but no general extension pattern)",
+      "tag (an open categorization field)",
+      "annotation (open commentary field; RDF has omc:Annotation but it's a class for shared records, not an inline field)",
+      "edges.contributor / contributesTo (collapses the Participant↔Contribution↔CreativeWork triple)"
+    ]
+  }
+}

@@ -553,4 +553,22 @@ export const generalConfig = {
             propRows: ['label', identifier],
         },
     },
+    Provenance: {
+        group: 'Utility',
+        idPrefix: 'prv',
+        presentation: {
+            entityColor: '#BDC3C7',
+            entityLabel: 'Provenance',
+            entityLabelSuffix: () => '',
+            // icon: LocationIcon,
+            header: {
+                backgroundColor: '#BDC3C7',
+                fontColor: '#000',
+                entityLabel: 'Provenance',
+                entityLabelSuffix: () => '',
+                // icon: LocationIcon,
+            },
+            propRows: ['label', identifier],
+        },
+    },
 };

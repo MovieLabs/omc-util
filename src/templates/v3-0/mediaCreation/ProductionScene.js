@@ -23,14 +23,6 @@ export default {
         sceneNumber: {
             $type: 'string',
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         edges: {
             for: {
                 NarrativeScene: {
@@ -47,6 +39,14 @@ export default {
                     $edge: {
                         $allowed: ['Slate'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
                     },
                 },
             },

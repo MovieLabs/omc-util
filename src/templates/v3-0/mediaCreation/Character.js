@@ -25,7 +25,19 @@ export default {
                 $validate: assertAllCaps,
             },
         },
+        // Missing interactsWithCharacter
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'Context',
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             featuresIn: {
                 NarrativeScene: {
                     $type: 'array',
@@ -80,7 +92,7 @@ export default {
                         $allowed: ['NarrativeWardrobe'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'usesWardrobe',
+                        $omcPredicate: 'aCharacterNeeds', // usesWardrobe
                     },
                 },
                 SpecialAction: {
@@ -94,22 +106,13 @@ export default {
                 },
             },
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $predicate: 'Context',
-                $omcPredicate: 'isInContext',
-            },
-        },
         Depiction: {
             $type: 'array',
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
                 $predicate: 'Depiction',
-                $omcPredicate: 'aCharacterPortrayedIn',
+                $omcPredicate: 'isPortrayedBy',
             },
         },
     },
@@ -118,7 +121,6 @@ export default {
             ...baseEntity.graphQl.properties,
             characterType: null,
             characterName: completeName.graphQl.properties,
-            Context: null,
             Depiction: null,
         },
         filter: {

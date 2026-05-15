@@ -38,14 +38,14 @@ export default {
                         $allowed: ['SpecialAction'],
                     },
                 },
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
             },
         },
     },
@@ -60,7 +60,6 @@ export default {
                 // customData: null,
             },
             Member: null,
-            Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

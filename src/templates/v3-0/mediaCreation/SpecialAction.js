@@ -18,6 +18,16 @@ export default {
         },
         specialActionName: basicName.template,
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             featuresIn: {
                 $type: 'array',
                 $edge: {
@@ -35,21 +45,12 @@ export default {
                 },
             },
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             specialActionType: null,
             specialActionName: basicName.graphQl.properties,
-            Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

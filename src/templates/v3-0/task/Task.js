@@ -29,12 +29,16 @@ export default {
                 $allowed: ['Task'],
             },
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
+        edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
             },
         },
     },
@@ -50,7 +54,6 @@ export default {
                 customData: null,
             },
             Member: null,
-            Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

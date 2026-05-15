@@ -18,14 +18,6 @@ export default {
             $type: 'string',
         },
         slugline: note.template,
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         Depiction: {
             $type: 'array',
             $edge: {
@@ -109,6 +101,14 @@ export default {
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
                     },
                 },
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
             },
         },
     },
@@ -118,7 +118,6 @@ export default {
             narrativeSceneName: scriptName.graphQl.properties,
             sceneNumber: null,
             slugline: note.graphQl.properties,
-            Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

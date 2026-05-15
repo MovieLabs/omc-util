@@ -37,14 +37,6 @@ export default {
         recordingFPS: {
             $type: 'string',
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         CreativeWork: {
             $type: 'object',
             $edge: {
@@ -73,6 +65,14 @@ export default {
                     $edge: {
                         $allowed: ['Participant'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                    },
+                },
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
                     },
                 },
             },
@@ -105,7 +105,6 @@ export default {
             shootDate: null,
             shootDay: null,
             recordingFPS: null,
-            Context: null,
             CreativeWork: null,
             Director: null,
         },

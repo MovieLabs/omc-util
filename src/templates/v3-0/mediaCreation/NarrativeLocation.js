@@ -17,14 +17,6 @@ export default {
             $type: 'string',
         },
         narrativeLocationName: scriptName.template,
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         Depiction: {
             $type: 'array',
             $edge: {
@@ -40,6 +32,16 @@ export default {
             },
         },
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             featuresIn: {
                 NarrativeScene: {
                     $type: 'array',
@@ -56,7 +58,6 @@ export default {
             ...baseEntity.graphQl.properties,
             narrativeType: null,
             narrativeLocationName: scriptName.graphQl.properties,
-            Context: null,
             Depiction: null,
         },
         filter: {

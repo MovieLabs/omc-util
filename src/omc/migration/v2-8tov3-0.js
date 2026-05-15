@@ -49,23 +49,23 @@ const cxtEdges = ((cxt) => {
  * @returns {OmcEntity}
  */
 function setEdgesFromContext(omc) {
-    if (!omc || !Array.isArray(omc.Context) || omc.Context.length === 0) return omc;
+    const { Context, ...update } = omc; // Context will be removed
+    if (!omc || !Array.isArray(Context) || Context.length === 0) return update;
 
-    const edgeFragments = omc.Context
+    const edgeFragments = Context
         .filter((ctx) => ctx && ctx.entityType === 'Context') // Skip unresolved refs
         .map((cxt) => cxtEdges(cxt)); // Just the edge properties
 
-    if (edgeFragments.length === 0) return { ...omc, Context: null };
+    if (edgeFragments.length === 0) return update;
 
     const merged = edgeFragments.reduce((acc, frag) => deepMerge(acc, frag), {});
-    if (Object.keys(merged).length === 0) return { ...omc, Context: null };
+    if (Object.keys(merged).length === 0) return update;
 
     const existing = omc.edges && typeof omc.edges === 'object' ? omc.edges : {};
     const edges = deepMerge(existing, merged);
     return {
-        ...omc,
+        ...update,
         edges,
-        Context: null,
     };
 }
 
@@ -195,7 +195,7 @@ export default {
         const update = {
             ...setEdgesFromContext(v28.NarrativeAction(omc)),
             schemaVersion,
-            entityType: 'specialAction',
+            entityType: 'SpecialAction',
             specialActionType,
         };
         delete update.narrativeActionType;

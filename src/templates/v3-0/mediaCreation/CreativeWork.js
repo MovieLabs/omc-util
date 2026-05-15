@@ -75,18 +75,16 @@ export default {
                         $omcPredicate: 'aCreativeWorkHas',
                     },
                 },
+                Context: {
+                    type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'Context',
+                        $omcPredicate: 'hasContext',
+                    },
+                },
             },
-            // isin: {
-            //     Context: {
-            //         $type: 'array',
-            //         $edge: {
-            //             $allowed: ['Context'],
-            //             $inverse: 'Context',
-            //             $predicate: 'isIn',
-            //             $omcPredicate: 'isInContext',
-            //         },
-            //     },
-            // },
             related: {
                 CreativeWork: {
                     $type: 'array',
@@ -97,15 +95,6 @@ export default {
                         $omcPredicate: 'related',
                     },
                 },
-            },
-        },
-        Context: {
-            type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $predicate: 'Context',
-                $omcPredicate: 'hasContext',
             },
         },
         ProductionCompany: {
@@ -144,7 +133,6 @@ export default {
             approximateLength: null,
             originalLanguage: null,
             countryOfOrigin: null,
-            Context: null,
             Series: null,
             Episode: null,
             ProductionCompany: null,

@@ -64,6 +64,14 @@ export default {
                         $inverse: `edges.${inverseEdges.has}`,
                     },
                 },
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
             },
             needs: {
                 Effect: {
@@ -123,16 +131,10 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Character'],
+                        // $inverse: `edges.has.${entityType}`,
+                        // $omcPredicate: 'isInContext',
                     },
                 },
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
             },
         },
     },
@@ -143,7 +145,6 @@ export default {
             contextName: basicName.graphQl.properties,
             contextCategory: null,
             contextProperties: null,
-            ForEntity: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

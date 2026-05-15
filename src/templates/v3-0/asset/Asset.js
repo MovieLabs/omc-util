@@ -25,6 +25,8 @@ export default {
             // customData: null,
         },
         assetName: basicName.template,
+        // No edges for Task - isInputFor, isOutputFor (From)
+        // No edges for Concept - isIdeaFor?
         edges: {
             for: {
                 NarrativeScene: {
@@ -65,6 +67,14 @@ export default {
                         $omcPredicate: 'anAssetHas',
                     },
                 },
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
             },
             usedIn: {
                 ProductionLocation: {
@@ -82,6 +92,17 @@ export default {
                     },
                 },
             },
+            productOf: {
+                Composition: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Composition'],
+                        $inverse: 'Product',
+                        $predicate: 'productOf',
+                        $omcPredicate: 'isProducedBy',
+                    },
+                },
+            },
         },
         Member: {
             $type: 'array',
@@ -89,14 +110,6 @@ export default {
                 $allowed: ['Asset'],
                 $inverse: `edges.memberOf.${entityType}`,
                 $omcPredicate: 'isMemberOf',
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -107,8 +120,15 @@ export default {
                 $omcPredicate: 'hasDepiction',
             },
         },
+        Provenance: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Provenance'],
+                $inverse: `edges.for.${entityType}`,
+                $omcPredicate: 'anAssetHas.Provenance',
+            },
+        },
         // version: null,
-        // provenance: null,
     },
     graphQl: {
         properties: {
@@ -121,7 +141,6 @@ export default {
                 // customData: null,
             },
             Member: null,
-            Context: null,
             Depiction: null,
             // version: null,
             // provenance: null,

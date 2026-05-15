@@ -16,6 +16,17 @@ export default {
         depictionType: { $type: 'string' },
         depictionName: basicName.template,
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'Context',
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             usedIn: {
                 ProductionScene: {
                     $type: 'array',
@@ -37,15 +48,6 @@ export default {
                         $omcPredicate: 'usesProduction...',
                     },
                 },
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $predicate: 'Context',
-                $omcPredicate: 'isInContext',
             },
         },
         Depicts: {
@@ -83,7 +85,6 @@ export default {
                 Participant: null,
                 Asset: null,
             },
-            Context: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

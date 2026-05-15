@@ -18,6 +18,16 @@ export default {
         },
         narrativeAudioName: scriptName.template,
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             featuresIn: {
                 $type: 'array',
                 $edge: {
@@ -35,14 +45,6 @@ export default {
                 },
             },
         },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
-            },
-        },
         Depiction: {
             $type: 'array',
             $edge: {
@@ -57,7 +59,6 @@ export default {
             ...baseEntity.graphQl.properties,
             narrativeType: 'string',
             narrativeAudioName: scriptName.graphQl.properties,
-            Context: null,
             Depiction: null,
         },
         filter: {

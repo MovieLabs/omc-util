@@ -24,6 +24,16 @@ export default {
             $type: 'string',
         },
         edges: {
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
             featuresIn: {
                 $type: 'array',
                 $edge: {
@@ -39,14 +49,6 @@ export default {
                         $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
                     },
                 },
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: `edges.isIn.${entityType}`,
-                $omcPredicate: 'isInContext',
             },
         },
         Depiction: {
@@ -65,7 +67,6 @@ export default {
             narrativeObjectName: scriptName.graphQl.filter,
             quantity: null,
             size: null,
-            Context: null,
             Depiction: null,
         },
         filter: {
