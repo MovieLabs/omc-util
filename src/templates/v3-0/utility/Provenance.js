@@ -14,10 +14,34 @@ export default {
     template: {
         ...baseEntity.template,
         provenanceName: basicName.template,
-        CreatedBy: null,
+        CreatedBy: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Participant'],
+                // $inverse: 'Depicts',
+                $predicate: 'CreatedBy',
+                // $omcPredicate: 'isPortrayedBy',
+            },
+        },
         createdOn: null,
-        Role: null,
-        Origin: null,
+        Role: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Role'],
+                // $inverse: 'Depicts',
+                $predicate: 'Role',
+                // $omcPredicate: 'isPortrayedBy',
+            },
+        },
+        Origin: {
+            $type: 'array',
+            $edge: {
+                $allowed: ['Asset'],
+                // $inverse: 'Depicts',
+                $predicate: 'Asset',
+                // $omcPredicate: 'isPortrayedBy',
+            },
+        },
         reason: null,
         edges: {
             has: {
