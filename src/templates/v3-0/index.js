@@ -63,6 +63,7 @@ import TaskSC from './task/TaskSC.js';
 import Collection from './utility/Collection.js';
 import Composition from './utility/Composition.js';
 import Location from './utility/Location.js';
+import Provenance from './utility/Provenance.js';
 import { baseEntity } from './utility/utility.js';
 
 const omcTemplate = {
@@ -96,6 +97,7 @@ const omcTemplate = {
     Collection,
     Composition,
     Location,
+    Provenance,
 };
 
 // Flattens the edge properties, and includes a JSON path
