@@ -25,7 +25,16 @@
       "Bash(grep -r \"\\\\.mjs\" --include=\"*.js\" -l -not --include-dir=node_modules)",
       "Bash(grep -r \"mlHelpers\\\\|omcUtil\" C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-fMam/ --include=*.js -l)",
       "Bash(find . -name \"*.js\" -not -path \"*/node_modules/*\" -exec sed -i \"s/\\\\.mjs''/\\\\.js''/g; s/\\\\.mjs\"\"/.js\"\"/g\" {} +)",
-      "Bash(grep -r .mjs C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-Labkoat-Portal-API-2/ --include=*.js -l)"
+      "Bash(grep -r .mjs C:/Users/danie/Dropbox/Javascript/MovieLabs-POC/Prodtech-Labkoat-Portal-API-2/ --include=*.js -l)",
+      "Bash(grep -rc '\\\\$omcPredicate' src/templates/v3-0)",
+      "Bash(sort -t: -k2 -n -r)",
+      "Bash(node *)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js test/omc-v3-0/edgeSnapshot.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/buildEdgeTable.js src/templates/v3-0/index.js test/omc-v3-0/edgeDiff.js test/omc-v3-0/edgeSnapshot.js)",
+      "Bash(node_modules/.bin/eslint test/omc-v3-0/edgeDiff.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/inverseEdges.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)"
     ]
   }
 }

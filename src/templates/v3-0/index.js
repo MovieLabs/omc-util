@@ -26,12 +26,16 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
+import { fileURLToPath } from 'node:url';
+
 import { isCapitalized } from '../../mlHelpers/util.js';
 
 // eslint-disable-next-line import/order
 import { graphQlSnippets } from './graphQlSnippets.js';
 // eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
+// eslint-disable-next-line import/order
+import { buildEdgeTable } from './buildEdgeTable.js';
 
 import Asset from './asset/Asset.js';
 import AssetSC from './asset/AssetSC.js';
@@ -145,6 +149,18 @@ entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
 
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;
+
+/**
+ * DRAFT STUB — preview of the consolidated edge build (edges.js / buildEdgeTable.js).
+ * Not wired into `entityTemplate` above; the live `buildEdges` flattener is unchanged.
+ * Runs only when this file is executed directly:  node src/templates/v3-0/index.js
+ */
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    const { table, collisions } = buildEdgeTable();
+    console.log(JSON.stringify(table, null, 2));
+    console.warn(`\n[edge build preview] ${collisions.length} key collision(s)`);
+    collisions.forEach((c) => console.warn(`  ! ${c}`));
+}
 
 export {
     inverseEdges,

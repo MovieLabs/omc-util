@@ -21,4 +21,7 @@ export const inverseEdges = {
     subject: 'idea',
     hasProduct: 'productOf',
     productOf: 'hasProduct',
+    // Asymmetric pair: `Member` is an intrinsic group property, `memberOf` is a regular edge
+    Member: 'memberOf',
+    memberOf: 'Member',
 };

@@ -6,11 +6,12 @@ import { assertAllCaps } from '../../../mlHelpers/util.js';
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity, completeName } from '../utility/utility.js';
+
 import {
     cxtFeaturesInNarrativeScene,
     cxtIsInContext,
     cxtNeedsEffect,
-    cxtNeedsNarrativeAudio
+    cxtNeedsNarrativeAudio,
 } from './edgeConstructs.js';
 
 const entityType = 'Character';
