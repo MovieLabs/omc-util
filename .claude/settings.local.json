@@ -34,7 +34,9 @@
       "Bash(node_modules/.bin/eslint test/omc-v3-0/edgeDiff.js)",
       "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/inverseEdges.js)",
       "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js)",
-      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)"
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/index.js test/omc-v3-0/edgeBuild.js)"
     ]
   }
 }
