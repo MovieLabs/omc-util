@@ -217,7 +217,8 @@ export function edgeValid({
     const { entityType: fromEntityType } = fromEntity;
     const { entityType: toEntityType } = toEntity;
     // Select the right set of edges dependent on whether this is a Context or not
-    const isContext = !!(fromEntityType === 'Context' && forEntity);
+    // const isContext = !!(fromEntityType === 'Context' && forEntity);
+    const isContext = !!((fromEntityType === 'Context' || toEntityType === 'Context') && forEntity);
     // If this is a context, use the edges of the forEntity, but they need the schemaVersion of the from because this is where they are placed
     const edgeSet = isContext
         ? omcTemplate.edgeTable({ ...forEntity, schemaVersion: fromEntity.schemaVersion })
@@ -255,6 +256,8 @@ export function edgeCreate(params) {
 
     const validEdges = edgeValid(params);
     if (!validEdges) return null;
+    console.log('inverse', inverse);
+    console.log(validEdges);
 
     const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
     const updatedEntity = insertEdge(fromEntity, toEntity, selectedEdge);
@@ -264,6 +267,7 @@ export function edgeCreate(params) {
         const updatedInverse = edgeCreate({
             toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
             fromEntity: toEntity,
+            forEntity: toEntity,
             intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
             inverse: false, // Inverse is always false on second call
             toEdgePath: selectedEdge.path,

@@ -22,13 +22,16 @@ export default {
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
-                $omcPredicate: 'hasDepiction',
+                $predicate: 'Depiction',
+                $omcPredicate: 'omc:isDepictedThingOf',
             },
         },
         Location: {
             $type: 'array',
             $edge: {
                 allowed: ['Location'],
+                $predicate: 'Location',
+                $omcPredicate: 'aNarrativeLocationHas',
             },
         },
         edges: {
@@ -37,8 +40,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -48,7 +52,43 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                        $predicate: 'featuresIn',
+                        $omcPredicate: 'featuresIn',
                     },
+                },
+            },
+        },
+    },
+    cxtEdges: {
+        isIn: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        has: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        featuresIn: {
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
                 },
             },
         },

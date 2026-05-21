@@ -30,6 +30,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                        $predicate: 'for',
+                        $omcPredicate: 'aProductionSceneFor',
                     },
                 },
             },
@@ -39,14 +41,17 @@ export default {
                     $edge: {
                         $allowed: ['Slate'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'aProductionSceneHas',
                     },
                 },
                 Context: {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -56,6 +61,8 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.related}.${entityType}`,
+                        $predicate: 'related',
+                        $omcPredicate: 'aProductionSceneRelated',
                     },
                 },
             },
@@ -65,6 +72,8 @@ export default {
                     $edge: {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                        $predicate: 'uses',
+                        $omcPredicate: 'aProductionSceneUses',
                     },
                 },
                 Depiction: {
@@ -72,6 +81,8 @@ export default {
                     $edge: {
                         $allowed: ['Depiction'],
                         $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                        $predicate: 'Depiction',
+                        $omcPredicate: 'N/A',
                     },
                 },
                 ProductionLocation: {
@@ -79,6 +90,8 @@ export default {
                     $edge: {
                         $allowed: ['ProductionLocation'],
                         $inverse: `edges.${inverseEdges.uses}.${entityType}`,
+                        $predicate: 'ProductionLocation',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },

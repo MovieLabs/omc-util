@@ -22,6 +22,7 @@ export default {
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
+                $predicate: 'Depiction',
                 $omcPredicate: 'hasDepiction',
             },
         },
@@ -29,6 +30,8 @@ export default {
             $type: 'array',
             $edge: {
                 $allowed: ['Location'],
+                $predicate: 'Location',
+                $omcPredicate: 'aProductionLocationHas',
             },
         },
         edges: {
@@ -37,8 +40,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -48,6 +52,8 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                        $predicate: 'ProductionScene',
+                        $omcPredicate: 'aProductionSceneUsedIn',
                     },
                 },
             },

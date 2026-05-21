@@ -63,7 +63,7 @@ export default {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
                         $predicate: 'has',
-                        $omcPredicate: 'hasScript',
+                        $omcPredicate: 'omcT:aCreativeWorkHas.Script',
                     },
                 },
                 NarrativeScene: {
@@ -72,16 +72,16 @@ export default {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
                         $predicate: 'has',
-                        $omcPredicate: 'aCreativeWorkHas',
+                        $omcPredicate: 'omcT:aCreativeWorkHas.NarrativeScene',
                     },
                 },
                 Context: {
-                    type: 'array',
+                    $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $predicate: 'Context',
-                        $omcPredicate: 'hasContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -92,7 +92,7 @@ export default {
                         $allowed: ['CreativeWork'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
                         $predicate: 'related',
-                        $omcPredicate: 'related',
+                        $omcPredicate: 'omcT:aCreativeWorkRelated.CreativeWork',
                     },
                 },
             },
@@ -103,12 +103,79 @@ export default {
                 $allowed: ['Participant'],
                 $inverse: `edges.for.${entityType}`,
                 $predicate: 'ProductionCompany',
-                $omcPredicate: 'hasProductionCompany',
+                $omcPredicate: 'omcT:aCreativeWorkHas.ProductionCompany',
             },
         },
-        // Series: null,
-        // Episode: null,
-
+        Series: {
+            type: 'array',
+            $edge: {
+                $allowed: ['CreativeWork'],
+                $inverse: `edges.related.${entityType}`,
+                $predicate: 'Series',
+                $omcPredicate: 'N/A',
+            },
+        },
+        Episode: {
+            type: 'array',
+            $edge: {
+                $allowed: ['CreativeWork'],
+                $inverse: `edges.related.${entityType}`,
+                $predicate: 'Episode',
+                $omcPredicate: 'N/A',
+            },
+        },
+    },
+    cxtEdges: {
+        has: {
+            isIn: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isContextComponent',
+                    },
+                },
+            },
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'has',
+                    $omcPredicate: 'hasContext',
+                },
+            },
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'has',
+                    $omcPredicate: 'hasContextComponent',
+                },
+            },
+            Context: {
+                type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'Context',
+                    $omcPredicate: 'hasContext',
+                },
+            },
+        },
+        related: {
+            CreativeWork: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['CreativeWork'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
     },
     graphQl: {
         properties: {

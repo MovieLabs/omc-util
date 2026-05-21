@@ -21,9 +21,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $predicate: 'Context',
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -34,7 +34,7 @@ export default {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
                         $predicate: 'usedIn',
-                        $omcPredicate: 'usedIn',
+                        $omcPredicate: 'omcT:aDepictionUsedIn.ProductionScene',
                     },
                 },
             },
@@ -45,7 +45,7 @@ export default {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
                         $predicate: 'uses',
-                        $omcPredicate: 'usesProduction...',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -56,7 +56,7 @@ export default {
                 $allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
                 $inverse: 'Depiction',
                 $predicate: 'Depicts',
-                $omcPredicate: 'depicts',
+                $omcPredicate: 'omcT:aDepictionDepicts.NarrativeObject',
             },
         },
         Depicter: {
@@ -65,7 +65,41 @@ export default {
                 $allowed: ['Asset', 'Participant', 'Composition'],
                 $inverse: 'Depiction',
                 $predicate: 'Depicter',
-                $omcPredicate: 'isDepictedBy',
+                $omcPredicate: 'omcT:aDepictionDepicter.ProductionObject',
+            },
+        },
+    },
+    cxtEdges: {
+        isIn: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        usedIn: {
+            ProductionScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['ProductionScene'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        uses: {
+            Asset: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Asset'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
             },
         },
     },

@@ -124,15 +124,17 @@ const buildEdges = ((edges, path) => {
 
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
     const { edges, ...rest } = omcTemplate[entityType].template;
+    const { cxtEdges } = omcTemplate[entityType];
     const intrinsic = buildEdges(rest, null);
     const edge = buildEdges(edges, 'edges'); // Path for edges, always starts with edges
+    const cxtEdge = cxtEdges ? buildEdges(cxtEdges, 'edges') : edge;
     return {
         ...obj,
         [entityType]: {
             idPrefix: omcTemplate[entityType].idPrefix,
             schemaGroup: omcTemplate[entityType].group,
             presentation: omcTemplate[entityType].presentation,
-            edgeTable: { intrinsic, edges: edge, cxtEdges: edge },
+            edgeTable: { intrinsic, edges: edge, cxtEdges: cxtEdge },
             graphQl: omcTemplate[entityType].graphQl,
         },
     };

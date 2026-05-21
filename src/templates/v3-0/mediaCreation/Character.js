@@ -6,6 +6,12 @@ import { assertAllCaps } from '../../../mlHelpers/util.js';
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity, completeName } from '../utility/utility.js';
+import {
+    cxtFeaturesInNarrativeScene,
+    cxtIsInContext,
+    cxtNeedsEffect,
+    cxtNeedsNarrativeAudio
+} from './edgeConstructs.js';
 
 const entityType = 'Character';
 const entityGeneral = generalConfig[entityType];
@@ -32,9 +38,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $predicate: 'Context',
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -45,7 +51,7 @@ export default {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
                         $predicate: 'featuresIn',
-                        $omcPredicate: 'aCharacterFeaturesIn',
+                        $omcPredicate: 'omcT:aCharacterFeaturesIn.NarrativeScene',
                     },
                 },
             },
@@ -56,7 +62,7 @@ export default {
                         $allowed: ['Effect'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'aCharacterNeeds',
+                        $omcPredicate: 'omcT:aCharacterNeeds.xName',
                     },
                 },
                 NarrativeAudio: {
@@ -74,7 +80,7 @@ export default {
                         $allowed: ['NarrativeObject'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'aCharacterNeeds',
+                        $omcPredicate: 'omcT:aCharacterNeeds.xName',
                     },
                 },
                 NarrativeStyling: {
@@ -83,7 +89,7 @@ export default {
                         $allowed: ['NarrativeStyling'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'aCharacterNeeds',
+                        $omcPredicate: 'omcT:aCharacterNeeds.xName',
                     },
                 },
                 NarrativeWardrobe: {
@@ -92,7 +98,7 @@ export default {
                         $allowed: ['NarrativeWardrobe'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'aCharacterNeeds', // usesWardrobe
+                        $omcPredicate: 'omcT:aCharacterNeeds.NarrativeWardrobe', // usesWardrobe
                     },
                 },
                 SpecialAction: {
@@ -101,7 +107,7 @@ export default {
                         $allowed: ['SpecialAction'],
                         $inverse: `edges.${inverseEdges.needs}.${entityType}`,
                         $predicate: 'needs',
-                        $omcPredicate: 'aCharacterNeeds',
+                        $omcPredicate: 'omcT:aCharacterNeeds.xType',
                     },
                 },
             },
@@ -112,7 +118,55 @@ export default {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
                 $predicate: 'Depiction',
-                $omcPredicate: 'isPortrayedBy',
+                $omcPredicate: 'omc:isDepictedThingOf', // Not possible: 'omcT:aCharacterPortrayedIn.Portrayal'
+            },
+        },
+    },
+    cxtEdges: {
+        isIn: {
+            Context: { ...cxtIsInContext },
+        },
+        featuresIn: {
+            NarrativeScene: { ...cxtFeaturesInNarrativeScene },
+        },
+        needs: {
+            Effect: { ...cxtNeedsEffect },
+            NarrativeAudio: { ...cxtNeedsNarrativeAudio },
+            NarrativeObject: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeObject'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+            NarrativeStyling: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeStyling'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+            NarrativeWardrobe: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeWardrobe'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+            SpecialAction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['SpecialAction'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
             },
         },
     },

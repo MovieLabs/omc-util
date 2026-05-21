@@ -32,6 +32,8 @@ export default {
                     $edge: {
                         $allowed: ['Character'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 Effect: {
@@ -39,6 +41,8 @@ export default {
                     $edge: {
                         $allowed: ['Effect'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 NarrativeAudio: {
@@ -46,6 +50,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeAudio'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 NarrativeLocation: {
@@ -53,6 +59,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeLocation'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 NarrativeObject: {
@@ -60,6 +68,17 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeObject'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
+                    },
+                },
+                NarrativeStyling: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeStyling'],
+                        $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 NarrativeWardrobe: {
@@ -67,6 +86,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeWardrobe'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
                 SpecialAction: {
@@ -74,6 +95,8 @@ export default {
                     $edge: {
                         $allowed: ['SpecialAction'],
                         $inverse: `edges.${inverseEdges.features}.${entityType}`,
+                        $predicate: 'features',
+                        $omcPredicate: 'features',
                     },
                 },
             },
@@ -83,6 +106,8 @@ export default {
                     $edge: {
                         $allowed: ['CreativeWork'],
                         $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                        $predicate: 'for',
+                        $omcPredicate: 'aNarrativeSceneFor',
                     },
                 },
             },
@@ -92,6 +117,8 @@ export default {
                     $edge: {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'aNarrativeSceneFor',
                     },
                 },
                 ProductionScene: {
@@ -99,15 +126,115 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'aNarrativeSceneHas',
                     },
                 },
                 Context: {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
+                },
+            },
+        },
+    },
+    cxtEdges: {
+        features: {
+            Character: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Character'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            Effect: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Effect'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            NarrativeAudio: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeAudio'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            NarrativeLocation: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeLocation'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            NarrativeObject: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeObject'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            NarrativeStyling: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeStyling'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            NarrativeWardrobe: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeWardrobe'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+            SpecialAction: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['SpecialAction'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'features',
+                    $omcPredicate: 'features',
+                },
+            },
+        },
+        for: {
+            CreativeWork: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['CreativeWork'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'for',
+                    $omcPredicate: 'aNarrativeSceneFor',
+                },
+            },
+        },
+        isIn: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
                 },
             },
         },

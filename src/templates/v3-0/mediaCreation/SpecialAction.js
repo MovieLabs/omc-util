@@ -23,8 +23,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -33,6 +34,8 @@ export default {
                 $edge: {
                     $allowed: ['NarrativeScene'],
                     $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                    $predicate: 'featuresIn',
+                    $omcPredicate: 'aXFeaturesIn',
                 },
             },
             neededBy: {
@@ -41,6 +44,8 @@ export default {
                     $edge: {
                         $allowed: ['Character'],
                         $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
+                        $predicate: 'neededBy',
+                        $omcPredicate: 'aXNeededBy',
                     },
                 },
             },

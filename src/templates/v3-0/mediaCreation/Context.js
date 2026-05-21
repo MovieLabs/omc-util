@@ -24,12 +24,34 @@ export default {
             $type: 'object',
         },
         edges: {
+            isFor: {
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'isFor',
+                        $omcPredicate: 'isContextFor',
+                    },
+                },
+                Character: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Character'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'isFor',
+                        $omcPredicate: 'isContextFor',
+                    },
+                },
+            },
             for: {
                 NarrativeScene: {
                     $type: 'array',
                     $edge: {
                         $allowed: ['NarrativeScene'],
-                        $inverse: `edges.${inverseEdges.for}`,
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'for',
+                        $omcPredicate: 'for',
                     },
                 },
             },
@@ -38,7 +60,8 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['NarrativeScene'],
-                        $inverse: `edges.${inverseEdges.featuresIn}`,
+                        // $inverse: `edges.${inverseEdges.featuresIn}`,
+                        $inverse: `edges.isIn.${entityType}`,
                     },
                 },
             },
@@ -68,8 +91,8 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.has.${entityType}`,
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
@@ -127,15 +150,18 @@ export default {
                 },
             },
             isIn: {
-                Character: {
+                Context: {
                     $type: 'array',
                     $edge: {
-                        $allowed: ['Character'],
-                        // $inverse: `edges.has.${entityType}`,
-                        // $omcPredicate: 'isInContext',
+                        $allowed: ['Context'],
+                        $inverse: `edges.has.${entityType}`,
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isInContext',
                     },
                 },
             },
+            // This would need to be for every entity
+
         },
     },
     graphQl: {

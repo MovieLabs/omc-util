@@ -17,6 +17,8 @@ export default {
             $type: 'object',
             $edge: {
                 $allowed: ['AssetSC'],
+                $predicate: 'AssetSC',
+                $omcPredicate: 'omc:hasAssetStructuralCharacteristic',
             },
         },
         assetFC: {
@@ -45,18 +47,13 @@ export default {
                 },
             },
             has: {
-                // NarrativeScene: {
-                //     $type: 'array',
-                //     $edge: {
-                //         $allowed: ['NarrativeScene'],
-                //         $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                //     },
-                // },
                 Participant: {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Participant'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
                 Slate: {
@@ -64,7 +61,8 @@ export default {
                     $edge: {
                         $allowed: ['Slate'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                        $omcPredicate: 'anAssetHas',
+                        $predicate: 'has',
+                        $omcPredicate: 'omcT:anAssetHas.Slate',
                     },
                 },
                 Context: {
@@ -72,7 +70,8 @@ export default {
                     $edge: {
                         $allowed: ['Context'],
                         $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -82,6 +81,9 @@ export default {
                     $edge: {
                         $allowed: ['ProductionLocation'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                        $predicate: 'usedIn',
+                        $omcPredicate: 'N/A',
+
                     },
                 },
                 ProductionScene: {
@@ -89,6 +91,8 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.usedIn}.${entityType}`,
+                        $predicate: 'usedIn',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -99,7 +103,7 @@ export default {
                         $allowed: ['Composition'],
                         $inverse: 'Product',
                         $predicate: 'productOf',
-                        $omcPredicate: 'isProducedBy',
+                        $omcPredicate: 'omc-legacy:isProducedBy.Composition',
                     },
                 },
             },
@@ -109,7 +113,7 @@ export default {
             $edge: {
                 $allowed: ['Asset'],
                 $inverse: `edges.memberOf.${entityType}`,
-                $omcPredicate: 'isMemberOf',
+                $omcPredicate: 'omcT:anAssetIsMemberOf.AssetGroup',
             },
         },
         Depiction: {
@@ -117,7 +121,7 @@ export default {
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depictor',
-                $omcPredicate: 'hasDepiction',
+                $omcPredicate: 'omc:hasDepiction',
             },
         },
         Provenance: {
@@ -125,7 +129,7 @@ export default {
             $edge: {
                 $allowed: ['Provenance'],
                 $inverse: `edges.for.${entityType}`,
-                $omcPredicate: 'anAssetHas.Provenance',
+                $omcPredicate: 'omcT:anAssetHas.Provenance',
             },
         },
         // version: null,

@@ -29,16 +29,21 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContext',
                     },
                 },
             },
             featuresIn: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['NarrativeScene'],
-                    $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                        $predicate: 'featuresIn',
+                        $omcPredicate: 'featuresIn',
+                    },
                 },
             },
             neededBy: {
@@ -47,6 +52,8 @@ export default {
                     $edge: {
                         $allowed: ['Character'],
                         $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
+                        $predicate: 'neededBy',
+                        $omcPredicate: 'neededBy-test',
                     },
                 },
             },
@@ -56,7 +63,52 @@ export default {
             $edge: {
                 $allowed: ['Depiction'],
                 $inverse: 'Depicts',
-                $omcPredicate: 'hasDepiction',
+                $omcPredicate: 'omc:isDepictedThingOf',
+            },
+        },
+    },
+    cxtEdges: {
+        isIn: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        has: {
+            Context: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Context'],
+                    $inverse: `edges.has.${entityType}`,
+                    $predicate: 'has',
+                    $omcPredicate: 'hasContext',
+                },
+            },
+        },
+        featuresIn: {
+            NarrativeScene: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['NarrativeScene'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
+            },
+        },
+        neededBy: {
+            Character: {
+                $type: 'array',
+                $edge: {
+                    $allowed: ['Character'],
+                    $inverse: `edges.isIn.${entityType}`,
+                    $predicate: 'isIn',
+                    $omcPredicate: 'isContextComponent',
+                },
             },
         },
     },

@@ -21,8 +21,9 @@ export default {
                     $type: 'array',
                     $edge: {
                         $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $inverse: `edges.isFor.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
@@ -32,6 +33,8 @@ export default {
                     $edge: {
                         $allowed: ['NarrativeScene'],
                         $inverse: `edges.${inverseEdges.featuresIn}.${entityType}`,
+                        $predicate: 'featuresIn',
+                        $omcPredicate: 'omcT:a{effectType}FeaturesIn.NarrativeScene', // Also anEffectInvolves
                     },
                 },
             },
@@ -41,6 +44,55 @@ export default {
                     $edge: {
                         $allowed: ['Character'],
                         $inverse: `edges.${inverseEdges.neededBy}.${entityType}`,
+                        $predicate: 'neededBy',
+                        $omcPredicate: 'omcT:a{effectType}NeededBy.Character', // Also anEffectInvolves
+                    },
+                },
+            },
+        },
+    },
+    cxtEdges: {
+        edges: {
+            isIn: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isContextComponent',
+                    },
+                },
+            },
+            has: {
+                Context: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['Context'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isInContext',
+                    },
+                },
+            },
+            featuresIn: {
+                NarrativeScene: {
+                    $type: 'array',
+                    $edge: {
+                        $allowed: ['NarrativeScene'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isInContext', // Also anEffectInvolves
+                    },
+                },
+            },
+            neededBy: {
+                Character: {
+                    $type: 'string',
+                    $edge: {
+                        $allowed: ['Character'],
+                        $inverse: `edges.isIn.${entityType}`,
+                        $predicate: 'isIn',
+                        $omcPredicate: 'isInContext', // Also anEffectInvolves
                     },
                 },
             },

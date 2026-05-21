@@ -42,6 +42,8 @@ export default {
             $edge: {
                 $allowed: ['CreativeWork'],
                 $inverse: `edges.has.${entityType}`,
+                $predicate: 'CreativeWork',
+                $omcPredicate: 'aSlateFor',
             },
         },
         Director: {
@@ -49,6 +51,8 @@ export default {
             $edge: {
                 $allowed: ['Participant'],
                 $inverse: `edges.for.${entityType}`,
+                $predicate: 'Director',
+                $omcPredicate: 'aSlateHas',
             },
         },
         edges: {
@@ -58,6 +62,8 @@ export default {
                     $edge: {
                         $allowed: ['Infrastructure'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'N/A',
                     },
                 },
                 Participant: {
@@ -65,6 +71,8 @@ export default {
                     $edge: {
                         $allowed: ['Participant'],
                         $inverse: `edges.${inverseEdges.has}.${entityType}`,
+                        $predicate: 'has',
+                        $omcPredicate: 'aSlateHas',
                     },
                 },
                 Context: {
@@ -72,7 +80,8 @@ export default {
                     $edge: {
                         $allowed: ['Context'],
                         $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
+                        $predicate: 'has',
+                        $omcPredicate: 'hasContextComponent',
                     },
                 },
             },
@@ -82,6 +91,8 @@ export default {
                     $edge: {
                         $allowed: ['Asset'],
                         $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                        $predicate: 'for',
+                        $omcPredicate: 'aSlateFor',
                     },
                 },
                 ProductionScene: {
@@ -89,6 +100,8 @@ export default {
                     $edge: {
                         $allowed: ['ProductionScene'],
                         $inverse: `edges.${inverseEdges.for}.${entityType}`,
+                        $predicate: 'for',
+                        $omcPredicate: 'N/A',
                     },
                 },
             },
