@@ -21,9 +21,6 @@ export default {
         contact: contact.template,
         Location: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Location'],
-            },
         },
     },
     graphQl: {

@@ -14,9 +14,6 @@ export default {
         taskName: basicName.template,
         TaskSC: {
             $type: 'array',
-            $edge: {
-                $allowed: ['TaskSC'],
-            },
         },
         taskFC: {
             functionalType: { $type: 'string' },
@@ -25,21 +22,6 @@ export default {
         },
         Member: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Task'],
-            },
-        },
-        edges: {
-            has: {
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
-                    },
-                },
-            },
         },
     },
     graphQl: {

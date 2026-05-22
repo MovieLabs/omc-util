@@ -36,7 +36,20 @@
       "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js)",
       "Bash(node_modules/.bin/eslint src/templates/v3-0/edges.js src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)",
       "Bash(node_modules/.bin/eslint src/templates/v3-0/buildEdgeTable.js test/omc-v3-0/edgeDiff.js)",
-      "Bash(node_modules/.bin/eslint src/templates/v3-0/index.js test/omc-v3-0/edgeBuild.js)"
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/index.js test/omc-v3-0/edgeBuild.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/index.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0/inverseEdges.js)",
+      "Bash(node_modules/.bin/eslint src/templates/v3-0)",
+      "Bash(echo \"ESLINT_EXIT=$?\")",
+      "Bash(echo \"RAW_EXIT=$?\")",
+      "Bash(echo \"SNAP_EXIT=$?\")",
+      "Read(//c/Users/danie/Dropbox/Javascript/**)",
+      "Bash(npx eslint *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(rm -f _scratch_parse.mjs _scratch_report.mjs _scratch_match.mjs _scratch_objprops.json _scratch_classes.json _scratch_tree.txt _scratch_entity_relations.txt _scratch_edge_rdf_match.txt)",
+      "Bash(ls _scratch*)",
+      "Bash(grep -nE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)",
+      "Bash(grep -cE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)"
     ]
   }
 }

@@ -16,45 +16,15 @@ export default {
         provenanceName: basicName.template,
         CreatedBy: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Participant'],
-                // $inverse: 'Depicts',
-                $predicate: 'CreatedBy',
-                // $omcPredicate: 'isPortrayedBy',
-            },
         },
         createdOn: null,
         Role: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Role'],
-                // $inverse: 'Depicts',
-                $predicate: 'Role',
-                // $omcPredicate: 'isPortrayedBy',
-            },
         },
         Origin: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Asset'],
-                // $inverse: 'Depicts',
-                $predicate: 'Asset',
-                // $omcPredicate: 'isPortrayedBy',
-            },
         },
         reason: null,
-        edges: {
-            has: {
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
-                    },
-                },
-            },
-        },
     },
     graphQl: {
         properties: {

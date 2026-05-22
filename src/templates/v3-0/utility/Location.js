@@ -16,18 +16,6 @@ export default {
         compositionName: basicName.template,
         address: null,
         coordinates: null,
-        edges: {
-            has: {
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
-                    },
-                },
-            },
-        },
     },
     graphQl: {
         properties: {

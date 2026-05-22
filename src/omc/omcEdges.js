@@ -217,8 +217,8 @@ export function edgeValid({
     const { entityType: fromEntityType } = fromEntity;
     const { entityType: toEntityType } = toEntity;
     // Select the right set of edges dependent on whether this is a Context or not
-    // const isContext = !!(fromEntityType === 'Context' && forEntity);
-    const isContext = !!((fromEntityType === 'Context' || toEntityType === 'Context') && forEntity);
+    const isContext = !!(fromEntityType === 'Context' && forEntity);
+
     // If this is a context, use the edges of the forEntity, but they need the schemaVersion of the from because this is where they are placed
     const edgeSet = isContext
         ? omcTemplate.edgeTable({ ...forEntity, schemaVersion: fromEntity.schemaVersion })
@@ -256,27 +256,33 @@ export function edgeCreate(params) {
 
     const validEdges = edgeValid(params);
     if (!validEdges) return null;
-    console.log('inverse', inverse);
-    console.log(validEdges);
 
     const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
     const updatedEntity = insertEdge(fromEntity, toEntity, selectedEdge);
 
     // If inverse edges are requested and there is one to apply, then recurse with the entities reversed
     if (inverse && selectedEdge.inverse) {
-        const updatedInverse = edgeCreate({
-            toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
-            fromEntity: toEntity,
-            forEntity: toEntity,
-            intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
-            inverse: false, // Inverse is always false on second call
-            toEdgePath: selectedEdge.path,
-        });
+        const { inversePath } = selectedEdge;
+        const inverseEntity = insertEdge(toEntity, fromEntity, { path: inversePath, type: 'array' });
+        // const updatedInverse = edgeCreate({
+        //     toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
+        //     fromEntity: toEntity,
+        //     forEntity: toEntity.entityType === 'Context' ? fromEntity : toEntity,
+        //     intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
+        //     inverse: false, // Inverse is always false on second call
+        //     toEdgePath: selectedEdge.path,
+        // });
+        // return {
+        //     fromEntity: updatedEntity,
+        //     toEntity: updatedInverse.fromEntity,
+        //     fromEdgePath: selectedEdge.path,
+        //     toEdgePath: updatedInverse.fromEdgePath,
+        // };
         return {
             fromEntity: updatedEntity,
-            toEntity: updatedInverse.fromEntity,
+            toEntity: inverseEntity,
             fromEdgePath: selectedEdge.path,
-            toEdgePath: updatedInverse.fromEdgePath,
+            toEdgePath: inversePath,
         };
     }
 
@@ -287,54 +293,3 @@ export function edgeCreate(params) {
         fromEdgePath: selectedEdge.path,
     };
 }
-
-/**
- * Return inverse relationships
- * @memberof module:omcEdges
- * @function edgeInverse
- * @static
- * @param {OmcEntity} omcEntity
- * @returns {Array<Object>}
- */
-// const inverseRelation = ((rel) => (inverseEdges[rel] ? inverseEdges[rel] : rel));
-//
-// export function edgeInverse(omcContext) {
-//     // Generate the relationships to the source entities in the ForEntity properties
-//     const sourceRelated = ((sourceEntity) => sourceEntity.reduce((obj, srcEnt) => {
-//         const { entityType, identifier } = srcEnt;// The type and identifier of the source entity
-//         obj[entityType] = [...obj[entityType] || [], { identifier }];
-//         return obj;
-//     }, {}));
-//
-//     // Invert all the relations in the context, these are independently each a context (merge them later)
-//     const invert = ((cxt, sourceEntity) => {
-//         const relations = related(cxt); // The relations in the context
-//         if (!relations) return []; // If no relations, then nothing to do
-//         const res = [];
-//         relations.forEach((relation) => {
-//             const revRelation = inverseRelation(relation); // Reverse the relation
-//             const relEntities = Object.keys(cxt[relation]); // The related entities for this relation
-//             relEntities.forEach((key) => {
-//                 if (cxt[relation][key]) {
-//                     res.push(cxt[relation][key].map((relEnt) => ({
-//                         entityType: 'Context',
-//                         ForEntity: {
-//                             identifier: relEnt.identifier,
-//                         },
-//                         [revRelation]: sourceRelated(sourceEntity),
-//                     })));
-//                 }
-//             });
-//         });
-//         return res.flat();
-//     });
-//
-//     const sourceEntity = omcContext.ForEntity.filter((srcEnt) => {
-//         if (!Object.hasOwn(srcEnt, 'entityType')) {
-//             console.log('Error: omcUtil.context.inverse - Missing entityType in the ForEntity');
-//             return null;
-//         }
-//         return srcEnt; // The inverse context for the source entity
-//     }).filter((d) => d);
-//     return sourceEntity.length ? invert(omcContext, sourceEntity) : []; // Check that there were no errors
-// }

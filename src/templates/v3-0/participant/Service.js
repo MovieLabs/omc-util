@@ -18,9 +18,6 @@ export default {
         contact: null,
         Location: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Location'],
-            },
         },
     },
     graphQl: {

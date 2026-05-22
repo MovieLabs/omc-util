@@ -20,33 +20,9 @@ export default {
         },
         InfrastructureSC: {
             $type: 'array',
-            $edge: {
-                $allowed: ['InfrastructureSC'],
-            },
         },
         Member: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Infrastructure'],
-            },
-        },
-        edges: {
-            has: {
-                SpecialAction: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['SpecialAction'],
-                    },
-                },
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $omcPredicate: 'isInContext',
-                    },
-                },
-            },
         },
     },
     graphQl: {

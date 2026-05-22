@@ -128,12 +128,15 @@
             },
             "AssetSC": {
               "title": "Structural Characteristics",
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Asset/properties/AssetSC"}
-              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                ]
+              },
               "type": [
-                "object",
+                "array",
                 "null"
               ]
             },
@@ -241,18 +244,6 @@
               }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            },
             "Provenance": {
               "type": [
                 "array",
@@ -1230,10 +1221,17 @@
             },
             "InfrastructureSC": {
               "title": "Structural Characteristics",
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"}
-              ]
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"}
+                ]
+              }
             },
             "infrastructureFC": {
               "title": "Functional Characteristics",
@@ -1432,19 +1430,7 @@
               "title": "Quantity",
               "description": "Used to indicate a number of 'extra' characters when required."
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "unevaluatedProperties": false
@@ -1475,6 +1461,10 @@
                 "concept"
               ]
             },
+            "contextName": {
+              "title": "Context Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "contextCategory": {
               "type": [
                 "string",
@@ -1489,10 +1479,6 @@
                 {"type": "null"},
                 {"$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"}
               ]
-            },
-            "contextName": {
-              "title": "Context Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1834,19 +1820,7 @@
               "title": "Narrative Audio Name",
               "$ref": "#/$defs/Utility/properties/narrativeName"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "A named piece of audio significant to the narrative.",
@@ -1886,18 +1860,6 @@
                 "object",
                 "null"
               ]
-            },
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
             }
           },
           "required": ["entityType"],
@@ -1947,19 +1909,7 @@
               ],
               "title": "Quantity"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "A named object related to or interacting with characters that is implied or understood to be necessary for the narrative. Includes items like props, wardrobe, set dressing and vehicles.",
@@ -2036,19 +1986,7 @@
               "title": "Narrative Styling Name",
               "$ref": "#/$defs/Utility/properties/narrativeName"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "Styling required to prepare an actor for their role.",
@@ -2078,19 +2016,7 @@
               "title": "Narrative Wardrobe Name",
               "$ref": "#/$defs/Utility/properties/narrativeName"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "The clothing for a Character in the narrative.",
@@ -2339,16 +2265,19 @@
             },
             "ParticipantSC": {
               "type": [
-                "object",
+                "array",
                 "null"
               ],
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Participant/properties/Person"},
-                {"$ref": "#/$defs/Participant/properties/Department"},
-                {"$ref": "#/$defs/Participant/properties/Organization"},
-                {"$ref": "#/$defs/Participant/properties/Service"}
-              ],
+              "maxItems": 1,
+              "items": {
+                "oneOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Participant/properties/Person"},
+                  {"$ref": "#/$defs/Participant/properties/Department"},
+                  {"$ref": "#/$defs/Participant/properties/Organization"},
+                  {"$ref": "#/$defs/Participant/properties/Service"}
+                ]
+              },
               "title": "Participant Structural Characteristics",
               "description": "Describes the form of a Participant along with the attributes specific to that Participant’s form."
             },
@@ -2404,18 +2333,6 @@
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
                   {"$ref": "#/$defs/Participant/properties/Participant"}
-                ]
-              }
-            },
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
                 ]
               }
             },
@@ -2644,10 +2561,17 @@
             },
             "TaskSC": {
               "title": "Task Structural Characteristics",
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Task/properties/TaskSC"}
-              ]
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Task/properties/TaskSC"}
+                ]
+              }
             },
             "taskFC": {
               "title": "Task Functional Characteristics",
@@ -3010,18 +2934,6 @@
               "title": "Product",
               "description": "The product of the Composition, an Asset or Assets"
             },
-            "Depiction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"}
-                ]
-              }
-            },
             "software": {
               "title": "Software",
               "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
@@ -3072,6 +2984,23 @@
           "required": ["entityType"],
           "title": "Location",
           "description": "A particular place or position either in either the real world or the narrative world.",
+          "unevaluatedProperties": false
+        },
+        "Concept": {
+          "type": ["object"],
+          "allOf": [
+            {"$ref": "#/$defs/core/properties/baseEntity"}
+          ],
+          "properties": {
+            "entityType": {
+              "title": "Entity Type",
+              "const": "Concept"
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
+          },
+          "required": ["entityType"],
+          "title": "Concept",
+          "description": "",
           "unevaluatedProperties": false
         },
         "Provenance": {
@@ -5602,6 +5531,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -5619,6 +5560,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeScene"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5874,6 +5827,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -5954,6 +5919,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -5971,6 +5948,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5994,6 +5983,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -6011,6 +6012,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6055,6 +6068,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6126,6 +6151,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -6155,6 +6192,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Utility/properties/Composition"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6250,6 +6299,18 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
+                },
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
                 }
               }
             },
@@ -6287,26 +6348,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "isIn": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Context": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6364,6 +6405,390 @@
                     "anyOf": [
                       {"$ref": "#/$defs/Task/properties/Task"},
                       {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "hasCxt": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "cxtFor": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Context": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Character": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "SpecialAction": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeAudio": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Effect": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Effect"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeObject": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeStyling": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeWardrobe": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "CreativeWork": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Participant": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Participant/properties/Participant"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Asset": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Asset/properties/Asset"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Composition": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Utility/properties/Composition"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Depiction": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Depiction"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Infrastructure": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "ProductionLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionLocation"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "ProductionScene": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "depicts": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Character": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeObject": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeStyling": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeWardrobe": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "depictedBy": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Participant": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Participant/properties/Participant"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Asset": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Asset/properties/Asset"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Composition": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Utility/properties/Composition"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "informs": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Task": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Task/properties/Task"}
+                    ]
+                  }
+                }
+              }
+            },
+            "informedBy": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Task": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Task/properties/Task"}
                     ]
                   }
                 }

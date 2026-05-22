@@ -3,7 +3,6 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'Organization';
@@ -18,9 +17,6 @@ export default {
         },
         Location: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Location'],
-            },
         },
     },
     graphQl: {

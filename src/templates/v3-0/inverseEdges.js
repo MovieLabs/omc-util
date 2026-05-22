@@ -1,27 +1,28 @@
 /**
- * A table describing the inverse of all edges
+ * Inverse-edge map: predicate name -> inverse predicate name.
+ *
+ * Generated from the consolidated edge definitions (edges.js) so the relational inverses no
+ * longer need hand-maintaining — each predicate declares its own `inverse`. A small
+ * `supplemental` map covers predicates not yet modelled in edges.js but still referenced by
+ * consumers (e.g. the fMam edge service via `omcTemplate.inverseEdge()`).
  */
 
-export const inverseEdges = {
+import { edgeDefinitions } from './edges.js';
+
+// Predicates referenced by consumers but not yet present in edges.js
+const supplemental = {
     contributor: 'contributesTo',
     contributesTo: 'contributor',
-    featuresIn: 'features',
-    features: 'featuresIn',
-    neededBy: 'needs',
-    needs: 'neededBy',
-    has: 'for',
-    for: 'has',
     represents: 'representedBy',
     representedBy: 'represents',
-    usedIn: 'uses',
-    uses: 'usedIn',
-    related: 'related',
     idea: 'subject',
-    isIn: 'isIn', // Not sure about this?
     subject: 'idea',
-    hasProduct: 'productOf',
-    productOf: 'hasProduct',
-    // Asymmetric pair: `Member` is an intrinsic group property, `memberOf` is a regular edge
-    Member: 'memberOf',
-    memberOf: 'Member',
 };
+
+// Each predicate's top-level `inverse` (skips null and per-group-only inverses)
+const generated = Object.entries(edgeDefinitions).reduce((map, [predicate, def]) => {
+    if (def.inverse) map[predicate] = def.inverse;
+    return map;
+}, {});
+
+export const inverseEdges = { ...supplemental, ...generated };

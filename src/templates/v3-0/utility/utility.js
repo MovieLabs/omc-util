@@ -13,9 +13,6 @@ export const software = {
         parameters: { $type: 'string' },
         ConfigurationFile: {
             $type: 'object',
-            $edge: {
-                $allowed: ['Asset'],
-            },
         },
     },
     graphQl: {

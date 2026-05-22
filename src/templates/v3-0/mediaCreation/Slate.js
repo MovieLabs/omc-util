@@ -4,7 +4,6 @@
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
-import { inverseEdges } from '../inverseEdges.js';
 
 const entityType = 'Slate';
 const entityGeneral = generalConfig[entityType];
@@ -39,72 +38,9 @@ export default {
         },
         CreativeWork: {
             $type: 'object',
-            $edge: {
-                $allowed: ['CreativeWork'],
-                $inverse: `edges.has.${entityType}`,
-                $predicate: 'CreativeWork',
-                $omcPredicate: 'aSlateFor',
-            },
         },
         Director: {
             $type: 'array',
-            $edge: {
-                $allowed: ['Participant'],
-                $inverse: `edges.for.${entityType}`,
-                $predicate: 'Director',
-                $omcPredicate: 'aSlateHas',
-            },
-        },
-        edges: {
-            has: {
-                Infrastructure: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Infrastructure'],
-                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                        $predicate: 'has',
-                        $omcPredicate: 'N/A',
-                    },
-                },
-                Participant: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Participant'],
-                        $inverse: `edges.${inverseEdges.has}.${entityType}`,
-                        $predicate: 'has',
-                        $omcPredicate: 'aSlateHas',
-                    },
-                },
-                Context: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Context'],
-                        $inverse: `edges.isIn.${entityType}`,
-                        $predicate: 'has',
-                        $omcPredicate: 'hasContextComponent',
-                    },
-                },
-            },
-            for: {
-                Asset: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['Asset'],
-                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
-                        $predicate: 'for',
-                        $omcPredicate: 'aSlateFor',
-                    },
-                },
-                ProductionScene: {
-                    $type: 'array',
-                    $edge: {
-                        $allowed: ['ProductionScene'],
-                        $inverse: `edges.${inverseEdges.for}.${entityType}`,
-                        $predicate: 'for',
-                        $omcPredicate: 'N/A',
-                    },
-                },
-            },
         },
     },
     graphQl: {

@@ -26,12 +26,12 @@
  * To include version information this can be setup and passed in as a query template.
  */
 
-import { isCapitalized } from '../../mlHelpers/util.js';
-
 // eslint-disable-next-line import/order
 import { graphQlSnippets } from './graphQlSnippets.js';
 // eslint-disable-next-line import/order
 import { inverseEdges } from './inverseEdges.js';
+// eslint-disable-next-line import/order
+import { buildEdgeTable } from './buildEdgeTable.js';
 
 import Asset from './asset/Asset.js';
 import AssetSC from './asset/AssetSC.js';
@@ -100,47 +100,26 @@ const omcTemplate = {
     Provenance,
 };
 
-// Flattens the edge properties, and includes a JSON path
-const buildEdges = ((edges, path) => {
-    if (!edges || edges.$type) return {};
-    return Object.keys(edges).reduce((obj, edge) => (
-        isCapitalized(edge)
-            ? {
-                ...obj, [edge]: {
-                    allowed: edges[edge].$edge.$allowed,
-                    path: `${path ? `${path}${edge}` : edge}`,
-                    type: edges[edge].$type,
-                    inverse: edges[edge].$edge.$inverse || null,
-                    omcPredicate: edges[edge].$edge.$omcPredicate || null,
-                },
-            }
-            : { ...obj, ...buildEdges(edges[edge], `${path ? `${path}.${edge}.` : `${edge}.`}`) }
-    ), {});
-});
-
 /**
- * For each entity type build a table specific to a certain request based off the core templates
+ * For each entity type build the configuration consumed by the rest of the library.
+ *
+ * Edge tables ({ intrinsic, edges, cxtEdges } per entityType) are now generated from the
+ * consolidated predicate definitions in edges.js (see buildEdgeTable.js) rather than
+ * flattened out of the per-entity templates. Entries are keyed by their storage path.
+ * Entity templates still supply idPrefix, schemaGroup, presentation and graphQl.
  */
+const { table: edgeTables } = buildEdgeTable();
 
-const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
-    const { edges, ...rest } = omcTemplate[entityType].template;
-    const { cxtEdges } = omcTemplate[entityType];
-    const intrinsic = buildEdges(rest, null);
-    const edge = buildEdges(edges, 'edges'); // Path for edges, always starts with edges
-    const cxtEdge = cxtEdges ? buildEdges(cxtEdges, 'edges') : edge;
-    console.log(entityType);
-    console.log(edge);
-    return {
-        ...obj,
-        [entityType]: {
-            idPrefix: omcTemplate[entityType].idPrefix,
-            schemaGroup: omcTemplate[entityType].group,
-            presentation: omcTemplate[entityType].presentation,
-            edgeTable: { intrinsic, edges: edge, cxtEdges: cxtEdge },
-            graphQl: omcTemplate[entityType].graphQl,
-        },
-    };
-}, {});
+const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
+    ...obj,
+    [entityType]: {
+        idPrefix: omcTemplate[entityType].idPrefix,
+        schemaGroup: omcTemplate[entityType].group,
+        presentation: omcTemplate[entityType].presentation,
+        edgeTable: edgeTables[entityType] || { intrinsic: {}, edges: {}, cxtEdges: {} },
+        graphQl: omcTemplate[entityType].graphQl,
+    },
+}), {});
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
 entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
