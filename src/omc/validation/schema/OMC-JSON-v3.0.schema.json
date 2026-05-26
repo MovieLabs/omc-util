@@ -1730,29 +1730,34 @@
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Depicts": {
               "type": [
-                "object",
+                "array",
                 "null"
               ],
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"}
-              ]
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"}
+                ]
+              }
             },
             "Depicter": {
               "type": [
-                "object",
+                "array",
                 "null"
               ],
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Asset/properties/Asset"},
-                {"$ref": "#/$defs/Participant/properties/Participant"},
-                {"$ref": "#/$defs/Utility/properties/Composition"}
-              ]
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"},
+                  {"$ref": "#/$defs/Participant/properties/Participant"},
+                  {"$ref": "#/$defs/Utility/properties/Composition"}
+                ]
+              }
             }
           },
           "unevaluatedProperties": false,
@@ -1833,9 +1838,7 @@
               "const": "NarrativeLocation"
             },
             "narrativeType": {
-              "enum": [
-                "narrativeLocation"
-              ],
+              "enum": ["narrativeLocation"],
               "title": "Narrative Type (narrative location)",
               "description": "Describes the specific type of Narrative Location, equivalent to the sub-class used in OMC-RDF.",
               "default": "narrativeLocation"
@@ -1922,9 +1925,7 @@
             "narrativeType": {
               "title": "Narrative Type (narrative scene)",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
-              "enum": [
-                "narrativeScene"
-              ],
+              "enum": ["narrativeScene"],
               "default": "narrativeScene"
             },
             "narrativeSceneName": {
@@ -1997,9 +1998,7 @@
             "narrativeType": {
               "title": "Narrative Type (narrative wardrobe)",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
-              "enum": [
-                "narrativeWardrobe"
-              ],
+              "enum": ["narrativeWardrobe"],
               "default": "narrativeWardrobe"
             },
             "narrativeWardrobeName": {
@@ -2171,13 +2170,16 @@
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "CreativeWork": {
-                "type": ["array", "null"],
-                "maxItems": 1,
-                "items": { 
-              "anyOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-              ]            
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
+                ]
               },
               "title": "Creative Work"
             },

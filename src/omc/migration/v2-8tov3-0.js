@@ -4,9 +4,12 @@
  * @ignore
  */
 
+import { omcTemplate} from '../../templates/index.js';
+import { makeArray } from '../../mlHelpers/util.js';
 import { deepMerge } from '../omcMerge.js';
 
 import v28 from './v2-6tov2-8.js';
+import { edgeValid, edgeCreate } from '../omcEdges.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
 
@@ -93,13 +96,51 @@ function setContextEdges(omc) {
 }
 
 /**
+ * For properties where we removed an intrinsic edge and replaced it with a regular edge, we need
+ * to create the edge in one direction
+ * @param {OmcJson} omc
+ * @param {string} targetProp - This is the property name for the intrinsic edge and target entity type
+ * @param {string} entityType - The targets entityType, which may be different from targetProp value
+ * @returns {*}
+ */
+
+function migrateIntrinsicToEdge(omc, targetProp, entityType) {
+    if (!omc[targetProp]) return omc;
+    const refIdentifiers = makeArray(omc[targetProp]);
+    refIdentifiers.forEach((id) => {
+        edgeCreate({
+            fromEntity: omc,
+            toEntity: {
+                schemaVersion,
+                entityType,
+                identifier: [id],
+            },
+        });
+    });
+    delete omc[targetProp];
+    return omc;
+}
+
+/**
  * Migrate the entity 'group' property to the new Member property and deletes the original
  * @param entityType
  * @param omc
  */
-function migrateMember(entityType, omc) {
+function migrateMember(omc, entityType) {
     const { [entityType]: Member, ...rest } = omc;
     return typeof Member === 'undefined' ? { ...rest } : { ...rest, Member };
+}
+
+/**
+ * The reference shape for some properties has been changed from a singleton to an array of references
+ */
+function migrateReferenceShape(omc, targetProp) {
+    const reference = omc[targetProp];
+    if (!reference) return omc;
+    return {
+        ...omc,
+        [targetProp]: makeArray(omc[targetProp]),
+    };
 }
 
 /**
@@ -121,10 +162,14 @@ function migrateName(omc, nameKey) {
 
 export default {
     Asset: (omc) => {
-        const update = migrateMember('Asset', {
-            ...setEdgesFromContext(v28.Asset(omc)),
-            schemaVersion,
-        });
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Asset(omc)),
+                schemaVersion,
+            },
+            'Asset',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'AssetSC');
         return migrateName(migrateLabel(update), 'assetName');
     },
     AssetSC: (omc) => {
@@ -135,10 +180,14 @@ export default {
         return migrateName(migrateLabel(update), 'assetSCName');
     },
     Infrastructure: (omc) => {
-        const update = {
-            ...setEdgesFromContext(v28.Infrastructure(omc)),
-            schemaVersion,
-        };
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Infrastructure(omc)),
+                schemaVersion,
+            },
+            'Infrastructure',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'InfrastructureSC');
         return migrateName(migrateLabel(update), 'infrastructureName');
     },
     InfrastructureSC: (omc) => {
@@ -149,10 +198,11 @@ export default {
         return migrateName(migrateLabel(update), 'infrastructureSCName');
     },
     Character: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.Character(omc)),
             schemaVersion,
         };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
         return migrateLabel(update);
     },
     Context: (omc) => {
@@ -170,10 +220,11 @@ export default {
         return migrateLabel(update);
     },
     Depiction: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.Depiction(omc)),
             schemaVersion,
         };
+        const update = migrateReferenceShape(migrateReferenceShape(memberUpdate, 'Depicts'), 'Depicter');
         return migrateName(migrateLabel(update), 'depictionName');
     },
     Effect: (omc) => {
@@ -202,17 +253,19 @@ export default {
         return migrateName(migrateLabel(update), 'specialActionName');
     },
     NarrativeLocation: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.NarrativeLocation(omc)),
             schemaVersion,
         };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
         return migrateName(migrateLabel(update), 'narrativeLocationName');
     },
     NarrativeObject: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.NarrativeObject(omc)),
             schemaVersion,
         };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
         return migrateName(migrateLabel(update), 'narrativeObjectName');
     },
     NarrativeScene: (omc) => {
@@ -226,17 +279,19 @@ export default {
         return migrateLabel(update);
     },
     NarrativeStyling: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.NarrativeStyling(omc)),
             schemaVersion,
         };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
         return migrateName(migrateLabel(update), 'narrativeStylingName');
     },
     NarrativeWardrobe: (omc) => {
-        const update = {
+        const memberUpdate = {
             ...setEdgesFromContext(v28.NarrativeWardrobe(omc)),
             schemaVersion,
         };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
         return migrateName(migrateLabel(update), 'narrativeWardrobeName');
     },
     ProductionLocation: (omc) => {
@@ -272,10 +327,14 @@ export default {
         return migrateName(migrateLabel(update), 'specialActionName');
     },
     Participant: (omc) => {
-        const update = {
-            ...setEdgesFromContext(v28.Participant(omc)),
-            schemaVersion,
-        };
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Participant(omc)),
+                schemaVersion,
+            },
+            'Participant',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'ParticipantSC');
         return migrateLabel(update);
     },
     Organization: (omc) => {
@@ -314,10 +373,14 @@ export default {
         return migrateLabel(update);
     },
     Task: (omc) => {
-        const update = {
-            ...setEdgesFromContext(v28.Task(omc)),
-            schemaVersion,
-        };
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Task(omc)),
+                schemaVersion,
+            },
+            'Task',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'TaskSC');
         return migrateName(migrateLabel(update), 'taskName');
     },
     TaskSC: (omc) => {
