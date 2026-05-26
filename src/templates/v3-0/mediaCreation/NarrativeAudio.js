@@ -16,16 +16,16 @@ export default {
             $type: 'string',
         },
         narrativeAudioName: scriptName.template,
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             narrativeType: 'string',
             narrativeAudioName: scriptName.graphQl.properties,
-            Depiction: null,
+            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

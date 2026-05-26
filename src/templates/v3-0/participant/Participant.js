@@ -13,7 +13,7 @@ export default {
     template: {
         ...baseEntity.template,
         ParticipantSC: {
-            $type: 'object',
+            $type: 'array',
         },
         participantFC: {
             functionalType: { $type: 'string' },
@@ -23,9 +23,9 @@ export default {
             },
         },
 
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {
@@ -42,7 +42,7 @@ export default {
                 Role: null,
                 // customData: null,
             },
-            Depiction: null,
+            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

@@ -25,16 +25,16 @@ export default {
             },
         },
         // Missing interactsWithCharacter
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             characterType: null,
             characterName: completeName.graphQl.properties,
-            Depiction: null,
+            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

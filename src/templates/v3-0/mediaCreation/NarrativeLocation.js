@@ -16,9 +16,9 @@ export default {
             $type: 'string',
         },
         narrativeLocationName: scriptName.template,
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
         Location: {
             $type: 'array',
         },
@@ -28,7 +28,7 @@ export default {
             ...baseEntity.graphQl.properties,
             narrativeType: null,
             narrativeLocationName: scriptName.graphQl.properties,
-            Depiction: null,
+            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

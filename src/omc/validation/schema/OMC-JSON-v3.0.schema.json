@@ -1333,7 +1333,6 @@
               "description": "Describes the specific type of Character, equivalent to the sub-class used in OMC-RDF.",
               "default": "character",
               "enum": [
-                null,
                 "character",
                 "extra"
               ]
@@ -1523,7 +1522,6 @@
             "creativeWorkType": {
               "default": "creativeWork",
               "enum": [
-                null,
                 "creativeWork",
                 "series",
                 "season",
@@ -1721,7 +1719,6 @@
               "description": "A categorization of the type of depiction",
               "default": "depiction",
               "enum": [
-                null,
                 "depiction",
                 "portrayal"
               ]
@@ -1778,7 +1775,6 @@
               "description": "A categorization of the type of effect.",
               "default": "effect",
               "enum": [
-                null,
                 "effect",
                 "specialEffect",
                 "visualEffect"
@@ -1809,7 +1805,6 @@
               "title": "Narrative Type (narrative audio)",
               "description": "Describes the specific type of Narrative Audio, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
-                null,
                 "narrativeAudio",
                 "narrativeMusic",
                 "narrativeSoundEffect"
@@ -1839,7 +1834,6 @@
             },
             "narrativeType": {
               "enum": [
-                null,
                 "narrativeLocation"
               ],
               "title": "Narrative Type (narrative location)",
@@ -1881,7 +1875,6 @@
               "title": "Narrative Type (narrative object)",
               "description": "Describes the specific type of Narrative Object, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
-                null,
                 "narrativeObject",
                 "narrativeProp",
                 "narrativeGreenery",
@@ -1930,7 +1923,6 @@
               "title": "Narrative Type (narrative scene)",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
-                null,
                 "narrativeScene"
               ],
               "default": "narrativeScene"
@@ -1974,7 +1966,6 @@
               "title": "Narrative Type (narrative styling)",
               "description": "Describes the specific type of Narrative Styling, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
-                null,
                 "narrativeStyling",
                 "narrativeHair",
                 "narrativeMakeup",
@@ -2007,7 +1998,6 @@
               "title": "Narrative Type (narrative wardrobe)",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
               "enum": [
-                null,
                 "narrativeWardrobe"
               ],
               "default": "narrativeWardrobe"
@@ -2036,7 +2026,6 @@
             "locationType": {
               "description": "Describes whether this is production location or more specifically a shooting location",
               "enum": [
-                null,
                 "production",
                 "shooting"
               ],
@@ -2182,10 +2171,14 @@
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "CreativeWork": {
-              "oneOf": [
+                "type": ["array", "null"],
+                "maxItems": 1,
+                "items": { 
+              "anyOf": [
                 {"$ref": "#/$defs/core/properties/reference"},
                 {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-              ],
+              ]            
+              },
               "title": "Creative Work"
             },
             "Director": {
@@ -3014,23 +3007,44 @@
               "const": "Provenance"
             },
             "CreatedBy": {
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Participant/properties/Participant"}
-              ]
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Participant/properties/Participant"}
+                ]
+              }
             },
             "createdOn": {"$ref": "#/$defs/Utility/properties/time/properties/dateTime"},
             "Role": {
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Participant/properties/Role"}
-              ]
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Participant/properties/Role"}
+                ]
+              }
             },
             "Origin": {
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/reference"},
-                {"$ref": "#/$defs/Asset/properties/Asset"}
-              ]
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"}
+                ]
+              }
             },
             "reason": {
               "type": [
@@ -3038,7 +3052,6 @@
                 "null"
               ]
             },
-            "annotation": {"$ref": "#/$defs/Utility/properties/annotation"},
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
@@ -3956,14 +3969,12 @@
           "properties": {
             "handedness": {
               "enum": [
-                null,
                 "left",
                 "right"
               ]
             },
             "upAxis": {
               "enum": [
-                null,
                 "y-up",
                 "z-up"
               ]

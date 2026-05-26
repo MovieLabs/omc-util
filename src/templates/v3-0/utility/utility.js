@@ -12,7 +12,7 @@ export const software = {
         // operatingSystem: null,
         parameters: { $type: 'string' },
         ConfigurationFile: {
-            $type: 'object',
+            $type: 'array',
         },
     },
     graphQl: {

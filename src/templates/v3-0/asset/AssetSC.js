@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, basicName } from '../utility/utility.js';
+import { baseEntity, basicName, software } from '../utility/utility.js';
 
 const entityType = 'AssetSC';
 const entityGeneral = generalConfig[entityType];
@@ -16,10 +16,10 @@ export default {
         assetSCName: basicName.template,
         structuralProperties: { $type: 'object' },
         isAnalog: { $type: 'boolean' },
-        // software: utility.software,
-        // Carrier: null,
+        software: software.template,
+        Carrier: null,
+        Provenance: { $type: 'array' },
         // version: null,
-        // provenance: null,
     },
     graphQl: {
         properties: {
@@ -28,10 +28,10 @@ export default {
             assetSCName: basicName.graphQl.properties,
             structuralProperties: null,
             isAnalog: null,
-            // software: utility.software,
+            software: software.graphQl.properties,
             Carrier: null,
+            Provenance: null,
             // version: null,
-            // provenance: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

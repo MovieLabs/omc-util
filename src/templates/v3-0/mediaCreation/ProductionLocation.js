@@ -16,9 +16,9 @@ export default {
             $type: 'string',
         },
         productionLocationName: basicName.template,
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
         Location: {
             $type: 'array',
         },

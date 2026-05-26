@@ -13,7 +13,7 @@ export default {
     template: {
         ...baseEntity.template,
         AssetSC: {
-            $type: 'object',
+            $type: 'array',
         },
         assetFC: {
             functionalType: { $type: 'string' },
@@ -24,9 +24,6 @@ export default {
         // No edges for Task - isInputFor, isOutputFor (From)
         // No edges for Concept - isIdeaFor?
         Member: {
-            $type: 'array',
-        },
-        Depiction: {
             $type: 'array',
         },
         Provenance: {
@@ -44,9 +41,8 @@ export default {
                 // customData: null,
             },
             Member: null,
-            Depiction: null,
             // version: null,
-            // provenance: null,
+            Provenance: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

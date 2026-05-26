@@ -22,9 +22,9 @@ export default {
         size: {
             $type: 'string',
         },
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {
@@ -33,7 +33,7 @@ export default {
             narrativeObjectName: scriptName.graphQl.filter,
             quantity: null,
             size: null,
-            Depiction: null,
+            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

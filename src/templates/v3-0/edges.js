@@ -610,7 +610,7 @@ export const edgeDefinitions = {
         predicate: 'ConfigurationFile',
         placement: 'property',
         path: 'software.ConfigurationFile',
-        cardinality: 'object',
+        cardinality: 'array',
         inverse: null,
         rdf: () => 'omc:hasConfigurationFile',
         connects: [{
@@ -654,7 +654,7 @@ export const edgeDefinitions = {
         inverse: 'has', // Provenance points back to its owner via `has` (per decision, for now)
         rdf: () => 'omc:hasProvenance',
         connects: [{
-            domain: ['Asset', 'Composition'],
+            domain: ['Asset', 'AssetSC', 'Composition'],
             range: ['Provenance'],
             rdfMap: ['omc:hasProvenance'],
         }],
@@ -681,7 +681,7 @@ export const edgeDefinitions = {
         rdf: intrinsicRdf,
         connects: [{
             domain: ['Provenance'],
-            range: ['Asset'],
+            range: ['Asset', 'AssetSC'],
             rdfMap: ['omc:hasOrigin'],
         }],
     },
@@ -720,7 +720,7 @@ export const edgeDefinitions = {
     CreativeWork: {
         predicate: 'CreativeWork',
         placement: 'property',
-        cardinality: 'object',
+        cardinality: 'array',
         inverse: 'has', // Slate.CreativeWork inverse edges.has.Slate
         rdf: () => 'omc:hasCreativeWork',
         connects: [{

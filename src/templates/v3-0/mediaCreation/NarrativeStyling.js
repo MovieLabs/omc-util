@@ -16,9 +16,9 @@ export default {
             $type: 'string',
         },
         narrativeStylingName: basicName.template,
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {

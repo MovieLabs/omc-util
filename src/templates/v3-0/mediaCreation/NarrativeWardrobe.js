@@ -16,9 +16,9 @@ export default {
             $type: 'string',
         },
         narrativeWardrobeName: basicName.template,
-        Depiction: {
-            $type: 'array',
-        },
+        // Depiction: {
+        //     $type: 'array',
+        // },
     },
     graphQl: {
         properties: {
