@@ -141,13 +141,13 @@ export const edgeDefinitions = {
             {
                 domain: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
                 range: ['Realization'],
-                inverse: 'RealizationOf',
+                inverse: 'realizationProperties.RealizationOf',
                 rdfMap: [],
             },
             {
                 domain: ['Asset', 'Participant', 'Composition'],
                 range: ['Realization'],
-                inverse: 'RealizationBy',
+                inverse: 'realizationProperties.RealizationBy',
                 rdfMap: [],
             },
         ],

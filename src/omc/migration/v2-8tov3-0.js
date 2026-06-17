@@ -107,8 +107,8 @@ function migrateIntrinsicToEdge(omc, targetProp, entityType) {
         return omc;
     }
     const refIdentifiers = makeArray(omc[targetProp]);
-    refIdentifiers.forEach((id) => {
-        edgeCreate({
+    const update = refIdentifiers.reduce((obj, id) => {
+        const { fromEntity } = edgeCreate({
             fromEntity: omc,
             toEntity: {
                 schemaVersion,
@@ -116,9 +116,10 @@ function migrateIntrinsicToEdge(omc, targetProp, entityType) {
                 identifier: id.identifier,
             },
         });
-    });
-    delete omc[targetProp];
-    return omc;
+        return fromEntity;
+    }, omc);
+    delete update[targetProp];
+    return update;
 }
 
 /**
