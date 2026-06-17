@@ -1,6 +1,4 @@
 /**
- * @module buildEdgeTable
- *
  * DRAFT — not yet wired into the live `entityTemplate` build.
  *
  * Expands the consolidated `edgeDefinitions` (edges.js) into the legacy
@@ -22,6 +20,8 @@
  *
  * cxtEdges generation is deferred to a later phase, so the cxtEdges partition is
  * returned empty here.
+ *
+ * @module buildEdgeTable
  */
 
 import { edgeDefinitions, tentativeRdf } from './edges.js';

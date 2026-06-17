@@ -140,7 +140,7 @@ function checkOmcObject(omc, options) {
  * @static
  * @overload
  * @param {OmcJson} omc - Valid JSON to be validated
- * @param {ValidationOptions & { atomic: false }} options
+ * @param {ValidationOptions} options - Must have `atomic: false` to produce a per-entity result array
  * @returns {ValidationResult[]}
  */
 /**

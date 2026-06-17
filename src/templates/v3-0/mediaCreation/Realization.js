@@ -5,27 +5,29 @@
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
-const entityType = 'Depiction';
+const entityType = 'Realization';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        depictionType: { $type: 'string' },
-        depictionName: basicName.template,
-        Depicts: {
-            $type: 'array',
-        },
-        Depicter: {
-            $type: 'array',
+        realizationType: { $type: 'string' },
+        realizationName: basicName.template,
+        realizationProperties: {
+            RealizationOf: {
+                $type: 'array',
+            },
+            RealizationBy: {
+                $type: 'array',
+            },
         },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            depictionType: null,
-            depictionName: basicName.graphQl.properties,
+            realizationType: null,
+            realizationName: basicName.graphQl.properties,
             Depicts: {
                 Character: null,
                 NarrativeLocation: null,
@@ -40,8 +42,8 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            depictionType: 'string',
-            depictionName: basicName.graphQl.filter,
+            realizationType: 'string',
+            realizationName: basicName.graphQl.filter,
         },
         inlineFragment: {
             Depicts: {

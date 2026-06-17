@@ -1,6 +1,4 @@
 /**
- * @module edges
- *
  * Consolidated, predicate-centric definition of every OMC v3-0 edge.
  *
  * This file is the single source of truth for relationship *meaning*. It replaces the
@@ -57,6 +55,8 @@
  * transform of the forward edges and will be generated in a later phase (see notes by the
  * Context section). `// TODO` marks judgement calls (cardinalities/inverses) that were
  * cleaned up relative to the current — sometimes buggy — data and want review.
+ *
+ * @module edges
  */
 
 const VOWELS = /^[AEIOU]/;
@@ -126,16 +126,28 @@ export const edgeDefinitions = {
                 range: ['SpecialAction'],
                 rdfMap: [], // JSON-only: Infrastructure barely modelled in RDF v2.8
             },
+            // {
+            //     domain: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
+            //     range: ['Depiction'],
+            //     inverse: 'Depicts',
+            //     rdfMap: [],
+            // },
+            // {
+            //     domain: ['Asset', 'Participant', 'Composition'],
+            //     range: ['Depiction'],
+            //     inverse: 'Depicter',
+            //     rdfMap: [],
+            // },
             {
                 domain: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-                range: ['Depiction'],
-                inverse: 'depicts',
+                range: ['Realization'],
+                inverse: 'RealizationOf',
                 rdfMap: [],
             },
             {
                 domain: ['Asset', 'Participant', 'Composition'],
-                range: ['Depiction'],
-                inverse: 'depictedBy',
+                range: ['Realization'],
+                inverse: 'RealizationBy',
                 rdfMap: [],
             },
         ],
@@ -250,33 +262,33 @@ export const edgeDefinitions = {
         ],
     },
 
-    depicts: {
-        predicate: 'depicts',
-        cardinality: 'array',
-        inverse: 'has',
-        rdf: tentativeRdf,
-        connects: [
-            {
-                domain: ['Depiction'],
-                range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-            },
-        ],
-    },
-
-    depictedBy: {
-        predicate: 'depictedBy',
-        cardinality: 'array',
-        inverse: 'has',
-        rdf: tentativeRdf,
-        connects: [
-            {
-                domain: ['Depiction'],
-                range: ['Asset', 'Participant', 'Composition'],
-                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-            },
-        ],
-    },
+    // depicts: {
+    //     predicate: 'depicts',
+    //     cardinality: 'array',
+    //     inverse: 'has',
+    //     rdf: tentativeRdf,
+    //     connects: [
+    //         {
+    //             domain: ['Depiction'],
+    //             range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
+    //             rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+    //         },
+    //     ],
+    // },
+    //
+    // depictedBy: {
+    //     predicate: 'depictedBy',
+    //     cardinality: 'array',
+    //     inverse: 'has',
+    //     rdf: tentativeRdf,
+    //     connects: [
+    //         {
+    //             domain: ['Depiction'],
+    //             range: ['Asset', 'Participant', 'Composition'],
+    //             rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+    //         },
+    //     ],
+    // },
 
     uses: {
         predicate: 'uses',
@@ -504,6 +516,70 @@ export const edgeDefinitions = {
             range: ['AssetSC'],
             rdfMap: ['omc:hasAssetStructuralCharacteristic (range AssetAsStructure)'],
         }],
+    },
+
+    // --- Depiction --------------------------------------------------------
+    Depicts: {
+        predicate: 'Depicts',
+        placement: 'property',
+        cardinality: 'array',
+        inverse: 'has',
+        rdf: tentativeRdf,
+        connects: [
+            {
+                domain: ['Depiction'],
+                range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
+                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+            },
+        ],
+    },
+
+    Depicter: {
+        predicate: 'Depicter',
+        placement: 'property',
+        cardinality: 'array',
+        inverse: 'has',
+        rdf: tentativeRdf,
+        connects: [
+            {
+                domain: ['Depiction'],
+                range: ['Asset', 'Participant', 'Composition'],
+                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+            },
+        ],
+    },
+
+    // --- Realization --------------------------------------------------------
+    RealizationOf: {
+        predicate: 'RealizationOf',
+        placement: 'property',
+        cardinality: 'array',
+        inverse: 'has',
+        rdf: tentativeRdf,
+        connects: [
+            {
+                domain: ['Realization'],
+                path: 'realizationProperties.RealizationOf',
+                range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
+                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+            },
+        ],
+    },
+
+    RealizationBy: {
+        predicate: 'RealizationBy',
+        placement: 'property',
+        cardinality: 'array',
+        inverse: 'has',
+        rdf: tentativeRdf,
+        connects: [
+            {
+                domain: ['Realization'],
+                path: 'realizationProperties.RealizationBy',
+                range: ['Asset', 'Participant', 'Composition'],
+                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
+            },
+        ],
     },
 
     ParticipantSC: {

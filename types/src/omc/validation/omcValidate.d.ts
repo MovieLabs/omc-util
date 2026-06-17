@@ -10,12 +10,10 @@
  * @static
  * @overload
  * @param {OmcJson} omc - Valid JSON to be validated
- * @param {ValidationOptions & { atomic: false }} options
+ * @param {ValidationOptions} options - Must have `atomic: false` to produce a per-entity result array
  * @returns {ValidationResult[]}
  */
-export default function omcValidate(omc: OmcJson, options: ValidationOptions & {
-    atomic: false;
-}): ValidationResult[];
+export default function omcValidate(omc: OmcJson, options: ValidationOptions): ValidationResult[];
 /**
  * @overload
  * @param {OmcJson} omc - Valid JSON to be validated

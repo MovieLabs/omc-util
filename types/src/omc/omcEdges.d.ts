@@ -111,5 +111,15 @@ export function edgeCreate(params: {
     forEntity: OmcEntity;
     intrinsicEdge: any;
     inverse: boolean;
-}): any;
+}): {
+    fromEntity: any;
+    toEntity: any;
+    fromEdgePath: any;
+    toEdgePath: any;
+} | {
+    fromEntity: any;
+    toEntity: OmcEntity;
+    fromEdgePath: any;
+    toEdgePath?: undefined;
+};
 //# sourceMappingURL=omcEdges.d.ts.map

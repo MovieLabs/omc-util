@@ -72,7 +72,7 @@
  * @property {string} backgroudColor - Background color for header when rendering the entity as node or in a UI
  * @property {string} fontColor - Font color for header when rendering the entity as node or in a UI
  * @property {string} entityLabel - A label for the entityType
- * @property {() => string} entityLabelSuffix - A suffix for use with the label, generally it's type (subclass)
+ * @property {function(): string} entityLabelSuffix - A suffix for use with the label, generally it's type (subclass)
  */
 
 /**
@@ -100,14 +100,14 @@
 /**
  * @typedef {Object} OmcTemplate
  * @memberOf namespace:OmcUtil
- * @property {(query: TemplateQuery) => EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
- * @property {(query: TemplateQuery) => Presentation} presentation - Returns the presentation details for an entityType.
- * @property {(query: TemplateQuery) => string} schemaGroup - Returns a group name for which the entityType belongs.
- * @property {(query: TemplateQuery) => SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
- * @property {(query: TemplateQuery) => string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
- * @property {(query: TemplateQuery) => Array<OmcEntityType>} allEntityTypes - All entityTypes for this schema version
- * @property {(query: TemplateQuery) => GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
- * @property {(query: TemplateQuery) => Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
+ * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
+ * @property {function(TemplateQuery): Presentation} presentation - Returns the presentation details for an entityType.
+ * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
+ * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
+ * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
+ * @property {function(TemplateQuery): Array<OmcEntityType>} allEntityTypes - All entityTypes for this schema version
+ * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
+ * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
  */
 
 import { isCapitalized } from '../mlHelpers/util.js';

@@ -11,9 +11,12 @@ import v28 from './v2-6tov2-8.js'; // Migrate from v2.6 to 2.8
 import v30 from './v2-8tov3-0.js';
 
 const schemaMigration = {
-    'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
-    'https://movielabs.com/omc/json/schema/v2.8': v28, // Migrate from 2.6 to 2.8
-    'https://movielabs.com/omc/json/schema/v3.0': v30, // Migrate from 2.8 to 3.0
+    // 'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
+    // 'https://movielabs.com/omc/json/schema/v2.8': v28, // Migrate from 2.6 to 2.8
+    // 'https://movielabs.com/omc/json/schema/v3.0': v30, // Migrate from 2.8 to 3.0
+    'https://movielabs.com/omc/json/schema/v2.6': v28, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v2.8': v30, // Migrate from 2.6 to 2.8
+    'https://movielabs.com/omc/json/schema/v3.0': null, // Migrate from 2.8 to 3.0
 };
 
 const schemaOrder = Object.keys(schemaMigration);
@@ -28,8 +31,10 @@ function migrateInstance(omc, toSchemaVersion) {
     } = omc;
 
     if (!entityType || !schemaVersion) return { ...omc }; // Cannot migrate without these
+    if (toSchemaVersion === schemaVersion) return { ...omc }; // At the desired version
 
-    const migrationPattern = schemaMigration[toSchemaVersion]; // Use pattern for current schema version
+    // const migrationPattern = schemaMigration[toSchemaVersion]; // Use pattern for current schema version
+    const migrationPattern = schemaMigration[schemaVersion]; // Use pattern to advance to next version
 
     if (!migrationPattern) {
         console.log(`No migration pattern found for schema version ${toSchemaVersion}`);
@@ -41,8 +46,10 @@ function migrateInstance(omc, toSchemaVersion) {
         return { ...omc };
     }
 
-    if (toSchemaVersion === schemaVersion) return omc; // Already at the target schema version
-    return migrationPattern[entityType](omc);
+    const update = migrationPattern[entityType](omc);
+    return migrateInstance(update, toSchemaVersion); // Move to next version
+    // if (toSchemaVersion === schemaVersion) return omc; // Already at the target schema version
+    // return migrationPattern[entityType](omc);
 }
 
 /*

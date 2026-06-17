@@ -289,6 +289,24 @@ export const generalConfig = {
             propRows: ['label', identifier],
         },
     },
+    Realization: {
+        group: 'Media Creation Context',
+        idPrefix: 'rel',
+        presentation: {
+            entityColor: '#FAD7A0',
+            entityLabel: 'Realization',
+            entityLabelSuffix: ((omc) => formatLabel(omc.realizationType)),
+            // icon: DepictionIcon,
+            header: {
+                backgroundColor: '#FAD7A0',
+                fontColor: '#000',
+                entityLabel: 'Realization',
+                entityLabelSuffix: ((omc) => formatLabel(omc.realizationType)),
+                // icon: DepictionIcon,
+            },
+            propRows: ['label', 'realizationType'],
+        },
+    },
     Slate: {
         group: 'Media Creation Context',
         idPrefix: 'slt',

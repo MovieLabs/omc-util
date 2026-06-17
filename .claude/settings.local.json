@@ -49,7 +49,9 @@
       "Bash(rm -f _scratch_parse.mjs _scratch_report.mjs _scratch_match.mjs _scratch_objprops.json _scratch_classes.json _scratch_tree.txt _scratch_entity_relations.txt _scratch_edge_rdf_match.txt)",
       "Bash(ls _scratch*)",
       "Bash(grep -nE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)",
-      "Bash(grep -cE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)"
+      "Bash(grep -cE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)",
+      "WebSearch",
+      "WebFetch(domain:linkml.io)"
     ]
   }
 }
