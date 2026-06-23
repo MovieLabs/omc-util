@@ -113,7 +113,10 @@ function migrateIntrinsicToEdge(omc, targetProp, entityType) {
     const refIdentifiers = makeArray(omc[targetProp]);
     const update = refIdentifiers.reduce((obj, id) => {
         const res = edgeCreate({
-            fromEntity: omc,
+            fromEntity: {
+                ...omc,
+                schemaVersion, // Use the schema version you are migrating to
+            },
             toEntity: {
                 schemaVersion,
                 entityType,

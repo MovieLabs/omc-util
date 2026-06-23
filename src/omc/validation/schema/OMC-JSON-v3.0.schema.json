@@ -1307,20 +1307,21 @@
                     "string",
                     "null"
                   ],
-                  "title": "Functional Type",
-                  "description": "The use or purpose of a Task within the production process."
+                  "title": "Infrastructure Function Type",
+                  "description": "The use or purpose of an Infrastructure within the production process."
                 },
                 "infrastructureFunctionProperties": {
                   "type": [
                     "object",
                     "null"
                   ],
-                  "title": "Functional Properties",
-                  "description": "A set of properties that describe the tasks functional use"
+                  "title": "Infrastructure Function Properties",
+                  "description": "A set of properties that describe the infrastructure's functional use"
                 }
               },
               "additionalProperties": false,
-              "description": "Describes the use or purpose of an Infrastructure within the production process"
+              "description": "Describes the use or purpose of an Infrastructure within the production process",
+              "required": ["infrastructureFunctionType"]
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1468,8 +1469,7 @@
                 },
                 "quantity": {
                   "type": [
-                    "string",
-                    "number",
+                    "integer",
                     "null"
                   ],
                   "title": "Quantity",
@@ -1534,12 +1534,15 @@
               "$comment": "Currently considered Beta and only adopted in OMC-JSON"
             },
             "contextProperties": {
-              "anyOf": [
-                {"type": "null"},
-                {"$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"}
-              ],
               "title": "Context Properties",
-              "description": "Properties specific to Context sub-types\n"
+              "description": "Properties specific to Context sub-types\n",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "shootDay": {"$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"}
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2531,10 +2534,19 @@
                     ]
                   },
                   "title": "Role"
+                },
+                "participantFunctionProperties": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": true,
+                  "title": "Participant Functional Properties"
                 }
               },
               "additionalProperties": false,
-              "description": "The use or purpose of a Participant within the production process"
+              "description": "The use or purpose of a Participant within the production process",
+              "required": ["participantFunctionType"]
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2631,24 +2643,6 @@
                 }
               },
               "additionalProperties": false
-            },
-            "contact": {
-              "$ref": "#/$defs/Utility/properties/contact",
-              "title": "Participant's Contact",
-              "description": "Contact information for the Participant"
-            },
-            "Location": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Location"}
-                ]
-              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2760,7 +2754,8 @@
               "type": [
                 "object",
                 "null"
-              ]
+              ],
+              "required": ["taskFunctionType"]
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -6040,6 +6035,26 @@
                 }
               }
             },
+            "usedBy": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Realization": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
             "uses": {
               "type": [
                 "object",
@@ -6066,18 +6081,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Realization": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }

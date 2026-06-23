@@ -126,24 +126,6 @@ export const edgeDefinitions = {
                 range: ['SpecialAction'],
                 rdfMap: [], // JSON-only: Infrastructure barely modelled in RDF v2.8
             },
-            // {
-            //     domain: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-            //     range: ['Depiction'],
-            //     inverse: 'Depicts',
-            //     rdfMap: [],
-            // },
-            // {
-            //     domain: ['Asset', 'Participant', 'Composition'],
-            //     range: ['Depiction'],
-            //     inverse: 'Depicter',
-            //     rdfMap: [],
-            // },
-            {
-                domain: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-                range: ['Realization'],
-                inverse: 'realizationProperties.RealizationOf',
-                rdfMap: [],
-            },
             {
                 domain: ['Asset', 'Participant', 'Composition'],
                 range: ['Realization'],
@@ -262,34 +244,6 @@ export const edgeDefinitions = {
         ],
     },
 
-    // depicts: {
-    //     predicate: 'depicts',
-    //     cardinality: 'array',
-    //     inverse: 'has',
-    //     rdf: tentativeRdf,
-    //     connects: [
-    //         {
-    //             domain: ['Depiction'],
-    //             range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-    //             rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-    //         },
-    //     ],
-    // },
-    //
-    // depictedBy: {
-    //     predicate: 'depictedBy',
-    //     cardinality: 'array',
-    //     inverse: 'has',
-    //     rdf: tentativeRdf,
-    //     connects: [
-    //         {
-    //             domain: ['Depiction'],
-    //             range: ['Asset', 'Participant', 'Composition'],
-    //             rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-    //         },
-    //     ],
-    // },
-
     uses: {
         predicate: 'uses',
         cardinality: 'array',
@@ -309,6 +263,20 @@ export const edgeDefinitions = {
         ],
     },
 
+    usedBy: {
+        predicate: 'usedBy',
+        cardinality: 'array',
+        inverse: 'usedIn',
+        rdf: tentativeRdf,
+        connects: [
+            {
+                domain: ['Asset', 'Task', 'Participant'],
+                range: ['Realization'],
+                rdfMap: [],
+            },
+        ],
+    },
+
     usedIn: {
         predicate: 'usedIn',
         cardinality: 'array',
@@ -321,7 +289,15 @@ export const edgeDefinitions = {
                 rdfMap: ['~omc:representedBy (ProductionScene; i.e. omc:represents)'], // ProductionLocation: none
             },
             {
-                domain: ['Depiction'],
+                domain: [
+                    'Character', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject',
+                    'NarrativeStyling', 'NarrativeWardrobe', 'Effect', 'SpecialAction',
+                ],
+                range: ['Realization'],
+                rdfMap: ['omc:hasProductionScene', 'omc:isUsedBy'],
+            },
+            {
+                domain: ['Realization'],
                 range: ['ProductionScene'],
                 rdfMap: ['omc:hasProductionScene', 'omc:isUsedBy'],
             },
@@ -434,22 +410,22 @@ export const edgeDefinitions = {
         connects: [
             {
                 domain: ['Asset'],
-                range: ['Asset'],
+                range: ['AssetStructure'],
                 rdfMap: ['omc:isAssetComponentOf (range AssetGroup)'],
             },
             {
                 domain: ['Infrastructure'],
-                range: ['Infrastructure'],
+                range: ['InfrastructureStructure'],
                 rdfMap: [], // JSON-only
             },
             {
                 domain: ['Task'],
-                range: ['Task'],
+                range: ['TaskStructure'],
                 rdfMap: ['omc:isTaskComponentOf (range TaskGroup)'],
             },
             {
                 domain: ['Participant'],
-                range: ['Participant'],
+                range: ['ParticipantStructure'],
                 rdfMap: ['omc:isParticipantComponentFor (range ParticipantGroup)',
                     'omc:isMemberOfOrganization (Organization)'],
             },
@@ -505,16 +481,16 @@ export const edgeDefinitions = {
     // --- Structural characteristics (single nested sub-objects) ------------
     // In RDF these are subclass trees reached via has<X>StructuralCharacteristic;
     // JSON inlines the concrete subtype object, hence the `(range <X>AsStructure)` notes.
-    AssetSC: {
-        predicate: 'AssetSC',
+    AssetStructure: {
+        predicate: 'AssetStructure',
         placement: 'property',
         cardinality: 'array',
         inverse: null,
-        rdf: () => 'omc:hasAssetStructuralCharacteristic',
+        rdf: () => 'omc:hasAssetStructure',
         connects: [{
             domain: ['Asset'],
-            range: ['AssetSC'],
-            rdfMap: ['omc:hasAssetStructuralCharacteristic (range AssetAsStructure)'],
+            range: ['AssetStructure'],
+            rdfMap: ['omc:hasAssetStructure (range AssetAsStructure)'],
         }],
     },
 
@@ -582,42 +558,42 @@ export const edgeDefinitions = {
         ],
     },
 
-    ParticipantSC: {
-        predicate: 'ParticipantSC',
+    ParticipantStructure: {
+        predicate: 'ParticipantStructure',
         placement: 'property',
         cardinality: 'array',
         inverse: null,
-        rdf: () => 'omc:hasParticipantStructuralCharacteristic',
+        rdf: () => 'omc:hasParticipantStructure',
         connects: [{
             domain: ['Participant'],
-            range: ['Organization', 'Department', 'Person', 'Service'],
-            rdfMap: ['omc:hasParticipantStructuralCharacteristic (range ParticipantAsStructure)'],
+            range: ['ParticipantStructure'],
+            rdfMap: ['omc:hasParticipantStructure (range ParticipantAsStructure)'],
         }],
     },
 
-    InfrastructureSC: {
-        predicate: 'InfrastructureSC',
+    InfrastructureStructure: {
+        predicate: 'InfrastructureStructure',
         placement: 'property',
         cardinality: 'array', // structural characteristic — single object (validate vs schema)
         inverse: null,
-        rdf: () => 'omc:hasInfrastructureStructuralCharacteristic',
+        rdf: () => 'omc:hasInfrastructureStructure',
         connects: [{
             domain: ['Infrastructure'],
-            range: ['InfrastructureSC'],
+            range: ['InfrastructureStructure'],
             rdfMap: [], // JSON-only: Infrastructure has no SC predicate in RDF v2.8
         }],
     },
 
-    TaskSC: {
-        predicate: 'TaskSC',
+    TaskStructure: {
+        predicate: 'TaskStructure',
         placement: 'property',
         cardinality: 'array', // structural characteristic — single object (validate vs schema)
         inverse: null,
-        rdf: () => 'omc:hasTaskStructuralCharacteristic',
+        rdf: () => 'omc:hasTaskStructure',
         connects: [{
             domain: ['Task'],
-            range: ['TaskSC'],
-            rdfMap: ['omc:hasTaskStructuralCharacteristic (range TaskAsStructure)'],
+            range: ['TaskStructure'],
+            rdfMap: ['omc:hasTaskStructure (range TaskAsStructure)'],
         }],
     },
 
@@ -634,22 +610,22 @@ export const edgeDefinitions = {
         rdf: intrinsicRdf,
         connects: [
             {
-                domain: ['Asset'],
+                domain: ['AssetStructure'],
                 range: ['Asset'],
                 rdfMap: ['omc:hasAssetComponent (domain AssetGroup)'],
             },
             {
-                domain: ['Infrastructure'],
+                domain: ['InfrastructureStructure'],
                 range: ['Infrastructure'],
                 rdfMap: [], // JSON-only
             },
             {
-                domain: ['Task'],
+                domain: ['TaskStructure'],
                 range: ['Task'],
                 rdfMap: ['omc:hasTaskComponent (domain TaskGroup)'],
             },
             {
-                domain: ['Participant'],
+                domain: ['ParticipantStructure'],
                 range: ['Participant'],
                 rdfMap: ['omc:hasParticipantComponent (domain ParticipantGroup)',
                     'omc:hasOrganizationMember (Organization)'],
