@@ -2,7 +2,7 @@
  * @module omcMerge
  */
 
-import { isCapitalized, isPlainObject, makeArray } from '../mlHelpers/util.js';
+import { isPlainObject } from '../mlHelpers/util.js';
 
 const omcObjectArrays = {
     identifier: ['identifierScope', 'identifierValue'],
@@ -165,10 +165,10 @@ export function deepMerge(existing, incoming, options = {}, path = '') {
     return result;
 }
 
-export function mergeEntity(omc1, omc2, options) {
-    if ((!omc1 && !omc2)) return false; // Safety checks
-    if (!omc1 && omc2) return omc2; // omc1 is undefined and omc2 is good, return omc2
-    if (omc1 && !omc2) return omc1; // omc2 is undefined and omc1 is good, return omc1
+export function mergeEntity(omc1, omc2, options = {}) {
+    if (!omc1 && !omc2) return false; // Safety checks
+    if ((!omc1 || !(Object.keys(omc1)).length) && omc2) return omc2; // omc1 is undefined or has no keys and omc2 is good, return omc2
+    if (omc1 && (!omc2 || !(Object.keys(omc2))).length) return omc1; // omc2 is undefined or has no keys and omc1 is good, return omc1
     if ((omc1?.entityType !== omc2?.entityType)) return false; // Safety checks
     return deepMerge(omc1, omc2, options);
 }
