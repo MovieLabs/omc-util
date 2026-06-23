@@ -14,6 +14,8 @@ const schemaMigration = {
     // 'https://movielabs.com/omc/json/schema/v2.6': v26, // Migrate from 2.6 to 2.8
     // 'https://movielabs.com/omc/json/schema/v2.8': v28, // Migrate from 2.6 to 2.8
     // 'https://movielabs.com/omc/json/schema/v3.0': v30, // Migrate from 2.8 to 3.0
+    'https://movielabs.com/omc/json/schema/v2.0': v26, // Migrate from 2.1 to 2.6
+    'https://movielabs.com/omc/json/schema/v2.1': v26, // Migrate from 2.1 to 2.6
     'https://movielabs.com/omc/json/schema/v2.6': v28, // Migrate from 2.6 to 2.8
     'https://movielabs.com/omc/json/schema/v2.8': v30, // Migrate from 2.6 to 2.8
     'https://movielabs.com/omc/json/schema/v3.0': null, // Migrate from 2.8 to 3.0

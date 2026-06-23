@@ -48,6 +48,10 @@ export default {
             updatedOmc.needs.SpecialAction = omc.needs.NarrativeAction;
             delete updatedOmc.needs.NarrativeAction;
         }
+        if (Object.hasOwn(omc, 'For')) {
+            updatedOmc.ForEntity = omc.For;
+            delete updatedOmc.For;
+        }
         return updatedOmc;
     }),
     CreativeWork: ((omc) => {

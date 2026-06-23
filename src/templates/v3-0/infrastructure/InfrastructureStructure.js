@@ -5,29 +5,29 @@
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
-const entityType = 'InfrastructureSC';
+const entityType = 'InfrastructureStructure';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        infrastructureSCName: basicName.template,
-        structuralType: null,
-        structuralProperties: null,
+        infrastructureStructureName: basicName.template,
+        infrastructureStructureType: null,
+        infrastructureStructureProperties: null,
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            structuralType: null,
-            infrastructureSCName: basicName.graphQl.properties,
-            structuralProperties: null,
+            infrastructureStructureType: null,
+            infrastructureStructureName: basicName.graphQl.properties,
+            infrastructureStructureProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            infrastructureSCName: basicName.graphQl.filter,
+            infrastructureStructureName: basicName.graphQl.filter,
         },
         inlineFragment: {},
     },
-    idPrefix: 'infsc',
+    idPrefix: 'infs',
 };

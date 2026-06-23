@@ -28,16 +28,18 @@ export default {
             ...baseEntity.graphQl.properties,
             realizationType: null,
             realizationName: basicName.graphQl.properties,
-            Depicts: {
-                Character: null,
-                NarrativeLocation: null,
-                NarrativeObject: null,
-                NarrativeStyling: null,
-                NarrativeWardrobe: null,
-            },
-            Depicter: {
-                Participant: null,
-                Asset: null,
+            realizationProperties: {
+                RealizationOf: {
+                    Character: null,
+                    NarrativeLocation: null,
+                    NarrativeObject: null,
+                    NarrativeStyling: null,
+                    NarrativeWardrobe: null,
+                },
+                RealizationBy: {
+                    Participant: null,
+                    Asset: null,
+                },
             },
         },
         filter: {
@@ -46,17 +48,19 @@ export default {
             realizationName: basicName.graphQl.filter,
         },
         inlineFragment: {
-            Depicts: {
-                Character: '...on',
-                NarrativeLocation: '...on',
-                NarrativeObject: '...on',
-                NarrativeStyling: '...on',
-                NarrativeWardrobe: '...on',
-            },
-            Depicter: {
-                Participant: '...on',
-                Asset: '...on',
-                Composition: '...on',
+            realizationProperties: {
+                RealizationOf: {
+                    Character: '...on',
+                    NarrativeLocation: '...on',
+                    NarrativeObject: '...on',
+                    NarrativeStyling: '...on',
+                    NarrativeWardrobe: '...on',
+                },
+                RealizationBy: {
+                    Participant: '...on',
+                    Asset: '...on',
+                    Composition: '...on',
+                },
             },
         },
     },

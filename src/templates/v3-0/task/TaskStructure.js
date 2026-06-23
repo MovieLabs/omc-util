@@ -4,31 +4,31 @@
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
-const entityType = 'TaskSC';
+const entityType = 'TaskStructure';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        structuralType: null,
-        taskSCName: basicName.template,
-        structuralProperties: null,
+        taskStructureType: null,
+        taskStructureName: basicName.template,
+        taskStructureProperties: null,
         customData: null,
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            taskSCName: basicName.graphQl.properties,
-            structuralType: null,
-            structuralProperties: null,
+            taskStructureName: basicName.graphQl.properties,
+            taskStructureType: null,
+            taskStructureProperties: null,
             customData: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            taskSCName: basicName.graphQl.filter,
+            taskStructureName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },
-    idPrefix: 'tsksc',
+    idPrefix: 'tsks',
 };

@@ -5,16 +5,16 @@
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName, software } from '../utility/utility.js';
 
-const entityType = 'AssetSC';
+const entityType = 'AssetStructure';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        structuralType: { $type: 'string' },
-        assetSCName: basicName.template,
-        structuralProperties: { $type: 'object' },
+        assetStructureType: { $type: 'string' },
+        assetStructureName: basicName.template,
+        assetStructureProperties: { $type: 'object' },
         isAnalog: { $type: 'boolean' },
         software: software.template,
         Carrier: null,
@@ -24,9 +24,9 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            structuralType: null,
-            assetSCName: basicName.graphQl.properties,
-            structuralProperties: null,
+            assetStructureType: null,
+            assetStructureName: basicName.graphQl.properties,
+            assetStructureProperties: null,
             isAnalog: null,
             software: software.graphQl.properties,
             Carrier: null,
@@ -35,10 +35,10 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            structuralType: ['string'],
-            assetSCName: basicName.graphQl.filter,
+            assetStructureType: ['string'],
+            assetStructureName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },
-    idPrefix: 'astsc',
+    idPrefix: 'asts',
 };

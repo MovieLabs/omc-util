@@ -32,17 +32,23 @@
               "title": "Asset Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "version": {
+            "versionInfo": {
               "type": [
                 "object",
                 "null"
               ],
               "title": "Asset Version Information",
               "description": "A particular form, variant, or representation of an Asset that differs in some way from its source Asset.",
-              "allOf": [
-                {"$ref": "#/$defs/core/properties/baseVersion"}
-              ],
               "properties": {
+                "versionNumber": {
+                  "type": [
+                    "string",
+                    "number",
+                    "null"
+                  ],
+                  "title": "Version Number",
+                  "description": "A designation indicating a place in a sequence of versions"
+                },
                 "DerivationOf": {
                   "type": [
                     "array",
@@ -133,27 +139,13 @@
               },
               "unevaluatedProperties": false
             },
-            "Member": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Asset Group Members",
-              "description": "The set of Assets that make up the members of an asset group.",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Asset/properties/Asset"}
-                ]
-              }
-            },
-            "AssetSC": {
-              "title": "Structural Characteristics",
+            "AssetStructure": {
+              "title": "Asset Structure",
               "maxItems": 1,
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                  {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                 ]
               },
               "type": [
@@ -161,13 +153,13 @@
                 "null"
               ]
             },
-            "assetFC": {
+            "assetFunction": {
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
-                "functionalType": {
+                "assetFunctionType": {
                   "type": [
                     "string",
                     "null"
@@ -238,7 +230,7 @@
                     "udimTile"
                   ]
                 },
-                "functionalProperties": {
+                "assetFunctionProperties": {
                   "type": [
                     "object",
                     "null"
@@ -260,9 +252,9 @@
                     "timing": {"$ref": "#/$defs/Asset/properties/Asset/$defs/timing"},
                     "udimTileNumber": {"$ref": "#/$defs/Asset/properties/Asset/$defs/udimTileNumber"}
                   }
-                },
-                "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-              }
+                }
+              },
+              "title": "Asset Function"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Provenance": {
@@ -861,30 +853,36 @@
           },
           "unevaluatedProperties": false
         },
-        "AssetSC": {
+        "AssetStructure": {
           "type": "object",
-          "title": "Asset Structural Characteristics",
+          "title": "Asset Structure",
           "allOf": [
             {"$ref": "#/$defs/core/properties/baseEntity"}
           ],
           "properties": {
             "entityType": {
               "title": "Entity Type",
-              "const": "AssetSC"
+              "const": "AssetStructure"
             },
-            "assetSCName": {
-              "title": "Asset Structural Characteristics Name",
+            "assetStructureName": {
+              "title": "Asset Structure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "version": {
+            "versionInfo": {
               "type": [
                 "object",
                 "null"
               ],
-              "allOf": [
-                {"$ref": "#/$defs/core/properties/baseVersion"}
-              ],
               "properties": {
+                "versionNumber": {
+                  "type": [
+                    "string",
+                    "number",
+                    "null"
+                  ],
+                  "title": "Version Number",
+                  "description": "A designation indicating a place in a sequence of versions"
+                },
                 "DerivationOf": {
                   "type": [
                     "array",
@@ -894,7 +892,7 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
                 },
@@ -907,7 +905,7 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
                 },
@@ -920,7 +918,7 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
                 },
@@ -932,7 +930,7 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
                 },
@@ -944,7 +942,7 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
                 },
@@ -956,22 +954,21 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
-                },
-                "customData": {"$ref": "#/$defs/Utility/properties/customData"}
+                }
               },
-              "title": "Asset Structural Version Information",
+              "title": "Asset Structure Version Information",
               "description": "A particular form, variant, or representation of an Asset that differs in some way from its source Asset.",
               "unevaluatedProperties": false
             },
-            "structuralType": {
+            "assetStructureType": {
               "type": [
                 "string",
                 "null"
               ],
-              "title": "Structural Type",
+              "title": "Asset Structure Type",
               "description": "A canonical description of the the assets form.",
               "x-controlledValues": [
                 "assetGroup",
@@ -998,31 +995,45 @@
                 "physical.structuredDocument"
               ]
             },
-            "structuralProperties": {
+            "assetStructureProperties": {
               "type": [
                 "object",
                 "null"
               ],
-              "title": "Structural Properties",
+              "title": "Asset Structure Properties",
               "description": "A set of properties that describe the asset in this form.",
               "properties": {
-                "assetGroup": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/assetGroup"},
-                "audioBitRate": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/audioBitRate"},
-                "audioSampleRate": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/audioSampleRate"},
-                "audioSampleSize": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/audioSampleSize"},
-                "isAxisAligned": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/isAxisAligned"},
+                "assetGroup": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/assetGroup"},
+                "audioBitRate": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/audioBitRate"},
+                "audioSampleRate": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/audioSampleRate"},
+                "audioSampleSize": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/audioSampleSize"},
+                "isAxisAligned": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/isAxisAligned"},
                 "boundingBox": {"$ref": "#/$defs/Utility/properties/boundingBox"},
-                "cgVolumePurpose": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/cgVolumePurpose"},
+                "cgVolumePurpose": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/cgVolumePurpose"},
                 "codec": {"$ref": "#/$defs/Utility/properties/codec"},
                 "coordinateOrientation": {"$ref": "#/$defs/Utility/properties/coordinateOrientation"},
                 "dimensions": {"$ref": "#/$defs/Utility/properties/unitOfMeasurement/properties/dimensions"},
-                "fileDetails": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/fileDetails"},
-                "geometryType": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/geometryType"},
+                "fileDetails": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/fileDetails"},
+                "geometryType": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/geometryType"},
                 "levelOfDetail": {"$ref": "#/$defs/Utility/properties/levelOfDetail"},
-                "linkset": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/linkset"},
+                "linkset": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/linkset"},
                 "purpose": {"$ref": "#/$defs/Utility/properties/purpose"},
                 "scale": {"$ref": "#/$defs/Utility/properties/scale"},
-                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetSC/$defs/numberPoints"}
+                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
+                "Member": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "title": "Asset Group Members",
+                  "description": "The set of Assets that make up the members of an asset group.",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"}
+                    ]
+                  }
+                }
               },
               "additionalProperties": false
             },
@@ -1070,7 +1081,7 @@
           },
           "required": [
             "entityType",
-            "structuralType"
+            "assetStructureType"
           ],
           "description": "Describes the form of an Asset along with the attributes specific to that asset’s form.",
           "$defs": {
@@ -1270,8 +1281,8 @@
                 ]
               }
             },
-            "InfrastructureSC": {
-              "title": "Structural Characteristics",
+            "InfrastructureStructure": {
+              "title": "Structure",
               "type": [
                 "array",
                 "null"
@@ -1280,13 +1291,36 @@
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"}
+                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
                 ]
               }
             },
-            "infrastructureFC": {
-              "title": "Functional Characteristics",
-              "$ref": "#/$defs/Infrastructure/properties/infrastructureFC"
+            "infrastructureFunction": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "title": "Infrastructure Function",
+              "properties": {
+                "infrastructureFunctionType": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "Functional Type",
+                  "description": "The use or purpose of a Task within the production process."
+                },
+                "infrastructureFunctionProperties": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "title": "Functional Properties",
+                  "description": "A set of properties that describe the tasks functional use"
+                }
+              },
+              "additionalProperties": false,
+              "description": "Describes the use or purpose of an Infrastructure within the production process"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1295,35 +1329,35 @@
           "description": "The underlying systems and framework required for the production of the Creative Work; it is generally not specific to a particular Creative Work.",
           "unevaluatedProperties": false
         },
-        "InfrastructureSC": {
+        "InfrastructureStructure": {
           "type": "object",
-          "title": "Infrastructure Structural Characteristics",
+          "title": "Infrastructure Structure",
           "allOf": [
             {"$ref": "#/$defs/core/properties/baseEntity"}
           ],
           "properties": {
             "entityType": {
               "title": "Entity Type",
-              "const": "InfrastructureSC"
+              "const": "InfrastructureStructure"
             },
-            "infrastructureSCName": {
-              "title": "Infrastructure Structural Characteristics Name",
+            "infrastructureStructureName": {
+              "title": "Infrastructure Structure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "structuralType": {
+            "infrastructureStructureType": {
               "type": [
                 "string",
                 "null"
               ],
-              "title": "Structural Type",
+              "title": "Infrastructure Structure Type",
               "description": "A structured description of the the Infrastructures form"
             },
-            "structuralProperties": {
+            "infrastructureStructureProperties": {
               "type": [
                 "object",
                 "null"
               ],
-              "title": "Structural Properties",
+              "title": "Infrastructure Structure Properties",
               "description": "A set of properties that describe the infrastructure in this form"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
@@ -1331,34 +1365,6 @@
           "required": ["entityType"],
           "description": "Describes the form of the Infrastructure along with the attributes specific to that infrastructure's form",
           "unevaluatedProperties": false
-        },
-        "infrastructureFC": {
-          "type": [
-            "object",
-            "null"
-          ],
-          "title": "Infrastructure Functional Characteristics",
-          "properties": {
-            "functionalType": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "Functional Type",
-              "description": "The use or purpose of a Task within the production process."
-            },
-            "functionalProperties": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "title": "Functional Properties",
-              "description": "A set of properties that describe the tasks functional use"
-            },
-            "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-          },
-          "additionalProperties": false,
-          "description": "Describes the use or purpose of an Infrastructure within the production process"
         }
       },
       "title": "Infrastructure Definitions",
@@ -2468,7 +2474,14 @@
               "title": "Entity Type",
               "const": "Participant"
             },
-            "ParticipantSC": {
+            "participantName": {
+              "title": "Participant Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"},
+                {"$ref": "#/$defs/Utility/properties/completeName"}
+              ]
+            },
+            "ParticipantStructure": {
               "type": [
                 "array",
                 "null"
@@ -2477,23 +2490,20 @@
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Person"},
-                  {"$ref": "#/$defs/Participant/properties/Department"},
-                  {"$ref": "#/$defs/Participant/properties/Organization"},
-                  {"$ref": "#/$defs/Participant/properties/Service"}
+                  {"$ref": "#/$defs/Participant/properties/ParticipantStructure"}
                 ]
               },
-              "title": "Participant Structural Characteristics",
+              "title": "Participant Structure",
               "description": "Describes the form of a Participant along with the attributes specific to that Participant’s form."
             },
-            "participantFC": {
+            "participantFunction": {
               "type": [
                 "object",
                 "null"
               ],
-              "title": "Participant Functional Characteristics",
+              "title": "Participant Function",
               "properties": {
-                "functionalType": {
+                "participantFunctionType": {
                   "type": [
                     "string",
                     "null"
@@ -2521,25 +2531,10 @@
                     ]
                   },
                   "title": "Role"
-                },
-                "customData": {"$ref": "#/$defs/Utility/properties/customData"}
+                }
               },
               "additionalProperties": false,
               "description": "The use or purpose of a Participant within the production process"
-            },
-            "Member": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Participant Group Member",
-              "description": "The set of Participants that make up the members of a participant group.",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Participant"}
-                ]
-              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2547,28 +2542,100 @@
           "description": "The entities (people, organizations, and services) that are responsible for the production of the Creative Work.",
           "unevaluatedProperties": false
         },
-        "Person": {
+        "ParticipantStructure": {
           "type": ["object"],
+          "title": "Participant Structure",
           "allOf": [
             {"$ref": "#/$defs/core/properties/baseEntity"}
           ],
           "properties": {
             "entityType": {
               "title": "Entity Type",
-              "const": "Person"
+              "const": "ParticipantStructure"
             },
-            "structuralType": {
-              "const": "person",
-              "$comment": "Included for possible future extensions",
-              "title": "Person's Structural Type"
+            "participantStructureName": {
+              "title": "Participant Structure Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"},
+                {"$ref": "#/$defs/Utility/properties/completeName"}
+              ]
             },
-            "jobTitle": {
+            "participantStructureType": {
               "type": [
                 "string",
                 "null"
               ],
-              "title": "Person's Job Title",
-              "description": "A persons job title (as distinct from a specific role)."
+              "title": "Participant Structure Type",
+              "description": "A canonical description of the participant's form.",
+              "x-controlledValues": [
+                "person",
+                "department",
+                "organization",
+                "service"
+              ]
+            },
+            "participantStructureProperties": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "title": "Participant Structure Properties",
+              "description": "A set of properties that describe the participant in this form.",
+              "properties": {
+                "jobTitle": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "Person's Job Title",
+                  "description": "A persons job title (as distinct from a specific role)."
+                },
+                "gender": {
+                  "$ref": "#/$defs/Utility/properties/gender",
+                  "title": "Person's Gender"
+                },
+                "software": {
+                  "title": "Software",
+                  "description": "A description of any software that might be connected to a Service.",
+                  "$ref": "#/$defs/Utility/properties/software"
+                },
+                "Member": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "title": "Participant Group Member",
+                  "description": "The set of Participants that make up the members of a participant group.",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Participant/properties/Participant"}
+                    ]
+                  }
+                },
+                "contact": {
+                  "$ref": "#/$defs/Utility/properties/contact",
+                  "title": "Participant Contact"
+                },
+                "Location": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Utility/properties/Location"}
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "contact": {
+              "$ref": "#/$defs/Utility/properties/contact",
+              "title": "Participant's Contact",
+              "description": "Contact information for the Participant"
             },
             "Location": {
               "type": [
@@ -2583,142 +2650,13 @@
                 ]
               }
             },
-            "gender": {
-              "$ref": "#/$defs/Utility/properties/gender",
-              "title": "Person's Gender"
-            },
-            "contact": {
-              "$ref": "#/$defs/Utility/properties/contact",
-              "title": "Person's Contact",
-              "description": "Contact information for the Person"
-            },
-            "personName": {
-              "$ref": "#/$defs/Utility/properties/completeName",
-              "title": "Person's Name",
-              "description": "The canonical name or set of names and titles for the Person"
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
-          "required": ["entityType"],
-          "title": "Person",
-          "description": "People are the individuals that are associated with the production",
-          "unevaluatedProperties": false
-        },
-        "Department": {
-          "type": ["object"],
-          "allOf": [
-            {"$ref": "#/$defs/core/properties/baseEntity"}
+          "required": [
+            "entityType",
+            "participantStructureType"
           ],
-          "properties": {
-            "entityType": {
-              "title": "Entity Type",
-              "const": "Department"
-            },
-            "structuralType": {
-              "const": "department",
-              "$comment": "Included for possible future extensions",
-              "title": "Department's Structural Type"
-            },
-            "departmentName": {
-              "$ref": "#/$defs/Utility/properties/basicName",
-              "title": "Department's Name"
-            },
-            "contact": {
-              "$ref": "#/$defs/Utility/properties/contact",
-              "title": "Department's Contact"
-            },
-            "Location": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Location"}
-                ]
-              }
-            }
-          },
-          "required": ["entityType"],
-          "title": "Department",
-          "description": "Part of a larger Organization with a particular set of responsibilities on the production.",
-          "unevaluatedProperties": false
-        },
-        "Organization": {
-          "type": ["object"],
-          "allOf": [
-            {"$ref": "#/$defs/core/properties/baseEntity"}
-          ],
-          "properties": {
-            "entityType": {
-              "title": "Entity Type",
-              "const": "Organization"
-            },
-            "structuralType": {
-              "const": "organization",
-              "$comment": "Included for possible future extensions",
-              "title": "Organization's Structural Type"
-            },
-            "organizationName": {
-              "$ref": "#/$defs/Utility/properties/basicName",
-              "title": "Organization's Name"
-            },
-            "contact": {
-              "$ref": "#/$defs/Utility/properties/contact",
-              "title": "Organization's Contact"
-            },
-            "Location": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Location"}
-                ]
-              }
-            }
-          },
-          "required": ["entityType"],
-          "title": "Organization",
-          "description": "A legal entity or groups of people associated with the production.. with a particular purpose relative to the production.",
-          "unevaluatedProperties": false
-        },
-        "Service": {
-          "type": ["object"],
-          "allOf": [
-            {"$ref": "#/$defs/core/properties/baseEntity"}
-          ],
-          "properties": {
-            "entityType": {
-              "title": "Entity Type",
-              "const": "Service"
-            },
-            "structuralType": {
-              "const": "service",
-              "$comment": "Included for possible future extensions",
-              "title": "Service's Structural Type"
-            },
-            "serviceName": {
-              "$ref": "#/$defs/Utility/properties/basicName",
-              "title": "Service's Name"
-            },
-            "contact": {
-              "$ref": "#/$defs/Utility/properties/contact",
-              "title": "Service's Contact"
-            },
-            "software": {
-              "title": "Software",
-              "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
-              "$ref": "#/$defs/Utility/properties/software"
-            }
-          },
-          "required": ["entityType"],
-          "title": "Service",
-          "description": "A computer driven agent that can perform tasks given the proper context and structured data.",
+          "description": "Describes the form of a Participant (person, department, organization, or service) along with the attributes specific to that participant's form.",
           "unevaluatedProperties": false
         },
         "Role": {
@@ -2782,8 +2720,8 @@
               "title": "Task Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "TaskSC": {
-              "title": "Task Structural Characteristics",
+            "TaskStructure": {
+              "title": "Task Structure",
               "type": [
                 "array",
                 "null"
@@ -2792,67 +2730,90 @@
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Task/properties/TaskSC"}
+                  {"$ref": "#/$defs/Task/properties/TaskStructure"}
                 ]
               }
             },
-            "taskFC": {
-              "title": "Task Functional Characteristics",
-              "$ref": "#/$defs/Task/properties/taskFC"
-            },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Member": {
+            "taskFunction": {
+              "title": "Task Function",
+              "properties": {
+                "taskFunctionType": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "Functional Type",
+                  "description": "The use or purpose of a Task within the production process."
+                },
+                "taskFunctionProperties": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "title": "Functional Properties",
+                  "description": "A set of properties that describe the tasks functional use",
+                  "properties": {
+                    "customData": {"$ref": "#/$defs/Utility/properties/customData"}
+                  }
+                }
+              },
               "type": [
-                "array",
+                "object",
                 "null"
-              ],
-              "title": "Task Group Member",
-              "description": "The set of Tasks that make up the members of a task group.",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Task/properties/Task"}
-                ]
-              }
-            }
+              ]
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "title": "Task",
           "description": "A piece of work to be done and completed as a step in the production process.",
           "required": ["entityType"],
           "unevaluatedProperties": false
         },
-        "TaskSC": {
+        "TaskStructure": {
           "type": ["object"],
-          "title": "Task Structural Characteristics",
+          "title": "Task Structure",
           "allOf": [
             {"$ref": "#/$defs/core/properties/baseEntity"}
           ],
           "properties": {
             "entityType": {
               "title": "Entity Type",
-              "const": "TaskSC"
+              "const": "TaskStructure"
             },
-            "taskSCName": {
-              "title": "Task Structural Characteristics Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
-            },
-            "structuralType": {
+            "taskStructureType": {
               "type": [
                 "string",
                 "null"
               ],
-              "title": "Task Structural Type",
+              "title": "Task Structure Type",
               "description": "A structured description of the the Tasks form"
             },
-            "structuralProperties": {
+            "taskStructureName": {
+              "title": "Task Structure Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
+            "taskStructureProperties": {
               "type": [
                 "object",
                 "null"
               ],
-              "title": "Structural Properties",
+              "title": "Task Structure Properties",
               "description": "A set of properties that describe the Task in this form",
               "properties": {
-                "customData": {"$ref": "#/$defs/Utility/properties/customData"}
+                "Member": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "title": "Task Group Member",
+                  "description": "The set of Tasks that make up the members of a task group.",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Task/properties/Task"}
+                    ]
+                  }
+                }
               }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
@@ -2860,36 +2821,6 @@
           "required": ["entityType"],
           "description": "Describes the form of Task along with the attributes specific to that task’s form",
           "unevaluatedProperties": false
-        },
-        "taskFC": {
-          "type": [
-            "object",
-            "null"
-          ],
-          "title": "Task Functional Characteristics",
-          "properties": {
-            "functionalType": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "Functional Type",
-              "description": "The use or purpose of a Task within the production process."
-            },
-            "functionalProperties": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "title": "Functional Properties",
-              "description": "A set of properties that describe the tasks functional use",
-              "properties": {
-                "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-              }
-            },
-            "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-          },
-          "description": "Describes the purpose of the Task within the production process"
         }
       },
       "title": "Task Definitions",
@@ -3031,14 +2962,14 @@
                     ]
                   }
                 },
-                "AssetSC": {
+                "AssetStructure": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"},
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -3067,7 +2998,7 @@
               "anyOf": [
                 {"$ref": "#/$defs/core/properties/reference"},
                 {"$ref": "#/$defs/Asset/properties/Asset"},
-                {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                {"$ref": "#/$defs/Asset/properties/AssetStructure"}
               ]
             },
             "Product": {
@@ -4413,13 +4344,13 @@
               "items": {"$ref": "#/$defs/Asset/properties/Asset"},
               "title": "Asset"
             },
-            "AssetSC": {
+            "AssetStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "items": {"$ref": "#/$defs/Asset/properties/AssetSC"},
-              "title": "Asset Structural Characteristics"
+              "items": {"$ref": "#/$defs/Asset/properties/AssetStructure"},
+              "title": "Asset Structure"
             },
             "Infrastructure": {
               "type": [
@@ -4429,13 +4360,13 @@
               "items": {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
               "title": "Infrastructure"
             },
-            "InfrastructureSC": {
+            "InfrastructureStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "items": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"},
-              "title": "InfrastructureSC"
+              "items": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"},
+              "title": "InfrastructureStructure"
             },
             "Character": {
               "type": [
@@ -4565,37 +4496,13 @@
               "items": {"$ref": "#/$defs/Participant/properties/Participant"},
               "title": "Participant"
             },
-            "Person": {
+            "ParticipantStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "items": {"$ref": "#/$defs/Participant/properties/Person"},
-              "title": "Person"
-            },
-            "Department": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/Department"},
-              "title": "Department"
-            },
-            "Organization": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/Organization"},
-              "title": "Organization"
-            },
-            "Service": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/Service"},
-              "title": "Service"
+              "items": {"$ref": "#/$defs/Participant/properties/ParticipantStructure"},
+              "title": "Participant Structure"
             },
             "Role": {
               "type": [
@@ -4613,13 +4520,13 @@
               "items": {"$ref": "#/$defs/Task/properties/Task"},
               "title": "Task"
             },
-            "TaskSC": {
+            "TaskStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "items": {"$ref": "#/$defs/Task/properties/TaskSC"},
-              "title": "TaskSC"
+              "items": {"$ref": "#/$defs/Task/properties/TaskStructure"},
+              "title": "TaskStructure"
             },
             "Composition": {
               "type": [
@@ -4672,16 +4579,16 @@
                 ]
               }
             },
-            "AssetSC": {
+            "AssetStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "title": "Asset Structural Characteristics",
+              "title": "Asset Structure",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Asset/properties/AssetSC"}
+                  {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                 ]
               }
             },
@@ -4698,16 +4605,16 @@
                 ]
               }
             },
-            "InfrastructureSC": {
+            "InfrastructureStructure": {
               "type": [
                 "array",
                 "null"
               ],
-              "title": "InfrastructureSC",
+              "title": "InfrastructureStructure",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"}
+                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
                 ]
               }
             },
@@ -4919,7 +4826,7 @@
               },
               "title": "Participant"
             },
-            "Person": {
+            "ParticipantStructure": {
               "type": [
                 "array",
                 "null"
@@ -4927,49 +4834,10 @@
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Person"}
+                  {"$ref": "#/$defs/Participant/properties/ParticipantStructure"}
                 ]
               },
-              "title": "Person"
-            },
-            "Department": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Department"}
-                ]
-              },
-              "title": "Department"
-            },
-            "Organization": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Organization"}
-                ]
-              },
-              "title": "Organization"
-            },
-            "Service": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/Service"}
-                ]
-              },
-              "title": "Service"
+              "title": "Participant Structure"
             },
             "Role": {
               "type": [
@@ -4997,7 +4865,7 @@
               },
               "title": "Task"
             },
-            "TaskSC": {
+            "TaskStructure": {
               "type": [
                 "array",
                 "null"
@@ -5005,10 +4873,10 @@
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Task/properties/TaskSC"}
+                  {"$ref": "#/$defs/Task/properties/TaskStructure"}
                 ]
               },
-              "title": "TaskSC"
+              "title": "TaskStructure"
             },
             "Composition": {
               "type": [
@@ -5060,9 +4928,9 @@
                 "entityType": {
                   "enum": [
                     "Asset",
-                    "AssetSC",
+                    "AssetStructure",
                     "Infrastructure",
-                    "InfrastructureSC",
+                    "InfrastructureStructure",
                     "Character",
                     "Context",
                     "CreativeWork",
@@ -5078,14 +4946,11 @@
                     "ProductionScene",
                     "Slate",
                     "SpecialAction",
-                    "Department",
-                    "Organization",
                     "Participant",
-                    "Person",
+                    "ParticipantStructure",
                     "Role",
-                    "Service",
                     "Task",
-                    "TaskSC",
+                    "TaskStructure",
                     "Composition",
                     "Collection",
                     "Location",
@@ -5109,11 +4974,11 @@
               "if": {
                 "type": "object",
                 "properties": {
-                  "entityType": {"const": "AssetSC"}
+                  "entityType": {"const": "AssetStructure"}
                 },
                 "required": ["entityType"]
               },
-              "then": {"$ref": "#/$defs/Asset/properties/AssetSC"}
+              "then": {"$ref": "#/$defs/Asset/properties/AssetStructure"}
             },
             {
               "if": {
@@ -5129,11 +4994,11 @@
               "if": {
                 "type": "object",
                 "properties": {
-                  "entityType": {"const": "InfrastructureSC"}
+                  "entityType": {"const": "InfrastructureStructure"}
                 },
                 "required": ["entityType"]
               },
-              "then": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureSC"}
+              "then": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
             },
             {
               "if": {
@@ -5309,41 +5174,11 @@
               "if": {
                 "type": "object",
                 "properties": {
-                  "entityType": {"const": "Person"}
+                  "entityType": {"const": "ParticipantStructure"}
                 },
                 "required": ["entityType"]
               },
-              "then": {"$ref": "#/$defs/Participant/properties/Person"}
-            },
-            {
-              "if": {
-                "type": "object",
-                "properties": {
-                  "entityType": {"const": "Department"}
-                },
-                "required": ["entityType"]
-              },
-              "then": {"$ref": "#/$defs/Participant/properties/Department"}
-            },
-            {
-              "if": {
-                "type": "object",
-                "properties": {
-                  "entityType": {"const": "Organization"}
-                },
-                "required": ["entityType"]
-              },
-              "then": {"$ref": "#/$defs/Participant/properties/Organization"}
-            },
-            {
-              "if": {
-                "type": "object",
-                "properties": {
-                  "entityType": {"const": "Service"}
-                },
-                "required": ["entityType"]
-              },
-              "then": {"$ref": "#/$defs/Participant/properties/Service"}
+              "then": {"$ref": "#/$defs/Participant/properties/ParticipantStructure"}
             },
             {
               "if": {
@@ -5359,11 +5194,11 @@
               "if": {
                 "type": "object",
                 "properties": {
-                  "entityType": {"const": "TaskSC"}
+                  "entityType": {"const": "TaskStructure"}
                 },
                 "required": ["entityType"]
               },
-              "then": {"$ref": "#/$defs/Task/properties/TaskSC"}
+              "then": {"$ref": "#/$defs/Task/properties/TaskStructure"}
             },
             {
               "if": {
@@ -5503,42 +5338,6 @@
           ],
           "title": "Base Entity Properties",
           "description": "The set of base properties present on all entities"
-        },
-        "baseVersion": {
-          "type": [
-            "object",
-            "null"
-          ],
-          "title": "Version Information",
-          "description": "The base properties that describe a version of something (Asset or Composition).",
-          "properties": {
-            "versionNumber": {
-              "type": [
-                "string",
-                "number",
-                "null"
-              ],
-              "title": "Version Number",
-              "description": "A designation indicating a place in a sequence of versions"
-            },
-            "name": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "A name for this specific version of the Asset"
-            },
-            "description": {
-              "title": "Asset description",
-              "description": "A human readable description of the version",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "annotation": {"$ref": "#/$defs/Utility/properties/annotation"},
-            "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-          }
         },
         "edges": {
           "type": "object",
@@ -5751,14 +5550,14 @@
                     ]
                   }
                 },
-                "AssetSC": {
+                "AssetStructure": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/AssetSC"},
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }

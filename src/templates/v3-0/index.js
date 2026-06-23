@@ -34,9 +34,9 @@ import { inverseEdges } from './inverseEdges.js';
 import { buildEdgeTable } from './buildEdgeTable.js';
 
 import Asset from './asset/Asset.js';
-import AssetSC from './asset/AssetSC.js';
+import AssetStructure from './asset/AssetStructure.js';
 import Infrastructure from './infrastructure/Infrastructure.js';
-import InfrastructureSC from './infrastructure/InfrastructureSC.js';
+import InfrastructureStructure from './infrastructure/InfrastructureStructure.js';
 import Character from './mediaCreation/Character.js';
 import Context from './mediaCreation/Context.js';
 import CreativeWork from './mediaCreation/CreativeWork.js';
@@ -56,11 +56,12 @@ import SpecialAction from './mediaCreation/SpecialAction.js';
 import Department from './participant/Department.js';
 import Organization from './participant/Organization.js';
 import Participant from './participant/Participant.js';
+import ParticipantStructure from './participant/ParticipantStructure.js';
 import Person from './participant/Person.js';
 import Role from './participant/Role.js';
 import Service from './participant/Service.js';
 import Task from './task/Task.js';
-import TaskSC from './task/TaskSC.js';
+import TaskStructure from './task/TaskStructure.js';
 import Collection from './utility/Collection.js';
 import Composition from './utility/Composition.js';
 import Location from './utility/Location.js';
@@ -69,7 +70,7 @@ import { baseEntity } from './utility/utility.js';
 
 const omcTemplate = {
     Asset,
-    AssetSC,
+    AssetStructure,
     Character,
     CreativeWork,
     Context,
@@ -87,15 +88,16 @@ const omcTemplate = {
     Slate,
     SpecialAction,
     Participant,
+    ParticipantStructure,
     Organization,
     Department,
     Person,
     Service,
     Role,
     Infrastructure,
-    InfrastructureSC,
+    InfrastructureStructure,
     Task,
-    TaskSC,
+    TaskStructure,
     Collection,
     Composition,
     Location,

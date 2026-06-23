@@ -41,17 +41,17 @@ export const generalConfig = {
             ],
         },
     },
-    AssetSC: {
+    AssetStructure: {
         group: 'Asset',
-        idPrefix: 'astsc',
+        idPrefix: 'asts',
         presentation: {
             entityColor: '#C39BD3',
-            entityLabel: 'Asset SC',
+            entityLabel: 'Asset Structure',
             entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#C39BD3',
                 fontColor: '#000',
-                entityLabel: 'Asset SC',
+                entityLabel: 'Asset Structure',
                 entityLabelSuffix: () => '',
             },
             propRows: [
@@ -345,7 +345,7 @@ export const generalConfig = {
     },
     Participant: {
         group: 'Participant',
-        idPrefix: 'prpt',
+        idPrefix: 'prt',
         presentation: {
             entityColor: '#F9EBEA',
             entityLabel: 'Participant',
@@ -360,6 +360,24 @@ export const generalConfig = {
                 'label',
                 (e) => ({ jobTitle: e.participantFC?.jobTitle || 'N/A' }),
             ],
+        },
+    },
+    ParticipantStructure: {
+        group: 'Participant',
+        idPrefix: 'prts',
+        presentation: {
+            entityColor: '#E6B0AA',
+            entityLabel: 'Participant Structure',
+            entityLabelSuffix: () => '',
+            // icon: PersonIcon,
+            header: {
+                backgroundColor: '#E6B0AA',
+                fontColor: '#000',
+                entityLabel: 'Participant Structure',
+                entityLabelSuffix: () => '',
+                // icon: PersonIcon,
+            },
+            propRows: ['label', identifier],
         },
     },
     Person: {
@@ -470,17 +488,17 @@ export const generalConfig = {
             ],
         },
     },
-    InfrastructureSC: {
+    InfrastructureStructure: {
         group: 'Infrastructure',
-        idPrefix: 'inf',
+        idPrefix: 'infs',
         presentation: {
             entityColor: '#F0B27A',
-            entityLabel: 'InfrastructureSC',
+            entityLabel: 'Infrastructure Structure',
             entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#F0B27A',
                 fontColor: '#000',
-                entityLabel: 'InfrastructureSC',
+                entityLabel: 'Infrastructure Structure',
                 entityLabelSuffix: () => '',
             },
             propRows: [
@@ -505,17 +523,17 @@ export const generalConfig = {
             propRows: ['label', identifier],
         },
     },
-    TaskSC: {
+    TaskStructure: {
         group: 'Task',
-        idPrefix: 'tsksc',
+        idPrefix: 'tsks',
         presentation: {
             entityColor: '#f7dc6f',
-            entityLabel: 'TaskSC',
+            entityLabel: 'Task Structure',
             entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#f7dc6f',
                 fontColor: '#000',
-                entityLabel: 'TaskSC',
+                entityLabel: 'Task Structure',
                 entityLabelSuffix: () => '',
             },
             propRows: ['label', identifier],
