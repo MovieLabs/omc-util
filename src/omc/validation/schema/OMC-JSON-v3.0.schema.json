@@ -1267,20 +1267,6 @@
               "title": "Infrastructure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "Member": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Infrastructure Group Member",
-              "description": "The set of Infrastructure that make up the members of an infrastructure group.",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
-                ]
-              }
-            },
             "InfrastructureStructure": {
               "title": "Structure",
               "type": [
@@ -1359,7 +1345,23 @@
                 "null"
               ],
               "title": "Infrastructure Structure Properties",
-              "description": "A set of properties that describe the infrastructure in this form"
+              "description": "A set of properties that describe the infrastructure in this form",
+              "properties": {
+                "Member": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "title": "Infrastructure Group Member",
+                  "description": "The set of Infrastructure that make up the members of an infrastructure group.",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
+                    ]
+                  }
+                }
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2611,6 +2613,10 @@
                   "description": "A description of any software that might be connected to a Service.",
                   "$ref": "#/$defs/Utility/properties/software"
                 },
+                "contact": {
+                  "$ref": "#/$defs/Utility/properties/contact",
+                  "title": "Participant Contact"
+                },
                 "Member": {
                   "type": [
                     "array",
@@ -2624,10 +2630,6 @@
                       {"$ref": "#/$defs/Participant/properties/Participant"}
                     ]
                   }
-                },
-                "contact": {
-                  "$ref": "#/$defs/Utility/properties/contact",
-                  "title": "Participant Contact"
                 },
                 "Location": {
                   "type": [
@@ -2745,10 +2747,7 @@
                     "null"
                   ],
                   "title": "Functional Properties",
-                  "description": "A set of properties that describe the tasks functional use",
-                  "properties": {
-                    "customData": {"$ref": "#/$defs/Utility/properties/customData"}
-                  }
+                  "description": "A set of properties that describe the tasks functional use"
                 }
               },
               "type": [

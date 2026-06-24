@@ -12,6 +12,26 @@ import { deepMerge } from '../omcMerge.js';
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
 const labelDefault = 'N/A';
 
+const edgeTargetRename = {
+    Depiction: 'Realization',
+    AssetSC: 'AssetStructure',
+    InfrastructureSC: 'InfrastructureStructure',
+    ParticipantSC: 'ParticipantStructure',
+    TaskSC: 'TaskStructure',
+};
+
+// For a given set of targets for an edge, replace the old name with the new one.
+const renameTarget = ((edge) => {
+    Object.keys(edge).forEach((key) => {
+        if (edgeTargetRename[key]) {
+            const newTarget = edgeTargetRename[key];
+            edge[newTarget] = edge[key];
+            delete edge[key];
+        }
+    });
+    return edge;
+});
+
 const cxtEdges = ((cxt) => {
     const {
         schemaVersion: _sv,
@@ -30,6 +50,7 @@ const cxtEdges = ((cxt) => {
         For: _for,
         ...edges
     } = cxt;
+    Object.keys(edges).forEach((predicate) => renameTarget(edges[predicate])); // For each predicate, check if targets need renaming
     return edges;
 });
 
@@ -310,11 +331,9 @@ export default {
         const {
             name = false,
             compositionType = 'composition', // Required property
-            provenance = false,
+            provenance: _provenance, // Remove
             ...rest
         } = cxtUpdate;
-
-        const Provenance = migrateProvenance(provenance);
 
         return {
             ...rest,
@@ -322,17 +341,23 @@ export default {
             compositionType,
             label: name || labelDefault,
             ...(name !== false && { compositionName: migrateName(name) }),
-            // ...(Provenance !== false && { Provenance }),
         };
     },
     Context: (omc) => {
-        const cxtUpdate = { ...setEdgesFromContext(omc) };
+        // const cxtUpdate = { ...setEdgesFromContext(omc) };
+
 
         const {
             name = false,
             contextType = 'context', // Required property
+            ForEntity: _ForEntity, // Remove,
+            For: _For, // Remove
             ...rest
-        } = cxtUpdate;
+        } = omc;
+
+        // Separate the edges and remove them from top level
+        const edges = cxtEdges(omc);
+        Object.keys(edges).forEach((key) => delete rest[key]);
 
         return {
             ...rest,
@@ -340,6 +365,7 @@ export default {
             contextType,
             label: name || labelDefault,
             ...(name !== false && { contextName: migrateName(name) }),
+            edges,
         };
     },
     CreativeWork: (omc) => {
