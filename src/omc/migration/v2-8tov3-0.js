@@ -232,6 +232,7 @@ export default {
             assetFC = {}, // Internally restructured, this has a required property so must not be null
             version = false, // Becomes versionInfo
             provenance = false, // Becomes and entity
+            edges = {}, // Gets a Provenance edge
             ...rest
         } = intUpdate;
 
@@ -247,7 +248,11 @@ export default {
         const assetName = migrateName(name); // Reformat the name property
         const AssetStructure = AssetSC ? makeArray(AssetSC) : AssetSC; // Wrap in array
         const versionInfo = migrateVersion(version);
-        const Provenance = migrateProvenance(provenance); // Migrate provenance
+        const Provenance = migrateProvenance(provenance); // Migrate provenance and make an edge
+        edges.has = {
+            ...edges.has,
+            Provenance,
+        };
 
         return {
             ...rest,
@@ -257,7 +262,7 @@ export default {
             ...(AssetStructure !== false && { AssetStructure }),
             assetFunction,
             ...(versionInfo !== false && { versionInfo }),
-            ...(Provenance !== false && { Provenance }),
+            edges,
         };
     },
     AssetSC: (omc) => {
@@ -267,14 +272,19 @@ export default {
             name = false, // Becomes assetStructureName
             provenance = false, // Becomes Provenance entity
             version = false, // Becomes versionInfo
-            structuralType = null, // Becomes assetStructureType, now required
+            structuralType = 'assetStructure', // Becomes assetStructureType, now required
             structuralProperties = false, // assetStructureProperties
+            edges = {}, // Gets a Provenance edge
             ...rest
         } = cxtUpdate;
 
         const assetStructureName = migrateName(name);
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance);
+        edges.has = {
+            ...edges.has,
+            Provenance,
+        };
 
         return {
             ...rest,
@@ -286,6 +296,7 @@ export default {
             ...(structuralProperties !== false && { assetStructureProperties: structuralProperties }),
             ...(versionInfo !== false && { versionInfo }),
             ...(Provenance !== false && { Provenance }),
+            edges,
         };
     },
     Character: (omc) => {
@@ -345,8 +356,6 @@ export default {
     },
     Context: (omc) => {
         // const cxtUpdate = { ...setEdgesFromContext(omc) };
-
-
         const {
             name = false,
             contextType = 'context', // Required property
@@ -491,7 +500,7 @@ export default {
 
         const {
             name = false,
-            structuralType = null, // Becomes infrastructureStructure, required property
+            structuralType = 'infrastructureStructure', // Becomes infrastructureStructure, required property
             structuralProperties = false,
             ...rest
         } = cxtUpdate;
@@ -784,6 +793,7 @@ export default {
         return {
             ...rest,
             schemaVersion,
+            roleType: 'role',
             label: name || labelDefault,
             ...(name !== false && { roleName: migrateName(name) }),
         };
@@ -829,6 +839,7 @@ export default {
             ...rest,
             schemaVersion,
             label: name || labelDefault,
+            ...(name !== false && { slateName: migrateName(name) }),
             ...(CreativeWork !== false && { CreativeWork: migrateShape(CreativeWork) }),
         };
     },
@@ -883,7 +894,7 @@ export default {
 
         const {
             name = false,
-            structuralType = null, // required property
+            structuralType = 'taskStructure', // required property
             structuralProperties,
             ...rest
         } = cxtUpdate;

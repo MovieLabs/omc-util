@@ -160,11 +160,10 @@
               ],
               "properties": {
                 "assetFunctionType": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": "string",
+                  "default": "assetFunction",
                   "x-controlledValues": [
+                    "assetFunction",
                     "artwork",
                     "artwork.animatedStoryboard",
                     "artwork.conceptArt",
@@ -251,25 +250,13 @@
                     "soundfield": {"$ref": "#/$defs/Utility/properties/soundfield"},
                     "timing": {"$ref": "#/$defs/Asset/properties/Asset/$defs/timing"},
                     "udimTileNumber": {"$ref": "#/$defs/Asset/properties/Asset/$defs/udimTileNumber"}
-                  }
+                  },
+                  "additionalProperties": true
                 }
               },
               "title": "Asset Function"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "Provenance": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Provenance"}
-                ]
-              },
-              "title": "Provenance"
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "$defs": {
@@ -964,13 +951,12 @@
               "unevaluatedProperties": false
             },
             "assetStructureType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
               "title": "Asset Structure Type",
               "description": "A canonical description of the the assets form.",
+              "default": "assetStructure",
               "x-controlledValues": [
+                "assetStructure",
                 "assetGroup",
                 "digital",
                 "digital.audio",
@@ -1035,7 +1021,7 @@
                   }
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": true
             },
             "isAnalog": {
               "type": [
@@ -1064,19 +1050,6 @@
                 ]
               }
             },
-            "Provenance": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Provenance"}
-                ]
-              },
-              "title": "Provenance"
-            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
@@ -1092,7 +1065,10 @@
               ],
               "properties": {
                 "isOrdered": {
-                  "type": ["boolean"]
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
                 }
               },
               "title": "Asset Group",
@@ -1289,10 +1265,9 @@
               "title": "Infrastructure Function",
               "properties": {
                 "infrastructureFunctionType": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": "string",
+                  "default": "infrastructureFunction",
+                  "x-controlledValues": ["infrastructureFunction"],
                   "title": "Infrastructure Function Type",
                   "description": "The use or purpose of an Infrastructure within the production process."
                 },
@@ -1302,7 +1277,8 @@
                     "null"
                   ],
                   "title": "Infrastructure Function Properties",
-                  "description": "A set of properties that describe the infrastructure's functional use"
+                  "description": "A set of properties that describe the infrastructure's functional use",
+                  "additionalProperties": true
                 }
               },
               "additionalProperties": false,
@@ -1332,12 +1308,11 @@
               "$ref": "#/$defs/Utility/properties/basicName"
             },
             "infrastructureStructureType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
               "title": "Infrastructure Structure Type",
-              "description": "A structured description of the the Infrastructures form"
+              "description": "A structured description of the the Infrastructures form",
+              "default": "infrastructureStructure",
+              "x-controlledValues": ["infrastructureStructure"]
             },
             "infrastructureStructureProperties": {
               "type": [
@@ -1361,11 +1336,15 @@
                     ]
                   }
                 }
-              }
+              },
+              "additionalProperties": true
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
-          "required": ["entityType"],
+          "required": [
+            "entityType",
+            "infrastructureStructureType"
+          ],
           "description": "Describes the form of the Infrastructure along with the attributes specific to that infrastructure's form",
           "unevaluatedProperties": false
         }
@@ -1389,10 +1368,11 @@
               "const": "Character"
             },
             "characterType": {
-              "title": "characterType",
+              "title": "Character Type",
               "description": "Describes the specific type of Character, equivalent to the sub-class used in OMC-RDF.",
+              "type": "string",
               "default": "character",
-              "enum": [
+              "x-controlledValues": [
                 "character",
                 "extra"
               ]
@@ -1509,18 +1489,11 @@
               "const": "Context"
             },
             "contextType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
               "title": "Context Type",
               "description": "A classification of the type of context represented",
-              "x-controlledValues": [
-                "narrative",
-                "production",
-                "shootDay",
-                "concept"
-              ]
+              "default": "context",
+              "x-controlledValues": ["context"]
             },
             "contextName": {
               "title": "Context Name",
@@ -1544,7 +1517,8 @@
               ],
               "properties": {
                 "shootDay": {"$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"}
-              }
+              },
+              "additionalProperties": true
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1591,13 +1565,19 @@
             },
             "creativeWorkType": {
               "default": "creativeWork",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "creativeWork",
                 "series",
                 "season",
                 "episode"
               ],
-              "title": "Creative Work Type"
+              "title": "Creative Work Type",
+              "description": "A classification of the type of creative work represented"
+            },
+            "creativeWorkName": {
+              "title": "Creative Work Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "creativeWorkProperties": {
               "type": [
@@ -1606,7 +1586,103 @@
               ],
               "title": "Creative Work Properties",
               "description": "Properties specific to Creative Work sub-types",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "properties": {
+                "seasonNumber": {
+                  "type": [
+                    "string",
+                    "number",
+                    "null"
+                  ],
+                  "title": "Season Number"
+                },
+                "Series": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
+                    ]
+                  },
+                  "title": "Series",
+                  "description": "Series to which this Creative Work belongs"
+                },
+                "Episode": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
+                    ]
+                  },
+                  "title": "Episode",
+                  "description": "Episodes that belong to this Series or Season described by the instance Creative Work"
+                },
+                "Season": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
+                    ]
+                  },
+                  "title": "Season",
+                  "description": "Seasons to which this instance of Episode belongs, or that are part are part of this instance of Series."
+                },
+                "episodeSequence": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "houseSequence": {
+                      "type": [
+                        "string",
+                        "number",
+                        "null"
+                      ],
+                      "title": "House Sequence",
+                      "description": "The internal Episode number assigned by the producer or commissioning broadcaster."
+                    },
+                    "distributionNumber": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": [
+                              "string",
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "domain": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "title": "Distribution Number",
+                      "description": "The position number of the Episode within its parent Season (or parent Series, if the Episode is directly in a Series) during initial broadcast or distribution."
+                    }
+                  },
+                  "title": "Episode Sequence"
+                }
+              }
             },
             "creativeWorkCategory": {
               "enum": [
@@ -1618,58 +1694,6 @@
               ],
               "title": "Creative Work Category",
               "description": "The type or form of a Creative Work."
-            },
-            "seasonNumber": {
-              "type": [
-                "string",
-                "number",
-                "null"
-              ],
-              "title": "Season Number"
-            },
-            "episodeSequence": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "houseSequence": {
-                  "type": [
-                    "string",
-                    "number",
-                    "null"
-                  ],
-                  "title": "House Sequence",
-                  "description": "The internal Episode number assigned by the producer or commissioning broadcaster."
-                },
-                "distributionNumber": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "type": [
-                          "string",
-                          "number",
-                          "null"
-                        ]
-                      },
-                      "domain": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      }
-                    }
-                  },
-                  "title": "Distribution Number",
-                  "description": "The position number of the Episode within its parent Season (or parent Series, if the Episode is directly in a Series) during initial broadcast or distribution."
-                }
-              },
-              "title": "Episode Sequence"
             },
             "creativeWorkTitle": {
               "type": [
@@ -1696,7 +1720,8 @@
                   },
                   "titleLanguage": {"$ref": "#/$defs/Utility/properties/language"}
                 }
-              }
+              },
+              "title": "Creative Work Title"
             },
             "approximateLength": {
               "title": "Approximate Length",
@@ -1719,48 +1744,6 @@
               "title": "Country Of Origin",
               "items": {"$ref": "#/$defs/Utility/properties/country"},
               "description": "The home country of the companies that had primary creative control of the creation of the Creative Work, generally the producers."
-            },
-            "Series": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-                ]
-              },
-              "title": "Series",
-              "description": "Series to which this Creative Work belongs"
-            },
-            "Season": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-                ]
-              },
-              "title": "Season",
-              "description": "Seasons to which this instance of Episode belongs, or that are part are part of this instance of Series."
-            },
-            "Episode": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-                ]
-              },
-              "title": "Episode",
-              "description": "Episodes that belong to this Series or Season described by the instance Creative Work"
             },
             "ProductionCompany": {
               "type": [
@@ -1800,7 +1783,8 @@
               "title": "Realization type",
               "description": "A categorization of the type of realization",
               "default": "realization",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "realization",
                 "depiction",
                 "portrayal",
@@ -1829,7 +1813,8 @@
                       {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
                       {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
                       {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"}
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"}
                     ]
                   }
                 },
@@ -1843,7 +1828,8 @@
                       {"$ref": "#/$defs/core/properties/reference"},
                       {"$ref": "#/$defs/Asset/properties/Asset"},
                       {"$ref": "#/$defs/Participant/properties/Participant"},
-                      {"$ref": "#/$defs/Utility/properties/Composition"}
+                      {"$ref": "#/$defs/Utility/properties/Composition"},
+                      {"$ref": "#/$defs/Task/properties/Task"}
                     ]
                   }
                 }
@@ -1877,7 +1863,8 @@
               "title": "Effect Type",
               "description": "A categorization of the type of effect.",
               "default": "effect",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "effect",
                 "specialEffect",
                 "visualEffect"
@@ -1919,12 +1906,13 @@
             "narrativeAudioType": {
               "title": "Narrative Type (narrative audio)",
               "description": "Describes the specific type of Narrative Audio, equivalent to the sub-class used in OMC-RDF.",
-              "enum": [
+              "type": "string",
+              "default": "narrativeAudio",
+              "x-controlledValues": [
                 "narrativeAudio",
                 "narrativeMusic",
                 "narrativeSoundEffect"
-              ],
-              "default": "narrativeAudio"
+              ]
             },
             "narrativeAudioProperties": {
               "type": [
@@ -1960,7 +1948,8 @@
               "const": "NarrativeLocation"
             },
             "narrativeLocationType": {
-              "enum": ["narrativeLocation"],
+              "type": "string",
+              "x-controlledValues": ["narrativeLocation"],
               "title": "Narrative Type (narrative location)",
               "description": "Describes the specific type of Narrative Location, equivalent to the sub-class used in OMC-RDF.",
               "default": "narrativeLocation"
@@ -2014,7 +2003,8 @@
             "narrativeObjectType": {
               "title": "Narrative Type (narrative object)",
               "description": "Describes the specific type of Narrative Object, equivalent to the sub-class used in OMC-RDF.",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "narrativeObject",
                 "narrativeProp",
                 "narrativeGreenery",
@@ -2074,7 +2064,8 @@
             "narrativeSceneType": {
               "title": "Narrative Type (narrative scene)",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
-              "enum": ["narrativeScene"],
+              "type": "string",
+              "x-controlledValues": ["narrativeScene"],
               "default": "narrativeScene"
             },
             "narrativeSceneProperties": {
@@ -2127,7 +2118,8 @@
             "narrativeStylingType": {
               "title": "Narrative Type (narrative styling)",
               "description": "Describes the specific type of Narrative Styling, equivalent to the sub-class used in OMC-RDF.",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "narrativeStyling",
                 "narrativeHair",
                 "narrativeMakeup",
@@ -2169,9 +2161,10 @@
               "const": "NarrativeWardrobe"
             },
             "narrativeWardrobeType": {
-              "title": "Narrative Type (narrative wardrobe)",
+              "title": "Narrative Wardrobe Type (narrative wardrobe)",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
-              "enum": ["narrativeWardrobe"],
+              "type": "string",
+              "x-controlledValues": ["narrativeWardrobe"],
               "default": "narrativeWardrobe"
             },
             "narrativeWardrobeProperties": {
@@ -2209,11 +2202,13 @@
             },
             "productionLocationType": {
               "description": "Describes whether this is production location or more specifically a shooting location",
-              "enum": [
-                "production",
-                "shooting"
+              "type": "string",
+              "default": "productionLocation",
+              "x-controlledValues": [
+                "productionLocation",
+                "shootingLocation"
               ],
-              "default": "production"
+              "title": "Production Location Type"
             },
             "productionLocationProperties": {
               "type": [
@@ -2289,16 +2284,7 @@
               "title": "Scene Number",
               "description": "A number tied to a Slugline when a Script is locked"
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "productionSceneProperties": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "additionalProperties": true,
-              "title": "Production Scene Properties",
-              "description": "Properties specific to Production Scene sub-types"
-            }
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "Defined either by explicit divisions in the structure of the Script, e.g., by a Slugline, or by additional capture for use in the Creative Work that is not tied to any particular Scene in the Script.",
@@ -2315,13 +2301,10 @@
               "title": "Entity Type",
               "const": "Slate"
             },
-            "slateUID": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "Slate UID",
-              "description": "Slate Unique Identifier"
+            "slateName": {
+              "title": "Slate Name",
+              "$ref": "#/$defs/Utility/properties/basicName",
+              "description": "Slate unique name/identifier"
             },
             "cameraLabel": {
               "type": [
@@ -2424,7 +2407,8 @@
             "specialActionType": {
               "title": "Special Action Type",
               "description": "A categorization of the type action.",
-              "enum": [
+              "type": "string",
+              "x-controlledValues": [
                 "stunt",
                 "choreography",
                 "fight",
@@ -2439,10 +2423,6 @@
               "title": "Special Action Name",
               "$ref": "#/$defs/Utility/properties/narrativeName"
             },
-            "edges": {
-              "$ref": "#/$defs/core/properties/edges",
-              "title": "Edges"
-            },
             "specialActionProperties": {
               "type": [
                 "object",
@@ -2451,6 +2431,10 @@
               "additionalProperties": true,
               "title": "Special Action Properties",
               "description": "Properties specific to Special Action sub-types"
+            },
+            "edges": {
+              "$ref": "#/$defs/core/properties/edges",
+              "title": "Edges"
             }
           },
           "required": [
@@ -2509,10 +2493,9 @@
               "title": "Participant Function",
               "properties": {
                 "participantFunctionType": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": "string",
+                  "default": "participantFunction",
+                  "x-controlledValues": ["participantFunction"],
                   "title": "Functional Type"
                 },
                 "jobTitle": {
@@ -2575,13 +2558,12 @@
               ]
             },
             "participantStructureType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
               "title": "Participant Structure Type",
               "description": "A canonical description of the participant's form.",
+              "default": "participantStructure",
               "x-controlledValues": [
+                "participantStructure",
                 "person",
                 "department",
                 "organization",
@@ -2644,7 +2626,7 @@
                   }
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": true
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2673,10 +2655,9 @@
               "title": "Role Name"
             },
             "roleType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
+              "default": "role",
+              "x-controlledValues": ["role"],
               "title": "Role Type",
               "description": "The specific role, typically used in authorization systems",
               "$comment": "A set of controlled values is planned for a future release"
@@ -2689,9 +2670,13 @@
               "additionalProperties": true,
               "title": "Role Properties",
               "description": "Properties specific to Role sub-types"
-            }
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
-          "required": ["entityType"],
+          "required": [
+            "entityType",
+            "roleType"
+          ],
           "title": "Role",
           "description": "A set of properties that define the role of a participant within the production",
           "unevaluatedProperties": false
@@ -2734,10 +2719,9 @@
               "title": "Task Function",
               "properties": {
                 "taskFunctionType": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": "string",
+                  "default": "taskFunction",
+                  "x-controlledValues": ["taskFunction"],
                   "title": "Functional Type",
                   "description": "The use or purpose of a Task within the production process."
                 },
@@ -2775,10 +2759,9 @@
               "const": "TaskStructure"
             },
             "taskStructureType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
+              "default": "taskStructure",
+              "x-controlledValues": ["taskStructure"],
               "title": "Task Structure Type",
               "description": "A structured description of the the Tasks form"
             },
@@ -2808,11 +2791,15 @@
                     ]
                   }
                 }
-              }
+              },
+              "additionalProperties": true
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
-          "required": ["entityType"],
+          "required": [
+            "entityType",
+            "taskStructureType"
+          ],
           "description": "Describes the form of Task along with the attributes specific to that task’s form",
           "unevaluatedProperties": false
         }
@@ -2834,10 +2821,8 @@
               "const": "Collection"
             },
             "collectionType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
+              "default": "collection",
               "title": "Collection Type",
               "description": "The type, or sub-class, of this specific Collection.",
               "x-controlledValues": ["collection"]
@@ -2852,7 +2837,8 @@
                 "null"
               ],
               "title": "Collection Properties",
-              "description": "Properties specific to Collection sub-types"
+              "description": "Properties specific to Collection sub-types",
+              "additionalProperties": true
             },
             "includes": {
               "oneOf": [
@@ -2862,7 +2848,9 @@
                   "type": "array",
                   "items": {"$ref": "#/$defs/core/properties/rootEntity"}
                 }
-              ]
+              ],
+              "title": "Includes",
+              "description": "The things in this collection"
             },
             "software": {
               "title": "Software",
@@ -2892,13 +2880,12 @@
               "const": "Composition"
             },
             "compositionType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": "string",
               "title": "Composition Type",
               "description": "The type, or sub-class, that this specific Composition represents.",
+              "default": "composition",
               "x-controlledValues": [
+                "composition",
                 "audio",
                 "audio.bed",
                 "audio.preMix",
@@ -2936,7 +2923,8 @@
                 "scale": {"$ref": "#/$defs/Utility/properties/scale"},
                 "soundfield": {"$ref": "#/$defs/Utility/properties/soundfield"}
               },
-              "description": "Properties specific to Composition sub-types"
+              "description": "Properties specific to Composition sub-types",
+              "additionalProperties": true
             },
             "includes": {
               "type": [
@@ -2980,7 +2968,9 @@
                     ]
                   }
                 }
-              }
+              },
+              "title": "Includes",
+              "description": "The things in this composition"
             },
             "StartHere": {
               "type": [
@@ -3061,6 +3051,10 @@
               "title": "Entity Type",
               "const": "Provenance"
             },
+            "provenanceName": {
+              "title": "Provenance Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "CreatedBy": {
               "type": [
                 "array",
@@ -3072,9 +3066,14 @@
                   {"$ref": "#/$defs/core/properties/reference"},
                   {"$ref": "#/$defs/Participant/properties/Participant"}
                 ]
-              }
+              },
+              "title": "The entity that created, modified, etc. this thing."
             },
-            "createdOn": {"$ref": "#/$defs/Utility/properties/time/properties/dateTime"},
+            "createdOn": {
+              "$ref": "#/$defs/Utility/properties/time/properties/dateTime",
+              "title": "Created On",
+              "description": "When it was made or done."
+            },
             "Role": {
               "type": [
                 "array",
@@ -3099,13 +3098,17 @@
                   {"$ref": "#/$defs/core/properties/reference"},
                   {"$ref": "#/$defs/Asset/properties/Asset"}
                 ]
-              }
+              },
+              "title": "Origin",
+              "description": "A relationship to something with an identifier, or a URI for the source, or a  some string explaining the origin of the thing."
             },
             "reason": {
               "type": [
                 "string",
                 "null"
-              ]
+              ],
+              "title": "Reason",
+              "description": "Why it was done"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -5338,46 +5341,6 @@
           "title": "Edges",
           "description": "The set of allowed edges",
           "properties": {
-            "contributor": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Participant": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Participant/properties/Participant"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "contributesTo": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "CreativeWork": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
             "features": {
               "type": [
                 "object",
@@ -5752,6 +5715,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Provenance": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Utility/properties/Provenance"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6366,350 +6341,6 @@
                 }
               }
             },
-            "hasCxt": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Context": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "cxtFor": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Context": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Character": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "SpecialAction": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeAudio": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Effect": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Effect"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeLocation": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeObject": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeStyling": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeWardrobe": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "CreativeWork": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Participant": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Participant/properties/Participant"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Asset": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Composition": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Realization": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Infrastructure": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "ProductionLocation": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionLocation"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "ProductionScene": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "depicts": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Character": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeLocation": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeObject": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeStyling": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeWardrobe": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "depictedBy": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Participant": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Participant/properties/Participant"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Asset": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Composition": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
             "informs": {
               "type": [
                 "object",
@@ -6751,7 +6382,7 @@
               }
             }
           },
-          "additionalProperties": false
+          "additionalProperties": true
         }
       },
       "additionalProperties": false,
