@@ -249,10 +249,12 @@ export default {
         const AssetStructure = AssetSC ? makeArray(AssetSC) : AssetSC; // Wrap in array
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance); // Migrate provenance and make an edge
-        edges.has = {
-            ...edges.has,
-            Provenance,
-        };
+        if (Provenance) {
+            edges.has = {
+                ...edges.has,
+                Provenance,
+            };
+        }
 
         return {
             ...rest,
@@ -281,10 +283,12 @@ export default {
         const assetStructureName = migrateName(name);
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance);
-        edges.has = {
-            ...edges.has,
-            Provenance,
-        };
+        if (Provenance) {
+            edges.has = {
+                ...edges.has,
+                Provenance,
+            };
+        }
 
         return {
             ...rest,
@@ -295,7 +299,6 @@ export default {
             assetStructureType: structuralType,
             ...(structuralProperties !== false && { assetStructureProperties: structuralProperties }),
             ...(versionInfo !== false && { versionInfo }),
-            ...(Provenance !== false && { Provenance }),
             edges,
         };
     },
@@ -831,6 +834,7 @@ export default {
 
         const {
             name = false,
+            slateUID = false, // Now lives in slateName
             CreativeWork = false, // Migrate shape
             ...rest
         } = cxtUpdate;
@@ -839,7 +843,7 @@ export default {
             ...rest,
             schemaVersion,
             label: name || labelDefault,
-            ...(name !== false && { slateName: migrateName(name) }),
+            ...(name !== false && { slateName: migrateName(slateUID) }),
             ...(CreativeWork !== false && { CreativeWork: migrateShape(CreativeWork) }),
         };
     },
