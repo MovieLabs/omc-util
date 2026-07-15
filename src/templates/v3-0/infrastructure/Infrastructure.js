@@ -13,27 +13,21 @@ export default {
     template: {
         ...baseEntity.template,
         infrastructureName: basicName.template,
-        infrastructureFC: {
-            functionalType: { $type: 'string' },
-            functionalProperties: { $type: 'string' },
-            // customData: null,
+        infrastructureFunction: {
+            infrastructureFunctionType: { $type: 'string', $default: 'infrastructureFunction' },
+            infrastructureFunctionProperties: { $type: 'object' },
         },
-        InfrastructureSC: {
-            $type: 'array',
-        },
-        Member: {
-            $type: 'array',
-        },
+        InfrastructureStructure: { $type: 'array' },
+        Member: { $type: 'array' },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             infrastructureName: basicName.graphQl.properties,
-            InfrastructureSC: null,
-            infrastructureFC: {
-                functionalType: null,
-                functionalProperties: null,
-                // customData: null,
+            InfrastructureStructure: null,
+            infrastructureFunction: {
+                infrastructureFunctionType: null,
+                infrastructureFunctionProperties: null,
             },
             Member: null,
         },

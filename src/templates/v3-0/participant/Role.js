@@ -12,7 +12,7 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        roleType: { $type: 'string' },
+        roleType: { $type: 'string', $default: 'role' },
     },
     graphQl: {
         properties: {

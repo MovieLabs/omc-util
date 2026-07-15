@@ -12,21 +12,16 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        locationType: {
-            $type: 'string',
-        },
+        productionLocationType: { $type: 'string', $default: 'productionLocation' },
+        productionLocationProperties: { $type: 'string' },
         productionLocationName: basicName.template,
-        // Depiction: {
-        //     $type: 'array',
-        // },
-        Location: {
-            $type: 'array',
-        },
+        Location: { $type: 'array' },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            locationType: null,
+            productionLocationType: null,
+            productionLocationProperties: null,
             productionLocationName: basicName.graphQl.properties,
             Location: null,
         },

@@ -14,22 +14,21 @@ export default {
     template: {
         ...baseEntity.template,
         provenanceName: basicName.template,
-        CreatedBy: {
-            $type: 'array',
-        },
-        createdOn: null,
-        Role: {
-            $type: 'array',
-        },
-        Origin: {
-            $type: 'array',
-        },
+        CreatedBy: { $type: 'array' },
+        createdOn: { $type: 'string' },
+        Role: { $type: 'array' },
+        Origin: { $type: 'array' },
         reason: null,
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             provenanceName: basicName.graphQl.properties,
+            CreatedBy: null,
+            createdOn: null,
+            Role: null,
+            Origin: null,
+            reason: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

@@ -237,7 +237,7 @@ export default {
         } = intUpdate;
 
         const {
-            functionalType = null, // Become assetFunctionType, now required
+            functionalType = 'assetFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
         } = assetFC;
         const assetFunction = {
@@ -481,7 +481,7 @@ export default {
         } = cxtUpdate;
 
         const {
-            functionalType = null, // Become assetFunctionType, now required
+            functionalType = 'infrastructureFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
         } = infrastructureFC;
         const infrastructureFunction = {
@@ -702,7 +702,7 @@ export default {
         } = intUpdate;
 
         const {
-            functionalType = null, // Become assetFunctionType, now required
+            functionalType = 'participantFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
         } = participantFC;
         const participantFunction = {
@@ -876,7 +876,7 @@ export default {
         } = cxtUpdate;
 
         const {
-            functionalType = null, // Become assetFunctionType, now required
+            functionalType = 'taskFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
         } = taskFC;
         const taskFunction = {

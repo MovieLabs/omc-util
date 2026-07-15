@@ -12,28 +12,21 @@ export default {
     template: {
         ...baseEntity.template,
         taskName: basicName.template,
-        TaskSC: {
-            $type: 'array',
+        TaskStructure: { $type: 'array' },
+        taskFunction: {
+            taskFunctionType: { $type: 'string', $default: 'taskFunction' },
+            taskFunctionProperties: { $type: 'string' },
         },
-        taskFC: {
-            functionalType: { $type: 'string' },
-            functionalProperties: { $type: 'string' },
-            customData: null,
-        },
-        Member: {
-            $type: 'array',
-        },
+        Member: { $type: 'array' },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             taskName: basicName.graphQl.properties,
-            Task: null,
-            TaskSC: null,
-            taskFC: {
-                functionalType: null,
-                functionalProperties: null,
-                customData: null,
+            TaskStructure: null,
+            taskFunction: {
+                taskFunctionType: null,
+                taskFunctionProperties: null,
             },
             Member: null,
         },
@@ -42,6 +35,5 @@ export default {
             taskName: basicName.graphQl.filter,
         },
         inlineFragment: null,
-        idPrefix: 'tsk',
     },
 };

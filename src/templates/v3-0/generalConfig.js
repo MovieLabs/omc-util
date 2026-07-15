@@ -37,7 +37,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ functionalType: e.assetFC?.functionalType || 'N/A' }),
+                (e) => ({ functionType: e.assetFunction?.assetFunctionType || 'N/A' }),
             ],
         },
     },
@@ -56,7 +56,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ structuralType: e.structuralType || 'N/A' }),
+                (e) => ({ structureType: e.assetStructureType || 'N/A' }),
             ],
         },
     },
@@ -358,7 +358,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ jobTitle: e.participantFC?.jobTitle || 'N/A' }),
+                (e) => ({ functionType: e?.participantFunction?.participantFunctionType || 'N/A' }),
             ],
         },
     },
@@ -377,7 +377,10 @@ export const generalConfig = {
                 entityLabelSuffix: () => '',
                 // icon: PersonIcon,
             },
-            propRows: ['label', identifier],
+            propRows: [
+                'label',
+                (e) => ({ structureType: e?.participantStructureType || 'N/A' }),
+            ],
         },
     },
     Person: {
@@ -484,7 +487,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ functionalType: e.infrastructureFC?.functionalType || 'N/A' }),
+                (e) => ({ functionType: e.infrastructureFunction?.infrastructureFunctionType || 'N/A' }),
             ],
         },
     },
@@ -503,7 +506,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ structuralType: e?.structuralType || 'N/A' }),
+                (e) => ({ structureType: e?.infrastructureStructureType || 'N/A' }),
             ],
         },
     },
@@ -520,7 +523,10 @@ export const generalConfig = {
                 entityLabel: 'Task',
                 entityLabelSuffix: () => '',
             },
-            propRows: ['label', identifier],
+            propRows: [
+                'label',
+                (e) => ({ functionType: e.taskFunction?.taskFunctionType || 'N/A' }),
+            ],
         },
     },
     TaskStructure: {
@@ -536,7 +542,10 @@ export const generalConfig = {
                 entityLabel: 'Task Structure',
                 entityLabelSuffix: () => '',
             },
-            propRows: ['label', identifier],
+            propRows: [
+                'label',
+                (e) => ({ structureType: e?.taskStructureType || 'N/A' }),
+            ],
         },
     },
     Collection: {

@@ -13,20 +13,20 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        compositionName: basicName.template,
+        locationName: basicName.template,
         address: null,
         coordinates: null,
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            compositionName: basicName.graphQl.properties,
+            locationName: basicName.graphQl.properties,
             address: null,
             coordinates: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            compositionName: basicName.graphQl.filter,
+            locationName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

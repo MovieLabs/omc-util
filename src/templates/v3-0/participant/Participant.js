@@ -16,7 +16,7 @@ export default {
             $type: 'array',
         },
         participantFC: {
-            functionalType: { $type: 'string' },
+            participantFunctionType: { $type: 'string', $default: 'participantFunction' },
             jobTitle: { $type: 'string' },
             Role: {
                 $type: 'array',

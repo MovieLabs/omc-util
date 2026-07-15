@@ -149,22 +149,41 @@ export const baseEntity = {
     template: {
         schemaVersion: { $type: 'string' },
         identifier: {
-            identifierScope: { $type: 'string' },
-            identifierValue: { $type: 'string' },
+            $type: 'array',
+            $items: {
+                identifierScope: { $type: 'string' },
+                identifierValue: { $type: 'string' },
+                combinedForm: { $type: 'string' },
+                url: { $type: 'string' },
+            },
         },
         entityType: { $type: 'string' },
         label: { $type: 'string' },
         description: { $type: 'string' },
         annotation: {
-            author: { $type: 'string' },
-            title: { $type: 'string' },
-            text: { $type: 'string' },
+            $type: 'array',
+            $items: {
+                author: { $type: 'string' },
+                title: { $type: 'string' },
+                text: { $type: 'string' },
+            },
         },
         tag: {
-            domain: { $type: 'string' },
-            value: { $type: 'string' },
+            $type: 'array',
+            $items: {
+                domain: { $type: 'string' },
+                value: { $type: 'array', $items: { $type: 'string' } },
+            },
         },
-        customData: { $type: 'array' },
+        customData: {
+            $type: 'array',
+            $items: {
+                domain: { $type: 'string' },
+                namespace: { $type: 'string' },
+                schema: { $type: 'string' },
+                value: { $type: 'array' },
+            },
+        },
     },
     graphQl: {
         properties: {

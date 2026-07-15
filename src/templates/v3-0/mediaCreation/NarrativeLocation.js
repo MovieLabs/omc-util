@@ -12,13 +12,11 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        narrativeType: {
-            $type: 'string',
-        },
+        narrativeLocationType: { $type: 'string', $default: 'narrativeLocation' },
         narrativeLocationName: scriptName.template,
-        // Depiction: {
-        //     $type: 'array',
-        // },
+        narrativeLocationProperties: {
+            $type: 'object',
+        },
         Location: {
             $type: 'array',
         },
@@ -28,7 +26,7 @@ export default {
             ...baseEntity.graphQl.properties,
             narrativeType: null,
             narrativeLocationName: scriptName.graphQl.properties,
-            // Depiction: null,
+            narrativeLocationProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

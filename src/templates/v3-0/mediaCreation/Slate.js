@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Slate';
 const entityGeneral = generalConfig[entityType];
@@ -12,12 +12,8 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        slateUID: {
-            $type: 'string',
-        },
-        cameraLabel: {
-            $type: 'string',
-        },
+        slateName: basicName.template,
+        cameraLabel: { $type: 'string' },
         cameraUnit: {
             $type: 'string',
         },
@@ -37,7 +33,7 @@ export default {
             $type: 'string',
         },
         CreativeWork: {
-            $type: 'object',
+            $type: 'array',
         },
         Director: {
             $type: 'array',
@@ -46,7 +42,7 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            slateUID: null,
+            slateName: null,
             cameraLabel: null,
             cameraUnit: null,
             cameraRoll: null,
@@ -59,7 +55,10 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            slateUID: ['String'],
+            slateName: {
+                fullName: ['string'],
+                altName: ['string'],
+            },
         },
         inlineFragment: null,
     },

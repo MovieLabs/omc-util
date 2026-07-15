@@ -13,15 +13,9 @@ export default {
     template: {
         ...baseEntity.template,
         productionSceneName: basicName.template,
-        sceneHeader: {
-            $type: 'string',
-        },
-        sceneDescriptor: {
-            $type: 'string',
-        },
-        sceneNumber: {
-            $type: 'string',
-        },
+        sceneHeader: { $type: 'string' },
+        sceneDescriptor: { $type: 'string' },
+        sceneNumber: { $type: 'string' },
     },
     graphQl: {
         properties: {

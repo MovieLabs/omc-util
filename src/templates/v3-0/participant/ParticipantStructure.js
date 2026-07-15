@@ -12,7 +12,7 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        participantStructureType: { $type: 'string' },
+        participantStructureType: { $type: 'string', $default: 'participantStructure' },
         participantStructureName: {
             fullName: { $type: 'string' },
         },

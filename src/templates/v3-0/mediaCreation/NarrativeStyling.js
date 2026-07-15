@@ -12,24 +12,21 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        narrativeType: {
-            $type: 'string',
-        },
+        narrativeStylingType: { $type: 'string', $default: 'narrativeStyling' },
+        narrativeStylingProperties: { $type: 'string' },
         narrativeStylingName: basicName.template,
-        // Depiction: {
-        //     $type: 'array',
-        // },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeType: null,
+            narrativeStylingType: null,
+            narrativeStylingProperties: null,
             narrativeStylingName: basicName.graphQl.properties,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeType: 'string',
-            narrativeStyling: basicName.graphQl.filter,
+            narrativeStylingTypeType: 'string',
+            narrativeStylingName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

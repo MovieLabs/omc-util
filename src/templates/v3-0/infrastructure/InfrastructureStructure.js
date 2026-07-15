@@ -12,9 +12,9 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
+        infrastructureStructureType: { $type: 'string', $default: 'infrastructureStructure' },
         infrastructureStructureName: basicName.template,
-        infrastructureStructureType: null,
-        infrastructureStructureProperties: null,
+        infrastructureStructureProperties: { $type: 'object' },
     },
     graphQl: {
         properties: {

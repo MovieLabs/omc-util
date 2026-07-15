@@ -14,7 +14,6 @@ export default {
         taskStructureType: null,
         taskStructureName: basicName.template,
         taskStructureProperties: null,
-        customData: null,
     },
     graphQl: {
         properties: {
@@ -22,7 +21,6 @@ export default {
             taskStructureName: basicName.graphQl.properties,
             taskStructureType: null,
             taskStructureProperties: null,
-            customData: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
@@ -30,5 +28,4 @@ export default {
         },
         inlineFragment: null,
     },
-    idPrefix: 'tsks',
 };

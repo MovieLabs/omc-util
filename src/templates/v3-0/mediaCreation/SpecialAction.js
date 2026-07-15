@@ -12,15 +12,15 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        specialActionType: {
-            $type: 'string',
-        },
+        specialActionType: { $type: 'string', $default: 'specialAction' },
+        specialActionProperties: { $type: 'object' },
         specialActionName: basicName.template,
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             specialActionType: null,
+            specialActionProperties: null,
             specialActionName: basicName.graphQl.properties,
         },
         filter: {

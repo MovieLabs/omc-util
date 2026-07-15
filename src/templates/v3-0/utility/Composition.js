@@ -12,29 +12,42 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        compositionType: { $type: 'string' },
+        compositionType: { $type: 'string', $default: 'composition' },
         compositionName: basicName.template,
-        compositionProperties: { $type: 'object' },
-        software: { ...software.template },
+        compositionProperties: {
+            audioContent: {
+                $type: 'array',
+                $items: {
+                    mcaContent: { $type: 'string' },
+                    mcaContentSubtype: { $type: 'string' },
+                    language: { $type: 'string' },
+                },
+            },
+            boundingBox: {
+                corner1: { x: { $type: 'number' }, y: { $type: 'number' }, z: { $type: 'number' } },
+                corner2: { x: { $type: 'number' }, y: { $type: 'number' }, z: { $type: 'number' } },
+            },
+            coordinateOrientation: {
+                handedness: { $type: 'string' },
+                upAxis: { $type: 'string' },
+            },
+            levelOfDetail: { $type: 'number' },
+            materialType: { $type: 'string' },
+            purpose: { $type: 'string' },
+            scale: { $type: 'string' },
+            soundfield: { $type: 'string' },
+        },
+        software: { $type: 'array', $items: { ...software.template } },
         includes: {
-            Asset: {
-                $type: 'array',
-            },
-            AssetSC: {
-                $type: 'array',
-            },
-            Composition: {
-                $type: 'array',
-            },
+            Asset: { $type: 'array' },
+            AssetStructure: { $type: 'array' },
+            Composition: { $type: 'array' },
         },
         StartHere: {
-            $type: 'array',
+            Asset: { $type: 'array' },
+            AssetStructure: { $type: 'array' },
         },
-        Product: {
-            $type: 'array',
-        },
-        // version: null,
-        // provenance: null,
+        Product: { $type: 'array' },
     },
     graphQl: {
         properties: {
@@ -44,17 +57,17 @@ export default {
             compositionProperties: null,
             includes: {
                 Asset: null,
+                AssetStructure: null,
+                Composition: null,
             },
             software: software.graphQl.properties,
             StartHere: {
                 Asset: null,
-                AssetSC: null,
+                AssetStructure: null,
             },
             Product: {
                 Asset: null,
             },
-            // version: null,
-            // provenance: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

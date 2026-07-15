@@ -12,14 +12,12 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        assetStructureType: { $type: 'string' },
+        assetStructureType: { $type: 'string', $default: 'assetStructure' },
         assetStructureName: basicName.template,
         assetStructureProperties: { $type: 'object' },
         isAnalog: { $type: 'boolean' },
         software: software.template,
-        Carrier: null,
-        Provenance: { $type: 'array' },
-        // version: null,
+        Carrier: { $type: 'array' },
     },
     graphQl: {
         properties: {
@@ -30,8 +28,6 @@ export default {
             isAnalog: null,
             software: software.graphQl.properties,
             Carrier: null,
-            Provenance: null,
-            // version: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

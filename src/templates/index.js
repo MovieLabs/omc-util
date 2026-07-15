@@ -101,6 +101,7 @@
  * @typedef {Object} OmcTemplate
  * @memberOf namespace:OmcUtil
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
+ * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
  * @property {function(TemplateQuery): Presentation} presentation - Returns the presentation details for an entityType.
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
@@ -133,6 +134,9 @@ const omcTemplate = {
     )),
     presentation: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].presentation
+    )),
+    template: (({ schemaVersion, entityType }) => (
+        versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
     )),
     schemaGroup: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup

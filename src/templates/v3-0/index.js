@@ -122,11 +122,12 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
         presentation: omcTemplate[entityType].presentation,
         edgeTable: edgeTables[entityType] || { intrinsic: {}, edges: {}, cxtEdges: {} },
         graphQl: omcTemplate[entityType].graphQl,
+        template: omcTemplate[entityType].template,
     },
 }), {});
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
-entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
+entityTemplate.baseEntity = { graphQl: baseEntity.graphQl, template: baseEntity.template };
 
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;

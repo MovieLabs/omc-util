@@ -12,19 +12,11 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        narrativeType: {
-            $type: 'string',
-        },
+        narrativeObjectType: { $type: 'string', $default: 'narrativeObject' },
         narrativeObjectName: scriptName.template,
-        quantity: {
-            $type: 'string',
-        },
-        size: {
-            $type: 'string',
-        },
-        // Depiction: {
-        //     $type: 'array',
-        // },
+        quantity: { $type: 'string' },
+        size: { $type: 'string' },
+        narrativeObjectProperties: { $type: 'object' },
     },
     graphQl: {
         properties: {
@@ -33,7 +25,7 @@ export default {
             narrativeObjectName: scriptName.graphQl.filter,
             quantity: null,
             size: null,
-            // Depiction: null,
+            narrativeObjectProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

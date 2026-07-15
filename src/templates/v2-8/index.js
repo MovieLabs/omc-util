@@ -131,12 +131,13 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => {
             presentation: omcTemplate[entityType].presentation,
             edgeTable: { intrinsic, edges: {}, cxtEdges: cxtEdge },
             graphQl: omcTemplate[entityType].graphQl,
+            template,
         },
     };
 }, {});
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
-entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
+entityTemplate.baseEntity = { graphQl: baseEntity.graphQl, template: baseEntity.template };
 // console.log(entityTemplate);
 
 export {

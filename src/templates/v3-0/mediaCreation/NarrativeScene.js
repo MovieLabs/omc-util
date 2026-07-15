@@ -12,18 +12,24 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
+        narrativeSceneType: { $type: 'string', $default: 'narrativeScene' },
+        narrativeSceneProperties: { $type: 'object' },
         narrativeSceneName: scriptName.template,
-        sceneNumber: {
-            $type: 'string',
-        },
-        slugline: note.template,
-        Depiction: {
+        sceneNumber: { $type: 'string' },
+        slugline: {
             $type: 'array',
+            $items: {
+                author: { $type: 'string' },
+                title: { $type: 'string' },
+                text: { $type: 'string' },
+            },
         },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
+            narrativeSceneType: null,
+            narrativeSceneProperties: null,
             narrativeSceneName: scriptName.graphQl.properties,
             sceneNumber: null,
             slugline: note.graphQl.properties,

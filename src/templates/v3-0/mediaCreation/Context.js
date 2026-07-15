@@ -12,16 +12,10 @@ export default {
     ...entityGeneral,
     template: {
         ...baseEntity.template,
-        contextType: {
-            $type: 'string',
-        },
+        contextType: { $type: 'string', $default: 'context' },
         contextName: basicName.template,
-        contextCategory: {
-            $type: 'string',
-        },
-        contextProperties: {
-            $type: 'object',
-        },
+        contextCategory: { $type: 'string' },
+        contextProperties: { $type: 'object' },
     },
     graphQl: {
         properties: {

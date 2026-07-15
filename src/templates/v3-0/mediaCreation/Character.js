@@ -15,6 +15,7 @@ export default {
         ...baseEntity.template,
         characterType: {
             $type: 'string',
+            $default: 'character',
         },
         characterName: {
             ...completeName.template,
@@ -24,17 +25,36 @@ export default {
                 $validate: assertAllCaps,
             },
         },
-        // Missing interactsWithCharacter
-        // Depiction: {
-        //     $type: 'array',
-        // },
+        characterProperties: {
+            physicalCharacteristics: {
+                species: { $type: 'string' },
+                hairColor: { $type: 'string' },
+                hairLength: { $type: 'string' },
+                eyeColor: { $type: 'string' },
+                weight: { $type: 'string' },
+                height: { $type: 'string' },
+            },
+            quantity: { $type: 'number' },
+            gender: {
+                gender: { $type: 'string' },
+                genderPronoun: { $type: 'string' },
+            },
+            background: {
+                $type: 'array',
+                $items: {
+                    author: { $type: 'string' },
+                    title: { $type: 'string' },
+                    text: { $type: 'string' },
+                },
+            },
+        },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
             characterType: null,
             characterName: completeName.graphQl.properties,
-            // Depiction: null,
+            characterProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

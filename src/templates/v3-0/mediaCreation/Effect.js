@@ -12,8 +12,11 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        effectType: { $type: 'string' },
+        effectType: { $type: 'string', $default: 'effect' },
         effectName: scriptName.template,
+        effectProperties: {
+            $type: 'object',
+        },
     },
     graphQl: {
         properties: {
@@ -24,6 +27,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.filter,
             effectName: scriptName.graphQl.filter,
+            effectProperties: null,
         },
         inlineFragment: null,
     },

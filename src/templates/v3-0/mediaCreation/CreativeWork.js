@@ -14,6 +14,7 @@ export default {
         ...baseEntity.template,
         creativeWorkType: {
             $type: 'string',
+            $default: 'creativeWork',
         },
         creativeWorkCategory: {
             $type: 'string',
@@ -26,33 +27,31 @@ export default {
                 $type: 'string',
             },
             distributionNumber: {
-                value: {
-                    $type: 'string',
-                },
-                domain: {
-                    $type: 'string',
+                $type: 'array',
+                $items: {
+                    value: { $type: 'string' },
+                    domain: { $type: 'string' },
                 },
             },
         },
         title: {
-            titleName: {
-                $type: 'string',
-            },
-            titleType: {
-                $type: 'string',
-            },
-            titleLanguage: {
-                $type: 'string',
+            $type: 'array',
+            $items: {
+                titleName: { $type: 'string' },
+                titleType: { $type: 'string' },
+                titleLanguage: { $type: 'string' },
             },
         },
         approximateLength: {
             $type: 'string',
         },
         originalLanguage: {
-            $type: 'string',
+            $type: 'array',
+            $items: { $type: 'string' },
         },
         countryOfOrigin: {
-            $type: 'string',
+            $type: 'array',
+            $items: { $type: 'string' },
         },
         ProductionCompany: {
             type: 'array',

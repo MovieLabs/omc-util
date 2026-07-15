@@ -12,24 +12,21 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        narrativeType: {
-            $type: 'string',
-        },
+        narrativeWardrobeType: { $type: 'string', $default: 'narrativeWardrobe' },
+        narrativeWardrobeProperties: { $type: 'object'},
         narrativeWardrobeName: basicName.template,
-        // Depiction: {
-        //     $type: 'array',
-        // },
     },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeType: null,
+            narrativeWardrobeTypeType: null,
+            narrativeWardrobeProperties: null,
             narrativeWardrobeName: basicName.graphQl.properties,
         },
         filter: {
             ...baseEntity.graphQl.filter,
             narrativeWardrobeName: basicName.graphQl.filter,
-            narrativeType: 'string',
+            narrativeWardrobeType: 'string',
         },
         inlineFragment: null,
     },

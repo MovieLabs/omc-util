@@ -12,7 +12,7 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        collectionType: { $type: 'string' },
+        collectionType: { $type: 'string', $default: 'collection' },
         collectionName: basicName.template,
         collectionProperties: { $type: 'object' },
         software: software.template,
@@ -20,7 +20,7 @@ export default {
             Asset: {
                 $type: 'array',
             },
-            AssetSC: {
+            AssetStructure: {
                 $type: 'array',
             },
             Character: {
@@ -29,7 +29,7 @@ export default {
             CreativeWork: {
                 $type: 'array',
             },
-            Depiction: {
+            Realization: {
                 $type: 'array',
             },
             Effect: {
@@ -65,6 +65,9 @@ export default {
             Infrastructure: {
                 $type: 'array',
             },
+            InfrastructureStructure: {
+                $type: 'array',
+            },
             SpecialAction: {
                 $type: 'array',
             },
@@ -78,6 +81,9 @@ export default {
                 $type: 'array',
             },
             Participant: {
+                $type: 'array',
+            },
+            ParticipantStructure: {
                 $type: 'array',
             },
         },

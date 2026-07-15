@@ -12,15 +12,11 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        realizationType: { $type: 'string' },
+        realizationType: { $type: 'string', $default: 'realization' },
         realizationName: basicName.template,
         realizationProperties: {
-            RealizationOf: {
-                $type: 'array',
-            },
-            RealizationBy: {
-                $type: 'array',
-            },
+            RealizationOf: { $type: 'array' },
+            RealizationBy: { $type: 'array' },
         },
     },
     graphQl: {

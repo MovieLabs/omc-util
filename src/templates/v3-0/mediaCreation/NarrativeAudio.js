@@ -12,13 +12,11 @@ export default {
     ...entityGeneral, // Include the general properties
     template: {
         ...baseEntity.template,
-        narrativeType: {
-            $type: 'string',
-        },
+        narrativeAudioType: { $type: 'string', $default: 'narrativeAudio' },
         narrativeAudioName: scriptName.template,
-        // Depiction: {
-        //     $type: 'array',
-        // },
+        narrativeAudioProperties: {
+            $type: 'object',
+        },
     },
     graphQl: {
         properties: {
@@ -31,6 +29,7 @@ export default {
             ...baseEntity.graphQl.filter,
             narrativeType: 'string',
             narrativeAudioName: scriptName.graphQl.filter,
+            narrativeAudioProperties: null,
         },
         inlineFragment: null,
     },
