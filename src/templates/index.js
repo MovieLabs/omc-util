@@ -150,6 +150,37 @@ const omcTemplate = {
     template: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
     )),
+    /**
+     * Is `key` an entity reference (a relationship) rather than a data property?
+     *
+     * OMC names entity references with a capitalised key; data properties are
+     * camelCase. Consumers must ask this rather than re-implementing the convention —
+     * a local `/^[A-Z]/` or `str[0] === str[0].toUpperCase()` disagree on keys that
+     * start with a non-cased character, which silently misclassifies them.
+     *
+     * `entityType` / `schemaVersion` are accepted so the rule can later be refined per
+     * entity (e.g. driven off the edge table) without changing any call site.
+     *
+     * @param {object} params
+     * @param {string} params.key - A key from an entity or its shape template
+     * @returns {boolean}
+     */
+    isRelationshipKey: (({ key }) => isCapitalized(key)),
+    /**
+     * The shape of an entity reference — what a relationship actually stores.
+     *
+     * Mirrors the schema, where a reference is an object carrying the standard
+     * identifier array (`$defs/core/properties/reference`). Consumers should build
+     * their reference UI/paths from this instead of hardcoding `identifier[0].…`.
+     *
+     * @param {object} params
+     * @param {string} params.schemaVersion
+     * @returns {object|null} A shape template, e.g. `{ identifier: { $type:'array', $items:{…} } }`
+     */
+    referenceTemplate: (({ schemaVersion }) => {
+        const base = versionTemplates[schemaVersion]?.entityTemplate?.baseEntity?.template;
+        return base?.identifier ? { identifier: base.identifier } : null;
+    }),
     schemaGroup: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup
     )),
