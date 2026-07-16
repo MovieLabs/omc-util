@@ -127,4 +127,65 @@ export function buildMaxItemsIndex(schema) {
     return out;
 }
 
-export default { buildMaxItemsIndex };
+/**
+ * Return a copy of an entity shape template with `$maxItems` stamped onto every array
+ * node the schema caps.
+ *
+ * Always copies rather than mutating: sub-templates are shared object references across
+ * entities (e.g. a common `note` shape reused by several parents), so writing `$maxItems`
+ * in place would leak one parent's cap onto every other property sharing that object.
+ *
+ * Shape conventions (see the v3-0 entity templates):
+ *   - array  → `{ $type: 'array', $items?: … }`
+ *   - scalar → `{ $type: 'string' }`
+ *   - object → a plain object with no `$type`, whose keys are its children
+ *
+ * `$items` is descended WITHOUT extending the path, matching how buildMaxItemsIndex
+ * walks the schema's `items`: the path addresses the property, not an element index.
+ *
+ * @param {object} template - The entity's shape template
+ * @param {string} entityType - Used to key into the index
+ * @param {Map<string, number>} index - From {@link buildMaxItemsIndex}
+ * @returns {object} A stamped copy; the input is left untouched
+ */
+export function stampMaxItems(template, entityType, index, path = '', depth = 0) {
+    if (!isObject(template) || depth > MAX_DEPTH) return template;
+
+    const out = {};
+    Object.entries(template).forEach(([key, node]) => {
+        if (key.startsWith('$')) {
+            out[key] = node;
+            return;
+        }
+        const childPath = path ? `${path}.${key}` : key;
+        if (!isObject(node)) {
+            out[key] = node;
+            return;
+        }
+
+        if (node.$type === 'array') {
+            const cap = index.get(`${entityType}:${childPath}`);
+            out[key] = {
+                ...node,
+                ...(typeof cap === 'number' ? { $maxItems: cap } : {}),
+                // Element shape: keep the same path — `$items` describes the element, and
+                // the schema index addresses the property, not the index within it.
+                ...(isObject(node.$items)
+                    ? { $items: stampMaxItems(node.$items, entityType, index, childPath, depth + 1) }
+                    : {}),
+            };
+            return;
+        }
+
+        if (node.$type) {
+            out[key] = node; // scalar leaf
+            return;
+        }
+
+        out[key] = stampMaxItems(node, entityType, index, childPath, depth + 1);
+    });
+
+    return out;
+}
+
+export default { buildMaxItemsIndex, stampMaxItems };

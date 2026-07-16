@@ -32,6 +32,9 @@ import { graphQlSnippets } from './graphQlSnippets.js';
 import { inverseEdges } from './inverseEdges.js';
 // eslint-disable-next-line import/order
 import { buildEdgeTable } from './buildEdgeTable.js';
+import { maxItemsIndex } from './schemaIndex.js';
+
+import { stampMaxItems } from '../schemaFacts.js';
 
 import Asset from './asset/Asset.js';
 import AssetStructure from './asset/AssetStructure.js';
@@ -111,6 +114,9 @@ const omcTemplate = {
  * consolidated predicate definitions in edges.js (see buildEdgeTable.js) rather than
  * flattened out of the per-entity templates. Entries are keyed by their storage path.
  * Entity templates still supply idPrefix, schemaGroup, presentation and graphQl.
+ *
+ * Shape templates are stamped with `$maxItems` from the JSON Schema (see schemaFacts.js)
+ * so cardinality is never hand-authored alongside the shape, where it would drift.
  */
 const { table: edgeTables } = buildEdgeTable();
 
@@ -122,12 +128,15 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
         presentation: omcTemplate[entityType].presentation,
         edgeTable: edgeTables[entityType] || { intrinsic: {}, edges: {}, cxtEdges: {} },
         graphQl: omcTemplate[entityType].graphQl,
-        template: omcTemplate[entityType].template,
+        template: stampMaxItems(omcTemplate[entityType].template, entityType, maxItemsIndex),
     },
 }), {});
 
 // The graphQl table also needs access to the baseEntity, this is added as special case
-entityTemplate.baseEntity = { graphQl: baseEntity.graphQl, template: baseEntity.template };
+entityTemplate.baseEntity = {
+    graphQl: baseEntity.graphQl,
+    template: stampMaxItems(baseEntity.template, 'baseEntity', maxItemsIndex),
+};
 
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;

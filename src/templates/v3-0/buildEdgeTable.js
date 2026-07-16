@@ -26,12 +26,8 @@
  * @module buildEdgeTable
  */
 
-import schemav30 from '../../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
-import { buildMaxItemsIndex } from '../schemaFacts.js';
-
 import { edgeDefinitions, tentativeRdf } from './edges.js';
-
-const maxItemsIndex = buildMaxItemsIndex(schemav30);
+import { maxItemsIndex } from './schemaIndex.js';
 
 /**
  * Resolve an inverse predicate NAME to the inverse PATH on the target entity.
