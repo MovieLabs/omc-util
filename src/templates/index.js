@@ -164,6 +164,26 @@ const omcTemplate = {
         versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
     )),
     /**
+     * A schema version's human-readable label, e.g. 'v3.0' for
+     * 'https://movielabs.com/omc/json/schema/v3.0'.
+     *
+     * Consumers display the version in status lines and warnings, and were each
+     * slicing the URL themselves — the shape of a schema version string is this
+     * library's business, not theirs.
+     *
+     * @param {string|null|undefined} schemaVersion
+     * @param {string} [fallback='unknown'] - Returned when there is no version
+     * @returns {string}
+     *
+     * @example
+     * omcTemplate.versionLabel('https://movielabs.com/omc/json/schema/v3.0'); // 'v3.0'
+     * omcTemplate.versionLabel(null);                                         // 'unknown'
+     * omcTemplate.versionLabel(null, '');                                     // ''
+     */
+    versionLabel: ((schemaVersion, fallback = 'unknown') => (
+        schemaVersion ? String(schemaVersion).split('/').pop() : fallback
+    )),
+    /**
      * Is `key` an entity reference (a relationship) rather than a data property?
      *
      * OMC names entity references with a capitalised key; data properties are
