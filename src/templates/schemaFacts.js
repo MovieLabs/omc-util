@@ -128,6 +128,22 @@ export function buildMaxItemsIndex(schema) {
 }
 
 /**
+ * The identifier fields the schema marks as required on an entity reference.
+ *
+ * A reference is `{ identifier: [...] }` (`$defs/core/properties/reference`), and the
+ * identifier's element declares which of its fields are mandatory — scope and value —
+ * as opposed to the convenience fields (`combinedForm`, `url`). Consumers that render
+ * or collect references need this to know what actually has to be supplied.
+ *
+ * @param {object} schema - A parsed OMC JSON Schema document
+ * @returns {string[]} e.g. `['identifierScope', 'identifierValue']`; `[]` if undeclared
+ */
+export function referenceRequiredFields(schema) {
+    const items = schema?.$defs?.Utility?.properties?.identifier?.items;
+    return Array.isArray(items?.required) ? [...items.required] : [];
+}
+
+/**
  * Return a copy of an entity shape template with `$maxItems` stamped onto every array
  * node the schema caps.
  *
@@ -188,4 +204,4 @@ export function stampMaxItems(template, entityType, index, path = '', depth = 0)
     return out;
 }
 
-export default { buildMaxItemsIndex, stampMaxItems };
+export default { buildMaxItemsIndex, stampMaxItems, referenceRequiredFields };

@@ -123,8 +123,13 @@
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
  */
 
+import schemav21 from '../omc/validation/schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
+import schemav26 from '../omc/validation/schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
+import schemav28 from '../omc/validation/schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
+import schemav30 from '../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 import { isCapitalized } from '../mlHelpers/util.js';
 
+import { referenceRequiredFields } from './schemaFacts.js';
 import * as omc2 from './v2-8/index.js';
 import * as omc3 from './v3-0/index.js';
 
@@ -133,6 +138,14 @@ const versionTemplates = {
     'https://movielabs.com/omc/json/schema/v2.6': { ...omc2 },
     'https://movielabs.com/omc/json/schema/v2.8': { ...omc2 },
     'https://movielabs.com/omc/json/schema/v3.0': { ...omc3 },
+};
+
+/** The schema behind each version, for facts the hand-authored templates don't carry. */
+const versionSchemas = {
+    'https://movielabs.com/omc/json/schema/v2.1': schemav21,
+    'https://movielabs.com/omc/json/schema/v2.6': schemav26,
+    'https://movielabs.com/omc/json/schema/v2.8': schemav28,
+    'https://movielabs.com/omc/json/schema/v3.0': schemav30,
 };
 
 /**
@@ -173,13 +186,23 @@ const omcTemplate = {
      * identifier array (`$defs/core/properties/reference`). Consumers should build
      * their reference UI/paths from this instead of hardcoding `identifier[0].…`.
      *
+     * Fields the schema marks required (identifierScope, identifierValue) are stamped
+     * `$required: true`; the rest (combinedForm, url) are convenience fields, so a
+     * consumer collecting a reference can show only what must be supplied.
+     *
      * @param {object} params
      * @param {string} params.schemaVersion
      * @returns {object|null} A shape template, e.g. `{ identifier: { $type:'array', $items:{…} } }`
      */
     referenceTemplate: (({ schemaVersion }) => {
         const base = versionTemplates[schemaVersion]?.entityTemplate?.baseEntity?.template;
-        return base?.identifier ? { identifier: base.identifier } : null;
+        if (!base?.identifier) return null;
+        const required = new Set(referenceRequiredFields(versionSchemas[schemaVersion]));
+        const items = base.identifier.$items || {};
+        const $items = Object.fromEntries(Object.entries(items).map(([key, node]) => (
+            [key, required.has(key) ? { ...node, $required: true } : node]
+        )));
+        return { identifier: { ...base.identifier, $items } };
     }),
     schemaGroup: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup
