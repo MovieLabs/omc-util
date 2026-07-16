@@ -171,6 +171,59 @@ const cache = () => {
 };
 
 /**
+ * Announce that the cache changed.
+ *
+ * Called from inside each mutator rather than by callers, so a write cannot be made
+ * without announcing it. Deliberately a plain observer — no framework involvement —
+ * so consumers can adapt it to whatever they use (e.g. React's useSyncExternalStore)
+ * while the library stays framework-agnostic.
+ *
+ * @ignore
+ */
+function notify() {
+    this.version += 1;
+    this.listeners.forEach((listener) => listener());
+}
+
+/**
+ * Subscribe to cache mutations. The listener is called after any of `set`, `replace`,
+ * `remove`, `removeWithEdges` or `reset` changes the store.
+ *
+ * The listener takes no arguments — it is a signal that the store moved, not a diff.
+ * Read the new state back through `exportModel` / `get` / `find`, and pair with
+ * {@link getVersion} when a cheap change-token is needed.
+ *
+ * @function subscribe
+ * @memberOf module:omcSDK
+ * @param {function(): void} listener
+ * @returns {function(): void} Unsubscribe; safe to call more than once
+ *
+ * @example
+ * const stop = model.subscribe(() => render(model.exportModel()));
+ * stop();
+ */
+function subscribe(listener) {
+    if (typeof listener !== 'function') return (() => {});
+    this.listeners.add(listener);
+    return (() => {
+        this.listeners.delete(listener);
+    });
+}
+
+/**
+ * A counter incremented on every mutation. The cache is mutable, so its contents are
+ * not safe to compare by identity; this gives a stable, cheap token that changes
+ * exactly when the store does.
+ *
+ * @function getVersion
+ * @memberOf module:omcSDK
+ * @returns {number}
+ */
+function getVersion() {
+    return this.version;
+}
+
+/**
  * Set, or create, new entities in the store
  * @memberOf module:omcSDK
  * @static
@@ -186,6 +239,7 @@ function set(omc) {
         const tempEnt = entityModel(ent); // Create the entity model
         this.cache.add(tempEnt); // Add to the cache
     });
+    this.notify();
     return normalizedOmc; // ToDo: This should at least return the entity models
 }
 
@@ -204,6 +258,7 @@ function replace(omc) {
     //     this.cache.replace(modelEnt);
     // });
     const update = normalizedOmc.omc.map((omcEnt) => this.cache.replace(entityModel(omcEnt)));
+    this.notify();
     return update;
 }
 
@@ -227,7 +282,9 @@ function get(omcId, options = {}) {
  */
 function remove(omc, options = {}) {
     if (!omc) return null; // Check for bad input
-    return this.cache.remove(omc, options);
+    const removed = this.cache.remove(omc, options);
+    if (removed) this.notify();
+    return removed;
 }
 
 /**
@@ -238,7 +295,9 @@ function remove(omc, options = {}) {
  */
 function removeWithEdges(omc) {
     if (!omc) return null; // Check for bad input
-    return this.cache.removeWithEdges(omc);
+    const storeHistory = this.cache.removeWithEdges(omc);
+    this.notify();
+    return storeHistory;
 }
 
 /**
@@ -260,6 +319,7 @@ function getInternalId(storeId) {
 
 function reset() {
     this.cache = cache(); // Reset the cache, clearing its contents
+    this.notify(); // Subscribers live on the store, not the cache, so they survive this
     return this;
 }
 
@@ -305,6 +365,11 @@ function contextEdges(identifier) {
 export default function omcSDK() {
     return {
         cache: cache(),
+        listeners: new Set(),
+        version: 0,
+        notify,
+        subscribe,
+        getVersion,
         internalId,
         getInternalId,
         get,
