@@ -30,9 +30,21 @@
 /**
  * @typedef EdgeTemplate
  * @memberOf namespace:OmcUtil
- * @property {string} type - Whether this edge is an array or single object (array, object)
+ * @property {string} type - How the reference is STORED on the source entity ('array' | 'object').
+ *   This is a storage shape, NOT a cardinality cap — in v3.0 every edge is stored as an array.
+ *   Use `maxItems` to ask "at most one?".
+ * @property {number|undefined} maxItems - Cardinality cap from the JSON Schema; `undefined` means
+ *   uncapped. Derived at build time (see schemaFacts.js) so it cannot drift from the schema.
  * @property {Array<string>} allowed - The entity types allowed for this edge
  * @property {string} path - The path on this entity (source) that the edge is stored
+ * @property {string} predicate - The predicate (RDF property family) this edge belongs to
+ * @property {'edges'|'intrinsic'} bucket - Which partition the edge is stored in
+ * @property {Array<string>} pathSegments - `path` pre-split, so consumers never split it themselves
+ * @property {Array<string>} containerSegments - The object path that must exist before the reference
+ *   can be written: `pathSegments` minus its final segment (the range type for `edges.*` paths, or
+ *   the property name for an intrinsic one). `[]` for a top-level intrinsic property.
+ * @property {string} relativePath - `path` minus the bucket prefix (e.g. `hasCxt.Context`);
+ *   equal to `path` for intrinsic edges
  * @property {string} inverse - The path on the target entity that carries the inverse edge
  * @property {string} omcPredicate - The formal predicate for this edge, from RDF model
  */
