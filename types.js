@@ -88,6 +88,8 @@
  * @property {Function} reset - Clear the cache and return the store
  * @property {Function} exportModel - Export all cached entities as an array
  * @property {Function} find - Find entities in the cache matching a filter
+ * @property {Function} subscribe - Register a listener called after any mutation; returns an unsubscribe function
+ * @property {Function} getVersion - Return a counter that changes on every mutation, for cheap change detection
  * @property {Function} intrinsicProps - Get intrinsic properties for an entity
  * @property {Function} contextEdges - Get context edges for an entity
  * @property {Object} identifier - Identifier utilities

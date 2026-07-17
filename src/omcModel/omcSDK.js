@@ -211,8 +211,7 @@ function subscribe(listener) {
 }
 
 /**
- * A counter incremented on every mutation. The cache is mutable, so its contents are
- * not safe to compare by identity; this gives a stable, cheap token that changes
+ * A counter incremented on every store mutation — a cheap change-token that changes
  * exactly when the store does.
  *
  * @function getVersion

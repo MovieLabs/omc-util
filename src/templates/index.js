@@ -114,10 +114,10 @@
  * @memberOf namespace:OmcUtil
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
- * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown. Consumers should treat null as "not renderable" rather than assume a shape.
- * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second arg is the fallback when there is no version (default 'unknown').
- * @property {function({key: string}): boolean} isRelationshipKey - True when `key` is an entity reference (a relationship) rather than a data property. Ask this rather than re-implementing the capitalised-key convention, which local checks get subtly wrong on non-cased leading characters.
- * @property {function({schemaVersion: string}): (object|null)} referenceTemplate - The shape template of an entity reference (the identifier array), or null if unknown. Fields the schema marks required (identifierScope, identifierValue) are stamped `$required: true`; the rest are convenience.
+ * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
+ * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second argument is the fallback returned when there is no version (default 'unknown').
+ * @property {function({key: string}): boolean} isRelationshipKey - True when `key` names an entity reference (a relationship) rather than a data property.
+ * @property {function({schemaVersion: string}): (object|null)} referenceTemplate - The shape template of an entity reference (its identifier array), or null if the schema version is unknown. Required fields (identifierScope, identifierValue) are marked `$required`.
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
  * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
