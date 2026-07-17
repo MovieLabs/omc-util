@@ -1,0 +1,4639 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://movielabs.com/omc/linkml/omc",
+  "title": "linkml-omc-schema",
+  "description": "The OMC-JSON document root: a bundle of OMC entities grouped by entity type, mirroring the OMC-JSON `rootObject`. Each property is an array of that entity type, so every entity shape is reachable from the top level.\nNOTE: the original OMC-JSON root is a `oneOf` of THREE forms \u2014 this bundle, a single bare entity, and a bare array of entities. LinkML's JSON-Schema generator can only emit one tree_root (the bundle); the single-entity and array forms are added by a post-generation step (scripts/root_forms.py) that rewrites the generated schema root to the 3-way `oneOf`.",
+  "metamodel_version": "1.11.0",
+  "version": null,
+  "$defs": {
+    "Any": {
+      "additionalProperties": true,
+      "description": "A permissive \"any JSON value\" type. Used where the umbrella schema must accept arbitrary structure (e.g. functionalProperties, edges) so that top-level validation passes regardless of subtype.",
+      "title": "Any",
+      "type": [
+        "null",
+        "boolean",
+        "object",
+        "number",
+        "string"
+      ]
+    },
+    "Asset": {
+      "additionalProperties": false,
+      "description": "A physical or digital object or collection of objects specific to the creation of the Creative Work.",
+      "properties": {
+        "AssetStructure": {
+          "description": "The structure(s) of this Asset.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Provenance": {
+          "description": "The origin and history of this Asset.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Provenance"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "assetFunction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AssetFunction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Asset's function facet (loose in the umbrella)."
+        },
+        "assetName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The name of the Asset."
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Asset"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "versionInfo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AssetVersionInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The version/lineage of this Asset (see AssetVersionInfo)."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Asset",
+      "type": "object"
+    },
+    "AssetFunction": {
+      "additionalProperties": false,
+      "description": "An Asset's function (assetFunction): what role the Asset plays in production. The concrete role is selected by `assetFunctionType` and detailed by `assetFunctionProperties`; each value corresponds to a `subtype` class that, in RDF, is a subclass of this facet carrying those properties directly.",
+      "properties": {
+        "assetFunctionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Asset's type-specific function properties. Opaque (`Any`) in the core schema and GraphQL; the focused schema narrows it per `assetFunctionType` to the matching `subtype` class's property shape. In RDF these properties hang directly off the subtype class, so the bag itself is pruned from OWL."
+        },
+        "assetFunctionType": {
+          "description": "The Asset function-facet subtype discriminator. A controlled vocabulary in JSON (AssetFunctionTypeEnum, derived from the `subtype` classes); in RDF the subclass itself encodes the type, so this is pruned from OWL.",
+          "type": "string",
+          "default": "assetFunction",
+          "x-controlledValues": [
+            "artwork",
+            "artwork.conceptArt",
+            "shot",
+            "shot.vfx"
+          ]
+        }
+      },
+      "title": "AssetFunction",
+      "type": "object"
+    },
+    "AssetStructure": {
+      "additionalProperties": false,
+      "description": "How an Asset's essence is structured, encoded, stored, or carried.",
+      "properties": {
+        "Carrier": {
+          "description": "The physical/digital carrier(s) of the Asset essence.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Infrastructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Provenance": {
+          "description": "The origin and history of this AssetStructure.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Provenance"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "assetStructureName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assetStructureProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The AssetStructure's type-specific properties. Opaque (`Any`) in the core schema and GraphQL; the focused schema narrows it per `assetStructureType`."
+        },
+        "assetStructureType": {
+          "description": "The AssetStructure subtype discriminator (AssetStructureTypeEnum, derived from the `subtype` classes: digital.*, physical.*, assetGroup, \u2026). In RDF the subclass encodes the type, so this is pruned from OWL.",
+          "type": "string"
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "AssetStructure"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "isAnalog": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "software": {
+          "items": {
+            "$ref": "#/$defs/Any"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "versionInfo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AssetStructureVersionInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The version/lineage of this AssetStructure (see AssetStructureVersionInfo)."
+        }
+      },
+      "required": [
+        "assetStructureType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "AssetStructure",
+      "type": "object"
+    },
+    "AssetStructureVersionInfo": {
+      "additionalProperties": false,
+      "description": "The version/lineage of an AssetStructure: its number plus derivation, revision and representation links to other AssetStructures. JSON nests these under `versionInfo`; RDF flattens them to directional predicates (isDerivationOf/hasDerivation, isRevisionOf/hasRevision, isRepresentationOf/hasRepresentation) on the AssetStructure.",
+      "properties": {
+        "Derivation": {
+          "description": "The AssetStructure(s) derived from this one (inverse of DerivationOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "DerivationOf": {
+          "description": "The AssetStructure(s) this AssetStructure is a derivation of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Representation": {
+          "description": "The AssetStructure(s) that represent this one (inverse of RepresentationOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "RepresentationOf": {
+          "description": "The AssetStructure(s) this AssetStructure is a representation of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Revision": {
+          "description": "The AssetStructure(s) that are revisions of this one (inverse of RevisionOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "RevisionOf": {
+          "description": "The AssetStructure(s) this AssetStructure is a revision of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "versionNumber": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The version identifier of this AssetStructure (string or number).",
+          "type": "string"
+        }
+      },
+      "title": "AssetStructureVersionInfo",
+      "type": "object"
+    },
+    "AssetVersionInfo": {
+      "additionalProperties": false,
+      "description": "The version/lineage of an Asset: its number plus derivation, revision, variant and alternative links to other Assets. JSON nests these under `versionInfo`; RDF flattens them to directional predicates (isDerivationOf/hasDerivation, isRevisionOf/hasRevision, isVariantOf/hasVariant, hasAlternative) on the Asset.",
+      "properties": {
+        "Alternative": {
+          "description": "Alternative Asset(s) to this Asset.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Derivation": {
+          "description": "The Asset(s) derived from this Asset (inverse of DerivationOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "DerivationOf": {
+          "description": "The Asset(s) this Asset is a derivation of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Revision": {
+          "description": "The Asset(s) that are revisions of this Asset (inverse of RevisionOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "RevisionOf": {
+          "description": "The Asset(s) this Asset is a revision of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Variant": {
+          "description": "The Asset(s) that are variants of this Asset (inverse of VariantOf).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "VariantOf": {
+          "description": "The Asset(s) this Asset is a variant of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "versionNumber": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The version identifier of this Asset (string or number).",
+          "type": "string"
+        }
+      },
+      "title": "AssetVersionInfo",
+      "type": "object"
+    },
+    "BaseEdge": {
+      "additionalProperties": false,
+      "description": "Base class for a typed relationship (edge) between entities. A concrete edge points `to` one or more target entities; typed subtypes (a future enrichment) narrow the allowed target entity types per relationship.",
+      "properties": {
+        "to": {
+          "description": "The target entities of an edge. Defaults to any Entity; typed BaseEdge subtypes narrow this to specific target entity types.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Location"
+              },
+              {
+                "$ref": "#/$defs/Collection"
+              },
+              {
+                "$ref": "#/$defs/Composition"
+              },
+              {
+                "$ref": "#/$defs/Provenance"
+              },
+              {
+                "$ref": "#/$defs/ParticipantStructure"
+              },
+              {
+                "$ref": "#/$defs/Role"
+              },
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/AssetStructure"
+              },
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/InfrastructureStructure"
+              },
+              {
+                "$ref": "#/$defs/Infrastructure"
+              },
+              {
+                "$ref": "#/$defs/TaskStructure"
+              },
+              {
+                "$ref": "#/$defs/Task"
+              },
+              {
+                "$ref": "#/$defs/Character"
+              },
+              {
+                "$ref": "#/$defs/Context"
+              },
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Realization"
+              },
+              {
+                "$ref": "#/$defs/Effect"
+              },
+              {
+                "$ref": "#/$defs/NarrativeAudio"
+              },
+              {
+                "$ref": "#/$defs/NarrativeLocation"
+              },
+              {
+                "$ref": "#/$defs/NarrativeObject"
+              },
+              {
+                "$ref": "#/$defs/NarrativeScene"
+              },
+              {
+                "$ref": "#/$defs/NarrativeStyling"
+              },
+              {
+                "$ref": "#/$defs/NarrativeWardrobe"
+              },
+              {
+                "$ref": "#/$defs/ProductionLocation"
+              },
+              {
+                "$ref": "#/$defs/ProductionScene"
+              },
+              {
+                "$ref": "#/$defs/Slate"
+              },
+              {
+                "$ref": "#/$defs/SpecialAction"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "title": "BaseEdge",
+      "type": "object"
+    },
+    "BaseEntity": {
+      "additionalProperties": false,
+      "description": "The set of base properties present on all OMC entities.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "BaseEntity",
+      "type": "object"
+    },
+    "BasicName": {
+      "additionalProperties": false,
+      "description": "A canonical name and alternative name for the entity.",
+      "properties": {
+        "altName": {
+          "description": "An alternate, often shortened name for the person.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fullName": {
+          "description": "A complete name, typically a conjunction of familyName, firstGivenName and possibly other fields.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "BasicName",
+      "type": "object"
+    },
+    "Character": {
+      "additionalProperties": false,
+      "description": "A sentient entity (usually a person but not always) in the script whose specific identity is consequential to the narrative. A Character is generally identified by a specific name.",
+      "properties": {
+        "characterName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CompleteName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "characterProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to Character sub-types."
+        },
+        "characterType": {
+          "description": "The specific type of Character (subtype discriminator).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Character"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Character",
+      "type": "object"
+    },
+    "Collection": {
+      "additionalProperties": false,
+      "description": "A bundle of OMC entities, each of which must have an Identifier.",
+      "properties": {
+        "collectionName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "collectionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "collectionType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Collection"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "includes": {
+          "description": "The entities that are members of this Collection.",
+          "items": {
+            "$ref": "#/$defs/Any"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "software": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Collection",
+      "type": "object"
+    },
+    "CompleteName": {
+      "additionalProperties": false,
+      "description": "A detailed description of a person, or other entities, name and variants of their name.",
+      "properties": {
+        "altName": {
+          "description": "An alternate, often shortened name for the person.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "familyName": {
+          "description": "A person's family name, also referred to as last name or surname.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "firstGivenName": {
+          "description": "A person's first name, also referred to as given name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fullName": {
+          "description": "A complete name, typically a conjunction of familyName, firstGivenName and possibly other fields.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "secondGivenName": {
+          "description": "A person's second name, also referred to as middle name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "CompleteName",
+      "type": "object"
+    },
+    "Composition": {
+      "additionalProperties": false,
+      "description": "A set of Assets or other Compositions that can be combined to produce a new Asset.",
+      "properties": {
+        "Product": {
+          "description": "The Asset(s) produced by this Composition.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "StartHere": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Asset"
+            },
+            {
+              "$ref": "#/$defs/AssetStructure"
+            },
+            {
+              "$ref": "#/$defs/Reference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The entry point of the Composition."
+        },
+        "compositionName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "compositionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "compositionType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Composition"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "includes": {
+          "description": "The Assets or Compositions combined by this Composition.",
+          "items": {
+            "$ref": "#/$defs/Any"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "software": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Composition",
+      "type": "object"
+    },
+    "Contact": {
+      "additionalProperties": false,
+      "description": "STUB: contact information (email/telephone/address). To be modeled.",
+      "title": "Contact",
+      "type": "object"
+    },
+    "Context": {
+      "additionalProperties": false,
+      "description": "A grouping that provides narrative or production context.",
+      "properties": {
+        "contextCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contextName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contextProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to Context sub-types."
+        },
+        "contextType": {
+          "description": "The specific type of Context (subtype discriminator).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Context"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Context",
+      "type": "object"
+    },
+    "CreativeWork": {
+      "additionalProperties": false,
+      "description": "A uniquely identified production.",
+      "properties": {
+        "Episode": {
+          "description": "A single Creative Work that is part of Series or Season.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ProductionCompany": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Season": {
+          "description": "A group of Episodes in a Series that are made or distributed together.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Series": {
+          "description": "A group of Creative Works with a common overarching title and a strong relationship between the individual Creative Works.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "countryOfOrigin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The home country of the companies that had primary creative control of the creation of the Creative Work, generally the producers."
+        },
+        "creativeWorkCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "creativeWorkProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to Creative Work sub-types."
+        },
+        "creativeWorkTitle": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A name for a Creative Work."
+        },
+        "creativeWorkType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "CreativeWork"
+          ],
+          "type": "string"
+        },
+        "episodeSequence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "originalLanguage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "seasonNumber": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "CreativeWork",
+      "type": "object"
+    },
+    "EdgeTargets": {
+      "additionalProperties": false,
+      "description": "The set of allowed target entity types for each relationship (target entity type -> [target|Reference]).",
+      "properties": {
+        "Asset": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Character": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Character"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Collection": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Collection"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Composition": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Composition"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Context": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Context"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "CreativeWork": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Effect": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Effect"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Infrastructure": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Infrastructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeAudio": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeAudio"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeLocation": {
+          "description": "A location specified or implied by the narrative.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeLocation"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeObject": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeObject"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeScene": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeScene"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeStyling": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeStyling"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeWardrobe": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NarrativeWardrobe"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Participant": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ProductionLocation": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ProductionLocation"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ProductionScene": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ProductionScene"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Realization": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Realization"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Slate": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Slate"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "SpecialAction": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SpecialAction"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Task": {
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Task"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "title": "EdgeTargets",
+      "type": "object"
+    },
+    "Edged": {
+      "additionalProperties": false,
+      "description": "Opt-in mixin contributing the reified `edges` property (the JSON relationship structure). Edge-bearing entities include it (`mixins: [Edged]`); edge-less entities omit it, so they carry no empty `edges`. The `edges` slot is json_only, so in OWL this mixin contributes nothing -- relationships there are direct predicates (see relationships.yaml).",
+      "properties": {
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        }
+      },
+      "title": "Edged",
+      "type": "object"
+    },
+    "Edges": {
+      "additionalProperties": false,
+      "description": "The typed relationships an entity may have to others (OMC `edges`). The set of relationships is closed; each relationship groups its targets by allowed target entity type. CORE form: every entity gets every relationship.",
+      "properties": {
+        "features": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "featuresIn": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "for": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "has": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idea": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "informedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "informs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "memberOf": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "neededBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "needs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "produces": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "productOf": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "related": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "representedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "represents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "subject": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usedIn": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uses": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EdgeTargets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "Edges",
+      "type": "object"
+    },
+    "Effect": {
+      "additionalProperties": false,
+      "description": "A technique that creates or enhances visual elements in the finished work",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effectProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to Effect sub-types."
+        },
+        "effectType": {
+          "description": "The specific type of Effect (subtype discriminator).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Effect"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Effect",
+      "type": "object"
+    },
+    "Entity": {
+      "additionalProperties": false,
+      "description": "An OMC entity that participates in the graph, discriminated by entityType.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Entity"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Entity",
+      "type": "object"
+    },
+    "Gender": {
+      "additionalProperties": false,
+      "description": "STUB: gender structure. To be modeled.",
+      "title": "Gender",
+      "type": "object"
+    },
+    "Identifier": {
+      "additionalProperties": false,
+      "description": "An identifier uniquely identifies an entity within a particular scope.",
+      "properties": {
+        "combinedForm": {
+          "description": "A combination of the Identifier Scope and Value useful for using the identifier in a system (e.g. URN:ID:IdentifierScope:IdentifierValue).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identifierScope": {
+          "description": "The universe within which an identifier is valid and unique.",
+          "type": "string"
+        },
+        "identifierValue": {
+          "description": "A string that uniquely identifies an object within a particular scope.",
+          "type": "string"
+        },
+        "url": {
+          "description": "A URL or IRI for resolving the Identifier Value within its scope.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "identifierScope",
+        "identifierValue"
+      ],
+      "title": "Identifier",
+      "type": "object"
+    },
+    "Infrastructure": {
+      "additionalProperties": false,
+      "description": "The underlying systems and framework required for the production of the Creative Work.",
+      "properties": {
+        "InfrastructureStructure": {
+          "description": "The structure(s) of this Infrastructure.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/InfrastructureStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Infrastructure"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "infrastructureFunction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InfrastructureFunction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Infrastructure's function facet (loose in the umbrella)."
+        },
+        "infrastructureName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Infrastructure",
+      "type": "object"
+    },
+    "InfrastructureFunction": {
+      "additionalProperties": false,
+      "description": "An Infrastructure's function (infrastructureFunction): selected by `infrastructureFunctionType`, detailed by `infrastructureFunctionProperties`. Each type corresponds to a `subtype` class (RDF subclass of this facet).",
+      "properties": {
+        "infrastructureFunctionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Infrastructure's type-specific function properties (opaque in core; narrowed in focus)."
+        },
+        "infrastructureFunctionType": {
+          "description": "The Infrastructure function-facet subtype discriminator (derived enum).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "InfrastructureFunction",
+      "type": "object"
+    },
+    "InfrastructureStructure": {
+      "additionalProperties": false,
+      "description": "How an Infrastructure is structured.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "InfrastructureStructure"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "infrastructureStructureName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "infrastructureStructureProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The InfrastructureStructure's type-specific properties (opaque in core)."
+        },
+        "infrastructureStructureType": {
+          "description": "The InfrastructureStructure subtype discriminator (derived enum).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "InfrastructureStructure",
+      "type": "object"
+    },
+    "Location": {
+      "additionalProperties": false,
+      "description": "A particular place or position either in the real world or the narrative world.",
+      "properties": {
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Location"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "locationName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Location",
+      "type": "object"
+    },
+    "NarrativeAudio": {
+      "additionalProperties": false,
+      "description": "A significant sound in the narrative.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeAudio"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeAudioName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NarrativeName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeAudioProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeAudio sub-types."
+        },
+        "narrativeAudioType": {
+          "type": "string",
+          "default": "narrativeAudio",
+          "description": "The subtype of a NarrativeAudio (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeAudio",
+            "narrativeMusic",
+            "narrativeSoundEffect"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "narrativeAudioType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeAudio",
+      "type": "object"
+    },
+    "NarrativeLocation": {
+      "additionalProperties": false,
+      "description": "A location specified or implied by the narrative.",
+      "properties": {
+        "Location": {
+          "description": "A particular place or position either in the real world or the narrative world.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Location"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeLocation"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeLocationName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeLocationProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeLocation sub-types."
+        },
+        "narrativeLocationType": {
+          "type": "string",
+          "default": "narrativeLocation",
+          "description": "The subtype of a NarrativeLocation (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeLocation"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "narrativeLocationType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeLocation",
+      "type": "object"
+    },
+    "NarrativeName": {
+      "additionalProperties": false,
+      "description": "A canonical name and alternative name for narrative entities, that may have a script name.",
+      "properties": {
+        "altName": {
+          "description": "An alternate, often shortened name for the person.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fullName": {
+          "description": "A complete name, typically a conjunction of familyName, firstGivenName and possibly other fields.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scriptName": {
+          "description": "The name as it appears in the script (often capitalized).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "NarrativeName",
+      "type": "object"
+    },
+    "NarrativeObject": {
+      "additionalProperties": false,
+      "description": "A significant tangible thing in the narrative.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeObject"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeObjectName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NarrativeName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeObjectProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeObject sub-types."
+        },
+        "narrativeObjectType": {
+          "type": "string",
+          "default": "narrativeObject",
+          "description": "The subtype of a NarrativeObject (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeObject",
+            "narrativeProp",
+            "narrativeGreenery",
+            "narrativeVehicle",
+            "narrativeSetDressing"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "narrativeObjectType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeObject",
+      "type": "object"
+    },
+    "NarrativeScene": {
+      "additionalProperties": false,
+      "description": "Taken from the narrative itself and traditionally defined by creative intent and typically a unity of time, place, action, or theme.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeScene"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeSceneName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeSceneProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeScene sub-types."
+        },
+        "narrativeSceneType": {
+          "type": "string",
+          "default": "narrativeScene",
+          "description": "The subtype of a NarrativeScene (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeScene"
+          ]
+        },
+        "sceneNumber": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A number tied to the Slugline when a Script is locked."
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "slugline": {
+          "description": "A line within a screenplay written in all uppercase letters to draw attention to specific script information.",
+          "items": {
+            "$ref": "#/$defs/Any"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "narrativeSceneType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeScene",
+      "type": "object"
+    },
+    "NarrativeStyling": {
+      "additionalProperties": false,
+      "description": "Styling required to prepare an actor for a role.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeStyling"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeStylingName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NarrativeName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeStylingProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeStyling sub-types."
+        },
+        "narrativeStylingType": {
+          "type": "string",
+          "default": "narrativeStyling",
+          "description": "The subtype of a NarrativeStyling (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeStyling",
+            "narrativeHair",
+            "narrativeMakeup",
+            "narrativeProsthetics"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "narrativeStylingType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeStyling",
+      "type": "object"
+    },
+    "NarrativeWardrobe": {
+      "additionalProperties": false,
+      "description": "The clothing for a Character in the narrative.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "NarrativeWardrobe"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "narrativeWardrobeName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NarrativeName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "narrativeWardrobeProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to NarrativeWardrobe sub-types."
+        },
+        "narrativeWardrobeType": {
+          "type": "string",
+          "default": "narrativeWardrobe",
+          "description": "The subtype of a NarrativeWardrobe (JSON controlled vocab; OWL subclasses).",
+          "x-controlledValues": [
+            "narrativeWardrobe"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "narrativeWardrobeType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "NarrativeWardrobe",
+      "type": "object"
+    },
+    "OmcDocument": {
+      "additionalProperties": false,
+      "description": "The OMC-JSON document root: a bundle of OMC entities grouped by entity type, mirroring the OMC-JSON `rootObject`. Each property is an array of that entity type, so every entity shape is reachable from the top level.\nNOTE: the original OMC-JSON root is a `oneOf` of THREE forms \u2014 this bundle, a single bare entity, and a bare array of entities. LinkML's JSON-Schema generator can only emit one tree_root (the bundle); the single-entity and array forms are added by a post-generation step (scripts/root_forms.py) that rewrites the generated schema root to the 3-way `oneOf`.",
+      "properties": {
+        "Asset": {
+          "items": {
+            "$ref": "#/$defs/Asset"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "AssetStructure": {
+          "items": {
+            "$ref": "#/$defs/AssetStructure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Character": {
+          "items": {
+            "$ref": "#/$defs/Character"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Collection": {
+          "items": {
+            "$ref": "#/$defs/Collection"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Composition": {
+          "items": {
+            "$ref": "#/$defs/Composition"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Context": {
+          "items": {
+            "$ref": "#/$defs/Context"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "CreativeWork": {
+          "items": {
+            "$ref": "#/$defs/CreativeWork"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Effect": {
+          "items": {
+            "$ref": "#/$defs/Effect"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Infrastructure": {
+          "items": {
+            "$ref": "#/$defs/Infrastructure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "InfrastructureStructure": {
+          "items": {
+            "$ref": "#/$defs/InfrastructureStructure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Location": {
+          "items": {
+            "$ref": "#/$defs/Location"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeAudio": {
+          "items": {
+            "$ref": "#/$defs/NarrativeAudio"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeLocation": {
+          "items": {
+            "$ref": "#/$defs/NarrativeLocation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeObject": {
+          "items": {
+            "$ref": "#/$defs/NarrativeObject"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeScene": {
+          "items": {
+            "$ref": "#/$defs/NarrativeScene"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeStyling": {
+          "items": {
+            "$ref": "#/$defs/NarrativeStyling"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "NarrativeWardrobe": {
+          "items": {
+            "$ref": "#/$defs/NarrativeWardrobe"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Participant": {
+          "items": {
+            "$ref": "#/$defs/Participant"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ParticipantStructure": {
+          "items": {
+            "$ref": "#/$defs/ParticipantStructure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ProductionLocation": {
+          "items": {
+            "$ref": "#/$defs/ProductionLocation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ProductionScene": {
+          "items": {
+            "$ref": "#/$defs/ProductionScene"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Provenance": {
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Realization": {
+          "items": {
+            "$ref": "#/$defs/Realization"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Role": {
+          "items": {
+            "$ref": "#/$defs/Role"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Slate": {
+          "items": {
+            "$ref": "#/$defs/Slate"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "SpecialAction": {
+          "items": {
+            "$ref": "#/$defs/SpecialAction"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Task": {
+          "items": {
+            "$ref": "#/$defs/Task"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "TaskStructure": {
+          "items": {
+            "$ref": "#/$defs/TaskStructure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "title": "OmcDocument",
+      "type": "object"
+    },
+    "Participant": {
+      "additionalProperties": false,
+      "description": "An individual or organization that participates in the production of a Creative Work.",
+      "properties": {
+        "ParticipantStructure": {
+          "description": "The structure(s) of this Participant (its concrete subtype form).",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ParticipantStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Participant"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "participantFunction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ParticipantFunction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Participant's function facet (loose in the umbrella)."
+        },
+        "participantName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Participant",
+      "type": "object"
+    },
+    "ParticipantFunction": {
+      "additionalProperties": false,
+      "description": "A Participant's function (participantFunction): the role it plays in the production (e.g. its job title and Role assignment), plus type-specific function properties.",
+      "properties": {
+        "Role": {
+          "description": "The Role(s) the Participant fulfils.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Role"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "jobTitle": {
+          "description": "The position the Participant holds in relation to the production.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "participantFunctionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Participant's type-specific function properties (opaque in core)."
+        },
+        "participantFunctionType": {
+          "description": "The Participant function-facet subtype discriminator (derived enum).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "ParticipantFunction",
+      "type": "object"
+    },
+    "ParticipantStructure": {
+      "additionalProperties": false,
+      "description": "The concrete structural form of a Participant.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "ParticipantStructure"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "participantStructureName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "participantStructureProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The ParticipantStructure's type-specific properties (opaque in core; narrowed in focus)."
+        },
+        "participantStructureType": {
+          "description": "The ParticipantStructure subtype discriminator (ParticipantStructureTypeEnum, derived from the `subtype` classes: person, department, organization, service).",
+          "type": "string",
+          "default": "participantStructure",
+          "x-controlledValues": [
+            "department",
+            "organization",
+            "person",
+            "service"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "participantStructureType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "ParticipantStructure",
+      "type": "object"
+    },
+    "ProductionLocation": {
+      "additionalProperties": false,
+      "description": "A real place that is used to depict the Narrative Location or used for creating the production.",
+      "properties": {
+        "Location": {
+          "description": "A particular place or position either in the real world or the narrative world.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Location"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "ProductionLocation"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "productionLocationName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "productionLocationProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to ProductionLocation sub-types."
+        },
+        "productionLocationType": {
+          "description": "The specific type of Production Location (subtype discriminator).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "ProductionLocation",
+      "type": "object"
+    },
+    "ProductionScene": {
+      "additionalProperties": false,
+      "description": "Defined either by explicit divisions in the structure of the Script, e.g., by a Slugline, or by additional capture for use in the Creative Work that is not tied to any particular Scene in the Script.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "ProductionScene"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "productionSceneName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "productionSceneProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to ProductionScene sub-types (opaque in core; narrowed in focus)."
+        },
+        "sceneDescriptor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "An alphanumeric reference to the Production Scene."
+        },
+        "sceneHeader": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Used when referring to the Production Scene.  It is generally synonymous with 'Slugline' and is used to divide a Script into Production Scenes."
+        },
+        "sceneNumber": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A number tied to the Slugline when a Script is locked."
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "ProductionScene",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "The origin and history of an entity \u2014 who created it, when, in what role, and why.",
+      "properties": {
+        "CreatedBy": {
+          "description": "The Participant(s) that created the entity.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Origin": {
+          "description": "The Asset(s) the entity originates from.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Role": {
+          "description": "The role under which the entity was created.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Role"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "createdOn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Provenance"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Realization": {
+      "additionalProperties": false,
+      "description": "The representation of something in the narrative by one or more Assets, Participants, Tasks, or Compositions.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Realization"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "realizationName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "realizationProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RealizationProperties"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Realization's type-specific properties. Unlike the other entities' opaque bags, the oracle declares two known INTRINSIC links here -- RealizationOf / RealizationBy (see the RealizationProperties shape below)."
+        },
+        "realizationType": {
+          "description": "The Realization subtype discriminator (realization, depiction, portrayal, concept).",
+          "type": "string",
+          "default": "realization",
+          "x-controlledValues": [
+            "realization",
+            "depiction",
+            "portrayal",
+            "concept"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "realizationType",
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Realization",
+      "type": "object"
+    },
+    "RealizationProperties": {
+      "additionalProperties": false,
+      "description": "The Realization's intrinsic links (and any further type-specific properties).",
+      "properties": {
+        "RealizationBy": {
+          "description": "The Asset(s), Participant(s) or Composition(s) that realize this.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Reference"
+              },
+              {
+                "$ref": "#/$defs/Asset"
+              },
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/Composition"
+              },
+              {
+                "$ref": "#/$defs/Task"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "RealizationOf": {
+          "description": "The narrative element this Realization is of.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Reference"
+              },
+              {
+                "$ref": "#/$defs/Character"
+              },
+              {
+                "$ref": "#/$defs/NarrativeObject"
+              },
+              {
+                "$ref": "#/$defs/NarrativeStyling"
+              },
+              {
+                "$ref": "#/$defs/NarrativeAudio"
+              },
+              {
+                "$ref": "#/$defs/NarrativeLocation"
+              },
+              {
+                "$ref": "#/$defs/NarrativeWardrobe"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "title": "RealizationProperties",
+      "type": "object"
+    },
+    "Reference": {
+      "additionalProperties": false,
+      "description": "An identifier that references another entity in the graph.",
+      "properties": {
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "identifier"
+      ],
+      "title": "Reference",
+      "type": "object"
+    },
+    "Role": {
+      "additionalProperties": false,
+      "description": "A set of properties that define the role of a participant within the production.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Role"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "roleName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "roleProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to Role sub-types (opaque in core; narrowed in focus)."
+        },
+        "roleType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
+    "SchemaVersionEnum": {
+      "description": "The versions of the OMC-JSON schema an instance may declare.",
+      "enum": [
+        "https://movielabs.com/omc/json/schema/v3.0"
+      ],
+      "title": "SchemaVersionEnum",
+      "type": "string"
+    },
+    "Slate": {
+      "additionalProperties": false,
+      "description": "Used to capture key identifying information about what is being recorded on any given setup and take.",
+      "properties": {
+        "CreativeWork": {
+          "description": "A uniquely identified production.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CreativeWork"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "Director": {
+          "description": "Person who leads the production of motion pictures and sets whatever is heard or seen in the final film.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Participant"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "cameraLabel": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Human readable ID assigned to each production camera."
+        },
+        "cameraRoll": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Identifier for a group of events captured together on the same camera and recording media."
+        },
+        "cameraUnit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Organization (perhaps temporary) responsible for shooting some element of a Scene, e.g., a Main Unit or Second Unit."
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Slate"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recordingFPS": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "shootDate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The date of capture."
+        },
+        "shootDay": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The number of the day on the shooting schedule."
+        },
+        "slateUID": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "An alphanumeric code that uniquely identifies a single clip by combining the Scene Descriptor, Setup, and Take."
+        },
+        "soundRoll": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Identifier for a group of audio events captured together on the same recording device."
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Slate",
+      "type": "object"
+    },
+    "SpecialAction": {
+      "additionalProperties": false,
+      "description": "A performed action or set of actions that requires additional supervision, expertise, or equipment.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "SpecialAction"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "specialActionName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "specialActionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Properties specific to SpecialAction sub-types."
+        },
+        "specialActionType": {
+          "description": "The specific type of SpecialAction (subtype discriminator).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "SpecialAction",
+      "type": "object"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "description": "A piece of work to be done and completed as a step in the production process.",
+      "properties": {
+        "TaskStructure": {
+          "description": "The structure(s) of this Task.",
+          "items": {
+            "$ref": "#/$defs/Any",
+            "anyOf": [
+              {
+                "$ref": "#/$defs/TaskStructure"
+              },
+              {
+                "$ref": "#/$defs/Reference"
+              }
+            ]
+          },
+          "maxItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "Task"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "taskFunction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskFunction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Task's function facet (loose in the umbrella)."
+        },
+        "taskName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskFunction": {
+      "additionalProperties": false,
+      "description": "A Task's function (taskFunction): selected by `taskFunctionType`, detailed by `taskFunctionProperties`. Each type corresponds to a `subtype` class.",
+      "properties": {
+        "taskFunctionProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The Task's type-specific function properties (opaque in core; narrowed in focus)."
+        },
+        "taskFunctionType": {
+          "description": "The Task function-facet subtype discriminator (derived enum).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "title": "TaskFunction",
+      "type": "object"
+    },
+    "TaskStructure": {
+      "additionalProperties": false,
+      "description": "How a Task is structured.",
+      "properties": {
+        "description": {
+          "description": "A brief, human-facing description of the entity.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Edges"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The typed relationships (edges) from this entity to others, grouped by relationship. In this CORE schema every entity gets the full `Edges` structure: all relationships are available, each already constrained to its allowed target entity types (per OMC-JSON). Sub-types narrow further by re-ranging this slot via `slot_usage` (e.g. to a constrained Edges subclass)."
+        },
+        "entityType": {
+          "description": "The OMC entity-type discriminator (a constant per entity class).",
+          "enum": [
+            "TaskStructure"
+          ],
+          "type": "string"
+        },
+        "identifier": {
+          "description": "One or more identifiers that uniquely identify an entity within a scope.",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "label": {
+          "description": "A human-facing label for the entity (e.g. for UIs). Not a canonical name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "$ref": "#/$defs/SchemaVersionEnum",
+          "description": "The version of OMC-JSON schema used to create this instance."
+        },
+        "taskStructureName": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BasicName"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "taskStructureProperties": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Any"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The TaskStructure's type-specific properties (opaque in core)."
+        },
+        "taskStructureType": {
+          "description": "The TaskStructure subtype discriminator (derived enum).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "entityType",
+        "identifier",
+        "schemaVersion"
+      ],
+      "title": "TaskStructure",
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/OmcDocument"
+    },
+    {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Asset"
+        },
+        {
+          "$ref": "#/$defs/AssetStructure"
+        },
+        {
+          "$ref": "#/$defs/Character"
+        },
+        {
+          "$ref": "#/$defs/Collection"
+        },
+        {
+          "$ref": "#/$defs/Composition"
+        },
+        {
+          "$ref": "#/$defs/Context"
+        },
+        {
+          "$ref": "#/$defs/CreativeWork"
+        },
+        {
+          "$ref": "#/$defs/Effect"
+        },
+        {
+          "$ref": "#/$defs/Infrastructure"
+        },
+        {
+          "$ref": "#/$defs/InfrastructureStructure"
+        },
+        {
+          "$ref": "#/$defs/Location"
+        },
+        {
+          "$ref": "#/$defs/NarrativeAudio"
+        },
+        {
+          "$ref": "#/$defs/NarrativeLocation"
+        },
+        {
+          "$ref": "#/$defs/NarrativeObject"
+        },
+        {
+          "$ref": "#/$defs/NarrativeScene"
+        },
+        {
+          "$ref": "#/$defs/NarrativeStyling"
+        },
+        {
+          "$ref": "#/$defs/NarrativeWardrobe"
+        },
+        {
+          "$ref": "#/$defs/Participant"
+        },
+        {
+          "$ref": "#/$defs/ParticipantStructure"
+        },
+        {
+          "$ref": "#/$defs/ProductionLocation"
+        },
+        {
+          "$ref": "#/$defs/ProductionScene"
+        },
+        {
+          "$ref": "#/$defs/Provenance"
+        },
+        {
+          "$ref": "#/$defs/Realization"
+        },
+        {
+          "$ref": "#/$defs/Role"
+        },
+        {
+          "$ref": "#/$defs/Slate"
+        },
+        {
+          "$ref": "#/$defs/SpecialAction"
+        },
+        {
+          "$ref": "#/$defs/Task"
+        },
+        {
+          "$ref": "#/$defs/TaskStructure"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/Asset"
+          },
+          {
+            "$ref": "#/$defs/AssetStructure"
+          },
+          {
+            "$ref": "#/$defs/Character"
+          },
+          {
+            "$ref": "#/$defs/Collection"
+          },
+          {
+            "$ref": "#/$defs/Composition"
+          },
+          {
+            "$ref": "#/$defs/Context"
+          },
+          {
+            "$ref": "#/$defs/CreativeWork"
+          },
+          {
+            "$ref": "#/$defs/Effect"
+          },
+          {
+            "$ref": "#/$defs/Infrastructure"
+          },
+          {
+            "$ref": "#/$defs/InfrastructureStructure"
+          },
+          {
+            "$ref": "#/$defs/Location"
+          },
+          {
+            "$ref": "#/$defs/NarrativeAudio"
+          },
+          {
+            "$ref": "#/$defs/NarrativeLocation"
+          },
+          {
+            "$ref": "#/$defs/NarrativeObject"
+          },
+          {
+            "$ref": "#/$defs/NarrativeScene"
+          },
+          {
+            "$ref": "#/$defs/NarrativeStyling"
+          },
+          {
+            "$ref": "#/$defs/NarrativeWardrobe"
+          },
+          {
+            "$ref": "#/$defs/Participant"
+          },
+          {
+            "$ref": "#/$defs/ParticipantStructure"
+          },
+          {
+            "$ref": "#/$defs/ProductionLocation"
+          },
+          {
+            "$ref": "#/$defs/ProductionScene"
+          },
+          {
+            "$ref": "#/$defs/Provenance"
+          },
+          {
+            "$ref": "#/$defs/Realization"
+          },
+          {
+            "$ref": "#/$defs/Role"
+          },
+          {
+            "$ref": "#/$defs/Slate"
+          },
+          {
+            "$ref": "#/$defs/SpecialAction"
+          },
+          {
+            "$ref": "#/$defs/Task"
+          },
+          {
+            "$ref": "#/$defs/TaskStructure"
+          }
+        ]
+      }
+    }
+  ]
+}
