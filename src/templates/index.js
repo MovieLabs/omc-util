@@ -115,6 +115,9 @@
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
  * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown. Consumers should treat null as "not renderable" rather than assume a shape.
+ * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second arg is the fallback when there is no version (default 'unknown').
+ * @property {function({key: string}): boolean} isRelationshipKey - True when `key` is an entity reference (a relationship) rather than a data property. Ask this rather than re-implementing the capitalised-key convention, which local checks get subtly wrong on non-cased leading characters.
+ * @property {function({schemaVersion: string}): (object|null)} referenceTemplate - The shape template of an entity reference (the identifier array), or null if unknown. Fields the schema marks required (identifierScope, identifierValue) are stamped `$required: true`; the rest are convenience.
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
  * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
@@ -123,11 +126,11 @@
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
  */
 
+import { isCapitalized } from '../mlHelpers/util.js';
 import schemav21 from '../omc/validation/schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
 import schemav26 from '../omc/validation/schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
 import schemav28 from '../omc/validation/schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
 import schemav30 from '../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
-import { isCapitalized } from '../mlHelpers/util.js';
 
 import { referenceRequiredFields } from './schemaFacts.js';
 import * as omc2 from './v2-8/index.js';
@@ -157,68 +160,16 @@ const omcTemplate = {
     edgeTable: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].edgeTable
     )),
-    // Returns null rather than throwing for an unknown schema version or entityType.
-    // Consumers ask this while rendering, so an unrecognised entity — a partial or
-    // stale record from the API, say — used to surface as a TypeError from deep inside
-    // the render pipeline instead of something the caller could act on. Matches the
-    // null-safe contract `template` below already has.
     presentation: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.presentation || null
     )),
     template: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
     )),
-    /**
-     * A schema version's human-readable label, e.g. 'v3.0' for
-     * 'https://movielabs.com/omc/json/schema/v3.0'.
-     *
-     * Consumers display the version in status lines and warnings, and were each
-     * slicing the URL themselves — the shape of a schema version string is this
-     * library's business, not theirs.
-     *
-     * @param {string|null|undefined} schemaVersion
-     * @param {string} [fallback='unknown'] - Returned when there is no version
-     * @returns {string}
-     *
-     * @example
-     * omcTemplate.versionLabel('https://movielabs.com/omc/json/schema/v3.0'); // 'v3.0'
-     * omcTemplate.versionLabel(null);                                         // 'unknown'
-     * omcTemplate.versionLabel(null, '');                                     // ''
-     */
     versionLabel: ((schemaVersion, fallback = 'unknown') => (
         schemaVersion ? String(schemaVersion).split('/').pop() : fallback
     )),
-    /**
-     * Is `key` an entity reference (a relationship) rather than a data property?
-     *
-     * OMC names entity references with a capitalised key; data properties are
-     * camelCase. Consumers must ask this rather than re-implementing the convention —
-     * a local `/^[A-Z]/` or `str[0] === str[0].toUpperCase()` disagree on keys that
-     * start with a non-cased character, which silently misclassifies them.
-     *
-     * `entityType` / `schemaVersion` are accepted so the rule can later be refined per
-     * entity (e.g. driven off the edge table) without changing any call site.
-     *
-     * @param {object} params
-     * @param {string} params.key - A key from an entity or its shape template
-     * @returns {boolean}
-     */
     isRelationshipKey: (({ key }) => isCapitalized(key)),
-    /**
-     * The shape of an entity reference — what a relationship actually stores.
-     *
-     * Mirrors the schema, where a reference is an object carrying the standard
-     * identifier array (`$defs/core/properties/reference`). Consumers should build
-     * their reference UI/paths from this instead of hardcoding `identifier[0].…`.
-     *
-     * Fields the schema marks required (identifierScope, identifierValue) are stamped
-     * `$required: true`; the rest (combinedForm, url) are convenience fields, so a
-     * consumer collecting a reference can show only what must be supplied.
-     *
-     * @param {object} params
-     * @param {string} params.schemaVersion
-     * @returns {object|null} A shape template, e.g. `{ identifier: { $type:'array', $items:{…} } }`
-     */
     referenceTemplate: (({ schemaVersion }) => {
         const base = versionTemplates[schemaVersion]?.entityTemplate?.baseEntity?.template;
         if (!base?.identifier) return null;
