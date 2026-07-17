@@ -19,5 +19,5 @@
 export function deepMerge(existing: object, incoming: object, options?: {
     nullOverwrite?: boolean;
 }, path?: string): object;
-export function mergeEntity(omc1: any, omc2: any, options: any): any;
+export function mergeEntity(omc1: any, omc2: any, options?: {}): any;
 //# sourceMappingURL=omcMerge.d.ts.map

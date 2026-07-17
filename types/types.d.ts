@@ -162,6 +162,14 @@ export type OmcStore = {
      */
     find: Function;
     /**
+     * - Register a listener called after any mutation; returns an unsubscribe function
+     */
+    subscribe: Function;
+    /**
+     * - Return a counter that changes on every mutation, for cheap change detection
+     */
+    getVersion: Function;
+    /**
      * - Get intrinsic properties for an entity
      */
     intrinsicProps: Function;

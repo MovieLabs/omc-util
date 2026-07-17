@@ -220,56 +220,104 @@ export namespace baseEntity {
             export { $type_19 as $type };
         }
         namespace identifier {
-            namespace identifierScope {
-                let $type_20: string;
-                export { $type_20 as $type };
-            }
-            namespace identifierValue {
-                let $type_21: string;
-                export { $type_21 as $type };
+            let $type_20: string;
+            export { $type_20 as $type };
+            export namespace $items {
+                namespace identifierScope {
+                    let $type_21: string;
+                    export { $type_21 as $type };
+                }
+                namespace identifierValue {
+                    let $type_22: string;
+                    export { $type_22 as $type };
+                }
+                namespace combinedForm {
+                    let $type_23: string;
+                    export { $type_23 as $type };
+                }
+                namespace url {
+                    let $type_24: string;
+                    export { $type_24 as $type };
+                }
             }
         }
         namespace entityType {
-            let $type_22: string;
-            export { $type_22 as $type };
+            let $type_25: string;
+            export { $type_25 as $type };
         }
         namespace name {
-            let $type_23: string;
-            export { $type_23 as $type };
+            let $type_26: string;
+            export { $type_26 as $type };
         }
         namespace description {
-            let $type_24: string;
-            export { $type_24 as $type };
+            let $type_27: string;
+            export { $type_27 as $type };
         }
         namespace annotation {
-            export namespace author {
-                let $type_25: string;
-                export { $type_25 as $type };
+            let $type_28: string;
+            export { $type_28 as $type };
+            export namespace $items_1 {
+                export namespace author {
+                    let $type_29: string;
+                    export { $type_29 as $type };
+                }
+                export namespace title_2 {
+                    let $type_30: string;
+                    export { $type_30 as $type };
+                }
+                export { title_2 as title };
+                export namespace text_2 {
+                    let $type_31: string;
+                    export { $type_31 as $type };
+                }
+                export { text_2 as text };
             }
-            export namespace title_2 {
-                let $type_26: string;
-                export { $type_26 as $type };
-            }
-            export { title_2 as title };
-            export namespace text_2 {
-                let $type_27: string;
-                export { $type_27 as $type };
-            }
-            export { text_2 as text };
+            export { $items_1 as $items };
         }
         namespace tag {
-            namespace domain {
-                let $type_28: string;
-                export { $type_28 as $type };
+            let $type_32: string;
+            export { $type_32 as $type };
+            export namespace $items_2 {
+                namespace domain {
+                    let $type_33: string;
+                    export { $type_33 as $type };
+                }
+                namespace value {
+                    let $type_34: string;
+                    export { $type_34 as $type };
+                    export namespace $items_3 {
+                        let $type_35: string;
+                        export { $type_35 as $type };
+                    }
+                    export { $items_3 as $items };
+                }
             }
-            namespace value {
-                let $type_29: string;
-                export { $type_29 as $type };
-            }
+            export { $items_2 as $items };
         }
         namespace customData {
-            let $type_30: string;
-            export { $type_30 as $type };
+            let $type_36: string;
+            export { $type_36 as $type };
+            export namespace $items_4 {
+                export namespace domain_1 {
+                    let $type_37: string;
+                    export { $type_37 as $type };
+                }
+                export { domain_1 as domain };
+                export namespace namespace {
+                    let $type_38: string;
+                    export { $type_38 as $type };
+                }
+                export namespace schema {
+                    let $type_39: string;
+                    export { $type_39 as $type };
+                }
+                export namespace value_1 {
+                    let $type_40: string;
+                    export { $type_40 as $type };
+                }
+                export { value_1 as value };
+            }
+            export { $items_4 as $items };
         }
     }
     export { template_6 as template };
@@ -300,10 +348,10 @@ export namespace baseEntity {
             }
             export { annotation_1 as annotation };
             export namespace tag_1 {
-                let domain_1: any;
-                export { domain_1 as domain };
-                let value_1: any;
-                export { value_1 as value };
+                let domain_2: any;
+                export { domain_2 as domain };
+                let value_2: any;
+                export { value_2 as value };
             }
             export { tag_1 as tag };
             let customData_1: any;
