@@ -45,7 +45,7 @@ const transform = (omc) => {
 /**
  * Manage an in memory cache of OMC entities
  * @ignore
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @returns {*}
  */
 const cache = () => {
@@ -194,7 +194,7 @@ function notify() {
  * {@link getVersion} when a cheap change-token is needed.
  *
  * @function subscribe
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @param {function(): void} listener
  * @returns {function(): void} Unsubscribe; safe to call more than once
  *
@@ -215,7 +215,7 @@ function subscribe(listener) {
  * exactly when the store does.
  *
  * @function getVersion
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @returns {number}
  */
 function getVersion() {
@@ -224,7 +224,7 @@ function getVersion() {
 
 /**
  * Set, or create, new entities in the store
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @static
  * @param {OmcJson} omc
  * @returns {*|null}
@@ -275,7 +275,7 @@ function get(omcId, options = {}) {
 /**
  * Remove OMC entities that exist in the internal cache
  * @function remove
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @param {OmcEntity} omc
  * @param {Object} options
  */
@@ -289,7 +289,7 @@ function remove(omc, options = {}) {
 /**
  * Remove OMC entities that exist in the internal cache
  * @function removeWithEdges
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @param {OmcEntity} omc
  */
 function removeWithEdges(omc) {
@@ -304,7 +304,7 @@ function removeWithEdges(omc) {
  * as this will serve as a single identifier that is already mapped to omc identifiers.
  *
  * @function internalId
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @param {OmcEntity} omcEntity
  * @param {Object} options
  */
@@ -358,7 +358,7 @@ function contextEdges(identifier) {
 
 /**
  * @function omcSDK
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @returns {OmcStore}
  */
 export default function omcSDK() {

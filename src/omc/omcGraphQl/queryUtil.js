@@ -18,7 +18,7 @@ export const createEntitySchema = (({ entityType, schemaVersion }) => {
  * Strip the graphQl wrapper from a graphQl response and return the OmcJson
  *
  * @function stripGraphQl
- * @memberOf module:omcGraphQl
+ * @memberof module:omcGraphQl
  * @param {Object} graphQlResponse - The response from a graphQl query
  * @param {OmcJson} graphQlResponse.data - Valid OMC-JSON
  * @returns {OmcJson} The OmcJson in the graphQl query response
@@ -37,7 +37,7 @@ export function stripGraphQl(graphQlResponse) {
  *
  * @function queryVariables
  * @static
- * @memberOf module:omcGraphQl
+ * @memberof module:omcGraphQl
  * @param {OmcEntityType} entityType
  * @returns {Array<Object.<string, string>>} Array of objects with property names as keys and their types as values
  *
@@ -73,7 +73,7 @@ export function queryVariables({ entityType, schemaVersion }) {
  *
  * @function entityQueries
  * @static
- * @memberOf module:omcGraphQl
+ * @memberof module:omcGraphQl
  * @returns {Array<{entityType: string, variables: Array<queryVariables>}>} Array of entity query configurations
  */
 export function entityQueries({ schemaVersion }) {

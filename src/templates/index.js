@@ -5,9 +5,9 @@
  */
 
 /**
- * @typeDef {Object} EntityConfiguration
- * @memberOf namespace:OmcUtil
- * @property {string} schmaGroup
+ * @memberof namespace:OmcUtil
+ * @typedef {Object} EntityConfiguration
+ * @property {string} schemaGroup
  * @property {string} idPrefix
  * @property {Object} presentation
  * @property {EntityTemplate} template
@@ -15,21 +15,21 @@
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef {Object} EntityTemplate
- * @memberOf namespace:OmcUtil
  * @property {Object.<string, PropertyTemplate>} property - The properties of the entity
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef PropertyTemplate
- * @memberOf namespace:OmcUtil
  * @property {string} type - The type for this property (JSON-Schema syntax)
  * @property {boolean} mergeKey - Set for properties that act as merge keys.
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef EdgeTemplate
- * @memberOf namespace:OmcUtil
  * @property {string} type - How the reference is STORED on the source entity ('array' | 'object').
  *   This is a storage shape, NOT a cardinality cap — in v3.0 every edge is stored as an array.
  *   Use `maxItems` to ask "at most one?".
@@ -50,8 +50,8 @@
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef {Object} GraphQlTemplate
- * @memberOf namespace:OmcUtil
  * @property {Object} properties - The properties that can be queried
  * @property {Object| null} filter - Properties that accept a graphQl filter
  * @property {Object | null} inlineFragment - Supplemental inline fragments needed on properties
@@ -60,8 +60,8 @@
 /**
  * Parameters passed in to request template details
  *
+ * @memberof namespace:OmcUtil
  * @typedef {Object} TemplateQuery
- * @memberOf namespace:OmcUtil
  * @property {string} schemaVersion - The schema version key (e.g., "v1.0.0")
  * @property {string} entityType - The entity type key (e.g., "Asset", "Person")
  */
@@ -69,8 +69,8 @@
 /**
  * The details for all edges on a given entityType
  *
+ * @memberof namespace:OmcUtil
  * @typedef {Object} EdgeTable
- * @memberOf namespace:OmcUtil
  * @property {Object.<OmcEntityType, EdgeTemplate>} edges - Descriptions of the regular edges
  * @property {Object.<OmcEntityType, EdgeTemplate>} intrinsic - Descriptions of the intrinsic edges
  * @property {Object.<OmcEntityType, EdgeTemplate>} cxtEdges - Descriptions of the edges allowed in related Context
@@ -79,8 +79,8 @@
 /**
  * Properties to be used when rendering the header section for an entity
  *
+ * @memberof namespace:OmcUtil
  * @typedef {Object} PresentationHeader
- * @memberOf namespace:OmcUtil
  * @property {string} backgroudColor - Background color for header when rendering the entity as node or in a UI
  * @property {string} fontColor - Font color for header when rendering the entity as node or in a UI
  * @property {string} entityLabel - A label for the entityType
@@ -91,27 +91,27 @@
  * Provides a set of suggested properties to display when rendering a node
  * Either the string indicating the property key, or a function that will return a string
  *
+ * @memberof namespace:OmcUtil
  * @typedef {Array<string, function>} PresentationProps
- * @memberOf namespace:OmcUtil
  */
 
 /**
  * A set of consistent values and methods useful when presenting an entity in a UI
  *
+ * @memberof namespace:OmcUtil
  * @typedef {Object} Presentation
- * @memberOf namespace:OmcUtil
  * @property {PresentationHeader} header
  * @property {PresentationProps} propRows
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef {Object<string, Array<OmcEntityType>>} SchemaGroups - Schema groups with all the entities that belong in that group
- * @memberOf namespace:OmcUtil
  */
 
 /**
+ * @memberof namespace:OmcUtil
  * @typedef {Object} OmcTemplate
- * @memberOf namespace:OmcUtil
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
  * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
@@ -154,7 +154,7 @@ const versionSchemas = {
 /**
  * Methods returning templated values based on the schema version
  * @type {OmcTemplate}
- * @memberOf namespace:OmcUtil
+ * @memberof namespace:OmcUtil
  */
 const omcTemplate = {
     edgeTable: (({ schemaVersion, entityType }) => (

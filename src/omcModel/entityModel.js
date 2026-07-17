@@ -5,8 +5,8 @@
 /**
  * A set of methods for conducting operations on a single OMC entity
  *
+ * @memberof module:entityModel
  * @typedef EntityModel
- * @memberOf module:entityModel
  */
 
 /**
