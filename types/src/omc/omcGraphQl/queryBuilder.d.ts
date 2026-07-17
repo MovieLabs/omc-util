@@ -1,6 +1,6 @@
 /**
  * @function queryBuilder
- * @memberOf module:omcGraphQl
+ * @memberof module:omcGraphQl
  * @param {Object} params - Parameters used for generating the query
  * @param {OmcEntityType} params.entityType - The root entity type from which to start the query
  * @param {QueryTemplate} params.template - The template for the query

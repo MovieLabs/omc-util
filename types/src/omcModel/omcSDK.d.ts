@@ -1,6 +1,6 @@
 /**
  * @function omcSDK
- * @memberOf module:omcSDK
+ * @memberof module:omcSDK
  * @returns {OmcStore}
  */
 export default function omcSDK(): OmcStore;
