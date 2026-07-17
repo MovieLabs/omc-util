@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/omc/migration/v2-8tov3-0.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-buildEdgeTable.html">buildEdgeTable</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-buildEdgeTable.html#.buildEdgeTable">buildEdgeTable</a></li><li data-type='method' style='display: none;'><a href="module-buildEdgeTable.html#~resolveInversePath">resolveInversePath</a></li></ul></li><li><a href="module-edges.html">edges</a><ul class='members'><li data-type='member' style='display: none;'><a href="module-edges.html#.intrinsicRdf">intrinsicRdf</a></li><li data-type='member' style='display: none;'><a href="module-edges.html#.tentativeRdf">tentativeRdf</a></li><li data-type='member' style='display: none;'><a href="module-edges.html#~CONTEXT_BEARERS">CONTEXT_BEARERS</a></li></ul></li><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.omcCompare">omcCompare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgesAllowed">edgesAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.intrinsicAllowed">intrinsicAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~chkIdentifier">chkIdentifier</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~edgeCreate">edgeCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~edgeValid">edgeValid</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#~isMatch">isMatch</a></li><li data-type='method' style='display: none;'><a href="module-omcFind.html#~omcFind">omcFind</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCombinedForm">idCombinedForm</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMerge.html">omcMerge</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMerge.html#~deepMerge">deepMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#~typeCategory">typeCategory</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~omcMigrate">omcMigrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.omcValidate">omcValidate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#baseKeys">baseKeys</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li><li><a href="global.html#migrateIntrinsicToEdge">migrateIntrinsicToEdge</a></li><li><a href="global.html#migrateLabel">migrateLabel</a></li><li><a href="global.html#migrateMember">migrateMember</a></li><li><a href="global.html#migrateName">migrateName</a></li><li><a href="global.html#migrateReferenceShape">migrateReferenceShape</a></li><li><a href="global.html#setEdgesFromContext">setEdgesFromContext</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/omc/migration/v2-8tov3-0.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Migrate an OMC entity from v2.8 to v3.0
+ *
+ * @ignore
+ */
+
+import { omcTemplate} from '../../templates/index.js';
+import { makeArray } from '../../mlHelpers/util.js';
+import { deepMerge } from '../omcMerge.js';
+
+import v28 from './v2-6tov2-8.js';
+import { edgeValid, edgeCreate } from '../omcEdges.js';
+
+const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
+
+const cxtEdges = ((cxt) => {
+    const {
+        schemaVersion: _sv,
+        entityType: _et,
+        identifier: _id,
+        name: _name,
+        description: _desc,
+        annotation: _anno,
+        tag: _tag,
+        customData: _cd,
+        instanceInfo: _if,
+        contextType: _ctxType,
+        contextCategory: _ctxCat,
+        Context: _cxt,
+        ForEntity: _for,
+        ...edges
+    } = cxt;
+    return edges;
+});
+
+/**
+ * Hoist edges carried on resolved Context entities onto the entity itself.
+ *
+ * In v2.x edges for an entity were carried on a Context (e.g. features, has,
+ * for). v3.x moves those edges directly onto the entity's `edges` property.
+ * This helper expects `omc.Context` to already contain fully-resolved Context
+ * entities (the client inlines them before calling migrate). Any item without
+ * an entityType is treated as an unresolved reference and skipped.
+ *
+ * Non-edge Context metadata (schemaVersion, entityType, identifier, name,
+ * description, contextType, contextCategory, ForEntity) is stripped; whatever
+ * remains on the Context is, by definition, an edge. When multiple Contexts
+ * contribute edges they are deep-merged into a single `edges` object, and
+ * merged on top of any pre-existing `edges` property on the entity.
+ *
+ * @param {OmcEntity} omc
+ * @returns {OmcEntity}
+ */
+function setEdgesFromContext(omc) {
+    const { Context, ...update } = omc; // Context will be removed
+    if (!omc || !Array.isArray(Context) || Context.length === 0) return update;
+
+    const edgeFragments = Context
+        .filter((ctx) => ctx &amp;&amp; ctx.entityType === 'Context') // Skip unresolved refs
+        .map((cxt) => cxtEdges(cxt)); // Just the edge properties
+
+    if (edgeFragments.length === 0) return update;
+
+    const merged = edgeFragments.reduce((acc, frag) => deepMerge(acc, frag), {});
+    if (Object.keys(merged).length === 0) return update;
+
+    const existing = omc.edges &amp;&amp; typeof omc.edges === 'object' ? omc.edges : {};
+    const edges = deepMerge(existing, merged);
+    return {
+        ...update,
+        edges,
+    };
+}
+
+/**
+ * Hoist edges carried on resolved Context entities onto the entity itself.
+ *
+ * @param {OmcEntity} omc
+ * @returns {OmcEntity}
+ */
+
+const baseKeys = ['entityType', 'identifier', 'name', 'description', 'annotation', 'tag', 'customData', 'instanceInfo', 'contextType', 'contextCategory', 'Context'];
+
+function setContextEdges(omc) {
+    if (omc.entityType !== 'Context') return omc;
+
+    // Copy the non-edge properties that need to be preserved
+    const migratedContext = baseKeys.reduce((cxt, key) => (omc[key] ? { ...cxt, [key]: omc[key] } : cxt), {});
+    const edges = cxtEdges(omc); // Just the edges;
+
+    return {
+        schemaVersion,
+        ...migratedContext,
+        edges,
+    };
+}
+
+/**
+ * For properties where we removed an intrinsic edge and replaced it with a regular edge, we need
+ * to create the edge in one direction
+ * @param {OmcJson} omc
+ * @param {string} targetProp - This is the property name for the intrinsic edge and target entity type
+ * @param {string} entityType - The targets entityType, which may be different from targetProp value
+ * @returns {*}
+ */
+
+function migrateIntrinsicToEdge(omc, targetProp, entityType) {
+    if (!omc[targetProp]) return omc;
+    const refIdentifiers = makeArray(omc[targetProp]);
+    refIdentifiers.forEach((id) => {
+        edgeCreate({
+            fromEntity: omc,
+            toEntity: {
+                schemaVersion,
+                entityType,
+                identifier: id.identifier,
+            },
+        });
+    });
+    delete omc[targetProp];
+    return omc;
+}
+
+/**
+ * Migrate the entity 'group' property to the new Member property and deletes the original
+ * @param entityType
+ * @param omc
+ */
+function migrateMember(omc, entityType) {
+    const { [entityType]: Member, ...rest } = omc;
+    return typeof Member === 'undefined' ? { ...rest } : { ...rest, Member };
+}
+
+/**
+ * The reference shape for some properties has been changed from a singleton to an array of references
+ */
+function migrateReferenceShape(omc, targetProp) {
+    const reference = omc[targetProp];
+    if (!reference) return omc;
+    return {
+        ...omc,
+        [targetProp]: makeArray(omc[targetProp]),
+    };
+}
+
+/**
+ * Migrate the name property to use the new property label
+ */
+function migrateLabel(omc) {
+    const { name: label, ...rest } = omc;
+    return typeof label === 'undefined' ? { ...rest } : { ...rest, label };
+}
+
+/**
+ * Populate the new name property on entities where it did not previously exist
+ */
+function migrateName(omc, nameKey) {
+    const { label = null } = omc; // Use the label for the name
+    omc[nameKey] = { fullName: label };
+    return omc;
+}
+
+export default {
+    Asset: (omc) => {
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Asset(omc)),
+                schemaVersion,
+            },
+            'Asset',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'AssetSC');
+        return migrateName(migrateLabel(update), 'assetName');
+    },
+    AssetSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.AssetSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'assetSCName');
+    },
+    Infrastructure: (omc) => {
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Infrastructure(omc)),
+                schemaVersion,
+            },
+            'Infrastructure',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'InfrastructureSC');
+        return migrateName(migrateLabel(update), 'infrastructureName');
+    },
+    InfrastructureSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.InfrastructureSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'infrastructureSCName');
+    },
+    Character: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.Character(omc)),
+            schemaVersion,
+        };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        return migrateLabel(update);
+    },
+    Context: (omc) => {
+        const update = {
+            ...setContextEdges(v28.Context(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'contextName');
+    },
+    CreativeWork: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.CreativeWork(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Depiction: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.Depiction(omc)),
+            schemaVersion,
+        };
+        const update = migrateReferenceShape(migrateReferenceShape(memberUpdate, 'Depicts'), 'Depicter');
+        return migrateName(migrateLabel(update), 'depictionName');
+    },
+    Effect: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Effect(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'effectName');
+    },
+    NarrativeAudio: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeAudio(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'narrativeAudioName');
+    },
+    NarrativeAction: (omc) => {
+        const specialActionType = omc.narrativeActionType || 'specialAction';
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeAction(omc)),
+            schemaVersion,
+            entityType: 'SpecialAction',
+            specialActionType,
+        };
+        delete update.narrativeActionType;
+        return migrateName(migrateLabel(update), 'specialActionName');
+    },
+    NarrativeLocation: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.NarrativeLocation(omc)),
+            schemaVersion,
+        };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        return migrateName(migrateLabel(update), 'narrativeLocationName');
+    },
+    NarrativeObject: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.NarrativeObject(omc)),
+            schemaVersion,
+        };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        return migrateName(migrateLabel(update), 'narrativeObjectName');
+    },
+    NarrativeScene: (omc) => {
+        const { sceneName } = omc || null;
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeScene(omc)),
+            schemaVersion,
+            narrativeSceneName: sceneName,
+        };
+        delete update.sceneName;
+        return migrateLabel(update);
+    },
+    NarrativeStyling: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.NarrativeStyling(omc)),
+            schemaVersion,
+        };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        return migrateName(migrateLabel(update), 'narrativeStylingName');
+    },
+    NarrativeWardrobe: (omc) => {
+        const memberUpdate = {
+            ...setEdgesFromContext(v28.NarrativeWardrobe(omc)),
+            schemaVersion,
+        };
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        return migrateName(migrateLabel(update), 'narrativeWardrobeName');
+    },
+    ProductionLocation: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.NarrativeLocation(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'productionLocationName');
+    },
+    ProductionScene: (omc) => {
+        const { sceneName = null } = omc;
+        const update = {
+            ...setEdgesFromContext(v28.ProductionScene(omc)),
+            schemaVersion,
+            productionSceneName: sceneName,
+        };
+        delete update.sceneName;
+        return migrateName(migrateLabel(update), 'productionSceneName');
+    },
+    Sequence: (omc) => (omc), // Sequence is fully deprecated and will fail validation
+    Slate: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Slate(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    SpecialAction: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.SpecialAction(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'specialActionName');
+    },
+    Participant: (omc) => {
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Participant(omc)),
+                schemaVersion,
+            },
+            'Participant',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'ParticipantSC');
+        return migrateLabel(update);
+    },
+    Organization: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Organization(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Department: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Department(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Person: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Person(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Service: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Service(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Role: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Role(omc)),
+            schemaVersion,
+        };
+        return migrateLabel(update);
+    },
+    Task: (omc) => {
+        const memberUpdate = migrateMember(
+            {
+                ...setEdgesFromContext(v28.Task(omc)),
+                schemaVersion,
+            },
+            'Task',
+        );
+        const update = migrateReferenceShape(memberUpdate, 'TaskSC');
+        return migrateName(migrateLabel(update), 'taskName');
+    },
+    TaskSC: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.TaskSC(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'taskSCName');
+    },
+    Location: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Location(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'locationName');
+    },
+    Collection: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Collection(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'collectionName');
+    },
+    Composition: (omc) => {
+        const update = {
+            ...setEdgesFromContext(v28.Composition(omc)),
+            schemaVersion,
+        };
+        return migrateName(migrateLabel(update), 'compositionName');
+    },
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed May 27 2026 08:32:46 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

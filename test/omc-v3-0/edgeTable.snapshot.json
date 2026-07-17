@@ -1,0 +1,2531 @@
+{
+  "Asset": {
+    "cxtEdges": {
+      "edges.cxtFor.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Asset",
+        "type": "array"
+      },
+      "edges.for.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.has.Context",
+        "omcPredicate": "omcT:anAssetFor.NarrativeScene",
+        "path": "edges.for.NarrativeScene",
+        "type": "array"
+      },
+      "edges.has.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:anAssetHas.Participant",
+        "path": "edges.has.Participant",
+        "type": "array"
+      },
+      "edges.has.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:anAssetHas.Slate",
+        "path": "edges.has.Slate",
+        "type": "array"
+      },
+      "edges.memberOf.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:anAssetMemberOf.Asset",
+        "path": "edges.memberOf.Asset",
+        "type": "array"
+      },
+      "edges.productOf.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": "Product",
+        "omcPredicate": "omc-legacy:isProducedBy.Composition",
+        "path": "edges.productOf.Composition",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.uses.Context",
+        "omcPredicate": "omcT:anAssetUsedIn.ProductionLocation",
+        "path": "edges.usedIn.ProductionLocation",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.Context",
+        "omcPredicate": "omcT:anAssetUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.for.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.has.Asset",
+        "omcPredicate": "omcT:anAssetFor.NarrativeScene",
+        "path": "edges.for.NarrativeScene",
+        "type": "array"
+      },
+      "edges.has.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.Asset",
+        "omcPredicate": "omcT:anAssetHas.Participant",
+        "path": "edges.has.Participant",
+        "type": "array"
+      },
+      "edges.has.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.for.Asset",
+        "omcPredicate": "omcT:anAssetHas.Slate",
+        "path": "edges.has.Slate",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Asset",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.memberOf.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:anAssetMemberOf.Asset",
+        "path": "edges.memberOf.Asset",
+        "type": "array"
+      },
+      "edges.productOf.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": "Product",
+        "omcPredicate": "omc-legacy:isProducedBy.Composition",
+        "path": "edges.productOf.Composition",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.uses.Asset",
+        "omcPredicate": "omcT:anAssetUsedIn.ProductionLocation",
+        "path": "edges.usedIn.ProductionLocation",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.Asset",
+        "omcPredicate": "omcT:anAssetUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "AssetSC": {
+        "allowed": [
+          "AssetSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasAssetStructuralCharacteristic",
+        "path": "AssetSC",
+        "type": "object"
+      },
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicter",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      },
+      "Member": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.memberOf.Asset",
+        "omcPredicate": "omc:hasMember",
+        "path": "Member",
+        "type": "array"
+      },
+      "Provenance": {
+        "allowed": [
+          "Provenance"
+        ],
+        "inverse": "edges.has.Asset",
+        "omcPredicate": "omc:hasProvenance",
+        "path": "Provenance",
+        "type": "array"
+      }
+    }
+  },
+  "AssetSC": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {}
+  },
+  "Character": {
+    "cxtEdges": {
+      "edges.cxtFor.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Character",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aCharacterFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.needs.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.Effect",
+        "path": "edges.needs.Effect",
+        "type": "array"
+      },
+      "edges.needs.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeAudio",
+        "path": "edges.needs.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.needs.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeObject",
+        "path": "edges.needs.NarrativeObject",
+        "type": "array"
+      },
+      "edges.needs.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeStyling",
+        "path": "edges.needs.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.needs.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeWardrobe",
+        "path": "edges.needs.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.needs.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.neededBy.Context",
+        "omcPredicate": "omcT:aCharacterNeeds.SpecialAction",
+        "path": "edges.needs.SpecialAction",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Character",
+        "omcPredicate": "omcT:aCharacterFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Character",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.needs.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.Effect",
+        "path": "edges.needs.Effect",
+        "type": "array"
+      },
+      "edges.needs.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeAudio",
+        "path": "edges.needs.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.needs.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeObject",
+        "path": "edges.needs.NarrativeObject",
+        "type": "array"
+      },
+      "edges.needs.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeStyling",
+        "path": "edges.needs.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.needs.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.NarrativeWardrobe",
+        "path": "edges.needs.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.needs.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.neededBy.Character",
+        "omcPredicate": "omcT:aCharacterNeeds.SpecialAction",
+        "path": "edges.needs.SpecialAction",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "Collection": {
+    "cxtEdges": {
+      "edges.cxtFor.Collection": {
+        "allowed": [
+          "Collection"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Collection",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Collection",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "includes.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Asset",
+        "type": "array"
+      },
+      "includes.AssetSC": {
+        "allowed": [
+          "AssetSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.AssetSC",
+        "type": "array"
+      },
+      "includes.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Character",
+        "type": "array"
+      },
+      "includes.Collection": {
+        "allowed": [
+          "Collection"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Collection",
+        "type": "array"
+      },
+      "includes.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Composition",
+        "type": "array"
+      },
+      "includes.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.CreativeWork",
+        "type": "array"
+      },
+      "includes.Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Depiction",
+        "type": "array"
+      },
+      "includes.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Effect",
+        "type": "array"
+      },
+      "includes.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Infrastructure",
+        "type": "array"
+      },
+      "includes.Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Location",
+        "type": "array"
+      },
+      "includes.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeAudio",
+        "type": "array"
+      },
+      "includes.NarrativeLocation": {
+        "allowed": [
+          "NarrativeLocation"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeLocation",
+        "type": "array"
+      },
+      "includes.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeObject",
+        "type": "array"
+      },
+      "includes.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeScene",
+        "type": "array"
+      },
+      "includes.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeStyling",
+        "type": "array"
+      },
+      "includes.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.NarrativeWardrobe",
+        "type": "array"
+      },
+      "includes.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Participant",
+        "type": "array"
+      },
+      "includes.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.ProductionLocation",
+        "type": "array"
+      },
+      "includes.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.ProductionScene",
+        "type": "array"
+      },
+      "includes.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Slate",
+        "type": "array"
+      },
+      "includes.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.SpecialAction",
+        "type": "array"
+      },
+      "software.ConfigurationFile": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasConfigurationFile",
+        "path": "software.ConfigurationFile",
+        "type": "object"
+      }
+    }
+  },
+  "Composition": {
+    "cxtEdges": {
+      "edges.cxtFor.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Composition",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Composition",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Product": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.productOf.Composition",
+        "omcPredicate": "omc:hasProduct",
+        "path": "Product",
+        "type": "array"
+      },
+      "StartHere": {
+        "allowed": [
+          "Asset",
+          "AssetSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:startHere",
+        "path": "StartHere",
+        "type": "array"
+      },
+      "includes.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Asset",
+        "type": "array"
+      },
+      "includes.AssetSC": {
+        "allowed": [
+          "AssetSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.AssetSC",
+        "type": "array"
+      },
+      "includes.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasIncludes",
+        "path": "includes.Composition",
+        "type": "array"
+      },
+      "software.ConfigurationFile": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasConfigurationFile",
+        "path": "software.ConfigurationFile",
+        "type": "object"
+      }
+    }
+  },
+  "Context": {
+    "cxtEdges": {
+      "edges.cxtFor.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Context",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.cxtFor.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Asset",
+        "type": "array"
+      },
+      "edges.cxtFor.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Character",
+        "type": "array"
+      },
+      "edges.cxtFor.Collection": {
+        "allowed": [
+          "Collection"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Collection",
+        "type": "array"
+      },
+      "edges.cxtFor.Composition": {
+        "allowed": [
+          "Composition"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Composition",
+        "type": "array"
+      },
+      "edges.cxtFor.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Context",
+        "type": "array"
+      },
+      "edges.cxtFor.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.CreativeWork",
+        "type": "array"
+      },
+      "edges.cxtFor.Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Depiction",
+        "type": "array"
+      },
+      "edges.cxtFor.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Effect",
+        "type": "array"
+      },
+      "edges.cxtFor.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Infrastructure",
+        "type": "array"
+      },
+      "edges.cxtFor.Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Location",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeLocation": {
+        "allowed": [
+          "NarrativeLocation"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeLocation",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeObject",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeScene",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.cxtFor.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.cxtFor.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Participant",
+        "type": "array"
+      },
+      "edges.cxtFor.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.ProductionLocation",
+        "type": "array"
+      },
+      "edges.cxtFor.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.ProductionScene",
+        "type": "array"
+      },
+      "edges.cxtFor.Provenance": {
+        "allowed": [
+          "Provenance"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Provenance",
+        "type": "array"
+      },
+      "edges.cxtFor.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Slate",
+        "type": "array"
+      },
+      "edges.cxtFor.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.SpecialAction",
+        "type": "array"
+      },
+      "edges.cxtFor.Task": {
+        "allowed": [
+          "Task"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Task",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Context",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {}
+  },
+  "CreativeWork": {
+    "cxtEdges": {
+      "edges.cxtFor.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.CreativeWork",
+        "type": "array"
+      },
+      "edges.has.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aCreativeWorkHas.Asset",
+        "path": "edges.has.Asset",
+        "type": "array"
+      },
+      "edges.has.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aCreativeWorkHas.NarrativeScene",
+        "path": "edges.has.NarrativeScene",
+        "type": "array"
+      },
+      "edges.related.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.related.Context",
+        "omcPredicate": "omcT:aCreativeWorkRelated.CreativeWork",
+        "path": "edges.related.CreativeWork",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.has.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.for.CreativeWork",
+        "omcPredicate": "omcT:aCreativeWorkHas.Asset",
+        "path": "edges.has.Asset",
+        "type": "array"
+      },
+      "edges.has.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.for.CreativeWork",
+        "omcPredicate": "omcT:aCreativeWorkHas.NarrativeScene",
+        "path": "edges.has.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.CreativeWork",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.related.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.related.CreativeWork",
+        "omcPredicate": "omcT:aCreativeWorkRelated.CreativeWork",
+        "path": "edges.related.CreativeWork",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Episode": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.related.CreativeWork",
+        "omcPredicate": "omc:hasEpisode",
+        "path": "Episode",
+        "type": "array"
+      },
+      "ProductionCompany": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.CreativeWork",
+        "omcPredicate": "omc:hasProductionCompany",
+        "path": "ProductionCompany",
+        "type": "array"
+      },
+      "Series": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.related.CreativeWork",
+        "omcPredicate": "omc:hasSeries",
+        "path": "Series",
+        "type": "object"
+      }
+    }
+  },
+  "Department": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "Depiction": {
+    "cxtEdges": {
+      "edges.cxtFor.Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Depiction",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.Context",
+        "omcPredicate": "omcT:aDepictionUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      },
+      "edges.uses.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.usedIn.Context",
+        "omcPredicate": "omcT:aDepictionUses.Asset",
+        "path": "edges.uses.Asset",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Depiction",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.Depiction",
+        "omcPredicate": "omcT:aDepictionUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      },
+      "edges.uses.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.usedIn.Depiction",
+        "omcPredicate": "omcT:aDepictionUses.Asset",
+        "path": "edges.uses.Asset",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depicter": {
+        "allowed": [
+          "Asset",
+          "Participant",
+          "Composition"
+        ],
+        "inverse": "Depiction",
+        "omcPredicate": "omc:isDepictedBy",
+        "path": "Depicter",
+        "type": "array"
+      },
+      "Depicts": {
+        "allowed": [
+          "Character",
+          "NarrativeObject",
+          "NarrativeWardrobe",
+          "NarrativeLocation",
+          "NarrativeAudio",
+          "NarrativeStyling"
+        ],
+        "inverse": "Depiction",
+        "omcPredicate": "omc:depicts",
+        "path": "Depicts",
+        "type": "object"
+      }
+    }
+  },
+  "Effect": {
+    "cxtEdges": {
+      "edges.cxtFor.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Effect",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:anEffectFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:anEffectNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Effect",
+        "omcPredicate": "omcT:anEffectFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Effect",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Effect",
+        "omcPredicate": "omcT:anEffectNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {}
+  },
+  "Infrastructure": {
+    "cxtEdges": {
+      "edges.cxtFor.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Infrastructure",
+        "type": "array"
+      },
+      "edges.has.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:anInfrastructureHas.SpecialAction",
+        "path": "edges.has.SpecialAction",
+        "type": "array"
+      },
+      "edges.memberOf.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:anInfrastructureMemberOf.Infrastructure",
+        "path": "edges.memberOf.Infrastructure",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.has.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.for.Infrastructure",
+        "omcPredicate": "omcT:anInfrastructureHas.SpecialAction",
+        "path": "edges.has.SpecialAction",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Infrastructure",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.memberOf.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:anInfrastructureMemberOf.Infrastructure",
+        "path": "edges.memberOf.Infrastructure",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "InfrastructureSC": {
+        "allowed": [
+          "InfrastructureSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasInfrastructureStructuralCharacteristic",
+        "path": "InfrastructureSC",
+        "type": "object"
+      },
+      "Member": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "edges.memberOf.Infrastructure",
+        "omcPredicate": "omc:hasMember",
+        "path": "Member",
+        "type": "array"
+      }
+    }
+  },
+  "InfrastructureSC": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {}
+  },
+  "Location": {
+    "cxtEdges": {
+      "edges.cxtFor.Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Location",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Location",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {}
+  },
+  "NarrativeAudio": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aNarrativeAudioFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:aNarrativeAudioNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.NarrativeAudio",
+        "omcPredicate": "omcT:aNarrativeAudioFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeAudio",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.NarrativeAudio",
+        "omcPredicate": "omcT:aNarrativeAudioNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "NarrativeLocation": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeLocation": {
+        "allowed": [
+          "NarrativeLocation"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeLocation",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aNarrativeLocationFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.NarrativeLocation",
+        "omcPredicate": "omcT:aNarrativeLocationFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeLocation",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      },
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "NarrativeObject": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeObject",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aNarrativeObjectFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:aNarrativeObjectNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.NarrativeObject",
+        "omcPredicate": "omcT:aNarrativeObjectFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeObject",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.NarrativeObject",
+        "omcPredicate": "omcT:aNarrativeObjectNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "NarrativeScene": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeScene",
+        "type": "array"
+      },
+      "edges.features.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.Character",
+        "path": "edges.features.Character",
+        "type": "array"
+      },
+      "edges.features.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.Effect",
+        "path": "edges.features.Effect",
+        "type": "array"
+      },
+      "edges.features.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeAudio",
+        "path": "edges.features.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.features.NarrativeLocation": {
+        "allowed": [
+          "NarrativeLocation"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeLocation",
+        "path": "edges.features.NarrativeLocation",
+        "type": "array"
+      },
+      "edges.features.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeObject",
+        "path": "edges.features.NarrativeObject",
+        "type": "array"
+      },
+      "edges.features.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeStyling",
+        "path": "edges.features.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.features.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeWardrobe",
+        "path": "edges.features.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.features.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.featuresIn.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.SpecialAction",
+        "path": "edges.features.SpecialAction",
+        "type": "array"
+      },
+      "edges.for.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.has.Context",
+        "omcPredicate": "omcT:aNarrativeSceneFor.CreativeWork",
+        "path": "edges.for.CreativeWork",
+        "type": "array"
+      },
+      "edges.has.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aNarrativeSceneHas.Asset",
+        "path": "edges.has.Asset",
+        "type": "array"
+      },
+      "edges.has.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aNarrativeSceneHas.ProductionScene",
+        "path": "edges.has.ProductionScene",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.features.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.Character",
+        "path": "edges.features.Character",
+        "type": "array"
+      },
+      "edges.features.Effect": {
+        "allowed": [
+          "Effect"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.Effect",
+        "path": "edges.features.Effect",
+        "type": "array"
+      },
+      "edges.features.NarrativeAudio": {
+        "allowed": [
+          "NarrativeAudio"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeAudio",
+        "path": "edges.features.NarrativeAudio",
+        "type": "array"
+      },
+      "edges.features.NarrativeLocation": {
+        "allowed": [
+          "NarrativeLocation"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeLocation",
+        "path": "edges.features.NarrativeLocation",
+        "type": "array"
+      },
+      "edges.features.NarrativeObject": {
+        "allowed": [
+          "NarrativeObject"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeObject",
+        "path": "edges.features.NarrativeObject",
+        "type": "array"
+      },
+      "edges.features.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeStyling",
+        "path": "edges.features.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.features.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.NarrativeWardrobe",
+        "path": "edges.features.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.features.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.featuresIn.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFeatures.SpecialAction",
+        "path": "edges.features.SpecialAction",
+        "type": "array"
+      },
+      "edges.for.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.has.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneFor.CreativeWork",
+        "path": "edges.for.CreativeWork",
+        "type": "array"
+      },
+      "edges.has.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.for.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneHas.Asset",
+        "path": "edges.has.Asset",
+        "type": "array"
+      },
+      "edges.has.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.for.NarrativeScene",
+        "omcPredicate": "omcT:aNarrativeSceneHas.ProductionScene",
+        "path": "edges.has.ProductionScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeScene",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "NarrativeStyling": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeStyling": {
+        "allowed": [
+          "NarrativeStyling"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeStyling",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aNarrativeStylingFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:aNarrativeStylingNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.NarrativeStyling",
+        "omcPredicate": "omcT:aNarrativeStylingFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeStyling",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.NarrativeStyling",
+        "omcPredicate": "omcT:aNarrativeStylingNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "NarrativeWardrobe": {
+    "cxtEdges": {
+      "edges.cxtFor.NarrativeWardrobe": {
+        "allowed": [
+          "NarrativeWardrobe"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.NarrativeWardrobe",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aNarrativeWardrobeFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:aNarrativeWardrobeNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.NarrativeWardrobe",
+        "omcPredicate": "omcT:aNarrativeWardrobeFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.NarrativeWardrobe",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.NarrativeWardrobe",
+        "omcPredicate": "omcT:aNarrativeWardrobeNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      }
+    }
+  },
+  "Organization": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "Participant": {
+    "cxtEdges": {
+      "edges.cxtFor.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Participant",
+        "type": "array"
+      },
+      "edges.for.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omcT:aParticipantFor.Asset",
+        "path": "edges.for.Asset",
+        "type": "array"
+      },
+      "edges.for.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "ProductionCompany",
+        "omcPredicate": "omcT:aParticipantFor.CreativeWork",
+        "path": "edges.for.CreativeWork",
+        "type": "array"
+      },
+      "edges.for.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "Director",
+        "omcPredicate": "omcT:aParticipantFor.Slate",
+        "path": "edges.for.Slate",
+        "type": "array"
+      },
+      "edges.memberOf.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:aParticipantMemberOf.Participant",
+        "path": "edges.memberOf.Participant",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.for.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omcT:aParticipantFor.Asset",
+        "path": "edges.for.Asset",
+        "type": "array"
+      },
+      "edges.for.CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "ProductionCompany",
+        "omcPredicate": "omcT:aParticipantFor.CreativeWork",
+        "path": "edges.for.CreativeWork",
+        "type": "array"
+      },
+      "edges.for.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "Director",
+        "omcPredicate": "omcT:aParticipantFor.Slate",
+        "path": "edges.for.Slate",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Participant",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.memberOf.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:aParticipantMemberOf.Participant",
+        "path": "edges.memberOf.Participant",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicter",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      },
+      "Member": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.memberOf.Participant",
+        "omcPredicate": "omc:hasMember",
+        "path": "Member",
+        "type": "array"
+      },
+      "ParticipantSC": {
+        "allowed": [
+          "Organization",
+          "Department",
+          "Person",
+          "Service"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasParticipantStructuralCharacteristic",
+        "path": "ParticipantSC",
+        "type": "object"
+      },
+      "participantFC.Role": {
+        "allowed": [
+          "Role"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasRole",
+        "path": "participantFC.Role",
+        "type": "array"
+      }
+    }
+  },
+  "Person": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "ProductionLocation": {
+    "cxtEdges": {
+      "edges.cxtFor.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.ProductionLocation",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.Context",
+        "omcPredicate": "omcT:aProductionLocationUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.ProductionLocation",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.usedIn.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.uses.ProductionLocation",
+        "omcPredicate": "omcT:aProductionLocationUsedIn.ProductionScene",
+        "path": "edges.usedIn.ProductionScene",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "Depicts",
+        "omcPredicate": "omc:hasDepiction",
+        "path": "Depiction",
+        "type": "array"
+      },
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "ProductionScene": {
+    "cxtEdges": {
+      "edges.cxtFor.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.ProductionScene",
+        "type": "array"
+      },
+      "edges.for.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.has.Context",
+        "omcPredicate": "omcT:aProductionSceneFor.NarrativeScene",
+        "path": "edges.for.NarrativeScene",
+        "type": "array"
+      },
+      "edges.has.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aProductionSceneHas.Slate",
+        "path": "edges.has.Slate",
+        "type": "array"
+      },
+      "edges.related.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.related.Context",
+        "omcPredicate": "omcT:aProductionSceneRelated.ProductionScene",
+        "path": "edges.related.ProductionScene",
+        "type": "array"
+      },
+      "edges.uses.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.usedIn.Context",
+        "omcPredicate": "omcT:aProductionSceneUses.Asset",
+        "path": "edges.uses.Asset",
+        "type": "array"
+      },
+      "edges.uses.Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "edges.usedIn.Context",
+        "omcPredicate": "omcT:aProductionSceneUses.Depiction",
+        "path": "edges.uses.Depiction",
+        "type": "array"
+      },
+      "edges.uses.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.usedIn.Context",
+        "omcPredicate": "omcT:aProductionSceneUses.ProductionLocation",
+        "path": "edges.uses.ProductionLocation",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.for.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.has.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneFor.NarrativeScene",
+        "path": "edges.for.NarrativeScene",
+        "type": "array"
+      },
+      "edges.has.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.for.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneHas.Slate",
+        "path": "edges.has.Slate",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.ProductionScene",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.related.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.related.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneRelated.ProductionScene",
+        "path": "edges.related.ProductionScene",
+        "type": "array"
+      },
+      "edges.uses.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.usedIn.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneUses.Asset",
+        "path": "edges.uses.Asset",
+        "type": "array"
+      },
+      "edges.uses.Depiction": {
+        "allowed": [
+          "Depiction"
+        ],
+        "inverse": "edges.usedIn.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneUses.Depiction",
+        "path": "edges.uses.Depiction",
+        "type": "array"
+      },
+      "edges.uses.ProductionLocation": {
+        "allowed": [
+          "ProductionLocation"
+        ],
+        "inverse": "edges.usedIn.ProductionScene",
+        "omcPredicate": "omcT:aProductionSceneUses.ProductionLocation",
+        "path": "edges.uses.ProductionLocation",
+        "type": "array"
+      }
+    },
+    "intrinsic": {}
+  },
+  "Provenance": {
+    "cxtEdges": {
+      "edges.cxtFor.Provenance": {
+        "allowed": [
+          "Provenance"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Provenance",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Provenance",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "CreatedBy": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasAuthor",
+        "path": "CreatedBy",
+        "type": "array"
+      },
+      "Origin": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasOrigin",
+        "path": "Origin",
+        "type": "array"
+      },
+      "Role": {
+        "allowed": [
+          "Role"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasRole",
+        "path": "Role",
+        "type": "array"
+      }
+    }
+  },
+  "Role": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {}
+  },
+  "Service": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {
+      "Location": {
+        "allowed": [
+          "Location"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasLocation",
+        "path": "Location",
+        "type": "array"
+      }
+    }
+  },
+  "Slate": {
+    "cxtEdges": {
+      "edges.cxtFor.Slate": {
+        "allowed": [
+          "Slate"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Slate",
+        "type": "array"
+      },
+      "edges.for.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.has.Context",
+        "omcPredicate": "omcT:aSlateFor.Asset",
+        "path": "edges.for.Asset",
+        "type": "array"
+      },
+      "edges.for.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.has.Context",
+        "omcPredicate": "omcT:aSlateFor.ProductionScene",
+        "path": "edges.for.ProductionScene",
+        "type": "array"
+      },
+      "edges.has.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aSlateHas.Infrastructure",
+        "path": "edges.has.Infrastructure",
+        "type": "array"
+      },
+      "edges.has.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.Context",
+        "omcPredicate": "omcT:aSlateHas.Participant",
+        "path": "edges.has.Participant",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.for.Asset": {
+        "allowed": [
+          "Asset"
+        ],
+        "inverse": "edges.has.Slate",
+        "omcPredicate": "omcT:aSlateFor.Asset",
+        "path": "edges.for.Asset",
+        "type": "array"
+      },
+      "edges.for.ProductionScene": {
+        "allowed": [
+          "ProductionScene"
+        ],
+        "inverse": "edges.has.Slate",
+        "omcPredicate": "omcT:aSlateFor.ProductionScene",
+        "path": "edges.for.ProductionScene",
+        "type": "array"
+      },
+      "edges.has.Infrastructure": {
+        "allowed": [
+          "Infrastructure"
+        ],
+        "inverse": "edges.for.Slate",
+        "omcPredicate": "omcT:aSlateHas.Infrastructure",
+        "path": "edges.has.Infrastructure",
+        "type": "array"
+      },
+      "edges.has.Participant": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.Slate",
+        "omcPredicate": "omcT:aSlateHas.Participant",
+        "path": "edges.has.Participant",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Slate",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "CreativeWork": {
+        "allowed": [
+          "CreativeWork"
+        ],
+        "inverse": "edges.has.Slate",
+        "omcPredicate": "omc:hasCreativeWork",
+        "path": "CreativeWork",
+        "type": "object"
+      },
+      "Director": {
+        "allowed": [
+          "Participant"
+        ],
+        "inverse": "edges.for.Slate",
+        "omcPredicate": "omc:hasDirector",
+        "path": "Director",
+        "type": "array"
+      }
+    }
+  },
+  "SpecialAction": {
+    "cxtEdges": {
+      "edges.cxtFor.SpecialAction": {
+        "allowed": [
+          "SpecialAction"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.SpecialAction",
+        "type": "array"
+      },
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.Context",
+        "omcPredicate": "omcT:aSpecialActionFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.Context",
+        "omcPredicate": "omcT:aSpecialActionNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.featuresIn.NarrativeScene": {
+        "allowed": [
+          "NarrativeScene"
+        ],
+        "inverse": "edges.features.SpecialAction",
+        "omcPredicate": "omcT:aSpecialActionFeaturesIn.NarrativeScene",
+        "path": "edges.featuresIn.NarrativeScene",
+        "type": "array"
+      },
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.SpecialAction",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.neededBy.Character": {
+        "allowed": [
+          "Character"
+        ],
+        "inverse": "edges.needs.SpecialAction",
+        "omcPredicate": "omcT:aSpecialActionNeededBy.Character",
+        "path": "edges.neededBy.Character",
+        "type": "array"
+      }
+    },
+    "intrinsic": {}
+  },
+  "Task": {
+    "cxtEdges": {
+      "edges.cxtFor.Task": {
+        "allowed": [
+          "Task"
+        ],
+        "inverse": "edges.hasCxt.Context",
+        "omcPredicate": "omc:isContextFor",
+        "path": "edges.cxtFor.Task",
+        "type": "array"
+      },
+      "edges.memberOf.Task": {
+        "allowed": [
+          "Task"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:aTaskMemberOf.Task",
+        "path": "edges.memberOf.Task",
+        "type": "array"
+      }
+    },
+    "edges": {
+      "edges.hasCxt.Context": {
+        "allowed": [
+          "Context"
+        ],
+        "inverse": "edges.cxtFor.Task",
+        "omcPredicate": "omc:hasContext",
+        "path": "edges.hasCxt.Context",
+        "type": "array"
+      },
+      "edges.memberOf.Task": {
+        "allowed": [
+          "Task"
+        ],
+        "inverse": "Member",
+        "omcPredicate": "omcT:aTaskMemberOf.Task",
+        "path": "edges.memberOf.Task",
+        "type": "array"
+      }
+    },
+    "intrinsic": {
+      "Member": {
+        "allowed": [
+          "Task"
+        ],
+        "inverse": "edges.memberOf.Task",
+        "omcPredicate": "omc:hasMember",
+        "path": "Member",
+        "type": "array"
+      },
+      "TaskSC": {
+        "allowed": [
+          "TaskSC"
+        ],
+        "inverse": null,
+        "omcPredicate": "omc:hasTaskStructuralCharacteristic",
+        "path": "TaskSC",
+        "type": "object"
+      }
+    }
+  },
+  "TaskSC": {
+    "cxtEdges": {},
+    "edges": {},
+    "intrinsic": {}
+  }
+}

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>edges - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/your-github-username/pet-adoption-center-sdk" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Modules</h3><ul><li><a href="module-buildEdgeTable.html">buildEdgeTable</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-buildEdgeTable.html#.buildEdgeTable">buildEdgeTable</a></li><li data-type='method' style='display: none;'><a href="module-buildEdgeTable.html#~resolveInversePath">resolveInversePath</a></li></ul></li><li><a href="module-edges.html">edges</a><ul class='members'><li data-type='member' style='display: none;'><a href="module-edges.html#.intrinsicRdf">intrinsicRdf</a></li><li data-type='member' style='display: none;'><a href="module-edges.html#.tentativeRdf">tentativeRdf</a></li><li data-type='member' style='display: none;'><a href="module-edges.html#~CONTEXT_BEARERS">CONTEXT_BEARERS</a></li></ul></li><li><a href="module-entityModel.html">entityModel</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-entityModel.html#~entityModel">entityModel</a></li></ul></li><li><a href="module-omcCompare.html">omcCompare</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcCompare.html#.omcCompare">omcCompare</a></li></ul></li><li><a href="module-omcEdges.html">omcEdges</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.edgesAllowed">edgesAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseKeys">getBaseKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getBaseProps">getBaseProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getContextKeys">getContextKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicKeys">getIntrinsicKeys</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.getIntrinsicProps">getIntrinsicProps</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.intrinsicAllowed">intrinsicAllowed</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#.removeEdge">removeEdge</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~chkIdentifier">chkIdentifier</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~edgeCreate">edgeCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcEdges.html#~edgeValid">edgeValid</a></li></ul></li><li><a href="module-omcFind.html">omcFind</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcFind.html#~isMatch">isMatch</a></li><li data-type='method' style='display: none;'><a href="module-omcFind.html#~omcFind">omcFind</a></li></ul></li><li><a href="module-omcGraphQl.html">omcGraphQl</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.entityQueries">entityQueries</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryBuilder">queryBuilder</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.queryVariables">queryVariables</a></li><li data-type='method' style='display: none;'><a href="module-omcGraphQl.html#.stripGraphQl">stripGraphQl</a></li></ul></li><li><a href="module-omcIdentifier.html">omcIdentifier</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.find">find</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.hasMatching">hasMatching</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCombinedForm">idCombinedForm</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idCreate">idCreate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idIsDuplicate">idIsDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idKey">idKey</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idMerge">idMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idOfScope">idOfScope</a></li><li data-type='method' style='display: none;'><a href="module-omcIdentifier.html#.idRemove">idRemove</a></li></ul></li><li><a href="module-omcMerge.html">omcMerge</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMerge.html#~deepMerge">deepMerge</a></li><li data-type='method' style='display: none;'><a href="module-omcMerge.html#~typeCategory">typeCategory</a></li></ul></li><li><a href="module-omcMigrate.html">omcMigrate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcMigrate.html#~omcMigrate">omcMigrate</a></li></ul></li><li><a href="module-omcSDK.html">omcSDK</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.internalId">internalId</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.omcSDK">omcSDK</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.remove">remove</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.removeWithEdges">removeWithEdges</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#.set">set</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~get">get</a></li><li data-type='method' style='display: none;'><a href="module-omcSDK.html#~replace">replace</a></li></ul></li><li><a href="module-omcTransform.html">omcTransform</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.deDuplicate">deDuplicate</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toArray">toArray</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.toObject">toObject</a></li><li data-type='method' style='display: none;'><a href="module-omcTransform.html#.unEmbed">unEmbed</a></li></ul></li><li><a href="module-omcValidate.html">omcValidate</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-omcValidate.html#.omcValidate">omcValidate</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="OMC.html">OMC</a></li><li><a href="OmcUtil.html">OmcUtil</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#OmcGeneralConfig">OmcGeneralConfig</a></li><li><a href="global.html#baseKeys">baseKeys</a></li><li><a href="global.html#generalConfig">generalConfig</a></li><li><a href="global.html#inverseEdges">inverseEdges</a></li><li><a href="global.html#migrateIntrinsicToEdge">migrateIntrinsicToEdge</a></li><li><a href="global.html#migrateLabel">migrateLabel</a></li><li><a href="global.html#migrateMember">migrateMember</a></li><li><a href="global.html#migrateName">migrateName</a></li><li><a href="global.html#migrateReferenceShape">migrateReferenceShape</a></li><li><a href="global.html#setEdgesFromContext">setEdgesFromContext</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">edges</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext"><p>Consolidated, predicate-centric definition of every OMC v3-0 edge.</p>
+<p>This file is the single source of truth for relationship <em>meaning</em>. It replaces the
+per-entity <code>$edge</code> / <code>edges</code> / <code>cxtEdges</code> blocks that were previously hand-authored in
+each entity template. The build (templates/v3-0/index.js) expands these definitions into
+the existing <code>entityTemplate[type].edgeTable = { intrinsic, edges, cxtEdges }</code> shape, so
+downstream consumers (omcEdges, the GraphQL builder, the SDK) are unaffected.</p>
+<h2>MODEL</h2>
+<p>Each entry is one predicate (an RDF property family). It carries:</p>
+<ul>
+<li>cardinality : 'array' | 'object'  — how the reference is stored on the source entity</li>
+<li>inverse     : predicate name (resolved against inverseEdges.js) or null when the
+reverse direction is not materialised as a JSON edge</li>
+<li>rdf         : ({ domain, predicate, range }) =&gt; string  — generates the formal RDF
+predicate name (template driven). Defaults below; override per predicate.</li>
+<li>placement   : 'edges' (default) | 'property'
+'edges'    → reference lives at  edges.{predicate}.{range}
+'property' → reference lives at a named property (intrinsic edge),
+path defaults to {predicate}</li>
+<li>pathTemplate: optional override using {predicate} and {range} placeholders</li>
+<li>connects    : [{ domain:[...], range:[...], inverse?, path?, pathTemplate?, rdfMap? }]
+each element is a domain→range constraint group (an OWL-restriction
+style pairing). <code>inverse</code> / <code>path</code> may be overridden per group when a
+predicate behaves asymmetrically across domains (e.g. Depiction).</li>
+</ul>
+<h2>RDF ALIGNMENT (rdfMap)</h2>
+<p><code>rdfMap</code> is a per-group array naming the EXISTING CANONICAL RDF predicate(s) in the
+parallel RDF model (../Prodtech-OMC-Data-Model .../omc.ttl, v2.8) that express the same
+relationship. It is curated alignment documentation, not generated output — the long-term
+goal is to converge the two models. The Tentative (machine-expanded, <code>v2.8Tentative#</code>,
+<code>omcT:a&lt;Domain&gt;&lt;Predicate&gt;.&lt;Range&gt;</code>) layer is intentionally NOT listed here: it mirrors the
+JSON edges 1:1 and is already produced per entry by the <code>rdf</code> generator (the <code>omcPredicate</code>
+field). rdfMap therefore captures only what omcPredicate does not — the curated <code>omc:</code>
+layer. Notation used inside rdfMap strings:</p>
+<ul>
+<li><code>omc:foo</code>   — a canonical (curated) RDF object property</li>
+<li><code>~</code> prefix  — the named RDF property runs in the INVERSE direction</li>
+<li><code>(Type)</code>    — the predicate only covers that slice of the JSON domain/range
+(RDF uses owl:unionOf where JSON splits by type)</li>
+<li><code>[]</code>        — no canonical omc: predicate (the edge may still have a Tentative
+<code>omcPredicate</code>, or be genuinely JSON-only)
+Two structural mismatches recur and explain most <code>(Type)</code> notes and <code>[]</code> gaps:</li>
+</ul>
+<ol>
+<li>RDF has class inheritance, JSON does not. JSON folds RDF subclasses into one
+entityType (e.g. AssetGroup⊂Asset, AssetAsStructure≈AssetSC, ParticipantAsStructure
+≈Person/Org/...), so a JSON Asset→Asset edge maps to an RDF Asset→AssetGroup property.</li>
+<li>RDF reifies some relationships JSON keeps generic (Storyboard, Contribution, etc.).
+See reference_omc_rdf_model and project_v3-edge-consolidation memory for the full synopsis.</li>
+</ol>
+<h2>SCOPE OF THIS DRAFT</h2>
+<p>Covers the regular (<code>edges</code>) and intrinsic partitions. The Context-mediated <code>cxtEdges</code>
+projection is intentionally NOT hand-authored here — it is largely a mechanical
+transform of the forward edges and will be generated in a later phase (see notes by the
+Context section). <code>// TODO</code> marks judgement calls (cardinalities/inverses) that were
+cleaned up relative to the current — sometimes buggy — data and want review.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Consolidated, predicate-centric definition of every OMC v3-0 edge.</p>
+<p>This file is the single source of truth for relationship <em>meaning</em>. It replaces the
+per-entity <code>$edge</code> / <code>edges</code> / <code>cxtEdges</code> blocks that were previously hand-authored in
+each entity template. The build (templates/v3-0/index.js) expands these definitions into
+the existing <code>entityTemplate[type].edgeTable = { intrinsic, edges, cxtEdges }</code> shape, so
+downstream consumers (omcEdges, the GraphQL builder, the SDK) are unaffected.</p>
+<h2>MODEL</h2>
+<p>Each entry is one predicate (an RDF property family). It carries:</p>
+<ul>
+<li>cardinality : 'array' | 'object'  — how the reference is stored on the source entity</li>
+<li>inverse     : predicate name (resolved against inverseEdges.js) or null when the
+reverse direction is not materialised as a JSON edge</li>
+<li>rdf         : ({ domain, predicate, range }) =&gt; string  — generates the formal RDF
+predicate name (template driven). Defaults below; override per predicate.</li>
+<li>placement   : 'edges' (default) | 'property'
+'edges'    → reference lives at  edges.{predicate}.{range}
+'property' → reference lives at a named property (intrinsic edge),
+path defaults to {predicate}</li>
+<li>pathTemplate: optional override using {predicate} and {range} placeholders</li>
+<li>connects    : [{ domain:[...], range:[...], inverse?, path?, pathTemplate?, rdfMap? }]
+each element is a domain→range constraint group (an OWL-restriction
+style pairing). <code>inverse</code> / <code>path</code> may be overridden per group when a
+predicate behaves asymmetrically across domains (e.g. Depiction).</li>
+</ul>
+<h2>RDF ALIGNMENT (rdfMap)</h2>
+<p><code>rdfMap</code> is a per-group array naming the EXISTING CANONICAL RDF predicate(s) in the
+parallel RDF model (../Prodtech-OMC-Data-Model .../omc.ttl, v2.8) that express the same
+relationship. It is curated alignment documentation, not generated output — the long-term
+goal is to converge the two models. The Tentative (machine-expanded, <code>v2.8Tentative#</code>,
+<code>omcT:a&lt;Domain&gt;&lt;Predicate&gt;.&lt;Range&gt;</code>) layer is intentionally NOT listed here: it mirrors the
+JSON edges 1:1 and is already produced per entry by the <code>rdf</code> generator (the <code>omcPredicate</code>
+field). rdfMap therefore captures only what omcPredicate does not — the curated <code>omc:</code>
+layer. Notation used inside rdfMap strings:</p>
+<ul>
+<li><code>omc:foo</code>   — a canonical (curated) RDF object property</li>
+<li><code>~</code> prefix  — the named RDF property runs in the INVERSE direction</li>
+<li><code>(Type)</code>    — the predicate only covers that slice of the JSON domain/range
+(RDF uses owl:unionOf where JSON splits by type)</li>
+<li><code>[]</code>        — no canonical omc: predicate (the edge may still have a Tentative
+<code>omcPredicate</code>, or be genuinely JSON-only)
+Two structural mismatches recur and explain most <code>(Type)</code> notes and <code>[]</code> gaps:</li>
+</ul>
+<ol>
+<li>RDF has class inheritance, JSON does not. JSON folds RDF subclasses into one
+entityType (e.g. AssetGroup⊂Asset, AssetAsStructure≈AssetSC, ParticipantAsStructure
+≈Person/Org/...), so a JSON Asset→Asset edge maps to an RDF Asset→AssetGroup property.</li>
+<li>RDF reifies some relationships JSON keeps generic (Storyboard, Contribution, etc.).
+See reference_omc_rdf_model and project_v3-edge-consolidation memory for the full synopsis.</li>
+</ol>
+<h2>SCOPE OF THIS DRAFT</h2>
+<p>Covers the regular (<code>edges</code>) and intrinsic partitions. The Context-mediated <code>cxtEdges</code>
+projection is intentionally NOT hand-authored here — it is largely a mechanical
+transform of the forward edges and will be generated in a later phase (see notes by the
+Context section). <code>// TODO</code> marks judgement calls (cardinalities/inverses) that were
+cleaned up relative to the current — sometimes buggy — data and want review.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_templates_v3-0_edges.js.html">src/templates/v3-0/edges.js</a>, <a href="src_templates_v3-0_edges.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".intrinsicRdf"><span class="type-signature type-signature-static, constant">(static, constant) </span>intrinsicRdf<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Default name for intrinsic &quot;has-a&quot; property edges, e.g. omc:hasProvenance</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_templates_v3-0_edges.js.html">src/templates/v3-0/edges.js</a>, <a href="src_templates_v3-0_edges.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Default name for intrinsic &quot;has-a&quot; property edges, e.g. omc:hasProvenance</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".tentativeRdf"><span class="type-signature type-signature-static, constant">(static, constant) </span>tentativeRdf<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Default tentative (&quot;omcT&quot;) layer name, e.g. omcT:aNarrativeSceneFeatures.Character
+Matches the dominant pattern in the existing data: omcT:a{Domain}{Predicate}.{Range}</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_templates_v3-0_edges.js.html">src/templates/v3-0/edges.js</a>, <a href="src_templates_v3-0_edges.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Default tentative (&quot;omcT&quot;) layer name, e.g. omcT:aNarrativeSceneFeatures.Character
+Matches the dominant pattern in the existing data: omcT:a{Domain}{Predicate}.{Range}</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~CONTEXT_BEARERS"><span class="type-signature type-signature-inner, constant">(inner, constant) </span>CONTEXT_BEARERS<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Entities that may carry an attached Context (and thus expose <code>edges.hasCxt.Context</code>).
+Includes <code>Context</code> itself so Contexts can nest. Used by the hasCxt/cxtFor predicates.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_templates_v3-0_edges.js.html">src/templates/v3-0/edges.js</a>, <a href="src_templates_v3-0_edges.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Entities that may carry an attached Context (and thus expose <code>edges.hasCxt.Context</code>).
+Includes <code>Context</code> itself so Contexts can nest. Used by the hasCxt/cxtFor predicates.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed May 27 2026 08:32:46 GMT-0700 (Pacific Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

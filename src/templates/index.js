@@ -114,7 +114,7 @@
  * @memberOf namespace:OmcUtil
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
- * @property {function(TemplateQuery): Presentation} presentation - Returns the presentation details for an entityType.
+ * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown. Consumers should treat null as "not renderable" rather than assume a shape.
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
  * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
@@ -157,8 +157,13 @@ const omcTemplate = {
     edgeTable: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].edgeTable
     )),
+    // Returns null rather than throwing for an unknown schema version or entityType.
+    // Consumers ask this while rendering, so an unrecognised entity — a partial or
+    // stale record from the API, say — used to surface as a TypeError from deep inside
+    // the render pipeline instead of something the caller could act on. Matches the
+    // null-safe contract `template` below already has.
     presentation: (({ schemaVersion, entityType }) => (
-        versionTemplates[schemaVersion].entityTemplate[entityType].presentation
+        versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.presentation || null
     )),
     template: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
