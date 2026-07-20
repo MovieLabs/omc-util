@@ -95,6 +95,14 @@ export function discriminatorValue(def) {
     if (!isObject(et)) return null;
     if (typeof et.const === 'string') return et.const;
     if (Array.isArray(et.enum) && typeof et.enum[0] === 'string') return et.enum[0];
+    // A renamed entity expresses entityType as a oneOf/anyOf of const branches — a
+    // deprecated old name plus the current one. Take the non-deprecated const.
+    const branches = et.oneOf || et.anyOf;
+    if (Array.isArray(branches)) {
+        const live = branches.find((b) => isObject(b) && !b.deprecated && typeof b.const === 'string')
+            || branches.find((b) => isObject(b) && typeof b.const === 'string');
+        if (live) return live.const;
+    }
     return null;
 }
 
@@ -140,6 +148,7 @@ export function listEntities(schema) {
 
     const referenced = referencedNodes(schema);
     const consider = (def) => {
+        if (def?.deprecated === true) return; // skip deprecated entities (schema self-documents)
         const et = discriminatorValue(def);
         if (!et || !isCapitalized(et) || out.has(et)) return;
         // Keep only referenced defs when the document uses refs at all; a discriminated
@@ -169,7 +178,7 @@ export function listEntities(schema) {
 function walkProperty({
     root, node, entityType, path, out, depth, seenRefs,
 }) {
-    if (!isObject(node) || depth > MAX_DEPTH) return;
+    if (!isObject(node) || depth > MAX_DEPTH || node.deprecated === true) return;
 
     if (node.$ref) {
         if (seenRefs.has(node.$ref)) return;
@@ -256,7 +265,7 @@ const controlledValues = ((node) => (
  * is a bare `{ $type: 'array' }` with no `$items`.
  */
 function deriveShape(root, node, depth, seenRefs) {
-    if (!isObject(node) || depth > MAX_DEPTH) return null;
+    if (!isObject(node) || depth > MAX_DEPTH || node.deprecated === true) return null;
 
     if (node.$ref) {
         if (seenRefs.has(node.$ref)) return null;
@@ -264,7 +273,7 @@ function deriveShape(root, node, depth, seenRefs) {
     }
 
     if (Array.isArray(node.anyOf)) {
-        const sub = node.anyOf.find((s) => isObject(s) && s.type !== 'null' && s.$ref !== '#/$defs/Any');
+        const sub = node.anyOf.find((s) => isObject(s) && s.type !== 'null' && s.$ref !== '#/$defs/Any' && !s.deprecated);
         if (sub) {
             const carried = node.default !== undefined ? { ...sub, default: node.default } : sub;
             return deriveShape(root, carried, depth + 1, seenRefs);
