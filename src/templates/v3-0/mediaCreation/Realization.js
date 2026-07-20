@@ -10,15 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        realizationType: { $type: 'string', $default: 'realization' },
-        realizationName: basicName.template,
-        realizationProperties: {
-            RealizationOf: { $type: 'array' },
-            RealizationBy: { $type: 'array' },
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

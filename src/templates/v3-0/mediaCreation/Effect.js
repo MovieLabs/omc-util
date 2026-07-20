@@ -10,14 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        effectType: { $type: 'string', $default: 'effect' },
-        effectName: scriptName.template,
-        effectProperties: {
-            $type: 'object',
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

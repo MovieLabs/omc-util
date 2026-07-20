@@ -10,15 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        assetStructureType: { $type: 'string', $default: 'assetStructure' },
-        assetStructureName: basicName.template,
-        assetStructureProperties: { $type: 'object' },
-        isAnalog: { $type: 'boolean' },
-        software: software.template,
-        Carrier: { $type: 'array' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

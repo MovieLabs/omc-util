@@ -2,7 +2,6 @@
  * Template for Character
  */
 
-import { assertAllCaps } from '../../../mlHelpers/util.js';
 import { generalConfig } from '../generalConfig.js';
 import { inverseEdges } from '../inverseEdges.js';
 import { baseEntity, completeName } from '../utility/utility.js';
@@ -12,35 +11,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        characterType: {
-            $type: 'string',
-        },
-        characterName: {
-            ...completeName.template,
-            scriptName: {
-                $type: 'string',
-                $mergeKey: true,
-                $validate: assertAllCaps,
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-        Depiction: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Depiction'],
-                $inverse: 'Depicts',
-                $omcPredicate: 'hasDepiction',
-            },
-        },
-    },
     cxtEdges: {
         featuresIn: {
             NarrativeScene: {

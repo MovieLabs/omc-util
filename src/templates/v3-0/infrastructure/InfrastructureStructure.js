@@ -10,12 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        infrastructureStructureType: { $type: 'string', $default: 'infrastructureStructure' },
-        infrastructureStructureName: basicName.template,
-        infrastructureStructureProperties: { $type: 'object' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

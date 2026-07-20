@@ -4,20 +4,6 @@
  */
 
 export const software = {
-    template: {
-        softwareName: { $type: 'string' },
-        softwareVersion: { $type: 'string' },
-        apiVersion: { $type: 'string' },
-        // plugin: null,
-        // operatingSystem: null,
-        parameters: { $type: 'string' },
-        ConfigurationFile: {
-            $type: 'object',
-            $edge: {
-                $allowed: ['Asset'],
-            },
-        },
-    },
     graphQl: {
         properties: {
             softwareName: null,
@@ -34,12 +20,6 @@ export const software = {
 };
 
 export const completeName = {
-    template: {
-        firstGivenName: { $type: 'string' },
-        familyName: { $type: 'string' },
-        fullName: { $type: 'string' },
-        altName: { $type: 'string' },
-    },
     graphQl: {
         properties: {
             firstGivenName: 'string',
@@ -53,10 +33,6 @@ export const completeName = {
 };
 
 export const basicName = {
-    template: {
-        fullName: { $type: 'string' },
-        altName: { $type: 'string' },
-    },
     graphQl: {
         properties: {
             fullName: 'string',
@@ -68,10 +44,6 @@ export const basicName = {
 };
 
 export const note = {
-    template: {
-        title: { $type: 'string' },
-        text: { $type: 'string' },
-    },
     graphQl: {
         properties: {
             title: null,
@@ -83,10 +55,6 @@ export const note = {
 };
 
 export const gender = {
-    template: {
-        gender: { $type: 'string' },
-        genderPronoun: { $type: 'string' },
-    },
     graphQl: {
         properties: {
             gender: null,
@@ -98,16 +66,6 @@ export const gender = {
 };
 
 export const contact = {
-    template: {
-        email: {
-            business: { $type: 'string' },
-            personal: { $type: 'string' },
-        },
-        telephone: {
-            business: { $type: 'string' },
-            personal: { $type: 'string' },
-        },
-    },
     graphQl: {
         properties: {
             email: {
@@ -125,45 +83,6 @@ export const contact = {
 };
 
 export const baseEntity = {
-    template: {
-        schemaVersion: { $type: 'string' },
-        identifier: {
-            $type: 'array',
-            $items: {
-                identifierScope: { $type: 'string' },
-                identifierValue: { $type: 'string' },
-                combinedForm: { $type: 'string' },
-                url: { $type: 'string' },
-            },
-        },
-        entityType: { $type: 'string' },
-        name: { $type: 'string' },
-        description: { $type: 'string' },
-        annotation: {
-            $type: 'array',
-            $items: {
-                author: { $type: 'string' },
-                title: { $type: 'string' },
-                text: { $type: 'string' },
-            },
-        },
-        tag: {
-            $type: 'array',
-            $items: {
-                domain: { $type: 'string' },
-                value: { $type: 'array', $items: { $type: 'string' } },
-            },
-        },
-        customData: {
-            $type: 'array',
-            $items: {
-                domain: { $type: 'string' },
-                namespace: { $type: 'string' },
-                schema: { $type: 'string' },
-                value: { $type: 'array' },
-            },
-        },
-    },
     graphQl: {
         properties: {
             schemaVersion: null,

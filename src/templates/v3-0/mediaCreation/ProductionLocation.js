@@ -10,13 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        productionLocationType: { $type: 'string', $default: 'productionLocation' },
-        productionLocationProperties: { $type: 'string' },
-        productionLocationName: basicName.template,
-        Location: { $type: 'array' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

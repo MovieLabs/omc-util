@@ -2,42 +2,15 @@
  * Template details for NarrativeScene
  */
 
+import { inverseEdges } from '../../v3-0/index.js';
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName, note } from '../utility/utility.js';
-import { inverseEdges } from '../../v3-0/index.js';
 
 const entityType = 'NarrativeScene';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        sceneName: {
-            ...basicName.template,
-            scriptName: {
-                $type: 'string',
-            },
-        },
-        sceneNumber: {
-            $type: 'string',
-        },
-        slugline: note.template,
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-        // Depiction: {
-        //     $type: 'array',
-        //     $edge: {
-        //         $allowed: ['Depiction'],
-        //         $inverse: 'Depicts',
-        //     },
-        // },
-    },
     cxtEdges: {
         features: {
             Character: {

@@ -3,42 +3,13 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, basicName } from '../utility/utility.js';
+import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'Slate';
 const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        slateName: basicName.template,
-        cameraLabel: { $type: 'string' },
-        cameraUnit: {
-            $type: 'string',
-        },
-        cameraRoll: {
-            $type: 'string',
-        },
-        soundRoll: {
-            $type: 'string',
-        },
-        shootDate: {
-            $type: 'string',
-        },
-        shootDay: {
-            $type: 'string',
-        },
-        recordingFPS: {
-            $type: 'string',
-        },
-        CreativeWork: {
-            $type: 'array',
-        },
-        Director: {
-            $type: 'array',
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

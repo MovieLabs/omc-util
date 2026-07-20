@@ -11,12 +11,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        locationName: basicName.template,
-        address: null,
-        coordinates: null,
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

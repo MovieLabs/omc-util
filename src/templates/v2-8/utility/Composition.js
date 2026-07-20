@@ -11,54 +11,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        compositionType: { $type: 'string' },
-        compositionProperties: { $type: 'object' },
-        software: software.template,
-        includes: {
-            Asset: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['Asset'],
-                },
-            },
-            AssetSC: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['AssetSC'],
-                },
-            },
-            Composition: {
-                $type: 'array',
-                $edge: {
-                    $allowed: ['Composition'],
-                },
-            },
-        },
-        StartHere: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Asset', 'AssetSC'],
-            },
-        },
-        Product: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Asset'],
-                $inverse: `edges.productOf.${entityType}`,
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-        // version: null,
-        // provenance: null,
-    },
     intrinsic: {
         includes: {
             Asset: {

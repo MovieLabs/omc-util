@@ -10,59 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        creativeWorkType: {
-            $type: 'string',
-            $default: 'creativeWork',
-        },
-        creativeWorkCategory: {
-            $type: 'string',
-        },
-        seasonNumber: {
-            $type: 'string',
-        },
-        episodeSequence: {
-            houseSequence: {
-                $type: 'string',
-            },
-            distributionNumber: {
-                $type: 'array',
-                $items: {
-                    value: { $type: 'string' },
-                    domain: { $type: 'string' },
-                },
-            },
-        },
-        title: {
-            $type: 'array',
-            $items: {
-                titleName: { $type: 'string' },
-                titleType: { $type: 'string' },
-                titleLanguage: { $type: 'string' },
-            },
-        },
-        approximateLength: {
-            $type: 'string',
-        },
-        originalLanguage: {
-            $type: 'array',
-            $items: { $type: 'string' },
-        },
-        countryOfOrigin: {
-            $type: 'array',
-            $items: { $type: 'string' },
-        },
-        ProductionCompany: {
-            type: 'array',
-        },
-        Series: {
-            type: 'array',
-        },
-        Episode: {
-            type: 'array',
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

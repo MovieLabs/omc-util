@@ -10,14 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        narrativeAudioType: { $type: 'string', $default: 'narrativeAudio' },
-        narrativeAudioName: scriptName.template,
-        narrativeAudioProperties: {
-            $type: 'object',
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

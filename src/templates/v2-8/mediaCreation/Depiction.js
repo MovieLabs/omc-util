@@ -11,32 +11,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        depictionType: { $type: 'string' },
-
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-        Depicts: {
-            $type: 'object',
-            $edge: {
-                $allowed: ['Character', 'NarrativeObject', 'NarrativeWardrobe', 'NarrativeLocation', 'NarrativeAudio', 'NarrativeStyling'],
-                $inverse: 'Depiction',
-            },
-        },
-        Depicter: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Asset', 'Participant'],
-                $inverse: 'Depiction',
-            },
-        },
-    },
     cxtEdges: {
         usedIn: {
             ProductionScene: {

@@ -9,16 +9,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral,
-    template: {
-        ...baseEntity.template,
-        taskName: basicName.template,
-        TaskStructure: { $type: 'array' },
-        taskFunction: {
-            taskFunctionType: { $type: 'string', $default: 'taskFunction' },
-            taskFunctionProperties: { $type: 'string' },
-        },
-        Member: { $type: 'array' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

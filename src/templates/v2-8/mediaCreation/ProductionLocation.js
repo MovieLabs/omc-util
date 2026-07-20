@@ -10,33 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        locationType: {
-            $type: 'string',
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-        Depiction: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Depiction'],
-                $inverse: 'Depicts',
-                $omcPredicate: 'hasDepiction',
-            },
-        },
-        Location: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Location'],
-            },
-        },
-    },
     cxtEdges: {
         usedIn: {
             $type: 'array',

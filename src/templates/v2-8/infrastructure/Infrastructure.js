@@ -11,33 +11,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        InfrastructureSC: {
-            $type: 'object',
-            $edge: {
-                $allowed: ['InfrastructureSC'],
-            },
-        },
-        infrastructureFC: {
-            functionalType: null,
-            functionalProperties: null,
-            // customData: null,
-        },
-        Infrastructure: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Infrastructure'],
-            },
-        },
-        Context: {
-            $type: 'array',
-            $edge: {
-                $allowed: ['Context'],
-                $inverse: 'ForEntity',
-            },
-        },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

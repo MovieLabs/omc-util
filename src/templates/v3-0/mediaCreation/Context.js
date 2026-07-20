@@ -10,13 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral,
-    template: {
-        ...baseEntity.template,
-        contextType: { $type: 'string', $default: 'context' },
-        contextName: basicName.template,
-        contextCategory: { $type: 'string' },
-        contextProperties: { $type: 'object' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

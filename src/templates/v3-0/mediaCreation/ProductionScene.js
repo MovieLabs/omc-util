@@ -10,13 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        productionSceneName: basicName.template,
-        sceneHeader: { $type: 'string' },
-        sceneDescriptor: { $type: 'string' },
-        sceneNumber: { $type: 'string' },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

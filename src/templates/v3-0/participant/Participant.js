@@ -10,23 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        ParticipantSC: {
-            $type: 'array',
-        },
-        participantFC: {
-            participantFunctionType: { $type: 'string', $default: 'participantFunction' },
-            jobTitle: { $type: 'string' },
-            Role: {
-                $type: 'array',
-            },
-        },
-
-        // Depiction: {
-        //     $type: 'array',
-        // },
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

@@ -10,12 +10,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        narrativeWardrobeType: { $type: 'string', $default: 'narrativeWardrobe' },
-        narrativeWardrobeProperties: { $type: 'object'},
-        narrativeWardrobeName: basicName.template,
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,

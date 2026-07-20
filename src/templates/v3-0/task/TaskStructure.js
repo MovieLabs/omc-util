@@ -9,12 +9,6 @@ const entityGeneral = generalConfig[entityType];
 
 export default {
     ...entityGeneral, // Include the general properties
-    template: {
-        ...baseEntity.template,
-        taskStructureType: null,
-        taskStructureName: basicName.template,
-        taskStructureProperties: null,
-    },
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
