@@ -239,8 +239,18 @@ const scalarType = ((node) => {
 });
 
 /**
- * Derive an entity shape template (`{ $type, $items, $maxItems, $default }`) from a schema
- * node, in the same convention the hand-authored templates use: scalars are
+ * The controlled-vocabulary values a node declares via the `x-controlledValues` schema
+ * extension, as a `{ $controlledValues }` fragment to spread onto a shape (empty when
+ * absent). Present only in the formal schema; surfaced here so consumers get it too.
+ */
+const controlledValues = ((node) => (
+    Array.isArray(node['x-controlledValues']) ? { $controlledValues: [...node['x-controlledValues']] } : {}
+));
+
+/**
+ * Derive an entity shape template (`{ $type, $items, $maxItems, $default, $required,
+ * $controlledValues }`) from a schema node, in the same convention the hand-authored
+ * templates use: scalars are
  * `{ $type: 'string' }`, arrays `{ $type: 'array', $items? }`, objects a plain map of
  * children, and a relationship array (whose `items` is an `anyOf` of reference/target)
  * is a bare `{ $type: 'array' }` with no `$items`.
@@ -261,6 +271,19 @@ function deriveShape(root, node, depth, seenRefs) {
         }
     }
 
+    // `oneOf` type-unions are intentionally NOT unwrapped: there is no single shape for a
+    // property that is genuinely one-of-several types, so such a leaf is omitted rather
+    // than guessed. A property whose ONLY typing is a oneOf therefore does not appear in
+    // the derived shape.
+
+    // A `const` (or a single-value `enum`, LinkML's discriminator form) fixes the value —
+    // e.g. `entityType`. Emit it as a scalar whose `$default` is that fixed value, so a
+    // consumer creating a new entity can seed it.
+    const fixed = node.const ?? (Array.isArray(node.enum) && node.enum.length === 1 ? node.enum[0] : undefined);
+    if (fixed !== undefined && !isObject(node.properties)) {
+        return { $type: typeof fixed === 'number' ? 'number' : 'string', $default: fixed, ...controlledValues(node) };
+    }
+
     const t = scalarType(node);
 
     if (t === 'array') {
@@ -279,10 +302,15 @@ function deriveShape(root, node, depth, seenRefs) {
     const merged = mergeAllOf(root, node);
     if (t === 'object' || isObject(merged.properties)) {
         if (!isObject(merged.properties)) return { $type: 'object' };
+        const required = new Set(Array.isArray(merged.required) ? merged.required : []);
         const out = {};
         Object.entries(merged.properties).forEach(([key, child]) => {
             const c = deriveShape(root, child, depth + 1, seenRefs);
-            if (c) out[key] = c;
+            if (!c) return;
+            // Mark schema-required children inline (like `$maxItems`), so a consumer building
+            // a new entity knows which properties it must supply (and can seed them from
+            // `$default` where present).
+            out[key] = required.has(key) ? { ...c, $required: true } : c;
         });
         return out;
     }
@@ -290,11 +318,24 @@ function deriveShape(root, node, depth, seenRefs) {
     if (t) {
         const shape = { $type: t };
         if (node.default !== undefined) shape.$default = node.default;
-        return shape;
+        return { ...shape, ...controlledValues(node) };
     }
 
     return null;
 }
+
+/**
+ * Top-level entity properties intentionally kept OUT of the derived shape.
+ *
+ * SPECIAL CASE — revisit. This is a deliberate, hand-maintained exception to the module's
+ * "derive whatever the schema asserts" rule, so it is isolated here and named. Currently:
+ *   - `instanceInfo`: an OMC-implementation-specific, Beta placeholder that no consumer
+ *     uses yet, and whose timestamp fields are typed with `oneOf` (which the engine does
+ *     not unwrap), so it can only ever derive partially. Rather than surface a half-formed
+ *     shape it is omitted entirely. Remove this once instanceInfo is modelled consistently
+ *     (including in the LinkML schema) and actually consumed.
+ */
+const SHAPE_EXCLUDED_PROPERTIES = new Set(['instanceInfo']);
 
 /**
  * The derived shape template for one entity definition.
@@ -304,7 +345,11 @@ function deriveShape(root, node, depth, seenRefs) {
  * @returns {object}
  */
 export function entityShape(schema, entityDef) {
-    return deriveShape(schema, entityDef, 0, new Set()) || {};
+    const shape = deriveShape(schema, entityDef, 0, new Set()) || {};
+    SHAPE_EXCLUDED_PROPERTIES.forEach((key) => {
+        delete shape[key];
+    });
+    return shape;
 }
 
 /**
