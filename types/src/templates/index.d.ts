@@ -164,11 +164,7 @@ export type OmcTemplate = {
      */
     edgeTable: (arg0: TemplateQuery) => EdgeTable;
     /**
-     * - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
-     */
-    template: (arg0: TemplateQuery) => EntityTemplate;
-    /**
-     * - The entity's data shape derived from the JSON Schema (v3.0+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
+     * - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
      */
     shape: (arg0: TemplateQuery) => (object | null);
     /**
