@@ -114,6 +114,7 @@
  * @typedef {Object} OmcTemplate
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): EntityTemplate} template - Returns the stripped typed shape ($type per property) for an entityType. Describes the entity's shape as defined by the schema; used to construct new entities and to build mapping targets.
+ * @property {function(TemplateQuery): (object|null)} shape - The entity's data shape derived from the JSON Schema (v3.0+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
  * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
  * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second argument is the fallback returned when there is no version (default 'unknown').
  * @property {function({key: string}): boolean} isRelationshipKey - True when `key` names an entity reference (a relationship) rather than a data property.
@@ -132,6 +133,7 @@ import schemav26 from '../omc/validation/schema/OMC-JSON-v2.6.schema.json' with 
 import schemav28 from '../omc/validation/schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
 import schemav30 from '../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 
+import { deriveForVersion } from './schemaDerive.js';
 import { referenceRequiredFields } from './schemaFacts.js';
 import * as omc2 from './v2-8/index.js';
 import * as omc3 from './v3-0/index.js';
@@ -151,6 +153,12 @@ const versionSchemas = {
     'https://movielabs.com/omc/json/schema/v3.0': schemav30,
 };
 
+/** Versions whose entity shape is derived from the JSON Schema (see schemaDerive). Legacy
+ *  versions fall back to the hand-authored template shape. */
+const derivedShapeVersions = new Set([
+    'https://movielabs.com/omc/json/schema/v3.0',
+]);
+
 /**
  * Methods returning templated values based on the schema version
  * @type {OmcTemplate}
@@ -166,6 +174,17 @@ const omcTemplate = {
     template: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType]?.template || null
     )),
+    shape: (({ schemaVersion, entityType }) => {
+        if (derivedShapeVersions.has(schemaVersion) && versionSchemas[schemaVersion]) {
+            const derived = deriveForVersion(schemaVersion, versionSchemas[schemaVersion]).shapes.get(entityType);
+            if (!derived) return null;
+            // Relationships are delivered via edgeTable(); the shape stays data-only.
+            const dataShape = { ...derived };
+            delete dataShape.edges;
+            return dataShape;
+        }
+        return versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.template || null;
+    }),
     versionLabel: ((schemaVersion, fallback = 'unknown') => (
         schemaVersion ? String(schemaVersion).split('/').pop() : fallback
     )),

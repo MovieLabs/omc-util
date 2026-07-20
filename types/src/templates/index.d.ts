@@ -168,6 +168,10 @@ export type OmcTemplate = {
      */
     template: (arg0: TemplateQuery) => EntityTemplate;
     /**
+     * - The entity's data shape derived from the JSON Schema (v3.0+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
+     */
+    shape: (arg0: TemplateQuery) => (object | null);
+    /**
      * - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
      */
     presentation: (arg0: TemplateQuery) => Presentation | null;
