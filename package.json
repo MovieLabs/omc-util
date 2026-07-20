@@ -61,6 +61,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:derive": "node test/omc-v3-0/deriveParity.js && node test/omc-v3-0/deriveLinkml.js",
+    "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc --verbose",
     "build:types": "tsc && node postbuild-types.js"
   },

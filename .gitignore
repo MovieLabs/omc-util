@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated review artifacts from deriveDump.js (regenerate with: npm run derive:dump)
+test/omc-v3-0/derived/
+
 # Editor directories and files
 .idea/
 .vscode/*
