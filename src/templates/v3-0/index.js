@@ -32,9 +32,6 @@ import { graphQlSnippets } from './graphQlSnippets.js';
 import { inverseEdges } from './inverseEdges.js';
 // eslint-disable-next-line import/order
 import { buildEdgeTable } from './buildEdgeTable.js';
-import { maxItemsIndex } from './schemaIndex.js';
-
-import { stampMaxItems } from '../schemaFacts.js';
 
 import Asset from './asset/Asset.js';
 import AssetStructure from './asset/AssetStructure.js';
@@ -128,15 +125,11 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
         presentation: omcTemplate[entityType].presentation,
         edgeTable: edgeTables[entityType] || { intrinsic: {}, edges: {}, cxtEdges: {} },
         graphQl: omcTemplate[entityType].graphQl,
-        template: stampMaxItems(omcTemplate[entityType].template, entityType, maxItemsIndex),
     },
 }), {});
 
-// The graphQl table also needs access to the baseEntity, this is added as special case
-entityTemplate.baseEntity = {
-    graphQl: baseEntity.graphQl,
-    template: stampMaxItems(baseEntity.template, 'baseEntity', maxItemsIndex),
-};
+// The graphQl table also needs access to the baseEntity, added as a special case.
+entityTemplate.baseEntity = { graphQl: baseEntity.graphQl };
 
 // Add the inverse edge table
 entityTemplate.inverseEdges = inverseEdges;
