@@ -6,6 +6,16 @@
  */
 export function assertAllCaps(str: string): boolean;
 /**
+ * Deterministic, synchronous 53-bit string hash (cyrb53), encoded base-36. The same input
+ * always yields the same short alphanumeric string — used to mint stable identifier values
+ * from a seed. Browser-safe (no crypto dependency).
+ *
+ * @function hashId
+ * @param {string} value - The seed to hash
+ * @returns {string} A stable short alphanumeric hash
+ */
+export function hashId(value: string): string;
+/**
  * Spreads an object into another deeply, recursing down the object only overwriting keys in the object being spread
  *
  * @function deepSpread

@@ -6,7 +6,7 @@
 
 import { customAlphabet } from 'nanoid';
 
-import { makeArray } from '../mlHelpers/util.js';
+import { hashId, makeArray } from '../mlHelpers/util.js';
 import { omcTemplate } from '../templates/index.js';
 
 const idCharSet = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', 15);
@@ -78,6 +78,41 @@ export function idCreate({
     return {
         identifierScope: identifierScope || 'example.com',
         identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,
+    };
+}
+
+/**
+ * Create a stable, deterministic OMC identifier by hashing a seed value. The same seed always
+ * produces the same identifierValue, so entities sharing a seed (e.g. a spreadsheet merge key)
+ * de-duplicate and re-imports are idempotent. The entityType is folded into the hash so two
+ * different types with the same seed stay distinct.
+ *
+ * @function idHash
+ * @static
+ * @param {Object} params
+ * @param {string} params.identifierScope - The scope of the identifier
+ * @param {string} params.seed - The value hashed into a stable identifierValue
+ * @param {boolean} [params.prefix] - Use the entityType's predefined prefix on the value
+ * @param {string | null} [params.entityType] - Entity type, for the prefix and the hash seed
+ * @param {string} [params.schemaVersion] - Schema version for the prefix lookup
+ * @returns {OmcIdentifier} An OMC identifier whose value is stable for the given seed
+ *
+ * @example
+ * idHash({ identifierScope: 'movielabs.com', seed: '2a', entityType: 'ProductionScene' })
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'pscn-<stable hash>' }
+ */
+export function idHash({
+    identifierScope,
+    seed,
+    prefix = false,
+    entityType = null,
+    schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
+}) {
+    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
+    const value = hashId(`${entityType || ''}:${seed}`);
+    return {
+        identifierScope: identifierScope || 'example.com',
+        identifierValue: p ? `${p}-${value}` : value,
     };
 }
 

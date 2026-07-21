@@ -54,6 +54,33 @@ export function idCreate({ identifierScope, prefix, entityType, schemaVersion, }
     entityType?: string | null;
 }): OmcIdentifier;
 /**
+ * Create a stable, deterministic OMC identifier by hashing a seed value. The same seed always
+ * produces the same identifierValue, so entities sharing a seed (e.g. a spreadsheet merge key)
+ * de-duplicate and re-imports are idempotent. The entityType is folded into the hash so two
+ * different types with the same seed stay distinct.
+ *
+ * @function idHash
+ * @static
+ * @param {Object} params
+ * @param {string} params.identifierScope - The scope of the identifier
+ * @param {string} params.seed - The value hashed into a stable identifierValue
+ * @param {boolean} [params.prefix] - Use the entityType's predefined prefix on the value
+ * @param {string | null} [params.entityType] - Entity type, for the prefix and the hash seed
+ * @param {string} [params.schemaVersion] - Schema version for the prefix lookup
+ * @returns {OmcIdentifier} An OMC identifier whose value is stable for the given seed
+ *
+ * @example
+ * idHash({ identifierScope: 'movielabs.com', seed: '2a', entityType: 'ProductionScene' })
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'pscn-<stable hash>' }
+ */
+export function idHash({ identifierScope, seed, prefix, entityType, schemaVersion, }: {
+    identifierScope: string;
+    seed: string;
+    prefix?: boolean;
+    entityType?: string | null;
+    schemaVersion?: string;
+}): OmcIdentifier;
+/**
  * Creates a globally unique key by combining the identifierScope and identifierValue of an OMC identifier
  *
  * @function idKey
