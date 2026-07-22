@@ -157,9 +157,9 @@ const cache = () => {
         exportCache() {
             return Object.keys(this.store).map((key) => this.store[key]);
         },
-        find(filter) {
+        find(filter, options = {}) {
             if (!filter) return null;
-            return omcFind(Object.values(this.store), filter);
+            return omcFind(Object.values(this.store), filter, options);
         },
     };
     const tCache = Object.create(proto); // Create the cache with interface
