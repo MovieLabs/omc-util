@@ -12,6 +12,13 @@ export type OmcGeneralConfig = {
      */
     idPrefix: string;
     /**
+     * - Property path(s) whose value(s) can be treated as unique
+     * within a project, so they can substitute for an identifier when combining data from multiple
+     * sources into one canonical instance (matching an existing entity, or deterministically minting
+     * an id). An ordered composite key; omit or leave empty when the entity type has no merge key.
+     */
+    mergeKey?: string[];
+    /**
      * - Presentation configuration for UI's
      */
     presentation: any;

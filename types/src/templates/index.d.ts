@@ -1,6 +1,10 @@
 export type EntityConfiguration = {
     schemaGroup: string;
     idPrefix: string;
+    /**
+     * - Property path(s) unique within a project, usable as an identity substitute (see OmcTemplate.mergeKey). `[]` when the type has none.
+     */
+    mergeKey: string[];
     presentation: any;
     template: EntityTemplate;
     graphQl: GraphQlTemplate;
@@ -199,6 +203,10 @@ export type OmcTemplate = {
      * - Returns a standard prefix for an entityType that can be used for identifierValue.
      */
     idPrefix: (arg0: TemplateQuery) => string;
+    /**
+     * - The property path(s) whose value(s) are unique within a project for this entityType, usable as an identity substitute when merging data from multiple sources. An ordered composite key; `[]` when the type has no merge key.
+     */
+    mergeKey: (arg0: TemplateQuery) => string[];
     /**
      * - All entityTypes for this schema version
      */

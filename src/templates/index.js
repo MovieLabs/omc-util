@@ -9,6 +9,7 @@
  * @typedef {Object} EntityConfiguration
  * @property {string} schemaGroup
  * @property {string} idPrefix
+ * @property {string[]} mergeKey - Property path(s) unique within a project, usable as an identity substitute (see OmcTemplate.mergeKey). `[]` when the type has none.
  * @property {Object} presentation
  * @property {EntityTemplate} template
  * @property {GraphQlTemplate} graphQl
@@ -121,6 +122,7 @@
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
  * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
+ * @property {function(TemplateQuery): string[]} mergeKey - The property path(s) whose value(s) are unique within a project for this entityType, usable as an identity substitute when merging data from multiple sources. An ordered composite key; `[]` when the type has no merge key.
  * @property {function(TemplateQuery): Array<OmcEntityType>} allEntityTypes - All entityTypes for this schema version
  * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
@@ -201,6 +203,9 @@ const omcTemplate = {
     }),
     idPrefix: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType].idPrefix
+    )),
+    mergeKey: (({ schemaVersion, entityType }) => (
+        versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.mergeKey || []
     )),
     allEntityTypes: (({ schemaVersion }) => (
         Object.keys(versionTemplates[schemaVersion].entityTemplate).filter((e) => isCapitalized(e))

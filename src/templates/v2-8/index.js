@@ -102,6 +102,7 @@ const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
     ...obj,
     [entityType]: {
         idPrefix: omcTemplate[entityType].idPrefix,
+        mergeKey: omcTemplate[entityType].mergeKey || [],
         schemaGroup: omcTemplate[entityType].group,
         presentation: omcTemplate[entityType].presentation,
         edgeTable: edgeTables[entityType] || { intrinsic: {}, edges: {}, cxtEdges: {} },

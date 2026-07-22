@@ -2,6 +2,10 @@
  * @typedef OmcGeneralConfig
  * @property {string} group - A broad grouping for the entity as it is used in the Ontology
  * @property {string} idPrefix - A shortened prefix that can be used with the identifierValue
+ * @property {string[]} [mergeKey] - Property path(s) whose value(s) can be treated as unique
+ *   within a project, so they can substitute for an identifier when combining data from multiple
+ *   sources into one canonical instance (matching an existing entity, or deterministically minting
+ *   an id). An ordered composite key; omit or leave empty when the entity type has no merge key.
  * @property {Object} presentation - Presentation configuration for UI's
  * @property {string} presnetation.color - A color for representing the entity in UI's and charts
  * @property {string} presentation.entityLabel - A entityLabel when displaying the entity in UI's and charts
@@ -256,6 +260,7 @@ export const generalConfig = {
     ProductionScene: {
         group: 'Media Creation Context',
         idPrefix: 'pscn',
+        mergeKey: ['label'],
         presentation: {
             entityColor: '#7DCEA0',
             entityLabel: 'Prod. Scene',
