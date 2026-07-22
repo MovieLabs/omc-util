@@ -132,6 +132,15 @@ export const edgeDefinitions = {
                 inverse: 'realizationProperties.RealizationBy',
                 rdfMap: [],
             },
+            {
+                // The v3.0 schema places provenance under `edges.has.Provenance`, not as an
+                // intrinsic property. Its reverse is stated separately by `Provenance.Origin`
+                // (below), so this has no auto-inverse.
+                domain: ['Asset', 'AssetSC', 'Composition'],
+                range: ['Provenance'],
+                inverse: null,
+                rdfMap: ['omc:hasProvenance'],
+            },
         ],
     },
 
@@ -698,19 +707,9 @@ export const edgeDefinitions = {
         }],
     },
 
-    // --- Provenance --------------------------------------------------------
-    Provenance: {
-        predicate: 'Provenance',
-        placement: 'property',
-        cardinality: 'array',
-        inverse: 'has', // Provenance points back to its owner via `has` (per decision, for now)
-        rdf: () => 'omc:hasProvenance',
-        connects: [{
-            domain: ['Asset', 'AssetSC', 'Composition'],
-            range: ['Provenance'],
-            rdfMap: ['omc:hasProvenance'],
-        }],
-    },
+    // Provenance is reached via `edges.has.Provenance` (declared on the `has` predicate
+    // above) rather than as an intrinsic property — that is what the v3.0 schema validates.
+    // Its reverse, from a Provenance back to what it describes, is `Origin` below.
 
     CreatedBy: {
         predicate: 'CreatedBy',
