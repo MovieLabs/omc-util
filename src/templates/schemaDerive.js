@@ -284,6 +284,19 @@ function deriveShape(root, node, depth, seenRefs) {
     // property that is genuinely one-of-several types, so such a leaf is omitted rather
     // than guessed. A property whose ONLY typing is a oneOf therefore does not appear in
     // the derived shape.
+    //
+    // The exception is the nullable idiom — `oneOf: [{ type: 'null' }, X]` — which is not a
+    // union at all, just "X, or absent". There is exactly one shape there, so it is
+    // unwrapped; leaving it out hides real properties from consumers (`customData` in v3.0,
+    // which is precisely the property to reach for when the formal schema lacks one).
+    if (Array.isArray(node.oneOf)) {
+        const branches = node.oneOf.filter((s) => isObject(s) && !s.deprecated);
+        const nonNull = branches.filter((s) => s.type !== 'null');
+        if (branches.length - nonNull.length === 1 && nonNull.length === 1) {
+            const carried = node.default !== undefined ? { ...nonNull[0], default: node.default } : nonNull[0];
+            return deriveShape(root, carried, depth + 1, seenRefs);
+        }
+    }
 
     // A `const` (or a single-value `enum`, LinkML's discriminator form) fixes the value —
     // e.g. `entityType`. Emit it as a scalar whose `$default` is that fixed value, so a
