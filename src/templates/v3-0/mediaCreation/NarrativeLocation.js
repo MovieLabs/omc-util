@@ -13,13 +13,13 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeType: null,
+            narrativeLocationType: null,
             narrativeLocationName: scriptName.graphQl.properties,
             narrativeLocationProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeType: 'string',
+            narrativeLocationType: 'string',
             narrativeLocationName: scriptName.graphQl.filter,
         },
         inlineFragment: null,

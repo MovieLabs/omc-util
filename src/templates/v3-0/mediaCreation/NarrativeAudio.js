@@ -13,13 +13,13 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeType: 'string',
+            narrativeAudioType: 'string',
             narrativeAudioName: scriptName.graphQl.properties,
             // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeType: 'string',
+            narrativeAudioType: 'string',
             narrativeAudioName: scriptName.graphQl.filter,
             narrativeAudioProperties: null,
         },

@@ -13,7 +13,7 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeWardrobeTypeType: null,
+            narrativeWardrobeType: null,
             narrativeWardrobeProperties: null,
             narrativeWardrobeName: basicName.graphQl.properties,
         },

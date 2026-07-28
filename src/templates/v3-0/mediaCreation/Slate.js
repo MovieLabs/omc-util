@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'Slate';
 const entityGeneral = generalConfig[entityType];
@@ -13,7 +13,7 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            slateName: null,
+            slateName: basicName.graphQl.properties,
             cameraLabel: null,
             cameraUnit: null,
             cameraRoll: null,
@@ -26,10 +26,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            slateName: {
-                fullName: ['string'],
-                altName: ['string'],
-            },
+            slateName: basicName.graphQl.filter,
         },
         inlineFragment: null,
     },

@@ -20,7 +20,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            locationType: 'string',
+            productionLocationType: 'string',
             productionLocationName: basicName.graphQl.filter,
         },
         inlineFragment: null,

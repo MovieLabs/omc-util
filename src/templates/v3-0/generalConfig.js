@@ -29,15 +29,13 @@ export const generalConfig = {
     Asset: {
         group: 'Asset',
         idPrefix: 'ast',
+        mergeKey: ['assetName.fullName'],
         presentation: {
-            entityColor: '#EBDEF0',
-            entityLabel: 'Asset',
-            entityLabelSuffix: (omc) => omc?.assetFC?.functionalType ? `: ${omc.assetFC.functionalType}` : '',
             header: {
                 backgroundColor: '#EBDEF0',
                 fontColor: '#000',
                 entityLabel: 'Asset',
-                entityLabelSuffix: (omc) => omc?.assetFC?.functionalType ? `: ${omc.assetFC.functionalType}` : '',
+                entityLabelSuffix: (omc) => omc?.assetFunction?.functionType ? `: ${omc.assetFunction.functionType}` : '',
             },
             propRows: [
                 'label',
@@ -48,10 +46,8 @@ export const generalConfig = {
     AssetStructure: {
         group: 'Asset',
         idPrefix: 'asts',
+        mergeKey: ['assetStructureName.fullName'],
         presentation: {
-            entityColor: '#C39BD3',
-            entityLabel: 'Asset Structure',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#C39BD3',
                 fontColor: '#000',
@@ -67,11 +63,8 @@ export const generalConfig = {
     Character: {
         group: 'Media Creation Context',
         idPrefix: 'chr',
+        mergeKey: ['characterName.scriptName'],
         presentation: {
-            entityColor: '#EAF2F8',
-            entityLabel: 'Character',
-            entityLabelSuffix: ((omc) => formatLabel(omc.characterType)),
-            // icon: CharacterIcon,
             header: {
                 backgroundColor: '#EAF2F8',
                 fontColor: '#000',
@@ -79,17 +72,14 @@ export const generalConfig = {
                 entityLabelSuffix: ((omc) => formatLabel(omc.characterType)),
                 // icon: CharacterIcon,
             },
-            propRows: ['label', identifier],
+            propRows: ['label', 'characterType'],
         },
     },
     CreativeWork: {
         group: 'Media Creation Context',
         idPrefix: 'cw',
+        mergeKey: ['creativeWorkName.fullName'],
         presentation: {
-            entityColor: '#FEF5E7',
-            entityLabel: 'Creative Work',
-            entityLabelSuffix: ((omc) => formatLabel(omc.creativeWorkType)),
-            // icon: CreativeWorkIcon,
             header: {
                 backgroundColor: '#FEF5E7',
                 fontColor: '#000',
@@ -97,16 +87,14 @@ export const generalConfig = {
                 entityLabelSuffix: ((omc) => formatLabel(omc.creativeWorkType)),
                 // icon: CreativeWorkIcon,,
             },
-            propRows: ['label', identifier],
+            propRows: ['label', 'creativeWorkType'],
         },
     },
     Context: {
         group: 'Media Creation Context',
         idPrefix: 'cxt',
+        mergeKey: ['contextName.fullName'],
         presentation: {
-            entityColor: '#F5B041',
-            entityLabel: 'Context',
-            entityLabelSuffix: ((omc) => formatLabel(omc.contextType)),
             header: {
                 backgroundColor: '#F5B041',
                 fontColor: '#000',
@@ -116,31 +104,29 @@ export const generalConfig = {
             propRows: ['label', 'contextType', 'contextCategory'],
         },
     },
-    Depiction: {
-        group: 'Media Creation Context',
-        idPrefix: 'dep',
-        presentation: {
-            entityColor: '#FAD7A0',
-            entityLabel: 'Depiction',
-            entityLabelSuffix: ((omc) => formatLabel(omc.depictionType)),
-            // icon: DepictionIcon,
-            header: {
-                backgroundColor: '#FAD7A0',
-                fontColor: '#000',
-                entityLabel: 'Depiction',
-                entityLabelSuffix: ((omc) => formatLabel(omc.depictionType)),
-                // icon: DepictionIcon,
-            },
-            propRows: ['label', 'depictionType'],
-        },
-    },
+    // Depiction: {
+    //     group: 'Media Creation Context',
+    //     idPrefix: 'dep',
+    //     presentation: {
+    //         entityColor: '#FAD7A0',
+    //         entityLabel: 'Depiction',
+    //         entityLabelSuffix: ((omc) => formatLabel(omc.depictionType)),
+    //         // icon: DepictionIcon,
+    //         header: {
+    //             backgroundColor: '#FAD7A0',
+    //             fontColor: '#000',
+    //             entityLabel: 'Depiction',
+    //             entityLabelSuffix: ((omc) => formatLabel(omc.depictionType)),
+    //             // icon: DepictionIcon,
+    //         },
+    //         propRows: ['label', 'depictionType'],
+    //     },
+    // },
     Effect: {
         group: 'Media Creation Context',
         idPrefix: 'eff',
+        mergeKey: ['effectName.scriptName'],
         presentation: {
-            entityColor: '#E8F8F5',
-            entityLabel: 'Effect',
-            entityLabelSuffix: ((omc) => formatLabel(omc.effectType)),
             header: {
                 backgroundColor: '#E8F8F5',
                 fontColor: '#000',
@@ -153,29 +139,23 @@ export const generalConfig = {
     NarrativeAudio: {
         group: 'Media Creation Context',
         idPrefix: 'naud',
+        mergeKey: ['narrativeAudioName.scriptName'],
         presentation: {
-            entityColor: '#D4E6F1',
-            entityLabel: 'Nar. Audio',
-            entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
-            // icon: AudioIcon,
             header: {
                 backgroundColor: '#D4E6F1',
                 fontColor: '#000',
                 entityLabel: 'Nar. Audio',
-                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
+                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeAudioType)),
                 // icon: AudioIcon,
             },
-            propRows: ['label', 'narrativeType'],
+            propRows: ['label', 'narrativeAudioType'],
         },
     },
     NarrativeLocation: {
         group: 'Media Creation Context',
         idPrefix: 'nloc',
+        mergeKey: ['narrativeLocationName.scriptName'],
         presentation: {
-            entityColor: '#A9CCE3',
-            entityLabel: 'Nar. Location',
-            entityLabelSuffix: () => '',
-            // icon: LocationIcon,
             header: {
                 backgroundColor: '#A9CCE3',
                 fontColor: '#000',
@@ -183,33 +163,28 @@ export const generalConfig = {
                 entityLabelSuffix: () => '',
                 // icon: LocationIcon,
             },
-            propRows: ['label', 'narrativeType'],
+            propRows: ['label', 'narrativeLocationType'],
         },
     },
     NarrativeObject: {
         group: 'Media Creation Context',
         idPrefix: 'nobj',
+        mergeKey: ['narrativeObjectName.scriptName'],
         presentation: {
-            entityColor: '#7FB3D5',
-            entityLabel: 'Nar. Object',
-            entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
             header: {
                 backgroundColor: '#7FB3D5',
                 fontColor: '#000',
                 entityLabel: 'Nar. Object',
-                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
+                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeObjectType)),
             },
-            propRows: ['label', 'narrativeType'],
+            propRows: ['label', 'narrativeObjectType'],
         },
     },
     NarrativeScene: {
         group: 'Media Creation Context',
         idPrefix: 'nscn',
+        mergeKey: ['sceneNumber'],
         presentation: {
-            entityColor: '#A9CCE3',
-            entityLabel: 'Nar. Scene',
-            entityLabelSuffix: () => '',
-            // icon: NarrativeSceneIcon,
             header: {
                 backgroundColor: '#A9CCE3',
                 fontColor: '#000',
@@ -219,34 +194,30 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ sceneName: e.sceneName?.fullName || 'N/A' }),
+                (e) => ({ fullName: e.narrativeSceneName?.fullName || 'N/A' }),
+                (e) => ({ sceneNumber: e.sceneNumber || 'N/A' }),
             ],
         },
     },
     NarrativeStyling: {
         group: 'Media Creation Context',
         idPrefix: 'nsty',
+        mergeKey: ['narrativeStylingName.scriptName'],
         presentation: {
-            entityColor: '#5499C7',
-            entityLabel: 'Nar. Styling',
-            entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
             header: {
                 backgroundColor: '#5499C7',
                 fontColor: '#000',
                 entityLabel: 'Nar. Styling',
-                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
+                entityLabelSuffix: ((omc) => formatLabel(omc.narrativeStylingType)),
             },
-            propRows: ['label', 'narrativeType'],
+            propRows: ['label', 'narrativeStylingType'],
         },
     },
     NarrativeWardrobe: {
         group: 'Media Creation Context',
         idPrefix: 'nwar',
+        mergeKey: ['narrativeWardrobeName.scriptName'],
         presentation: {
-            entityColor: '#2980B9',
-            entityLabel: 'Nar. Wardrobe',
-            entityLabelSuffix: () => '',
-            // icon: CostumeIcon,
             header: {
                 backgroundColor: '#2980B9',
                 fontColor: '#000',
@@ -254,18 +225,14 @@ export const generalConfig = {
                 entityLabelSuffix: () => '',
                 // icon: CostumeIcon,
             },
-            propRows: ['label', 'narrativeType'],
+            propRows: ['label', 'narrativeWardrobeType'],
         },
     },
     ProductionScene: {
         group: 'Media Creation Context',
         idPrefix: 'pscn',
-        mergeKey: ['label'],
+        mergeKey: ['sceneNumber'],
         presentation: {
-            entityColor: '#7DCEA0',
-            entityLabel: 'Prod. Scene',
-            entityLabelSuffix: () => '',
-            // icon: ProductionSceneIcon,
             header: {
                 backgroundColor: '#7DCEA0',
                 fontColor: '#000',
@@ -273,17 +240,18 @@ export const generalConfig = {
                 entityLabelSuffix: () => '',
                 // icon: ProductionSceneIcon,
             },
-            propRows: ['label', identifier],
+            propRows: [
+                'label',
+                (e) => ({ fullName: e.productionSceneName?.fullName || 'N/A' }),
+                (e) => ({ sceneNumber: e.sceneNumber || 'N/A' }),
+            ],
         },
     },
     ProductionLocation: {
         group: 'Media Creation Context',
         idPrefix: 'ploc',
+        mergeKey: ['productionLocationName.fullName'],
         presentation: {
-            entityColor: '#A9DFBF',
-            entityLabel: 'Prod. Location',
-            entityLabelSuffix: () => '',
-            // icon: LocationIcon,
             header: {
                 backgroundColor: '#A9DFBF',
                 fontColor: '#000',
@@ -297,11 +265,8 @@ export const generalConfig = {
     Realization: {
         group: 'Media Creation Context',
         idPrefix: 'rel',
+        mergeKey: ['realizationName.fullName'],
         presentation: {
-            entityColor: '#FAD7A0',
-            entityLabel: 'Realization',
-            entityLabelSuffix: ((omc) => formatLabel(omc.realizationType)),
-            // icon: DepictionIcon,
             header: {
                 backgroundColor: '#FAD7A0',
                 fontColor: '#000',
@@ -315,11 +280,8 @@ export const generalConfig = {
     Slate: {
         group: 'Media Creation Context',
         idPrefix: 'slt',
+        mergeKey: ['slateName.fullName'],
         presentation: {
-            entityColor: '#52BE80',
-            entityLabel: 'Slate',
-            entityLabelSuffix: () => '',
-            // icon: SlateIcon,
             header: {
                 backgroundColor: '#52BE80',
                 fontColor: '#000',
@@ -327,16 +289,17 @@ export const generalConfig = {
                 entityLabelSuffix: () => '',
                 // icon: SlateIcon,
             },
-            propRows: ['label', identifier],
+            propRows: [
+                'label',
+                (e) => ({ fullName: e?.slateName?.fullName || 'N/A' }),
+            ],
         },
     },
     SpecialAction: {
         group: 'Media Creation Context',
         idPrefix: 'sact',
+        mergeKey: ['specialActionName.fullName'],
         presentation: {
-            entityColor: '#A3E4D7',
-            entityLabel: 'Special Action',
-            entityLabelSuffix: ((omc) => formatLabel(omc.specialActionType)),
             header: {
                 backgroundColor: '#A3E4D7',
                 fontColor: '#000',
@@ -344,17 +307,15 @@ export const generalConfig = {
                 entityLabelSuffix: ((omc) => formatLabel(omc.specialActionType)),
             },
             propRows: [
-                'label',
+                'label', 'specialActionTyoe',
             ],
         },
     },
     Participant: {
         group: 'Participant',
         idPrefix: 'prt',
+        mergeKey: ['participantName.fullName'],
         presentation: {
-            entityColor: '#F9EBEA',
-            entityLabel: 'Participant',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#F9EBEA',
                 fontColor: '#000',
@@ -370,11 +331,8 @@ export const generalConfig = {
     ParticipantStructure: {
         group: 'Participant',
         idPrefix: 'prts',
+        mergeKey: ['participantName.fullName'],
         presentation: {
-            entityColor: '#E6B0AA',
-            entityLabel: 'Participant Structure',
-            entityLabelSuffix: () => '',
-            // icon: PersonIcon,
             header: {
                 backgroundColor: '#E6B0AA',
                 fontColor: '#000',
@@ -388,83 +346,81 @@ export const generalConfig = {
             ],
         },
     },
-    Person: {
-        group: 'Participant',
-        idPrefix: 'per',
-        presentation: {
-            entityColor: '#E6B0AA',
-            entityLabel: 'Person',
-            entityLabelSuffix: () => '',
-            // icon: PersonIcon,
-            header: {
-                backgroundColor: '#E6B0AA',
-                fontColor: '#000',
-                entityLabel: 'Person',
-                entityLabelSuffix: () => '',
-                // icon: PersonIcon,
-            },
-            propRows: ['label', identifier],
-        },
-    },
-    Organization: {
-        group: 'Participant',
-        idPrefix: 'org',
-        presentation: {
-            entityColor: '#E6B0AA',
-            entityLabel: 'Organization',
-            entityLabelSuffix: () => '',
-            // icon: OrganizationIcon,
-            header: {
-                backgroundColor: '#E6B0AA',
-                fontColor: '#000',
-                entityLabel: 'Organization',
-                entityLabelSuffix: () => '',
-                // icon: OrganizationIcon,
-            },
-            propRows: ['label', identifier],
-        },
-    },
-    Department: {
-        group: 'Participant',
-        idPrefix: 'dpt',
-        presentation: {
-            entityColor: '#E6B0AA',
-            entityLabel: 'Department',
-            entityLabelSuffix: () => '',
-            header: {
-                backgroundColor: '#E6B0AA',
-                fontColor: '#000',
-                entityLabel: 'Department',
-                entityLabelSuffix: () => '',
-            },
-            propRows: ['label', identifier],
-        },
-    },
-    Service: {
-        group: 'Participant',
-        idPrefix: 'srvc',
-        presentation: {
-            entityColor: '#E6B0AA',
-            entityLabel: 'Service',
-            entityLabelSuffix: () => '',
-            // icon: ServiceIcon,
-            header: {
-                backgroundColor: '#E6B0AA',
-                fontColor: '#000',
-                entityLabel: 'Service',
-                entityLabelSuffix: () => '',
-                // icon: ServiceIcon,
-            },
-            propRows: ['label', identifier],
-        },
-    },
+    // Person: {
+    //     group: 'Participant',
+    //     idPrefix: 'per',
+    //     presentation: {
+    //         entityColor: '#E6B0AA',
+    //         entityLabel: 'Person',
+    //         entityLabelSuffix: () => '',
+    //         // icon: PersonIcon,
+    //         header: {
+    //             backgroundColor: '#E6B0AA',
+    //             fontColor: '#000',
+    //             entityLabel: 'Person',
+    //             entityLabelSuffix: () => '',
+    //             // icon: PersonIcon,
+    //         },
+    //         propRows: ['label', identifier],
+    //     },
+    // },
+    // Organization: {
+    //     group: 'Participant',
+    //     idPrefix: 'org',
+    //     presentation: {
+    //         entityColor: '#E6B0AA',
+    //         entityLabel: 'Organization',
+    //         entityLabelSuffix: () => '',
+    //         // icon: OrganizationIcon,
+    //         header: {
+    //             backgroundColor: '#E6B0AA',
+    //             fontColor: '#000',
+    //             entityLabel: 'Organization',
+    //             entityLabelSuffix: () => '',
+    //             // icon: OrganizationIcon,
+    //         },
+    //         propRows: ['label', identifier],
+    //     },
+    // },
+    // Department: {
+    //     group: 'Participant',
+    //     idPrefix: 'dpt',
+    //     presentation: {
+    //         entityColor: '#E6B0AA',
+    //         entityLabel: 'Department',
+    //         entityLabelSuffix: () => '',
+    //         header: {
+    //             backgroundColor: '#E6B0AA',
+    //             fontColor: '#000',
+    //             entityLabel: 'Department',
+    //             entityLabelSuffix: () => '',
+    //         },
+    //         propRows: ['label', identifier],
+    //     },
+    // },
+    // Service: {
+    //     group: 'Participant',
+    //     idPrefix: 'srvc',
+    //     presentation: {
+    //         entityColor: '#E6B0AA',
+    //         entityLabel: 'Service',
+    //         entityLabelSuffix: () => '',
+    //         // icon: ServiceIcon,
+    //         header: {
+    //             backgroundColor: '#E6B0AA',
+    //             fontColor: '#000',
+    //             entityLabel: 'Service',
+    //             entityLabelSuffix: () => '',
+    //             // icon: ServiceIcon,
+    //         },
+    //         propRows: ['label', identifier],
+    //     },
+    // },
     Role: {
         group: 'Participant',
         idPrefix: 'rol',
+        mergeKey: ['roleName.fullName'],
         presentation: {
-            entityColor: '#CD6155',
-            entityLabel: 'Role',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#CD6155',
                 fontColor: '#000',
@@ -480,10 +436,8 @@ export const generalConfig = {
     Infrastructure: {
         group: 'Infrastructure',
         idPrefix: 'inf',
+        mergeKey: ['infrastructureName.fullName'],
         presentation: {
-            entityColor: '#F5CBA7',
-            entityLabel: 'Infrastructure',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#F5CBA7',
                 fontColor: '#000',
@@ -499,10 +453,8 @@ export const generalConfig = {
     InfrastructureStructure: {
         group: 'Infrastructure',
         idPrefix: 'infs',
+        mergeKey: ['infrastructureStructureName.fullName'],
         presentation: {
-            entityColor: '#F0B27A',
-            entityLabel: 'Infrastructure Structure',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#F0B27A',
                 fontColor: '#000',
@@ -518,10 +470,8 @@ export const generalConfig = {
     Task: {
         group: 'Task',
         idPrefix: 'tsk',
+        mergeKey: ['taskName.fullName'],
         presentation: {
-            entityColor: '#fcf3cf',
-            entityLabel: 'Task',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#fcf3cf',
                 fontColor: '#000',
@@ -537,10 +487,8 @@ export const generalConfig = {
     TaskStructure: {
         group: 'Task',
         idPrefix: 'tsks',
+        mergeKey: ['taskStructureName.fullName'],
         presentation: {
-            entityColor: '#f7dc6f',
-            entityLabel: 'Task Structure',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#f7dc6f',
                 fontColor: '#000',
@@ -556,10 +504,8 @@ export const generalConfig = {
     Collection: {
         group: 'Utility',
         idPrefix: 'col',
+        mergeKey: ['collectionName.fullName'],
         presentation: {
-            entityColor: '#D7DBDD',
-            entityLabel: 'Collection',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#D7DBDD',
                 fontColor: '#000',
@@ -572,10 +518,8 @@ export const generalConfig = {
     Composition: {
         group: 'Utility',
         idPrefix: 'cmp',
+        mergeKey: ['compositionName.fullName'],
         presentation: {
-            entityColor: '#BDC3C7',
-            entityLabel: 'Composition',
-            entityLabelSuffix: () => '',
             header: {
                 backgroundColor: '#BDC3C7',
                 fontColor: '#000',
@@ -588,11 +532,8 @@ export const generalConfig = {
     Location: {
         group: 'Utility',
         idPrefix: 'loc',
+        mergeKey: ['locationName.fullName'],
         presentation: {
-            entityColor: '#AEB6BF',
-            entityLabel: 'Location',
-            entityLabelSuffix: () => '',
-            // icon: LocationIcon,
             header: {
                 backgroundColor: '#AEB6BF',
                 fontColor: '#000',
@@ -606,11 +547,8 @@ export const generalConfig = {
     Provenance: {
         group: 'Utility',
         idPrefix: 'prv',
+        mergeKey: ['provenanceName.fullName'],
         presentation: {
-            entityColor: '#BDC3C7',
-            entityLabel: 'Provenance',
-            entityLabelSuffix: () => '',
-            // icon: LocationIcon,
             header: {
                 backgroundColor: '#BDC3C7',
                 fontColor: '#000',

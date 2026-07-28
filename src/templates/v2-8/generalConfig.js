@@ -232,7 +232,7 @@ export const generalConfig = {
                 entityLabel: 'Nar. Styling',
                 entityLabelSuffix: ((omc) => formatLabel(omc.narrativeType)),
             },
-            propRows: ['name', 'narrativeType',],
+            propRows: ['name', 'narrativeType'],
         },
     },
     NarrativeWardrobe: {

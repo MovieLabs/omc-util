@@ -13,7 +13,7 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            narrativeType: 'string',
+            narrativeObjectType: null,
             narrativeObjectName: scriptName.graphQl.filter,
             quantity: null,
             size: null,
@@ -21,6 +21,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            narrativeObjectType: 'string',
             narrativeObjectName: scriptName.graphQl.filter,
         },
         inlineFragment: null,

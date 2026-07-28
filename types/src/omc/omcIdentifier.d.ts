@@ -99,13 +99,14 @@ export function idKey(identifier: OmcIdentifier): string;
  * @function idCombinedForm
  * @static
  * @param {OmcIdentifier} identifier - An OMC identifier
+ * @param {string} separator - An optional sting to be place between the scope and identifier
  * @returns {string} A unique key representing the combined form of the identifier
  *
  * @example
- * idCombinedForm({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' })
- * // returns 'movielabs.comchr-Yhq5EZz4zdQxgOt'
+ * idCombinedForm({ identifierScope: 'movielabs.com', identifierValue: 'chr-Yhq5EZz4zdQxgOt' }, ':')
+ * // returns 'movielabs.com:chr-Yhq5EZz4zdQxgOt'
  */
-export function idCombinedForm(identifier: OmcIdentifier): string;
+export function idCombinedForm(identifier: OmcIdentifier, separator?: string): string;
 /**
  * Test if an identifier from one entity already exists within a set of other entities
  *
