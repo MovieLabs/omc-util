@@ -21,6 +21,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.properties,
             productionSceneName: basicName.graphQl.filter,
+            sceneNumber: ['string'],
         },
         inlineFragment: null,
     },

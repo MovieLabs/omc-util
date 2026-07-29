@@ -229,6 +229,12 @@
                     "udimTile"
                   ]
                 },
+                "category": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "assetFunctionProperties": {
                   "type": [
                     "object",

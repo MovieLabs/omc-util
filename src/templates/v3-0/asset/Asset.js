@@ -17,6 +17,7 @@ export default {
             AssetStructure: null,
             assetFunction: {
                 assetFunctionType: null,
+                category: null,
                 assetFunctionProperties: null,
             },
             Member: null,
@@ -26,6 +27,7 @@ export default {
             assetName: basicName.graphQl.filter,
             assetFunction: {
                 assetFunctionType: ['string'],
+                category: ['string'],
             },
         },
         inlineFragment: {

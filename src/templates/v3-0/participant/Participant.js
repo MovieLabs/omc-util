@@ -13,30 +13,28 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            ParticipantSC: {
-                Organization: null,
-                Department: null,
-                Person: null,
-                Service: null,
-            },
-            participantFC: {
-                functionalType: null,
+            ParticipantStructure: null,
+            participantFunction: {
+                participantFunctionType: null,
+                participantFunctionProperties: null,
                 jobTitle: null,
                 Role: null,
-                // customData: null,
             },
-            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            participantFunction: {
+                participantFunctionType: ['string'],
+            },
         },
         inlineFragment: {
-            ParticipantSC: {
-                Organization: '...on',
-                Department: '...on',
-                Person: '...on',
-                Service: '...on',
-            },
+            ...baseEntity.graphQl.inlineFragment,
+        //     ParticipantSC: {
+        //         Organization: '...on',
+        //         Department: '...on',
+        //         Person: '...on',
+        //         Service: '...on',
+        //     },
         },
     },
 };

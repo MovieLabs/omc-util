@@ -22,7 +22,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.filter,
             narrativeSceneName: scriptName.graphQl.filter,
-            sceneNumber: 'string',
+            sceneNumber: ['string'], // accepts multiple scene numbers, matching ProductionScene
         },
         inlineFragment: null,
     },

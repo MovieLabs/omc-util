@@ -17,15 +17,11 @@ export default {
             participantStructureName: {
                 fullName: null,
             },
-            participantStructureProperties: {
-                jobTitle: null,
-                gender: gender.graphQl.properties,
-                contact: contact.graphQl.properties,
-                Location: null,
-            },
+            participantStructureProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
+            participantStructureType: ['string'],
         },
         inlineFragment: null,
     },
