@@ -126,6 +126,7 @@
  * @property {function(TemplateQuery): Array<OmcEntityType>} allEntityTypes - All entityTypes for this schema version
  * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
+ * @property {function({schemaVersion?: string}=): string[]} metaKeys - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
  */
 
 import { isCapitalized } from '../mlHelpers/util.js';
@@ -223,6 +224,17 @@ const omcTemplate = {
     inverseEdge: (({ edge, schemaVersion }) => (
         versionTemplates[schemaVersion].inverseEdges[edge] || null
     )),
+    // The OMC envelope: the schema's `baseEntity` non-data properties
+    // (identifier/schemaVersion + the free-form customData/annotation/tag), plus
+    // the structural `entityType`/`edges` and the `Context` relationship bucket.
+    // `label`/`description`/`instanceInfo` are deliberately excluded — they are
+    // data. Schema-version-agnostic today (one shape across v2.1–v3.0); the query
+    // shape is accepted for forward-compatibility. Returns a fresh array so callers
+    // may mutate it freely.
+    metaKeys: (() => ([
+        'identifier', 'schemaVersion', 'entityType', 'edges',
+        'customData', 'annotation', 'tag', 'Context',
+    ])),
 };
 
 export { omcTemplate };
