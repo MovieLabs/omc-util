@@ -6,16 +6,43 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **omcUtil** is a shared ES module library for working with OMC-JSON (Ontology for Media Creation) — the standard data format for media production metadata. It provides utilities for entity manipulation, schema validation, migration, GraphQL query building, and an in-memory entity SDK.
 
-Published as `omc-util` on npm. Uses `.mjs` extensions throughout. Entry point: `index.mjs`, type definitions: `types.mjs`.
+Package name `omc-util`. **Not published to any registry** — consumers install it straight from the
+git repo by tag, e.g. `git+https://github.com/MovieLabs/omc-util.git#semver:^1.1.0`. Plain `.js`
+ESM throughout (there are no `.mjs` files); entry point `index.js`, type definitions under `types/`.
+
+Consumers work against a local checkout with `npm link`, which never touches their manifest — see
+"How omcUtil is shared" in the parent `MovieLabs-POC/CLAUDE.md`.
 
 ## Commands
 
 ```bash
-npm run jsdoc         # Generate JSDoc docs (output: docs/jsdoc/)
-npm run build:types   # Generate .d.ts declarations via tsc (output: types/)
+npm run jsdoc          # Generate JSDoc docs (output: docs/jsdoc/)
+npm run build:types    # Generate .d.ts declarations via tsc (output: types/)
+npm run release:check  # build:types + merge-reference test, before cutting a release
+npm run test:mergerefs # relationship-array merge guard
+npm run test:mergekeys # mergeKey/shape guard  (currently fails: ParticipantStructure)
+npm run test:derive    # schema-derivation parity  (includes the failing mergeKeys check)
 ```
 
-No test suite is configured (`npm test` is a placeholder).
+There is no unified test runner; the `test:*` scripts are standalone node scripts that exit
+non-zero on failure. `npm test` is a placeholder.
+
+## Releasing
+
+`types/` is **committed**, and there is deliberately no `prepare` hook — a git install must not have
+to run `tsc`, which would drag the full typescript devDependency into consumers' Docker builds. That
+means declarations only refresh when someone runs `build:types`, so they can drift from source.
+
+```bash
+npm run release:check          # regenerate types + run the merge guard
+git add -A && git commit       # types/ changes must be committed BEFORE versioning
+npm version minor              # bumps package.json, commits, creates tag vX.Y.Z
+git push --follow-tags
+```
+
+`files` in `package.json` is an **allow-list** and applies to git installs too: it keeps `test/`
+(~8 MB) and `docs/` (~2.7 MB) out of what consumers download. Any new top-level directory that
+consumers need at runtime must be added there, or it silently will not ship.
 
 ## Code Style
 
