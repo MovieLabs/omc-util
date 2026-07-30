@@ -82,6 +82,58 @@ export function idCreate({
 }
 
 /**
+ * Build an OMC identifier around a value the caller already holds, applying the entityType's
+ * prefix. Use this when identity is derived from something external and must stay readable in
+ * the identifierValue — a content hash, a vendor's asset id, a filesystem key. Unlike
+ * {@link idHash} the value is used verbatim, so it can still be read back off the identifier;
+ * unlike {@link idCreate} nothing is generated.
+ *
+ * Two entityTypes given the same value stay distinct through their prefixes (e.g. an Asset and
+ * its AssetStructure sharing one file hash become `ast-<value>` and `asts-<value>`), so a pair
+ * built this way does not collide.
+ *
+ * @function idFromValue
+ * @static
+ * @param {Object} params
+ * @param {string} params.identifierScope - The scope of the identifier
+ * @param {string} params.value - The value used verbatim as the identifierValue body
+ * @param {boolean} [params.prefix] - Use the entityType's predefined prefix on the value
+ * @param {string | null} [params.entityType] - Entity type, for the prefix
+ * @param {string} [params.schemaVersion] - Schema version for the prefix lookup
+ * @returns {OmcIdentifier} An OMC identifier wrapping the supplied value
+ * @throws {Error} When no value is supplied — minting an identifier around a missing value
+ *   would silently produce a colliding, meaningless identity
+ *
+ * @example
+ * idFromValue({
+ *     identifierScope: 'movielabs.com',
+ *     value: '9e107d9d372bb6826bd81d3542a419d6',
+ *     entityType: 'Asset',
+ *     prefix: true,
+ * })
+ * // returns {
+ * //     identifierScope: 'movielabs.com',
+ * //     identifierValue: 'ast-9e107d9d372bb6826bd81d3542a419d6'
+ * // }
+ */
+export function idFromValue({
+    identifierScope,
+    value,
+    prefix = false,
+    entityType = null,
+    schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
+}) {
+    if (value === null || value === undefined || `${value}` === '') {
+        throw new Error('idFromValue: a value is required');
+    }
+    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
+    return {
+        identifierScope: identifierScope || 'example.com',
+        identifierValue: p ? `${p}-${value}` : `${value}`,
+    };
+}
+
+/**
  * Create a stable, deterministic OMC identifier by hashing a seed value. The same seed always
  * produces the same identifierValue, so entities sharing a seed (e.g. a spreadsheet merge key)
  * de-duplicate and re-imports are idempotent. The entityType is folded into the hash so two
