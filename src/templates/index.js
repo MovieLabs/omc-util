@@ -191,10 +191,14 @@ const omcTemplate = {
     referenceTemplate: (({ schemaVersion }) => (
         versionSchemas[schemaVersion] ? referenceShape(versionSchemas[schemaVersion]) : null
     )),
+    // Returns null rather than throwing for a schema version or entityType this build does not
+    // know. Callers routinely ask about entities loaded from OTHER schema versions — data older
+    // than the project it is being merged into — and a throw there takes down the render.
     schemaGroup: (({ schemaVersion, entityType }) => (
-        versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup
+        versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.schemaGroup || null
     )),
     allSchemaGroups: (({ schemaVersion }) => {
+        if (!versionTemplates[schemaVersion]) return {};
         const allEntities = Object.keys(versionTemplates[schemaVersion].entityTemplate).filter((e) => isCapitalized(e));
         return allEntities.reduce((acc, entityType) => {
             const group = versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup;
