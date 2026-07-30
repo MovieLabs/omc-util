@@ -198,6 +198,14 @@ const omcTemplate = {
         const allEntities = Object.keys(versionTemplates[schemaVersion].entityTemplate).filter((e) => isCapitalized(e));
         return allEntities.reduce((acc, entityType) => {
             const group = versionTemplates[schemaVersion].entityTemplate[entityType].schemaGroup;
+            // Skip entity types this version cannot describe. A few types are wired into the
+            // template set without a generalConfig entry (v3.0: Depiction, Person, Organization,
+            // Department, Service), so they have no group — and equally no idPrefix, mergeKey or
+            // presentation. Grouping them under the key `undefined` produced a literal
+            // "undefined" section in every consumer that renders these groups, offering entity
+            // types nothing downstream can prefix, present or merge. An entity with no group is
+            // not presentable, so it is not listed.
+            if (!group) return acc;
             acc[group] = [...acc[group] || [], entityType];
             return acc;
         }, {});

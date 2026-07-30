@@ -382,7 +382,9 @@ export default function omcSDK() {
         intrinsicProps,
         contextEdges,
         identifier: {
-            merge: omcIdentifier.merge,
+            // omcIdentifier exports `idMerge`; there is no `merge`, so this was `undefined` and
+            // calling sdk.identifier.merge() would have thrown.
+            merge: omcIdentifier.idMerge,
         },
     };
 }
