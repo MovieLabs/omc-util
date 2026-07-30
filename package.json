@@ -1,6 +1,6 @@
 {
   "name": "omc-util",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Utilities for working with OMC-JSON",
   "author": "DML",
   "license": "ISC",
@@ -94,7 +94,6 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^16.0.0",
-
     "jsdoc": "^4.0.3",
     "jsdoc-to-markdown": "^9.0.2",
     "typescript": "^6.0.2"
