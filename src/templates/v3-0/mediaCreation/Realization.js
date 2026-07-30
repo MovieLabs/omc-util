@@ -1,5 +1,8 @@
 /**
- * Template details for Depiction
+ * Template details for Realization
+ *
+ * Realization is v3.0's successor to v2.8's Depiction (see the v2-8 -> v3-0 migration, which maps
+ * Depiction -> Realization, Depicts -> RealizationOf and Depicter -> RealizationBy).
  */
 
 import { generalConfig } from '../generalConfig.js';

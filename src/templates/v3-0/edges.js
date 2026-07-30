@@ -23,7 +23,7 @@
  *   - connects    : [{ domain:[...], range:[...], inverse?, path?, pathTemplate?, rdfMap? }]
  *                     each element is a domain→range constraint group (an OWL-restriction
  *                     style pairing). `inverse` / `path` may be overridden per group when a
- *                     predicate behaves asymmetrically across domains (e.g. Depiction).
+ *                     predicate behaves asymmetrically across domains (e.g. Realization).
  *
  * RDF ALIGNMENT (rdfMap)
  * ----------------------
@@ -78,7 +78,7 @@ export const intrinsicRdf = ({ predicate }) => `omc:has${cap(predicate)}`;
  * Includes `Context` itself so Contexts can nest. Used by the hasCxt/cxtFor predicates.
  */
 const CONTEXT_BEARERS = [
-    'Asset', 'Character', 'Collection', 'Composition', 'Context', 'CreativeWork', 'Depiction',
+    'Asset', 'Character', 'Collection', 'Composition', 'Context', 'CreativeWork',
     'Effect', 'Infrastructure', 'Location', 'NarrativeAudio', 'NarrativeLocation', 'NarrativeObject',
     'NarrativeScene', 'NarrativeStyling', 'NarrativeWardrobe', 'Participant', 'ProductionLocation',
     'ProductionScene', 'Provenance', 'Slate', 'SpecialAction', 'Task',
@@ -260,13 +260,8 @@ export const edgeDefinitions = {
         rdf: tentativeRdf,
         connects: [
             {
-                domain: ['Depiction'],
-                range: ['Asset'],
-                rdfMap: [], // JSON-only
-            },
-            {
                 domain: ['ProductionScene'],
-                range: ['Asset', 'Depiction', 'ProductionLocation'],
+                range: ['Asset', 'ProductionLocation'],
                 rdfMap: ['omc:representedBy (Asset)'],
             },
         ],
@@ -503,37 +498,6 @@ export const edgeDefinitions = {
         }],
     },
 
-    // --- Depiction --------------------------------------------------------
-    Depicts: {
-        predicate: 'Depicts',
-        placement: 'property',
-        cardinality: 'array',
-        inverse: 'has',
-        rdf: tentativeRdf,
-        connects: [
-            {
-                domain: ['Depiction'],
-                range: ['Character', 'NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'],
-                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-            },
-        ],
-    },
-
-    Depicter: {
-        predicate: 'Depicter',
-        placement: 'property',
-        cardinality: 'array',
-        inverse: 'has',
-        rdf: tentativeRdf,
-        connects: [
-            {
-                domain: ['Depiction'],
-                range: ['Asset', 'Participant', 'Composition'],
-                rdfMap: [], // no canonical omc: predicate — Tentative layer only (see omcPredicate)
-            },
-        ],
-    },
-
     // --- Realization --------------------------------------------------------
     RealizationOf: {
         predicate: 'RealizationOf',
@@ -653,7 +617,7 @@ export const edgeDefinitions = {
             {
                 domain: ['Collection'],
                 range: ['Asset', 'AssetSC', 'Character', 'Collection', 'Composition', 'CreativeWork',
-                    'Depiction', 'Effect', 'Infrastructure', 'Location', 'NarrativeAudio',
+                    'Effect', 'Infrastructure', 'Location', 'NarrativeAudio',
                     'NarrativeLocation', 'NarrativeObject', 'NarrativeScene', 'NarrativeStyling',
                     'NarrativeWardrobe', 'Participant', 'ProductionLocation', 'ProductionScene',
                     'Slate', 'SpecialAction'],
@@ -843,8 +807,7 @@ export const edgeDefinitions = {
         rdf: intrinsicRdf,
         connects: [
             {
-                domain: ['Department', 'NarrativeLocation', 'Organization', 'Person',
-                    'ProductionLocation', 'Service'],
+                domain: ['NarrativeLocation', 'ProductionLocation'],
                 range: ['Location'],
                 rdfMap: ['omc:hasAssociatedLocation'],
             },

@@ -29,12 +29,6 @@ export default {
         },
         inlineFragment: {
             ...baseEntity.graphQl.inlineFragment,
-        //     ParticipantSC: {
-        //         Organization: '...on',
-        //         Department: '...on',
-        //         Person: '...on',
-        //         Service: '...on',
-        //     },
         },
     },
 };

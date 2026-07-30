@@ -15,7 +15,6 @@ export default {
             ...baseEntity.graphQl.properties,
             narrativeAudioType: 'string',
             narrativeAudioName: scriptName.graphQl.properties,
-            // Depiction: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

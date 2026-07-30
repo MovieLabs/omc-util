@@ -1,5 +1,5 @@
 /**
- * Template details for Person
+ * Template details for ParticipantStructure
  */
 
 import { generalConfig } from '../generalConfig.js';

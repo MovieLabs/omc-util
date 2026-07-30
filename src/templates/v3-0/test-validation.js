@@ -59,7 +59,7 @@ const validation = {
                         NarrativeScene: ['NarrativeScene'],
                     },
                     has: {
-                        Portrayal: ['Depiction'], // This might be an EdgeBundle at some point
+                        Portrayal: ['Realization'], // This might be an EdgeBundle at some point
                         Context: ['EdgeBundle'],
                     },
                 },

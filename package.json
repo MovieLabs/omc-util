@@ -61,10 +61,6 @@
       "types": "./types/src/omcModel/omcSDK.d.ts",
       "import": "./src/omcModel/omcSDK.js"
     },
-    "./config": {
-      "types": "./types/src/config/index.d.ts",
-      "import": "./src/config/index.js"
-    },
     "./entity-model": {
       "types": "./types/src/omcModel/entityModel.d.ts",
       "import": "./src/omcModel/entityModel.js"

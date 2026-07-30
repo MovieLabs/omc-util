@@ -310,7 +310,7 @@ export namespace edgeDefinitions {
         }[];
         export { connects_18 as connects };
     }
-    export namespace Depicts {
+    export namespace RealizationOf {
         let predicate_19: string;
         export { predicate_19 as predicate };
         let placement_1: string;
@@ -322,12 +322,13 @@ export namespace edgeDefinitions {
         export { tentativeRdf as rdf };
         let connects_19: {
             domain: string[];
+            path: string;
             range: string[];
             rdfMap: any[];
         }[];
         export { connects_19 as connects };
     }
-    export namespace Depicter {
+    export namespace RealizationBy {
         let predicate_20: string;
         export { predicate_20 as predicate };
         let placement_2: string;
@@ -339,48 +340,49 @@ export namespace edgeDefinitions {
         export { tentativeRdf as rdf };
         let connects_20: {
             domain: string[];
+            path: string;
             range: string[];
             rdfMap: any[];
         }[];
         export { connects_20 as connects };
     }
-    export namespace RealizationOf {
+    export namespace ParticipantStructure {
         let predicate_21: string;
         export { predicate_21 as predicate };
         let placement_3: string;
         export { placement_3 as placement };
         let cardinality_21: string;
         export { cardinality_21 as cardinality };
-        let inverse_21: string;
+        let inverse_21: any;
         export { inverse_21 as inverse };
-        export { tentativeRdf as rdf };
+        export function rdf_4(): string;
+        export { rdf_4 as rdf };
         let connects_21: {
             domain: string[];
-            path: string;
             range: string[];
-            rdfMap: any[];
+            rdfMap: string[];
         }[];
         export { connects_21 as connects };
     }
-    export namespace RealizationBy {
+    export namespace InfrastructureStructure {
         let predicate_22: string;
         export { predicate_22 as predicate };
         let placement_4: string;
         export { placement_4 as placement };
         let cardinality_22: string;
         export { cardinality_22 as cardinality };
-        let inverse_22: string;
+        let inverse_22: any;
         export { inverse_22 as inverse };
-        export { tentativeRdf as rdf };
+        export function rdf_5(): string;
+        export { rdf_5 as rdf };
         let connects_22: {
             domain: string[];
-            path: string;
             range: string[];
             rdfMap: any[];
         }[];
         export { connects_22 as connects };
     }
-    export namespace ParticipantStructure {
+    export namespace TaskStructure {
         let predicate_23: string;
         export { predicate_23 as predicate };
         let placement_5: string;
@@ -389,8 +391,8 @@ export namespace edgeDefinitions {
         export { cardinality_23 as cardinality };
         let inverse_23: any;
         export { inverse_23 as inverse };
-        export function rdf_4(): string;
-        export { rdf_4 as rdf };
+        export function rdf_6(): string;
+        export { rdf_6 as rdf };
         let connects_23: {
             domain: string[];
             range: string[];
@@ -398,35 +400,34 @@ export namespace edgeDefinitions {
         }[];
         export { connects_23 as connects };
     }
-    export namespace InfrastructureStructure {
+    export namespace Member {
         let predicate_24: string;
         export { predicate_24 as predicate };
         let placement_6: string;
         export { placement_6 as placement };
         let cardinality_24: string;
         export { cardinality_24 as cardinality };
-        let inverse_24: any;
+        let inverse_24: string;
         export { inverse_24 as inverse };
-        export function rdf_5(): string;
-        export { rdf_5 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_24: {
             domain: string[];
             range: string[];
-            rdfMap: any[];
+            rdfMap: string[];
         }[];
         export { connects_24 as connects };
     }
-    export namespace TaskStructure {
+    export namespace includes {
         let predicate_25: string;
         export { predicate_25 as predicate };
         let placement_7: string;
         export { placement_7 as placement };
+        export let pathTemplate: string;
         let cardinality_25: string;
         export { cardinality_25 as cardinality };
         let inverse_25: any;
         export { inverse_25 as inverse };
-        export function rdf_6(): string;
-        export { rdf_6 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_25: {
             domain: string[];
             range: string[];
@@ -434,16 +435,18 @@ export namespace edgeDefinitions {
         }[];
         export { connects_25 as connects };
     }
-    export namespace Member {
+    export namespace ConfigurationFile {
         let predicate_26: string;
         export { predicate_26 as predicate };
         let placement_8: string;
         export { placement_8 as placement };
+        export let path: string;
         let cardinality_26: string;
         export { cardinality_26 as cardinality };
-        let inverse_26: string;
+        let inverse_26: any;
         export { inverse_26 as inverse };
-        export { intrinsicRdf as rdf };
+        export function rdf_7(): string;
+        export { rdf_7 as rdf };
         let connects_26: {
             domain: string[];
             range: string[];
@@ -451,17 +454,17 @@ export namespace edgeDefinitions {
         }[];
         export { connects_26 as connects };
     }
-    export namespace includes {
+    export namespace StartHere {
         let predicate_27: string;
         export { predicate_27 as predicate };
         let placement_9: string;
         export { placement_9 as placement };
-        export let pathTemplate: string;
         let cardinality_27: string;
         export { cardinality_27 as cardinality };
         let inverse_27: any;
         export { inverse_27 as inverse };
-        export { intrinsicRdf as rdf };
+        export function rdf_8(): string;
+        export { rdf_8 as rdf };
         let connects_27: {
             domain: string[];
             range: string[];
@@ -469,18 +472,16 @@ export namespace edgeDefinitions {
         }[];
         export { connects_27 as connects };
     }
-    export namespace ConfigurationFile {
+    export namespace Product {
         let predicate_28: string;
         export { predicate_28 as predicate };
         let placement_10: string;
         export { placement_10 as placement };
-        export let path: string;
         let cardinality_28: string;
         export { cardinality_28 as cardinality };
-        let inverse_28: any;
+        let inverse_28: string;
         export { inverse_28 as inverse };
-        export function rdf_7(): string;
-        export { rdf_7 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_28: {
             domain: string[];
             range: string[];
@@ -488,7 +489,7 @@ export namespace edgeDefinitions {
         }[];
         export { connects_28 as connects };
     }
-    export namespace StartHere {
+    export namespace CreatedBy {
         let predicate_29: string;
         export { predicate_29 as predicate };
         let placement_11: string;
@@ -497,8 +498,8 @@ export namespace edgeDefinitions {
         export { cardinality_29 as cardinality };
         let inverse_29: any;
         export { inverse_29 as inverse };
-        export function rdf_8(): string;
-        export { rdf_8 as rdf };
+        export function rdf_9(): string;
+        export { rdf_9 as rdf };
         let connects_29: {
             domain: string[];
             range: string[];
@@ -506,14 +507,14 @@ export namespace edgeDefinitions {
         }[];
         export { connects_29 as connects };
     }
-    export namespace Product {
+    export namespace Origin {
         let predicate_30: string;
         export { predicate_30 as predicate };
         let placement_12: string;
         export { placement_12 as placement };
         let cardinality_30: string;
         export { cardinality_30 as cardinality };
-        let inverse_30: string;
+        let inverse_30: any;
         export { inverse_30 as inverse };
         export { intrinsicRdf as rdf };
         let connects_30: {
@@ -523,7 +524,7 @@ export namespace edgeDefinitions {
         }[];
         export { connects_30 as connects };
     }
-    export namespace CreatedBy {
+    export namespace Role {
         let predicate_31: string;
         export { predicate_31 as predicate };
         let placement_13: string;
@@ -532,25 +533,26 @@ export namespace edgeDefinitions {
         export { cardinality_31 as cardinality };
         let inverse_31: any;
         export { inverse_31 as inverse };
-        export function rdf_9(): string;
-        export { rdf_9 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_31: {
             domain: string[];
             range: string[];
+            path: string;
             rdfMap: string[];
         }[];
         export { connects_31 as connects };
     }
-    export namespace Origin {
+    export namespace Director {
         let predicate_32: string;
         export { predicate_32 as predicate };
         let placement_14: string;
         export { placement_14 as placement };
         let cardinality_32: string;
         export { cardinality_32 as cardinality };
-        let inverse_32: any;
+        let inverse_32: string;
         export { inverse_32 as inverse };
-        export { intrinsicRdf as rdf };
+        export function rdf_10(): string;
+        export { rdf_10 as rdf };
         let connects_32: {
             domain: string[];
             range: string[];
@@ -558,25 +560,25 @@ export namespace edgeDefinitions {
         }[];
         export { connects_32 as connects };
     }
-    export namespace Role {
+    export namespace CreativeWork {
         let predicate_33: string;
         export { predicate_33 as predicate };
         let placement_15: string;
         export { placement_15 as placement };
         let cardinality_33: string;
         export { cardinality_33 as cardinality };
-        let inverse_33: any;
+        let inverse_33: string;
         export { inverse_33 as inverse };
-        export { intrinsicRdf as rdf };
+        export function rdf_11(): string;
+        export { rdf_11 as rdf };
         let connects_33: {
             domain: string[];
             range: string[];
-            path: string;
             rdfMap: string[];
         }[];
         export { connects_33 as connects };
     }
-    export namespace Director {
+    export namespace ProductionCompany {
         let predicate_34: string;
         export { predicate_34 as predicate };
         let placement_16: string;
@@ -585,16 +587,16 @@ export namespace edgeDefinitions {
         export { cardinality_34 as cardinality };
         let inverse_34: string;
         export { inverse_34 as inverse };
-        export function rdf_10(): string;
-        export { rdf_10 as rdf };
+        export function rdf_12(): string;
+        export { rdf_12 as rdf };
         let connects_34: {
             domain: string[];
             range: string[];
-            rdfMap: string[];
+            rdfMap: any[];
         }[];
         export { connects_34 as connects };
     }
-    export namespace CreativeWork {
+    export namespace Series {
         let predicate_35: string;
         export { predicate_35 as predicate };
         let placement_17: string;
@@ -603,16 +605,15 @@ export namespace edgeDefinitions {
         export { cardinality_35 as cardinality };
         let inverse_35: string;
         export { inverse_35 as inverse };
-        export function rdf_11(): string;
-        export { rdf_11 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_35: {
             domain: string[];
             range: string[];
-            rdfMap: string[];
+            rdfMap: any[];
         }[];
         export { connects_35 as connects };
     }
-    export namespace ProductionCompany {
+    export namespace Season {
         let predicate_36: string;
         export { predicate_36 as predicate };
         let placement_18: string;
@@ -621,8 +622,7 @@ export namespace edgeDefinitions {
         export { cardinality_36 as cardinality };
         let inverse_36: string;
         export { inverse_36 as inverse };
-        export function rdf_12(): string;
-        export { rdf_12 as rdf };
+        export { intrinsicRdf as rdf };
         let connects_36: {
             domain: string[];
             range: string[];
@@ -630,7 +630,7 @@ export namespace edgeDefinitions {
         }[];
         export { connects_36 as connects };
     }
-    export namespace Series {
+    export namespace Episode {
         let predicate_37: string;
         export { predicate_37 as predicate };
         let placement_19: string;
@@ -647,56 +647,22 @@ export namespace edgeDefinitions {
         }[];
         export { connects_37 as connects };
     }
-    export namespace Season {
+    export namespace Location {
         let predicate_38: string;
         export { predicate_38 as predicate };
         let placement_20: string;
         export { placement_20 as placement };
         let cardinality_38: string;
         export { cardinality_38 as cardinality };
-        let inverse_38: string;
+        let inverse_38: any;
         export { inverse_38 as inverse };
         export { intrinsicRdf as rdf };
         let connects_38: {
             domain: string[];
             range: string[];
-            rdfMap: any[];
-        }[];
-        export { connects_38 as connects };
-    }
-    export namespace Episode {
-        let predicate_39: string;
-        export { predicate_39 as predicate };
-        let placement_21: string;
-        export { placement_21 as placement };
-        let cardinality_39: string;
-        export { cardinality_39 as cardinality };
-        let inverse_39: string;
-        export { inverse_39 as inverse };
-        export { intrinsicRdf as rdf };
-        let connects_39: {
-            domain: string[];
-            range: string[];
-            rdfMap: any[];
-        }[];
-        export { connects_39 as connects };
-    }
-    export namespace Location {
-        let predicate_40: string;
-        export { predicate_40 as predicate };
-        let placement_22: string;
-        export { placement_22 as placement };
-        let cardinality_40: string;
-        export { cardinality_40 as cardinality };
-        let inverse_40: any;
-        export { inverse_40 as inverse };
-        export { intrinsicRdf as rdf };
-        let connects_40: {
-            domain: string[];
-            range: string[];
             rdfMap: string[];
         }[];
-        export { connects_40 as connects };
+        export { connects_38 as connects };
     }
 }
 //# sourceMappingURL=edges.d.ts.map

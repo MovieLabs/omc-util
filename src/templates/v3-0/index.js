@@ -40,7 +40,6 @@ import InfrastructureStructure from './infrastructure/InfrastructureStructure.js
 import Character from './mediaCreation/Character.js';
 import Context from './mediaCreation/Context.js';
 import CreativeWork from './mediaCreation/CreativeWork.js';
-import Depiction from './mediaCreation/Depiction.js';
 import Effect from './mediaCreation/Effect.js';
 import NarrativeAudio from './mediaCreation/NarrativeAudio.js';
 import NarrativeLocation from './mediaCreation/NarrativeLocation.js';
@@ -53,13 +52,9 @@ import ProductionScene from './mediaCreation/ProductionScene.js';
 import Realization from './mediaCreation/Realization.js';
 import Slate from './mediaCreation/Slate.js';
 import SpecialAction from './mediaCreation/SpecialAction.js';
-import Department from './participant/Department.js';
-import Organization from './participant/Organization.js';
 import Participant from './participant/Participant.js';
 import ParticipantStructure from './participant/ParticipantStructure.js';
-import Person from './participant/Person.js';
 import Role from './participant/Role.js';
-import Service from './participant/Service.js';
 import Task from './task/Task.js';
 import TaskStructure from './task/TaskStructure.js';
 import Collection from './utility/Collection.js';
@@ -74,7 +69,6 @@ const omcTemplate = {
     Character,
     CreativeWork,
     Context,
-    Depiction,
     Effect,
     NarrativeAudio,
     NarrativeLocation,
@@ -89,10 +83,6 @@ const omcTemplate = {
     SpecialAction,
     Participant,
     ParticipantStructure,
-    Organization,
-    Department,
-    Person,
-    Service,
     Role,
     Infrastructure,
     InfrastructureStructure,
