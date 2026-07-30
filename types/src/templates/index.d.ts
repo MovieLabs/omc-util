@@ -219,6 +219,12 @@ export type OmcTemplate = {
      * - An array of entityTypes that are available in the graphql schema for this version
      */
     graphQlEntities: (arg0: TemplateQuery) => Array<OmcEntityType>;
+    /**
+     * - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
+     */
+    metaKeys: (arg0: {
+        schemaVersion?: string;
+    } | undefined) => string[];
 };
 /**
  * Methods returning templated values based on the schema version

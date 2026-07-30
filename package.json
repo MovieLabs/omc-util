@@ -4,9 +4,21 @@
   "description": "Utilities for working with OMC-JSON",
   "author": "DML",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MovieLabs/omc-util.git"
+  },
   "main": "./index.js",
   "types": "./types/index.d.ts",
   "type": "module",
+  "files": [
+    "index.js",
+    "types.js",
+    "globals.d.ts",
+    "src",
+    "types",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
@@ -65,7 +77,8 @@
     "test:mergerefs": "node test/mergeReferences.js",
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc --verbose",
-    "build:types": "tsc && node postbuild-types.js"
+    "build:types": "tsc && node postbuild-types.js",
+    "release:check": "npm run build:types && npm run test:mergerefs"
   },
   "dependencies": {
     "ajv": "^8.12.0",
