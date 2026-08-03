@@ -4,7 +4,7 @@
  * @ignore
  */
 
-import { makeArray } from '../../mlHelpers/util.js';
+import { isPlainObject, makeArray } from '../../mlHelpers/util.js';
 import { edgeCreate } from '../omcEdges.js';
 import { idCreate } from '../omcIdentifier.js';
 import { deepMerge } from '../omcMerge.js';
@@ -45,6 +45,12 @@ const cxtEdges = ((cxt) => {
         instanceInfo: _if,
         contextType: _ctxType,
         contextCategory: _ctxCat,
+        // Data, not a relationship. v3.0's Context shape carries `contextProperties` (shootDay,
+        // shootDate and the like), so leaving it in the rest spread filed it under `edges` — where
+        // its values are scalars rather than reference arrays, and where anything walking the edge
+        // graph trips over them. The standalone-Context migration below then deleted every edge key
+        // from the entity, so the data was lost from the one place the schema expects it.
+        contextProperties: _ctxProps,
         Context: _cxt,
         ForEntity: _forEnt,
         For: _for,
@@ -53,6 +59,45 @@ const cxtEdges = ((cxt) => {
     Object.keys(edges).forEach((predicate) => renameTarget(edges[predicate])); // For each predicate, check if targets need renaming
     return edges;
 });
+
+/**
+ * Move a Context's properties into the sub-type slot v3.0 expects.
+ *
+ * `contextProperties` is the container in both versions, and stays where it is. What changed is
+ * that v3.0 added a level inside it, keyed by the context's sub-type:
+ *
+ * ```
+ * v2.6/v2.8   contextProperties: { shootDay: 1, shootDate: '2026-01-23' }
+ * v3.0        contextProperties: { shootDay: { shootDay: 1, shootDate: '2026-01-23' } }
+ * ```
+ *
+ * The schemas show the same definition relocated rather than redefined: v2.6 has
+ * `contextProperties` → `anyOf` → `$ref …/$defs/shootDay`, while v3.0 has `contextProperties` →
+ * `properties.shootDay` → the same `$ref`, and `$defs/shootDay` is identical between them. So
+ * nothing is renamed and no value is converted — `shootDay` is typed `string | number | null` in
+ * both, and a number stays a number. A wrapper is inserted, and that is all.
+ *
+ * `shootDay` therefore appears twice at different levels: the outer is the slot name, the inner is
+ * the day number.
+ *
+ * Applied whatever the sub-type. v3.0 sets `additionalProperties: true` on `contextProperties`, so
+ * a type the schema does not describe still validates, and a sub-type added later needs no change
+ * here. Note the caller defaults a missing `contextType` to `'context'`, so a Context that declares
+ * no type nests under a slot of that name — meaningless, but harmless, and not worth a special
+ * case.
+ *
+ * @param {Object|null} contextProperties - The v2.x properties, if any
+ * @param {string} contextType - The context's sub-type, which names the slot
+ * @returns {Object|null} The v3.0 form, or the input untouched when there is nothing to do
+ */
+function migrateContextProperties(contextProperties, contextType) {
+    if (!contextProperties || !isPlainObject(contextProperties)) return contextProperties;
+    // Already in the v3.0 shape. Migration has to be safe to run twice, and without this a second
+    // pass would bury the properties another level down.
+    const existing = contextProperties[contextType];
+    if (existing !== undefined && isPlainObject(existing)) return contextProperties;
+    return { [contextType]: contextProperties };
+}
 
 /**
  * Hoist edges carried on resolved Context entities onto the entity itself.
@@ -375,6 +420,11 @@ export default {
             ...rest,
             schemaVersion,
             contextType,
+            // v3.0 keys these by sub-type; v2.x carried them flat. Placed after the rest spread so
+            // it replaces the v2.x value rather than being overwritten by it.
+            ...(rest.contextProperties !== undefined && {
+                contextProperties: migrateContextProperties(rest.contextProperties, contextType),
+            }),
             label: name || labelDefault,
             ...(name !== false && { contextName: migrateName(name) }),
             edges,
@@ -387,14 +437,24 @@ export default {
             name = false,
             CreativeWork = false, // Singleton, make an array
             creativeWorkType = 'creativeWork', // Now a required property
+            Series = false, // Moves to the properties
+            Season = false, // Moves to the properties
+            Episode = false, // Moves to the properties
             ...rest
         } = cxtUpdate;
+
+        const creativeWorkProperties = {
+            ...(Series !== false && { Series }),
+            ...(Season !== false && { Season }),
+            ...(Episode !== false && { Episode }),
+        };
 
         return {
             ...rest,
             schemaVersion,
             label: name || 'N/A', // ToDo: Could check the title list for a better option
             creativeWorkType,
+            ...((Object.keys(creativeWorkProperties)).length && { creativeWorkProperties }), // Spread this if there are any values
             ...(CreativeWork !== false && { CreativeWork: migrateShape(CreativeWork) }),
         };
     },

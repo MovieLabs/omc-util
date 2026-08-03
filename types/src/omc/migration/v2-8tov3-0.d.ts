@@ -46,6 +46,11 @@ declare namespace _default {
     function Context(omc: any): any;
     function CreativeWork(omc: any): {
         CreativeWork: boolean | any[];
+        creativeWorkProperties: {
+            Episode: any;
+            Season: any;
+            Series: any;
+        };
         schemaVersion: string;
         label: string;
         creativeWorkType: any;
