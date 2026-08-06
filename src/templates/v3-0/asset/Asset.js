@@ -20,7 +20,6 @@ export default {
                 category: null,
                 assetFunctionProperties: null,
             },
-            Member: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

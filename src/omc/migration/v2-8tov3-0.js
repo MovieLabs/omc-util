@@ -20,6 +20,11 @@ const edgeTargetRename = {
     TaskSC: 'TaskStructure',
 };
 
+const productionLocationTypeMap = {
+    shooting: 'shootingLocation',
+    production: 'productionLocation',
+};
+
 // For a given set of targets for an edge, replace the old name with the new one.
 const renameTarget = ((edge) => {
     Object.keys(edge).forEach((key) => {
@@ -45,11 +50,6 @@ const cxtEdges = ((cxt) => {
         instanceInfo: _if,
         contextType: _ctxType,
         contextCategory: _ctxCat,
-        // Data, not a relationship. v3.0's Context shape carries `contextProperties` (shootDay,
-        // shootDate and the like), so leaving it in the rest spread filed it under `edges` — where
-        // its values are scalars rather than reference arrays, and where anything walking the edge
-        // graph trips over them. The standalone-Context migration below then deleted every edge key
-        // from the entity, so the data was lost from the one place the schema expects it.
         contextProperties: _ctxProps,
         Context: _cxt,
         ForEntity: _forEnt,
@@ -136,30 +136,6 @@ function setEdgesFromContext(omc) {
         ...update,
         edges,
     };
-}
-
-/**
- * Hoist edges carried on resolved Context entities onto the entity itself.
- *
- * @param {OmcEntity} Context
- * @returns {OmcEntity | null}
- */
-
-function contextEdges(Context) {
-    if (!Context || !Array.isArray(Context) || Context.length === 0) return Context;
-
-    const edgeFragments = Context
-        .filter((ctx) => ctx && ctx.entityType === 'Context') // Skip unresolved refs
-        .map((cxt) => cxtEdges(cxt)); // Just the edge properties
-
-    if (edgeFragments.length === 0) return null;
-
-    const merged = edgeFragments.reduce((acc, frag) => deepMerge(acc, frag), {});
-    return (Object.keys(merged).length) ? merged : null;
-
-    // const existing = omc.edges && typeof omc.edges === 'object' ? omc.edges : {};
-    // const edges = deepMerge(existing, merged);
-    // return edges;
 }
 
 /**
@@ -263,6 +239,10 @@ function migrateProvenance(provenance) {
         ...(role !== false && { Role: role }),
     }];
 }
+
+/**
+ * Clean properties, remove any empty strings, arrays or objects without keys
+ */
 
 export default {
     Asset: (omc) => {
@@ -414,7 +394,7 @@ export default {
 
         // Separate the edges and remove them from top level
         const edges = cxtEdges(omc);
-        Object.keys(edges).forEach((key) => delete rest[key]);
+        Object.keys(edges).forEach((key) => delete rest[key]); // Delete the edges at the top level.
 
         return {
             ...rest,
@@ -440,6 +420,7 @@ export default {
             Series = false, // Moves to the properties
             Season = false, // Moves to the properties
             Episode = false, // Moves to the properties
+            title = false, // Becomes creativeWorkTitle
             ...rest
         } = cxtUpdate;
 
@@ -454,6 +435,7 @@ export default {
             schemaVersion,
             label: name || 'N/A', // ToDo: Could check the title list for a better option
             creativeWorkType,
+            ...(title !== false && { creativeWorkTitle: title }),
             ...((Object.keys(creativeWorkProperties)).length && { creativeWorkProperties }), // Spread this if there are any values
             ...(CreativeWork !== false && { CreativeWork: migrateShape(CreativeWork) }),
         };
@@ -819,11 +801,12 @@ export default {
             Location,
             ...rest
         } = cxtUpdate;
+        const productionLocationType = productionLocationTypeMap[locationType] || locationType; // Map to new controlled vocab if possible
 
         return {
             ...rest,
             schemaVersion,
-            productionLocationType: locationType,
+            productionLocationType,
             label: name || labelDefault,
             ...(name !== false && { productionLocationName: migrateName(name) }),
             ...(Location !== false && { Location: migrateShape(Location) }),

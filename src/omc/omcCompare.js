@@ -1,6 +1,12 @@
 /**
  * Compare two Omc Entities and return a description of the differences between the two
  *
+ * This comparison is symmetric, which makes it the wrong tool for "does the comparison entity
+ * carry anything new?". `$remove` reports a property the *original* holds and the comparison
+ * lacks — absence, not information — so an entity that is a strict subset of the original still
+ * produces a non-empty diff. Use {@link mergeChanges} for that question: it answers with merge
+ * semantics, where the only possible outcomes are a value gained and a value disagreed with.
+ *
  * @module omcCompare
  */
 

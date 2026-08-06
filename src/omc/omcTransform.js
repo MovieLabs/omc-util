@@ -159,3 +159,75 @@ export function unEmbed(omc) {
     const omcSet = unEmbedSet(toArray(omc)); // Object(map) of omc instances
     return toObject(omcSet);
 }
+
+/**
+ * The cleaned form of one value, or null when it holds nothing.
+ *
+ * Emptiness is recursive and bottom-up: a string of only whitespace is nothing, an array whose
+ * items are all nothing is nothing, and an object whose properties are all nothing is nothing. So
+ * emptiness discovered deep in a structure propagates outward instead of leaving a husk behind.
+ *
+ * Numbers and booleans are returned untouched — `0` and `false` are values, not absences, and are
+ * the classic casualty of a truthiness test written in a hurry.
+ *
+ * Non-empty strings are returned as they were rather than trimmed: trimming is a change to the
+ * data, and this function's job is to say what is absent, not to edit what is present.
+ *
+ * @ignore
+ * @param {*} value
+ * @returns {*} The cleaned value, or null
+ */
+function cleanValue(value) {
+    if (value === null || value === undefined) return null;
+    if (typeof value === 'string') return value.trim() === '' ? null : value;
+    if (Array.isArray(value)) {
+        // Items that clean to nothing are dropped rather than left as null holes, so an array of
+        // empties becomes an empty array and then, being empty, nothing at all.
+        const items = value.map((item) => cleanValue(item)).filter((item) => item !== null);
+        return items.length ? items : null;
+    }
+    if (isPlainObject(value)) {
+        const cleaned = Object.keys(value).reduce((acc, key) => {
+            acc[key] = cleanValue(value[key]);
+            return acc;
+        }, {});
+        // Keys are kept and set to null rather than deleted: "known to be nothing" and "never
+        // mentioned" read the same to most consumers, and keeping the key preserves the shape.
+        return Object.values(cleaned).some((v) => v !== null) ? cleaned : null;
+    }
+    return value;
+}
+
+/**
+ * Normalize an entity so that everything absent is expressed the same way — as null.
+ *
+ * OMC data arrives from spreadsheets, form fields, GraphQL responses and hand-edited JSON, and each
+ * of them says "nothing here" differently: `''`, `[]`, `{}`, an object of nulls, or the property
+ * simply missing. Left alone those differences are indistinguishable from content — an empty string
+ * merges over a real value, an empty array reads as an answer, and comparing two entities that hold
+ * the same information reports a difference. One spelling for absence removes all of that.
+ *
+ * Applied to every entity entering {@link omcSDK}, so consumers of the store never have to ask
+ * which spelling they are looking at.
+ *
+ * Returns a new entity; the original is never modified, and nested values are rebuilt rather than
+ * shared, so a caller still holding the input keeps it intact.
+ *
+ * @function cleanEntity
+ * @static
+ * @param {OmcEntity} omcEntity - The entity to normalize
+ * @returns {OmcEntity} A new entity with every absence expressed as null
+ *
+ * @example
+ * cleanEntity({ label: 'Scene 4', name: '', creativeWorkTitle: [{ titleName: '  ' }] });
+ * // { label: 'Scene 4', name: null, creativeWorkTitle: null }
+ */
+export function cleanEntity(omcEntity) {
+    if (!omcEntity || !isPlainObject(omcEntity)) return omcEntity;
+    // The entity itself is never collapsed, however empty it is: callers are handed an entity and
+    // must get one back.
+    return Object.keys(omcEntity).reduce((acc, key) => {
+        acc[key] = cleanValue(omcEntity[key]);
+        return acc;
+    }, {});
+}

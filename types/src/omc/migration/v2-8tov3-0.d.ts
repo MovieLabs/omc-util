@@ -51,6 +51,7 @@ declare namespace _default {
             Season: any;
             Series: any;
         };
+        creativeWorkTitle: any;
         schemaVersion: string;
         label: string;
         creativeWorkType: any;

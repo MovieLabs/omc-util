@@ -26,9 +26,7 @@ export default {
                 Asset: null,
                 AssetStructure: null,
             },
-            Product: {
-                Asset: null,
-            },
+            Product: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
@@ -37,7 +35,7 @@ export default {
         inlineFragment: {
             StartHere: {
                 Asset: '...on',
-                AssetSC: '...on',
+                AssetStructure: '...on',
             },
         },
     },

@@ -1499,7 +1499,10 @@
               "title": "Context Type",
               "description": "A classification of the type of context represented",
               "default": "context",
-              "x-controlledValues": ["context"]
+              "x-controlledValues": [
+                "context",
+                "shootDay"
+              ]
             },
             "contextName": {
               "title": "Context Name",
@@ -2501,7 +2504,6 @@
                 "participantFunctionType": {
                   "type": "string",
                   "default": "participantFunction",
-                  "x-controlledValues": ["participantFunction"],
                   "title": "Functional Type"
                 },
                 "jobTitle": {
@@ -5343,7 +5345,10 @@
           "description": "The set of base properties present on all entities"
         },
         "edges": {
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "title": "Edges",
           "description": "The set of allowed edges",
           "properties": {

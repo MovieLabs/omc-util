@@ -136,7 +136,7 @@ export const edgeDefinitions = {
                 // The v3.0 schema places provenance under `edges.has.Provenance`, not as an
                 // intrinsic property. Its reverse is stated separately by `Provenance.Origin`
                 // (below), so this has no auto-inverse.
-                domain: ['Asset', 'AssetSC', 'Composition'],
+                domain: ['Asset', 'AssetStructure', 'Composition'],
                 range: ['Provenance'],
                 inverse: null,
                 rdfMap: ['omc:hasProvenance'],
@@ -616,7 +616,7 @@ export const edgeDefinitions = {
         connects: [
             {
                 domain: ['Collection'],
-                range: ['Asset', 'AssetSC', 'Character', 'Collection', 'Composition', 'CreativeWork',
+                range: ['Asset', 'AssetStructure', 'Character', 'Collection', 'Composition', 'CreativeWork',
                     'Effect', 'Infrastructure', 'Location', 'NarrativeAudio',
                     'NarrativeLocation', 'NarrativeObject', 'NarrativeScene', 'NarrativeStyling',
                     'NarrativeWardrobe', 'Participant', 'ProductionLocation', 'ProductionScene',
@@ -625,7 +625,7 @@ export const edgeDefinitions = {
             },
             {
                 domain: ['Composition'],
-                range: ['Asset', 'AssetSC', 'Composition'],
+                range: ['Asset', 'AssetStructure', 'Composition'],
                 rdfMap: ['omc:includesAsset (Asset)', 'omc:includesComposition (Composition)'],
             },
         ],
@@ -653,7 +653,7 @@ export const edgeDefinitions = {
         rdf: () => 'omc:startHere',
         connects: [{
             domain: ['Composition'],
-            range: ['Asset', 'AssetSC'],
+            range: ['Asset', 'AssetStructure'],
             rdfMap: ['omc:startHere'],
         }],
     },
@@ -696,12 +696,12 @@ export const edgeDefinitions = {
         rdf: intrinsicRdf,
         connects: [{
             domain: ['Provenance'],
-            range: ['Asset', 'AssetSC'],
+            range: ['Asset', 'AssetStructure'],
             rdfMap: ['omc:hasOrigin'],
         }],
     },
 
-    // --- Role (two placements: Participant.participantFC.Role & Provenance.Role) ---
+    // --- Role (two placements: Participant.participantFunction.Role & Provenance.Role) ---
     Role: {
         predicate: 'Role',
         placement: 'property',
@@ -710,7 +710,7 @@ export const edgeDefinitions = {
         rdf: intrinsicRdf,
         connects: [
             {
-                domain: ['Participant'], range: ['Role'], path: 'participantFC.Role', rdfMap: ['omc:hasRole'],
+                domain: ['Participant'], range: ['Role'], path: 'participantFunction.Role', rdfMap: ['omc:hasRole'],
             },
             {
                 domain: ['Provenance'], range: ['Role'], path: 'Role', rdfMap: ['omc:hasRole'],

@@ -15,8 +15,18 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             locationName: basicName.graphQl.properties,
-            address: null,
-            coordinates: null,
+            address: {
+                street: null,
+                locality: null,
+                region: null,
+                postalCode: null,
+                country: null,
+            },
+            coordinates: {
+                latitude: null,
+                longitude: null,
+                elevation: null,
+            },
         },
         filter: {
             ...baseEntity.graphQl.filter,

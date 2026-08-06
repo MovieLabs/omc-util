@@ -71,10 +71,12 @@
     "test:derive": "node test/omc-v3-0/deriveParity.js && node test/omc-v3-0/deriveLinkml.js && node test/mergeKeys.js",
     "test:mergekeys": "node test/mergeKeys.js",
     "test:mergerefs": "node test/mergeReferences.js",
+    "test:mergechanges": "node test/mergeChanges.js",
+    "test:cleanentity": "node test/cleanEntity.js",
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc --verbose",
     "build:types": "tsc && node postbuild-types.js",
-    "release:check": "npm run build:types && npm run test:mergerefs"
+    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity"
   },
   "dependencies": {
     "ajv": "^8.12.0",
