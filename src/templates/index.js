@@ -127,6 +127,7 @@
  * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
  * @property {function({schemaVersion?: string}=): string[]} metaKeys - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
+ * @property {function({schemaVersion?: string}=): string[]} recordKeys - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
  */
 
 import { isCapitalized } from '../mlHelpers/util.js';
@@ -247,6 +248,12 @@ const omcTemplate = {
         'identifier', 'schemaVersion', 'entityType', 'edges',
         'customData', 'annotation', 'tag', 'Context',
     ])),
+    // The keys that describe the record itself rather than the entity's data: which schema it
+    // is written against, and which type it is. A narrower set than metaKeys, and a different
+    // question — identifier, edges, customData, annotation and tag all carry information about
+    // the thing described, so excluding them would be wrong here. Use it to keep encoding drift
+    // out of a data-level comparison. Returns a fresh array so callers may mutate it freely.
+    recordKeys: (() => (['schemaVersion', 'entityType'])),
 };
 
 export { omcTemplate };

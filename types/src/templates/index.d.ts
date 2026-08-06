@@ -225,6 +225,12 @@ export type OmcTemplate = {
     metaKeys: (arg0: {
         schemaVersion?: string;
     } | undefined) => string[];
+    /**
+     * - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
+     */
+    recordKeys: (arg0: {
+        schemaVersion?: string;
+    } | undefined) => string[];
 };
 /**
  * Methods returning templated values based on the schema version

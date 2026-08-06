@@ -52,6 +52,15 @@ type DiffResult = {
     diff: { [key: string]: { $remove: any } | { $create: any } | { $update: any } } | null;
 };
 
+/** What merging one entity into another would change (from omcMerge.js) */
+type MergeChanges = {
+    merged: OmcEntity | false;
+    added: Array<string>;
+    updated: Array<string>;
+    changed: boolean;
+    status: 'merged' | 'incompatible' | 'no-entity';
+};
+
 /** Validation options (from validate.mjs) */
 type ValidationOptions = {
     atomic: boolean;

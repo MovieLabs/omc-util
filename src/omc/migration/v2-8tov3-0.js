@@ -4,7 +4,7 @@
  * @ignore
  */
 
-import { makeArray } from '../../mlHelpers/util.js';
+import { isPlainObject, makeArray } from '../../mlHelpers/util.js';
 import { edgeCreate } from '../omcEdges.js';
 import { idCreate } from '../omcIdentifier.js';
 import { deepMerge } from '../omcMerge.js';
@@ -18,6 +18,11 @@ const edgeTargetRename = {
     InfrastructureSC: 'InfrastructureStructure',
     ParticipantSC: 'ParticipantStructure',
     TaskSC: 'TaskStructure',
+};
+
+const productionLocationTypeMap = {
+    shooting: 'shootingLocation',
+    production: 'productionLocation',
 };
 
 // For a given set of targets for an edge, replace the old name with the new one.
@@ -45,6 +50,7 @@ const cxtEdges = ((cxt) => {
         instanceInfo: _if,
         contextType: _ctxType,
         contextCategory: _ctxCat,
+        contextProperties: _ctxProps,
         Context: _cxt,
         ForEntity: _forEnt,
         For: _for,
@@ -53,6 +59,45 @@ const cxtEdges = ((cxt) => {
     Object.keys(edges).forEach((predicate) => renameTarget(edges[predicate])); // For each predicate, check if targets need renaming
     return edges;
 });
+
+/**
+ * Move a Context's properties into the sub-type slot v3.0 expects.
+ *
+ * `contextProperties` is the container in both versions, and stays where it is. What changed is
+ * that v3.0 added a level inside it, keyed by the context's sub-type:
+ *
+ * ```
+ * v2.6/v2.8   contextProperties: { shootDay: 1, shootDate: '2026-01-23' }
+ * v3.0        contextProperties: { shootDay: { shootDay: 1, shootDate: '2026-01-23' } }
+ * ```
+ *
+ * The schemas show the same definition relocated rather than redefined: v2.6 has
+ * `contextProperties` → `anyOf` → `$ref …/$defs/shootDay`, while v3.0 has `contextProperties` →
+ * `properties.shootDay` → the same `$ref`, and `$defs/shootDay` is identical between them. So
+ * nothing is renamed and no value is converted — `shootDay` is typed `string | number | null` in
+ * both, and a number stays a number. A wrapper is inserted, and that is all.
+ *
+ * `shootDay` therefore appears twice at different levels: the outer is the slot name, the inner is
+ * the day number.
+ *
+ * Applied whatever the sub-type. v3.0 sets `additionalProperties: true` on `contextProperties`, so
+ * a type the schema does not describe still validates, and a sub-type added later needs no change
+ * here. Note the caller defaults a missing `contextType` to `'context'`, so a Context that declares
+ * no type nests under a slot of that name — meaningless, but harmless, and not worth a special
+ * case.
+ *
+ * @param {Object|null} contextProperties - The v2.x properties, if any
+ * @param {string} contextType - The context's sub-type, which names the slot
+ * @returns {Object|null} The v3.0 form, or the input untouched when there is nothing to do
+ */
+function migrateContextProperties(contextProperties, contextType) {
+    if (!contextProperties || !isPlainObject(contextProperties)) return contextProperties;
+    // Already in the v3.0 shape. Migration has to be safe to run twice, and without this a second
+    // pass would bury the properties another level down.
+    const existing = contextProperties[contextType];
+    if (existing !== undefined && isPlainObject(existing)) return contextProperties;
+    return { [contextType]: contextProperties };
+}
 
 /**
  * Hoist edges carried on resolved Context entities onto the entity itself.
@@ -91,30 +136,6 @@ function setEdgesFromContext(omc) {
         ...update,
         edges,
     };
-}
-
-/**
- * Hoist edges carried on resolved Context entities onto the entity itself.
- *
- * @param {OmcEntity} Context
- * @returns {OmcEntity | null}
- */
-
-function contextEdges(Context) {
-    if (!Context || !Array.isArray(Context) || Context.length === 0) return Context;
-
-    const edgeFragments = Context
-        .filter((ctx) => ctx && ctx.entityType === 'Context') // Skip unresolved refs
-        .map((cxt) => cxtEdges(cxt)); // Just the edge properties
-
-    if (edgeFragments.length === 0) return null;
-
-    const merged = edgeFragments.reduce((acc, frag) => deepMerge(acc, frag), {});
-    return (Object.keys(merged).length) ? merged : null;
-
-    // const existing = omc.edges && typeof omc.edges === 'object' ? omc.edges : {};
-    // const edges = deepMerge(existing, merged);
-    // return edges;
 }
 
 /**
@@ -218,6 +239,10 @@ function migrateProvenance(provenance) {
         ...(role !== false && { Role: role }),
     }];
 }
+
+/**
+ * Clean properties, remove any empty strings, arrays or objects without keys
+ */
 
 export default {
     Asset: (omc) => {
@@ -369,12 +394,17 @@ export default {
 
         // Separate the edges and remove them from top level
         const edges = cxtEdges(omc);
-        Object.keys(edges).forEach((key) => delete rest[key]);
+        Object.keys(edges).forEach((key) => delete rest[key]); // Delete the edges at the top level.
 
         return {
             ...rest,
             schemaVersion,
             contextType,
+            // v3.0 keys these by sub-type; v2.x carried them flat. Placed after the rest spread so
+            // it replaces the v2.x value rather than being overwritten by it.
+            ...(rest.contextProperties !== undefined && {
+                contextProperties: migrateContextProperties(rest.contextProperties, contextType),
+            }),
             label: name || labelDefault,
             ...(name !== false && { contextName: migrateName(name) }),
             edges,
@@ -387,14 +417,26 @@ export default {
             name = false,
             CreativeWork = false, // Singleton, make an array
             creativeWorkType = 'creativeWork', // Now a required property
+            Series = false, // Moves to the properties
+            Season = false, // Moves to the properties
+            Episode = false, // Moves to the properties
+            title = false, // Becomes creativeWorkTitle
             ...rest
         } = cxtUpdate;
+
+        const creativeWorkProperties = {
+            ...(Series !== false && { Series }),
+            ...(Season !== false && { Season }),
+            ...(Episode !== false && { Episode }),
+        };
 
         return {
             ...rest,
             schemaVersion,
             label: name || 'N/A', // ToDo: Could check the title list for a better option
             creativeWorkType,
+            ...(title !== false && { creativeWorkTitle: title }),
+            ...((Object.keys(creativeWorkProperties)).length && { creativeWorkProperties }), // Spread this if there are any values
             ...(CreativeWork !== false && { CreativeWork: migrateShape(CreativeWork) }),
         };
     },
@@ -759,11 +801,12 @@ export default {
             Location,
             ...rest
         } = cxtUpdate;
+        const productionLocationType = productionLocationTypeMap[locationType] || locationType; // Map to new controlled vocab if possible
 
         return {
             ...rest,
             schemaVersion,
-            productionLocationType: locationType,
+            productionLocationType,
             label: name || labelDefault,
             ...(name !== false && { productionLocationName: migrateName(name) }),
             ...(Location !== false && { Location: migrateShape(Location) }),

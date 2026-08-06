@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'CreativeWork';
 const entityGeneral = generalConfig[entityType];
@@ -14,18 +14,10 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             creativeWorkType: null,
+            creativeWorkName: basicName.graphQl.properties,
+            creativeWorkProperties: null,
             creativeWorkCategory: null,
-            seasonNumber: null,
-            episodeSequence: {
-                houseSequence: null,
-                distributionNumber:
-                    {
-                        value: null,
-                        domain:
-                            null,
-                    },
-            },
-            title: {
+            creativeWorkTitle: {
                 titleName: null,
                 titleType: null,
                 titleLanguage: null,
@@ -33,8 +25,6 @@ export default {
             approximateLength: null,
             originalLanguage: null,
             countryOfOrigin: null,
-            Series: null,
-            Episode: null,
             ProductionCompany: null,
         },
         filter: {

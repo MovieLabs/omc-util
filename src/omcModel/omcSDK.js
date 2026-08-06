@@ -80,6 +80,10 @@ const cache = () => {
             } else {
                 this.store[storeId] = ent; // First time seeing this, so add the entity to the deDupe object
             }
+            // What the store actually holds — which on a collision is the entity already there, not
+            // the one just offered. Returned so a caller can work with the stored copy rather than
+            // its own, which may differ from it.
+            return this.store[storeId];
         },
         replace(ent) {
             const { identifier = [] } = ent; // Safeguard against missing identifier (should never happen)
@@ -119,7 +123,11 @@ const cache = () => {
                 remove: [omcEntity],
             };
             internalIds.forEach((storeKey) => {
-                const omcEnt = removeEdge(this.store[storeKey], omcEntity);
+                // Cleaned before the comparison, not after. Stripping the last edge leaves `[]`
+                // behind, and everything in the store is already normalized — so comparing the raw
+                // result against the stored entity reports a change on every entity in the model
+                // and fills the history with edits nobody made.
+                const omcEnt = omcTransform.cleanEntity(removeEdge(this.store[storeKey], omcEntity));
                 if (JSON.stringify(omcEnt) !== JSON.stringify(this.store[storeKey])) {
                     // const diff = compare({ original: omcEnt, comparison: this.store[storeKey] });
                     storeHistory.old.push(this.store[storeKey]);
@@ -224,22 +232,30 @@ function getVersion() {
 
 /**
  * Set, or create, new entities in the store
+ *
+ * Entities are normalized on the way in (see {@link cleanEntity}), so nothing reading the store
+ * ever has to ask which spelling of "empty" it is looking at.
+ *
+ * Returns **what the store now holds**, not what was handed in. Those differ in two ways that
+ * matter: the stored copy is normalized, and on an identifier collision `add` keeps the entity
+ * already there. A caller that carries its own copy onward — into change history, or a save
+ * payload — would otherwise be carrying something the store disagrees with.
+ *
  * @memberof module:omcSDK
  * @static
  * @param {OmcJson} omc
- * @returns {*|null}
+ * @returns {Array<OmcEntity>|null} The stored entities, or null for bad input
  */
 function set(omc) {
     if (!omc) return null; // Check for bad input
     const normalizedOmc = (transform(omc)).unEmbed().toArray();
-    normalizedOmc.omc.forEach((ent) => {
-        // const modelEnt = omcModel(ent);
-        // this.cache.add(modelEnt);
-        const tempEnt = entityModel(ent); // Create the entity model
-        this.cache.add(tempEnt); // Add to the cache
-    });
+    // Cleaned before the model wrapper: entityModel is a shallow copy, so cleaning afterwards would
+    // reach back through the shared nested values and rewrite the caller's own object.
+    const stored = normalizedOmc.omc.map((ent) => (
+        this.cache.add(entityModel(omcTransform.cleanEntity(ent)))
+    ));
     this.notify();
-    return normalizedOmc; // ToDo: This should at least return the entity models
+    return stored;
 }
 
 /**
@@ -256,7 +272,9 @@ function replace(omc) {
     //     const modelEnt = entityModel(ent);
     //     this.cache.replace(modelEnt);
     // });
-    const update = normalizedOmc.omc.map((omcEnt) => this.cache.replace(entityModel(omcEnt)));
+    const update = normalizedOmc.omc.map((omcEnt) => (
+        this.cache.replace(entityModel(omcTransform.cleanEntity(omcEnt)))
+    ));
     this.notify();
     return update;
 }
