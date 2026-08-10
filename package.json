@@ -49,6 +49,10 @@
       "types": "./types/src/omc/omcIdentifier.d.ts",
       "import": "./src/omc/omcIdentifier.js"
     },
+    "./mapping": {
+      "types": "./types/src/omc/omcMapping/index.d.ts",
+      "import": "./src/omc/omcMapping/index.js"
+    },
     "./transform": {
       "types": "./types/src/omc/omcTransform.d.ts",
       "import": "./src/omc/omcTransform.js"
@@ -76,7 +80,8 @@
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc --verbose",
     "build:types": "tsc && node postbuild-types.js",
-    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity"
+    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity",
+    "test:mapping": "node test/omcMapping.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",
