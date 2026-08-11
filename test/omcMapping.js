@@ -283,6 +283,45 @@ ok(dims.assetStructureProperties.dimensions.width === '1920px'
     && dims.assetStructureProperties.dimensions.height === '1080px',
 'a measurement typed as a format union is mappable, not an empty object');
 
+/* ------------------------ referencing an entity by an id the source carries ----------------- */
+
+// Regression: `check` walked only the data shape, and omcTemplate.shape() deliberately excludes
+// relationships — so dropping a foreign identifier into an edge slot was reported as a property
+// the entity does not have, even though the runtime built it correctly.
+const EDGE_ID = [{
+    entityType: 'Asset',
+    key: 'File Name',
+    properties: {
+        'label': 'File Name',
+        'edges.has.Slate[0].identifier[0].identifierValue': 'Slate Id',
+    },
+}];
+const edgeCheck = omcMapping.check({ mapping: EDGE_ID, options: OPTIONS });
+ok(edgeCheck.valid,
+    `an identifier written into an edge slot is accepted${edgeCheck.valid ? '' : `: ${edgeCheck.problems.map((p) => p.detail).join('; ')}`}`);
+
+const edgeOut = omcMapping.mapRow({
+    row: { 'File Name': 'A039.mov', 'Slate Id': 'slate-16K' },
+    mapping: EDGE_ID,
+    options: OPTIONS,
+});
+ok(edgeOut.entities.Asset.edges.has.Slate[0].identifier[0].identifierValue === 'slate-16K',
+    'and builds the reference, without building the entity referenced');
+
+// The slot itself is a relationship, not a value — mapping a column straight onto it is a mistake
+// worth naming rather than letting it write a string where a reference belongs.
+const bareSlot = omcMapping.check({
+    mapping: [{ entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate': 'c' } }],
+    options: OPTIONS,
+});
+ok(!bareSlot.valid && /relationship to Slate/.test(bareSlot.problems[0].detail),
+    'mapping a column onto the relationship itself is refused, and says what to do instead');
+
+ok(!omcMapping.check({
+    mapping: [{ entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate[0].nonsense': 'c' } }],
+    options: OPTIONS,
+}).valid, 'but an arbitrary property inside a reference is still rejected');
+
 /* ------------------------------------------------------------------- check ---------------- */
 
 ok(omcMapping.check({ mapping: MAPPING, options: OPTIONS }).valid,

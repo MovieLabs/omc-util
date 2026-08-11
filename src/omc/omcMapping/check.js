@@ -41,6 +41,40 @@ function resolvePath(shape, path) {
 }
 
 /**
+ * Resolve a path that writes into a relationship slot.
+ *
+ * `omcTemplate.shape()` is deliberately data-only — relationships are delivered by `edgeTable()` —
+ * so a path like `edges.has.Slate[0].identifier[0].identifierValue` resolves against neither the
+ * shape nor anything else, and was reported as a property the entity does not have.
+ *
+ * It is a legitimate and useful mapping: it references an entity by an identifier the source
+ * already carries, without building that entity. So the edge part is checked against the edge
+ * table, and the remainder against the reference template — which is stricter than the shape walk
+ * would have been, since it also rejects writing an arbitrary property into a reference.
+ *
+ * @param {Object} edgeTable - `omcTemplate.edgeTable()` for this entity
+ * @param {string} schemaVersion
+ * @param {string} path - The mapping's property path
+ * @returns {({node: Object, edge: Object}|null)} The resolved leaf and the edge it sits in, or
+ *   null when the path is not a relationship path at all
+ */
+function resolveEdgePath(edgeTable, schemaVersion, path) {
+    const all = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
+    // Longest first, so `edges.has.Slate` wins over a shorter entry that also prefixes the path.
+    const entry = Object.values(all)
+        .filter((e) => path === e.path || path.startsWith(`${e.path}[`) || path.startsWith(`${e.path}.`))
+        .sort((a, b) => b.path.length - a.path.length)[0];
+    if (!entry) return null;
+
+    const rest = path.slice(entry.path.length).replace(/^\[\d+\]\.?/, '').replace(/^\./, '');
+    // The slot itself, with nothing after it, is a relationship — not something a column fills.
+    if (!rest) return { node: null, edge: entry };
+
+    const node = resolvePath(omcTemplate.referenceTemplate({ schemaVersion }), rest);
+    return { node, edge: entry };
+}
+
+/**
  * Check a mapping against the schema.
  *
  * @param {Object} params
@@ -98,6 +132,20 @@ export function check({ mapping, options = {} }) {
 
         for (const path of [...Object.keys(entry.properties ?? {}), ...Object.keys(entry.notes ?? {})]) {
             properties += 1;
+            // A relationship path resolves against the edge table, not the shape.
+            const asEdge = resolveEdgePath(edgeTable, schemaVersion, path);
+            if (asEdge) {
+                if (!asEdge.node) {
+                    problems.push({
+                        kind: 'unknownProperty',
+                        where,
+                        detail: `"${path}" is a relationship to ${asEdge.edge.allowed.join(' or ')}, not a `
+                            + 'value. Map onto its identifierValue to reference an entity by an id '
+                            + 'the source carries, or link the two entities on the canvas',
+                    });
+                }
+                continue;
+            }
             const node = resolvePath(shape, path);
             if (!node) {
                 problems.push({
