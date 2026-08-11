@@ -14,6 +14,13 @@ import { edgeCreate } from '../omcEdges.js';
 import { createEntity, entityRef, resolveOptions } from './entity.js';
 import { hasValue, writeShaped } from './shapedValue.js';
 
+/** The column a property spec reads, or null when it is a fixed value. */
+const specColumn = (spec) => {
+    if (typeof spec === 'string') return spec;
+    if (spec && typeof spec === 'object' && spec.from !== undefined) return spec.from;
+    return null;
+};
+
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
 /**
@@ -164,6 +171,48 @@ function consumedColumns(mapping) {
 }
 
 /**
+ * The property path a mapping writes an identifier value to, if any.
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {(string|null)} The path, e.g. `identifier[0].identifierValue`
+ */
+function identifierValuePath(mapping) {
+    return Object.keys(mapping.properties ?? {})
+        .find((path) => /^identifier(\[\d+\])?\.identifierValue$/.test(path)) ?? null;
+}
+
+/**
+ * The column that identifies this entity — either the nominated key, or the column feeding a
+ * mapped `identifierValue`.
+ *
+ * Mapping the source's own id **is** nominating a key: it says "this column names the thing", which
+ * is the only question `key` asks. Requiring both would mean stating it twice, and hashing over a
+ * name the source already gave would make the entity unreachable by that name.
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {(string|null)} The column, or null when the mapping has neither
+ */
+export function identityColumn(mapping) {
+    const path = identifierValuePath(mapping);
+    if (path) {
+        const column = specColumn(mapping.properties[path]);
+        if (column) return column;
+    }
+    return mapping.key ?? null;
+}
+
+/**
+ * Does this entity take its identifier from the source rather than a hash?
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {boolean}
+ */
+export function hasSuppliedIdentifier(mapping) {
+    const path = identifierValuePath(mapping);
+    return Boolean(path && specColumn(mapping.properties[path]));
+}
+
+/**
  * Build one entity from one row.
  *
  * @param {OmcMapping.EntityMapping} mapping - What to build
@@ -174,12 +223,15 @@ function consumedColumns(mapping) {
  */
 function buildEntity(mapping, row, options, notes) {
     const { entityType, key } = mapping;
-    const keyValue = row[key];
+    // An entity whose identifier the source supplies needs no key column: the identity comes from
+    // the row itself. `identityColumn` resolves whichever of the two applies.
+    const identity = identityColumn(mapping);
+    const keyValue = row[identity];
     if (!hasValue(keyValue)) {
         notes.push({
             kind: 'noKeyValue',
             where: entityType,
-            detail: `column "${key}" is empty on this row, so no ${entityType} was built`,
+            detail: `column "${identity ?? key}" is empty on this row, so no ${entityType} was built`,
         });
         return null;
     }
@@ -231,11 +283,13 @@ function buildEntity(mapping, row, options, notes) {
  * @param {Array<OmcMapping.MappingNote>} notes - Appended to in place
  */
 function applyEdges(mapping, built, row, options, notes) {
-    // entityType -> the key value it was built under on this row, so an edge can tell "the entity
-    // I just built" from "an entity somewhere else that happens to be of that type".
+    // entityType -> the identity value it was built under on this row, so an edge can tell "the
+    // entity I just built" from "an entity somewhere else that happens to be of that type".
     const keyOnThisRow = new Map(mapping
-        .filter((m) => hasValue(row[m.key]))
-        .map((m) => [m.entityType, String(row[m.key])]));
+        .filter((m) => hasValue(row[identityColumn(m)]))
+        .map((m) => [m.entityType, String(row[identityColumn(m)])]));
+    // Which entity types name themselves, so a reference to one is not hashed.
+    const bySuppliedId = new Set(mapping.filter(hasSuppliedIdentifier).map((m) => m.entityType));
 
     for (const entry of mapping) {
         if (!built[entry.entityType]) continue;
@@ -247,9 +301,23 @@ function applyEdges(mapping, built, row, options, notes) {
 
             for (const targetKey of targetKeys) {
                 const isSameRow = keyOnThisRow.get(edge.to) === targetKey && built[edge.to];
-                const target = isSameRow
-                    ? built[edge.to]
-                    : entityRef({ entityType: edge.to, key: targetKey, options });
+                let target;
+                if (isSameRow) {
+                    target = built[edge.to];
+                } else if (bySuppliedId.has(edge.to)) {
+                    // The target names itself, so the reference is that name — hashing it would
+                    // point at an entity nothing will ever build.
+                    target = {
+                        schemaVersion: options.schemaVersion,
+                        entityType: edge.to,
+                        identifier: [{
+                            identifierScope: options.identifierScope,
+                            identifierValue: targetKey,
+                        }],
+                    };
+                } else {
+                    target = entityRef({ entityType: edge.to, key: targetKey, options });
+                }
 
                 const result = edgeCreate({
                     fromEntity: built[entry.entityType],

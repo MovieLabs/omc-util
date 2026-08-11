@@ -22,6 +22,25 @@ export function splitList(value: any, delimiter: string): Array<string>;
  */
 export function cast(value: any, as: string): any;
 /**
+ * The column that identifies this entity — either the nominated key, or the column feeding a
+ * mapped `identifierValue`.
+ *
+ * Mapping the source's own id **is** nominating a key: it says "this column names the thing", which
+ * is the only question `key` asks. Requiring both would mean stating it twice, and hashing over a
+ * name the source already gave would make the entity unreachable by that name.
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {(string|null)} The column, or null when the mapping has neither
+ */
+export function identityColumn(mapping: OmcMapping.EntityMapping): (string | null);
+/**
+ * Does this entity take its identifier from the source rather than a hash?
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {boolean}
+ */
+export function hasSuppliedIdentifier(mapping: OmcMapping.EntityMapping): boolean;
+/**
  * Map one row to OMC entities.
  *
  * @param {Object} params

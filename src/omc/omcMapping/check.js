@@ -15,6 +15,7 @@
 import { omcTemplate } from '../../templates/index.js';
 
 import { resolveOptions } from './entity.js';
+import { identityColumn } from './mapRow.js';
 import { parseSegment } from './shapedValue.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
@@ -80,12 +81,15 @@ export function check({ mapping, options = {} }) {
         }
         seenTypes.add(entityType);
 
-        if (!entry.key) {
+        // Mapping the source's own id counts as nominating a key: it already says which column
+        // names the thing, and the identifier is taken verbatim rather than hashed.
+        if (!identityColumn(entry)) {
             problems.push({
                 kind: 'missingKey',
                 where,
-                detail: 'no key column, so this entity has nothing to seed its identifier from and '
-                    + 'a re-run would duplicate rather than update it',
+                detail: 'no key column, so this entity has nothing to identify it by and a re-run '
+                    + 'would duplicate rather than update it. Nominate a key, or map the source\'s '
+                    + 'own id onto identifierValue',
             });
         }
 
@@ -189,7 +193,9 @@ export function checkColumns({ mapping, columns }) {
 
     for (const entry of mapping ?? []) {
         const where = entry.entityType ?? '(no entityType)';
-        want(entry.key, where, 'the key');
+        // Only when it is the identity — an entity naming itself through identifierValue has no
+        // separate key column to check.
+        if (entry.key) want(entry.key, where, 'the key');
         for (const [path, spec] of Object.entries(entry.properties ?? {})) {
             const source = typeof spec === 'string' ? { from: spec } : spec;
             if (source.const === undefined) want(source.from, where, path);

@@ -17,19 +17,25 @@ export function seedFor({ entityType, key, seedNamespace }: {
     seedNamespace?: (string | null);
 }): string;
 /**
- * Create an OMC entity with a deterministic identifier.
+ * Create an OMC entity.
+ *
+ * The identifier is hashed from `key` — **unless the mapping supplied one**, in which case that is
+ * used verbatim. Either way it is a pure function of the row, so a re-run updates the entity rather
+ * than duplicating it.
  *
  * @param {Object} params
  * @param {string} params.entityType - OMC entity type, e.g. `Slate`
- * @param {string} params.key - The value identifying this entity within its namespace
+ * @param {(string|null)} params.key - The value identifying this entity within its namespace. May
+ *   be null only when `properties` supplies an identifier
  * @param {Object} [params.properties] - Properties to set, already nested; empty ones are dropped
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {Object} The OMC entity
- * @throws {Error} When a property is not in the entity's shape
+ * @throws {Error} When a property is not in the entity's shape, or there is nothing to identify
+ *   the entity by
  */
 export function createEntity({ entityType, key, properties, options, }: {
     entityType: string;
-    key: string;
+    key: (string | null);
     properties?: any;
     options?: OmcMapping.MappingOptions;
 }): any;

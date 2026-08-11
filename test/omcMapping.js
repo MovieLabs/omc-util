@@ -209,6 +209,57 @@ ok(Object.keys(noKey.entities).length === 0
     && noKey.notes.every((n) => n.kind === 'noKeyValue'),
 'a row with no key value builds nothing and says so');
 
+/* ------------------------------------------- a source that already names itself ------------ */
+
+const SUPPLIED = [{
+    entityType: 'Asset',
+    // No `key`: mapping the source's own id says which column names the thing, which is the only
+    // question a key asks.
+    properties: { 'label': 'File Name', 'identifier[0].identifierValue': 'Frame ID' },
+}];
+const suppliedRow = { 'File Name': 'A039C006.mov', 'Frame ID': 'file-a-123' };
+const supplied = omcMapping.mapRow({ row: suppliedRow, mapping: SUPPLIED, options: OPTIONS });
+const suppliedId = supplied.entities.Asset.identifier[0];
+
+ok(suppliedId.identifierValue === 'file-a-123',
+    'a mapped identifierValue is used verbatim rather than hashed');
+ok(suppliedId.identifierScope === OPTIONS.identifierScope,
+    'and the run\'s scope fills in, so the identifier is not left scopeless');
+ok(supplied.entities.Asset.identifier.length === 1,
+    'the supplied identifier replaces the hash rather than sitting beside it');
+ok(omcMapping.check({ mapping: SUPPLIED, options: OPTIONS }).valid,
+    'check accepts a mapped identifierValue in place of a key column');
+
+// An edge pointing at such an entity must use its real name, not a hash of it.
+const REF_TO_SUPPLIED = [
+    ...SUPPLIED,
+    {
+        entityType: 'AssetStructure',
+        key: 'File Name',
+        properties: { assetStructureType: { const: 'digital.movingImage' } },
+        edges: [{ to: 'Asset', via: 'Frame ID' }],
+    },
+];
+const linked = omcMapping.mapRow({ row: suppliedRow, mapping: REF_TO_SUPPLIED, options: OPTIONS });
+ok(JSON.stringify(linked.entities.AssetStructure).includes('file-a-123'),
+    'a reference to a self-naming entity uses that name, not a hash of it');
+
+/* ------------------------------------------------------ a key that is not unique ----------- */
+
+const dupRun = omcMapping.createRun({
+    mapping: [{ entityType: 'Asset', key: 'File Name', properties: { label: 'File Name', description: 'Note' } }],
+    options: OPTIONS,
+});
+dupRun.add({ 'File Name': 'dup.mov', 'Note': 'first' });
+dupRun.add({ 'File Name': 'dup.mov', 'Note': 'second, disagrees' });
+dupRun.add({ 'File Name': 'other.mov', 'Note': 'fine' });
+const dup = dupRun.result();
+
+ok(dup.entities.length === 2, 'rows sharing a key fold, as a match key is meant to');
+ok(dup.counts.folded === 1, 'the fold is counted');
+ok(dup.notes.some((n) => n.kind === 'keyNotUnique' && n.where === 'Asset'),
+    'and reported — a non-unique key silently discarded the later row before this');
+
 /* ------------------------------------------------------------------- check ---------------- */
 
 ok(omcMapping.check({ mapping: MAPPING, options: OPTIONS }).valid,

@@ -125,15 +125,44 @@ function requiredDefaults(entityType, schemaVersion, supplied) {
 }
 
 /**
- * Create an OMC entity with a deterministic identifier.
+ * The identifier a source supplied for itself, if the mapping wrote one.
+ *
+ * A source that already carries its own id — a Frame.io file uuid, a system of record's primary
+ * key — should keep it. Hashing over the top would invent a second name for something that is
+ * already named, and then nothing outside this run could refer to it.
+ *
+ * The scope falls back to the run's, because a source supplies a value and rarely a scope; an
+ * identifier with a value and no scope is not a usable identifier.
+ *
+ * @param {Object} properties - The resolved properties
+ * @param {string} identifierScope - The run's scope
+ * @returns {(Object|null)} The identifier, or null when the mapping wrote none
+ */
+function suppliedIdentifier(properties, identifierScope) {
+    const first = Array.isArray(properties.identifier) ? properties.identifier[0] : null;
+    if (!first?.identifierValue) return null;
+    return {
+        identifierScope: first.identifierScope || identifierScope,
+        identifierValue: String(first.identifierValue),
+    };
+}
+
+/**
+ * Create an OMC entity.
+ *
+ * The identifier is hashed from `key` — **unless the mapping supplied one**, in which case that is
+ * used verbatim. Either way it is a pure function of the row, so a re-run updates the entity rather
+ * than duplicating it.
  *
  * @param {Object} params
  * @param {string} params.entityType - OMC entity type, e.g. `Slate`
- * @param {string} params.key - The value identifying this entity within its namespace
+ * @param {(string|null)} params.key - The value identifying this entity within its namespace. May
+ *   be null only when `properties` supplies an identifier
  * @param {Object} [params.properties] - Properties to set, already nested; empty ones are dropped
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {Object} The OMC entity
- * @throws {Error} When a property is not in the entity's shape
+ * @throws {Error} When a property is not in the entity's shape, or there is nothing to identify
+ *   the entity by
  */
 export function createEntity({
     entityType, key, properties = {}, options = {},
@@ -147,10 +176,21 @@ export function createEntity({
             + `"${unknown.join('", "')}" in ${omcTemplate.versionLabel(schemaVersion)}`);
     }
 
+    const supplied = suppliedIdentifier(properties, identifierScope);
+    if (!supplied && (key === null || key === undefined || key === '')) {
+        throw new Error(`${entityType} has neither a key column nor a mapped identifierValue, so `
+            + 'there is nothing to identify it by');
+    }
+
+    // Held back from the spread below: an identifier written as an ordinary property would
+    // overwrite the one built here — which is how a mapped identifierValue used to produce an
+    // identifier with no scope at all.
+    const { identifier: _mapped, ...rest } = properties;
+
     return {
         schemaVersion,
         entityType,
-        identifier: [idHash({
+        identifier: [supplied ?? idHash({
             identifierScope,
             seed: seedFor({ entityType, key, seedNamespace }),
             entityType,
@@ -158,7 +198,7 @@ export function createEntity({
             schemaVersion,
         })],
         ...requiredDefaults(entityType, schemaVersion, properties),
-        ...prune(properties) ?? {},
+        ...prune(rest) ?? {},
     };
 }
 

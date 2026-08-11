@@ -43,7 +43,7 @@
  * @module omcMapping
  */
 
-export { mapRow } from './mapRow.js';
+export { mapRow, cast, splitList } from './mapRow.js';
 export { createRun } from './createRun.js';
 export { check, checkColumns } from './check.js';
 export {

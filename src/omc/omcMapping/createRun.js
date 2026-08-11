@@ -38,6 +38,11 @@ export function createRun({ mapping, options = {} }) {
     const byIdentifier = new Map();
     const notes = [];
     let rowCount = 0;
+    // How many rows folded into an already-seen entity, and an example or two per type. A fold is
+    // intended where the key deliberately repeats — a scene across forty take rows — but it is
+    // also what an accidentally non-unique key looks like, and the two are indistinguishable from
+    // in here. So it is counted and reported rather than judged.
+    const collisions = new Map();
 
     /**
      * Fold one row's entities into the accumulator.
@@ -62,6 +67,12 @@ export function createRun({ mapping, options = {} }) {
             // forty take rows would end up describing the last take rather than the scene. First
             // value seen wins; later rows fill gaps. `prefer` decides this inside the merge, so
             // the arguments stay in their natural order rather than being swapped.
+            const record = collisions.get(entity.entityType)
+                ?? { count: 0, examples: new Set() };
+            record.count += 1;
+            if (record.examples.size < 3) record.examples.add(id);
+            collisions.set(entity.entityType, record);
+
             const merged = mergeEntity(seen, entity, { prefer: 'existing', emptyAsNull: true });
             if (merged === false) {
                 notes.push({
@@ -85,12 +96,29 @@ export function createRun({ mapping, options = {} }) {
         const entities = [...byIdentifier.values()];
         const byType = {};
         for (const e of entities) byType[e.entityType] = (byType[e.entityType] ?? 0) + 1;
+
+        // Reported at the end rather than per row: one note saying "40 rows folded" is useful,
+        // forty saying "this row folded" is noise. The first value seen wins a conflict, so where
+        // the key was not meant to repeat, later rows have quietly lost their differing values —
+        // which is exactly the case this exists to make visible.
+        for (const [entityType, { count, examples }] of collisions) {
+            notes.push({
+                kind: 'keyNotUnique',
+                where: entityType,
+                detail: `${count} row(s) shared an identifier with an earlier row and were folded `
+                    + `into it, e.g. ${[...examples].join(', ')}. Intended where the key `
+                    + 'deliberately repeats; otherwise those rows have lost any values that '
+                    + 'disagreed, and the key does not identify one entity',
+            });
+        }
+
         return {
             entities,
             notes,
             counts: {
                 rows: rowCount,
                 entities: entities.length,
+                folded: [...collisions.values()].reduce((n, c) => n + c.count, 0),
                 byType,
                 identifierScope: resolved.identifierScope,
                 schemaVersion: resolved.schemaVersion,
