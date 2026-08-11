@@ -296,6 +296,22 @@ function deriveShape(root, node, depth, seenRefs) {
             const carried = node.default !== undefined ? { ...nonNull[0], default: node.default } : nonNull[0];
             return deriveShape(root, carried, depth + 1, seenRefs);
         }
+        // Second exception: branches that agree on a scalar type and differ only in how the value
+        // is written. `dimensions.height` is null plus three strings — metric, imperial, pixels —
+        // which is one shape constrained three ways, not a union of three shapes. Treating it as
+        // a union dropped height, width and depth, leaving `dimensions` an empty object nothing
+        // could be mapped onto.
+        //
+        // Restricted to scalars with no structure of their own: two object branches really can be
+        // different shapes, and there the original reasoning holds.
+        const scalar = ['string', 'number', 'integer', 'boolean'];
+        const types = new Set(nonNull.map((s) => s.type));
+        const structural = nonNull.some((s) => isObject(s.properties) || isObject(s.items) || s.$ref);
+        if (nonNull.length > 1 && types.size === 1 && scalar.includes([...types][0]) && !structural) {
+            // The pattern is deliberately not carried: it holds for one branch, not for the value.
+            const carried = { type: [...types][0], ...(node.default !== undefined ? { default: node.default } : {}) };
+            return deriveShape(root, carried, depth + 1, seenRefs);
+        }
     }
 
     // A `const` (or a single-value `enum`, LinkML's discriminator form) fixes the value —

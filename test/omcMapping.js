@@ -260,6 +260,29 @@ ok(dup.counts.folded === 1, 'the fold is counted');
 ok(dup.notes.some((n) => n.kind === 'keyNotUnique' && n.where === 'Asset'),
     'and reported — a non-unique key silently discarded the later row before this');
 
+/* ------------------------------ measurements typed as a format union ----------------------- */
+
+// Regression: `dimensions.height` is `oneOf: [null, metric-string, imperial-string, pixel-string]`.
+// Treating that as a type union dropped all three sub-properties, leaving `dimensions` an empty
+// object nothing could be mapped onto. The branches disagree about FORMAT, not type — one shape
+// constrained three ways — so the shape is a string and the property is mappable.
+const dims = omcMapping.mapRow({
+    row: { k: 'x', W: '1920px', H: '1080px' },
+    mapping: [{
+        entityType: 'AssetStructure',
+        key: 'k',
+        properties: {
+            'assetStructureType': { const: 'digital.image' },
+            'assetStructureProperties.dimensions.width': 'W',
+            'assetStructureProperties.dimensions.height': 'H',
+        },
+    }],
+    options: OPTIONS,
+}).entities.AssetStructure;
+ok(dims.assetStructureProperties.dimensions.width === '1920px'
+    && dims.assetStructureProperties.dimensions.height === '1080px',
+'a measurement typed as a format union is mappable, not an empty object');
+
 /* ------------------------------------------------------------------- check ---------------- */
 
 ok(omcMapping.check({ mapping: MAPPING, options: OPTIONS }).valid,
