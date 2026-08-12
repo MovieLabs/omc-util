@@ -43,7 +43,15 @@
  * @module omcMapping
  */
 
-export { mapRow, cast, splitList } from './mapRow.js';
+// `identityColumn` and `hasSuppliedIdentifier` are exported because a consumer has to be able to
+// ask **what identifies this entity**, and the answer is not simply `mapping.key`: an entity that
+// maps a column onto `identifier[0].identifierValue` names itself, and needs no key at all. An
+// editor that reads `.key` directly concludes such an entity cannot be referenced and refuses a
+// relationship the engine would have built — which is exactly the kind of restated schema knowledge
+// this package exists to prevent.
+export {
+    mapRow, cast, splitList, identityColumn, hasSuppliedIdentifier,
+} from './mapRow.js';
 export { createRun } from './createRun.js';
 export { check, checkColumns } from './check.js';
 export {
