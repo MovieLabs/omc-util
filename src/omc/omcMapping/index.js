@@ -57,6 +57,9 @@ export { check, checkColumns } from './check.js';
 export {
     createEntity, entityRef, seedFor, resolveOptions, DEFAULT_OPTIONS,
 } from './entity.js';
+// `typeAtPath` is exported for the same reason as `identityColumn`: a consumer holding text — a CSV
+// reader, a form — must be able to ask what type OMC declares at a path rather than inferring one
+// from the characters. Inferring is how slate `16E-1` becomes 1.6 and `12-1` becomes a date.
 export {
-    writeShaped, getShaped, hasValue, parseSegment,
+    writeShaped, getShaped, hasValue, parseSegment, typeAtPath, shapedPath,
 } from './shapedValue.js';

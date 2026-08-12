@@ -12,7 +12,7 @@ import { omcTemplate } from '../../templates/index.js';
 import { edgeCreate } from '../omcEdges.js';
 
 import { createEntity, entityRef, resolveOptions } from './entity.js';
-import { hasValue, writeShaped } from './shapedValue.js';
+import { hasValue, typeAtPath, writeShaped } from './shapedValue.js';
 
 /** The column a property spec reads, or null when it is a fixed value. */
 const specColumn = (spec) => {
@@ -65,6 +65,33 @@ export function cast(value, as) {
         return /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00Z` : String(value);
     }
     return value;
+}
+
+/**
+ * Promote a text value to the type OMC declares for the property it is going to.
+ *
+ * A text source has no types, so its numbers arrive as `"1920"` and its booleans as `"true"`. The
+ * schema already knows which is which, so it is asked rather than the characters being read — which
+ * is what turns a slate `16E-1` into `1.6` and a slate `12-1` into a date.
+ *
+ * Deliberately narrow, so a typed source cannot be disturbed:
+ *
+ * - only a **string** is promoted; a value that already has a type is passed through untouched,
+ * - only **to** `number` or `boolean`; nothing is ever stringified, because a source that supplied
+ *   a real number said something the schema's `string` should not overwrite,
+ * - a value that will not convert is left exactly as it came, so this can add no new failure.
+ *
+ * A mapping's own `as` outranks this: it is a decision, and this is a default.
+ *
+ * @param {*} value - The resolved value
+ * @param {(string|undefined)} type - The declared type at the target path
+ * @returns {*} The promoted value, or the original
+ */
+function promote(value, type) {
+    if (typeof value !== 'string') return value;
+    if (type !== 'number' && type !== 'boolean') return value;
+    const cast_ = cast(value, type);
+    return cast_ === null ? value : cast_;
 }
 
 /**
@@ -249,7 +276,11 @@ function buildEntity(mapping, row, options, notes) {
             });
         }
         if (value !== null && value !== undefined) {
-            writeShaped(properties, path.split('.'), value, shape);
+            const parts = path.split('.');
+            // `as` is the mapping's own decision and is applied by `resolveProperty`; only where it
+            // said nothing does the schema's declared type stand in.
+            const declared = typeof spec === 'object' && spec?.as;
+            writeShaped(properties, parts, declared ? value : promote(value, typeAtPath(parts, shape)), shape);
         }
     }
 
@@ -322,6 +353,11 @@ function applyEdges(mapping, built, row, options, notes) {
                 const result = edgeCreate({
                     fromEntity: built[entry.entityType],
                     toEntity: target,
+                    // Which relationship, where the target type reaches the entity through more
+                    // than one — `Asset` holds both `edges.has.Realization` and
+                    // `edges.usedBy.Realization`. Optional: a mapping that does not say falls back
+                    // to edgeCreate's own choice, which is what every template did before.
+                    intrinsicEdge: edge.edgeKey ?? null,
                     inverse: Boolean(edge.inverse),
                 });
                 if (!result) {

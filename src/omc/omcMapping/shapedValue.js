@@ -111,6 +111,71 @@ export function getShaped(cursor, parts, shape) {
 }
 
 /**
+ * The fully-indexed path a value actually lands at.
+ *
+ * {@link writeShaped} treats an array-of-object segment with no index as element 0 — `annotation.text`
+ * and `annotation[0].text` write to the same place. That is a convenience for whoever authors a
+ * mapping by hand, and a trap for anything that has to *address* the result: an editor rendering
+ * `annotation[0].text` and a mapping saying `annotation.text` name one value with two strings, and
+ * two strings that must match never do.
+ *
+ * So the implicit index is made explicit here, by the same descent that writes it. Segments the
+ * shape does not describe are returned unchanged.
+ *
+ * @param {Array<string>} parts - Path segments, pre-split on `.`
+ * @param {(Object|undefined)} shape - Shape node describing the root
+ * @returns {Array<string>} The canonical segments
+ *
+ * @example
+ * shapedPath(['annotation', 'text'], shape); // ['annotation[0]', 'text']
+ */
+export function shapedPath(parts, shape) {
+    const out = [];
+    let node = shape;
+    for (let i = 0; i < parts.length; i += 1) {
+        const { name, index } = parseSegment(parts[i]);
+        const child = node && typeof node === 'object' ? node[name] : undefined;
+        const isLast = i === parts.length - 1;
+        // Only a non-leaf array of objects carries an element index. An array-of-scalar leaf is
+        // written as a whole array, and a leaf index the caller gave is kept as it came.
+        const implicit = !isLast && index === undefined && child?.$type === 'array';
+        out.push(implicit ? `${name}[0]` : parts[i]);
+        node = child?.$type === 'array' ? child.$items : child;
+    }
+    return out;
+}
+
+/**
+ * The scalar type OMC declares at a shaped path.
+ *
+ * The twin of {@link writeShaped}'s descent, so it answers for exactly the leaf a write would land
+ * on: an array-of-scalar leaf reports its **item** type, because that is what the value becomes
+ * before being wrapped.
+ *
+ * Used to promote text to what the schema says it is. A text source — a CSV, a form field — has no
+ * types, and guessing one from the characters is wrong precisely where it matters most: `16E-1` is
+ * a slate, not `1.6`. So nothing is inferred from the value; the type is asked of the schema.
+ *
+ * @param {Array<string>} parts - Path segments, pre-split on `.`
+ * @param {(Object|undefined)} shape - Shape node describing the root
+ * @returns {(string|undefined)} `'string'`, `'number'`, `'boolean'`, … or undefined when the shape
+ *   does not describe this path
+ */
+export function typeAtPath(parts, shape) {
+    let node = shape;
+    for (let i = 0; i < parts.length; i += 1) {
+        if (!node || typeof node !== 'object') return undefined;
+        node = node[parseSegment(parts[i]).name];
+        if (!node) return undefined;
+        if (i === parts.length - 1) {
+            return node.$type === 'array' ? node.$items?.$type : node.$type;
+        }
+        if (node.$type === 'array') node = node.$items;
+    }
+    return undefined;
+}
+
+/**
  * Is a value present?
  *
  * An empty string counts as **absent**. A spreadsheet reader fills blank cells with `''`, and a

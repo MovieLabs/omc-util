@@ -172,13 +172,33 @@ export function check({ mapping, options = {} }) {
         const allEdges = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
         for (const edge of entry.edges ?? []) {
             edges += 1;
-            const allowed = Object.values(allEdges).some((e) => e.allowed?.includes(edge.to));
+            // `edgeKey` names the relationship being filled. When it is given, that relationship is
+            // what has to admit the target — "some edge somewhere allows this type" would pass a
+            // mapping that writes the reference into a different relationship than it names. It is
+            // optional, so a mapping that names no relationship is still checked the old way.
+            const named = edge.edgeKey ? allEdges[edge.edgeKey] : null;
+            if (edge.edgeKey && !named) {
+                problems.push({
+                    kind: 'edgeNotAllowed',
+                    where,
+                    detail: `${entityType} has no relationship "${edge.edgeKey}" in `
+                        + `${omcTemplate.versionLabel(schemaVersion)}`,
+                });
+                continue;
+            }
+            const allowed = named
+                ? named.allowed?.includes(edge.to)
+                : Object.values(allEdges).some((e) => e.allowed?.includes(edge.to));
             if (!allowed) {
                 problems.push({
                     kind: 'edgeNotAllowed',
                     where,
-                    detail: `${entityType} cannot reference ${edge.to} in `
-                        + `${omcTemplate.versionLabel(schemaVersion)}`,
+                    detail: named
+                        ? `${entityType}.${edge.edgeKey} cannot reference ${edge.to} in `
+                            + `${omcTemplate.versionLabel(schemaVersion)}; it admits `
+                            + `${named.allowed?.join(' or ') || 'nothing'}`
+                        : `${entityType} cannot reference ${edge.to} in `
+                            + `${omcTemplate.versionLabel(schemaVersion)}`,
                 });
             }
         }
