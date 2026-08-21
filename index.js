@@ -13,6 +13,7 @@ export { default as omcFind } from './src/omc/omcFind.js';
 export { default as omcMigrate } from './src/omc/migration/omcMigrate.js';
 export * as omcGraphQl from './src/omc/omcGraphQl/index.js';
 export * as omcIdentifier from './src/omc/omcIdentifier.js';
+export * as omcMapping from './src/omc/omcMapping/index.js';
 export * as omcMerge from './src/omc/omcMerge.js';
 export * as omcTransform from './src/omc/omcTransform.js';
 export { default as omcValidate } from './src/omc/validation/omcValidate.js';

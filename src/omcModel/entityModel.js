@@ -1,4 +1,13 @@
 /**
+ * Wrap a single OMC entity so its own accessors can be called as methods.
+ *
+ * The entity's properties are copied onto an object whose prototype carries the
+ * {@link module:omcEdges} readers, so `entity.getIntrinsicProps()` replaces
+ * `getIntrinsicProps(entity)`. Nothing is computed or cached at wrap time and the behaviour is
+ * exactly that of the underlying functions — this is a calling convention, not a second
+ * implementation. {@link module:omcSDK} wraps the entities it holds this way, over a shallow
+ * copy, so a change to a wrapped entity does not reach the object it was built from.
+ *
  * @module entityModel
  */
 

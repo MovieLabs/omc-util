@@ -5,7 +5,7 @@
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} EntityConfiguration
  * @property {string} schemaGroup
  * @property {string} idPrefix
@@ -16,20 +16,20 @@
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} EntityTemplate
  * @property {Object.<string, PropertyTemplate>} property - The properties of the entity
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef PropertyTemplate
  * @property {string} type - The type for this property (JSON-Schema syntax)
  * @property {boolean} mergeKey - Set for properties that act as merge keys.
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef EdgeTemplate
  * @property {string} type - How the reference is STORED on the source entity ('array' | 'object').
  *   This is a storage shape, NOT a cardinality cap — in v3.0 every edge is stored as an array.
@@ -51,7 +51,7 @@
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} GraphQlTemplate
  * @property {Object} properties - The properties that can be queried
  * @property {Object| null} filter - Properties that accept a graphQl filter
@@ -61,7 +61,7 @@
 /**
  * Parameters passed in to request template details
  *
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} TemplateQuery
  * @property {string} schemaVersion - The schema version key (e.g., "v1.0.0")
  * @property {string} entityType - The entity type key (e.g., "Asset", "Person")
@@ -70,7 +70,7 @@
 /**
  * The details for all edges on a given entityType
  *
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} EdgeTable
  * @property {Object.<OmcEntityType, EdgeTemplate>} edges - Descriptions of the regular edges
  * @property {Object.<OmcEntityType, EdgeTemplate>} intrinsic - Descriptions of the intrinsic edges
@@ -80,7 +80,7 @@
 /**
  * Properties to be used when rendering the header section for an entity
  *
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} PresentationHeader
  * @property {string} backgroudColor - Background color for header when rendering the entity as node or in a UI
  * @property {string} fontColor - Font color for header when rendering the entity as node or in a UI
@@ -92,26 +92,26 @@
  * Provides a set of suggested properties to display when rendering a node
  * Either the string indicating the property key, or a function that will return a string
  *
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Array<string, function>} PresentationProps
  */
 
 /**
  * A set of consistent values and methods useful when presenting an entity in a UI
  *
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} Presentation
  * @property {PresentationHeader} header
  * @property {PresentationProps} propRows
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object<string, Array<OmcEntityType>>} SchemaGroups - Schema groups with all the entities that belong in that group
  */
 
 /**
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  * @typedef {Object} OmcTemplate
  * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
  * @property {function(TemplateQuery): (object|null)} shape - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
@@ -126,8 +126,8 @@
  * @property {function(TemplateQuery): Array<OmcEntityType>} allEntityTypes - All entityTypes for this schema version
  * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
- * @property {function({schemaVersion?: string}=): string[]} metaKeys - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
- * @property {function({schemaVersion?: string}=): string[]} recordKeys - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
+ * @property {function({schemaVersion: string}=): string[]} metaKeys - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
+ * @property {function({schemaVersion: string}=): string[]} recordKeys - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
  */
 
 import { isCapitalized } from '../mlHelpers/util.js';
@@ -165,7 +165,7 @@ const derivedShapeVersions = new Set([
 /**
  * Methods returning templated values based on the schema version
  * @type {OmcTemplate}
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  */
 const omcTemplate = {
     edgeTable: (({ schemaVersion, entityType }) => (

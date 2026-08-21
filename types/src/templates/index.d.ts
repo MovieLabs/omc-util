@@ -223,19 +223,19 @@ export type OmcTemplate = {
      * - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
      */
     metaKeys: (arg0: {
-        schemaVersion?: string;
+        schemaVersion: string;
     } | undefined) => string[];
     /**
      * - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
      */
     recordKeys: (arg0: {
-        schemaVersion?: string;
+        schemaVersion: string;
     } | undefined) => string[];
 };
 /**
  * Methods returning templated values based on the schema version
  * @type {OmcTemplate}
- * @memberof namespace:OmcUtil
+ * @memberof OmcUtil
  */
 export const omcTemplate: OmcTemplate;
 //# sourceMappingURL=index.d.ts.map
