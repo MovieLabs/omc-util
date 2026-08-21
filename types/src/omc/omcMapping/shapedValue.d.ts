@@ -52,5 +52,42 @@ export function writeShaped(cursor: any, parts: Array<string>, value: any, shape
  * @returns {*} The value, or undefined
  */
 export function getShaped(cursor: any, parts: Array<string>, shape: (any | undefined)): any;
+/**
+ * The fully-indexed path a value actually lands at.
+ *
+ * {@link writeShaped} treats an array-of-object segment with no index as element 0 — `annotation.text`
+ * and `annotation[0].text` write to the same place. That is a convenience for whoever authors a
+ * mapping by hand, and a trap for anything that has to *address* the result: an editor rendering
+ * `annotation[0].text` and a mapping saying `annotation.text` name one value with two strings, and
+ * two strings that must match never do.
+ *
+ * So the implicit index is made explicit here, by the same descent that writes it. Segments the
+ * shape does not describe are returned unchanged.
+ *
+ * @param {Array<string>} parts - Path segments, pre-split on `.`
+ * @param {(Object|undefined)} shape - Shape node describing the root
+ * @returns {Array<string>} The canonical segments
+ *
+ * @example
+ * shapedPath(['annotation', 'text'], shape); // ['annotation[0]', 'text']
+ */
+export function shapedPath(parts: Array<string>, shape: (any | undefined)): Array<string>;
+/**
+ * The scalar type OMC declares at a shaped path.
+ *
+ * The twin of {@link writeShaped}'s descent, so it answers for exactly the leaf a write would land
+ * on: an array-of-scalar leaf reports its **item** type, because that is what the value becomes
+ * before being wrapped.
+ *
+ * Used to promote text to what the schema says it is. A text source — a CSV, a form field — has no
+ * types, and guessing one from the characters is wrong precisely where it matters most: `16E-1` is
+ * a slate, not `1.6`. So nothing is inferred from the value; the type is asked of the schema.
+ *
+ * @param {Array<string>} parts - Path segments, pre-split on `.`
+ * @param {(Object|undefined)} shape - Shape node describing the root
+ * @returns {(string|undefined)} `'string'`, `'number'`, `'boolean'`, … or undefined when the shape
+ *   does not describe this path
+ */
+export function typeAtPath(parts: Array<string>, shape: (any | undefined)): (string | undefined);
 export function hasValue(v: any): boolean;
 //# sourceMappingURL=shapedValue.d.ts.map

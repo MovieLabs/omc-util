@@ -1,4 +1,16 @@
 /**
+ * Create, compare and merge the identifiers that give an OMC entity its identity.
+ *
+ * An identifier is a `{ identifierScope, identifierValue }` pair and an entity may carry several,
+ * so identity is a set-intersection question rather than an equality one — `idIsDuplicate` and
+ * `hasMatching` are how it is asked. The rule the rest of the library leans on is that no two
+ * entities in a model may share an identifier.
+ *
+ * There are three ways to mint one, and the difference matters: `idCreate` generates a random
+ * value, `idFromValue` wraps a value the caller already holds, and `idHash` hashes a seed so the
+ * same source row always yields the same identifier — which is what lets a re-import update rather
+ * than duplicate, and lets an edge point at an entity a later pass will build.
+ *
  * @module omcIdentifier
  */
 

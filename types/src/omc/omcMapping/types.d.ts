@@ -22,6 +22,13 @@ export type PropertySource = any;
  * `via` names the column holding the **target's key** — "use this match key to create an id in
  * this edge". Because both entities seed their identifiers from a row value the same way, the
  * reference resolves whether or not the target was built in this row.
+ *
+ * `edgeKey` names **which** relationship, using the edge table's own key for it —
+ * `AssetStructure` for an intrinsic edge, `edges.has.Slate` for a consolidated one. The target
+ * type does not answer that where an entity reaches the same type through more than one
+ * relationship, as `Asset` does `Realization` (`edges.has.Realization` and
+ * `edges.usedBy.Realization`). Optional, and omitting it means what it always did: the first
+ * relationship admitting the target.
  */
 export type EdgeMapping = any;
 /**

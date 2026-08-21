@@ -1,4 +1,15 @@
 /**
+ * Read and write the relationships an entity holds.
+ *
+ * OMC stores a relationship in one of two places, and which one is a schema fact rather than
+ * something to infer: the general case is `edges.<predicate>.<TargetType>[]`, but some are named
+ * properties on the entity itself (`Asset.AssetStructure`). Both are covered here, and both are
+ * resolved through the edge table rather than by reading the shape of the data — which is also why
+ * `edgeCreate` returns falsy for an edge the schema does not allow, instead of writing it.
+ *
+ * The separation these functions draw is between an entity's own data and its references to other
+ * entities. `getBaseProps` gives the former, `getIntrinsicProps` and `relatedEdges` the latter.
+ *
  * @module omcEdges
  */
 

@@ -1,0 +1,15 @@
+{
+  "recurseDepth": 10,
+  "sourceType": "module",
+  "source": {
+    "include": ["index.js", "types.js", "src"],
+    "includePattern": ".+\\.(m?js(doc|x)?)$",
+    "exclude": [
+      "src/mlHelpers",
+      "src/templates/schemaFacts.js",
+      "src/templates/schemaDerive.js",
+      "src/templates/v3-0/schemaIndex.js",
+      "src/templates/v3-0/buildEdgeTable.js"
+    ]
+  }
+}

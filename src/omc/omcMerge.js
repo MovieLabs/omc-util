@@ -1,4 +1,17 @@
 /**
+ * Merge OMC entities, and answer what merging one into another would change.
+ *
+ * A merge never removes, so only two things can happen to the entity being merged into: it gains a
+ * value it did not have, or it meets a value it disagrees with. That is why `mergeChanges` — not a
+ * structural diff — is the tool for "does this record carry new information?". A diff is symmetric
+ * and reports absence as readily as contribution, so a record that is a strict subset of what is
+ * already held reads as different while contributing nothing.
+ *
+ * Merging is identity-aware throughout: entities that describe different things are refused rather
+ * than combined, and arrays are matched on what their items are rather than on position, so the
+ * same edge written as a bare reference on one side and an expanded entity on the other is one
+ * edge and not two.
+ *
  * @module omcMerge
  */
 

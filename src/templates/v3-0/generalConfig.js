@@ -313,7 +313,7 @@ export const generalConfig = {
     ParticipantStructure: {
         group: 'Participant',
         idPrefix: 'prts',
-        mergeKey: ['participantName.fullName'],
+        mergeKey: ['participantStructureName.fullName'],
         presentation: {
             header: {
                 backgroundColor: '#E6B0AA',
