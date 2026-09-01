@@ -62,6 +62,10 @@ function validatorFor(versionName) {
 
 // Check all the entities in an OMC array are valid, or return false
 function atomicResult(results) {
+    // A single entity is one result, not a collection of them. Checked on the boolean rather than
+    // the key alone, so an entity type called `valid` is still read as the array it holds.
+    if (typeof results?.valid === 'boolean') return results.valid;
+
     const validationResults = Array.isArray(results)
         ? results.map((res) => res.valid)
         : Object.values(results).flat().map((res) => res.valid);

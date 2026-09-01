@@ -77,10 +77,11 @@
     "test:mergerefs": "node test/mergeReferences.js",
     "test:mergechanges": "node test/mergeChanges.js",
     "test:cleanentity": "node test/cleanEntity.js",
+    "test:validate": "node test/omcValidate.js",
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "docs": "node build-docs.js",
     "build:types": "tsc && node postbuild-types.js",
-    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity",
+    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity && npm run test:validate",
     "test:mapping": "node test/omcMapping.js"
   },
   "dependencies": {
