@@ -32,17 +32,33 @@ const schemaValidators = {
     'https://movielabs.com/omc/json/schema/v3.0': schemav30,
 };
 
-const schemaValidator = Object.keys(schemaValidators)
-    .reduce((obj, versionName) => {
-        const ajv = new Ajv2019({ allowUnionTypes: true, strict: 'log' })
-            .addKeyword('$anchor')
-            .addKeyword('controlledValues') // Annotation for controlled values
-            .compile(schemaValidators[versionName]);
-        return {
-            ...obj,
-            [versionName]: ajv,
-        };
-    }, {});
+const compiled = new Map(); // Schema document -> compiled validator
+
+/**
+ * Compile the validator for one schema version, on first use.
+ *
+ * Keyed on the schema document rather than the version name, so v2.0 and v2.1 — which share one
+ * document — compile a single time between them.
+ *
+ * @ignore
+ * @param {string} versionName - A key of `schemaValidators`
+ * @returns {Function} The Ajv validate function, carrying `.errors` from its most recent call
+ */
+function validatorFor(versionName) {
+    const schema = schemaValidators[versionName];
+
+    if (!compiled.has(schema)) {
+        compiled.set(schema, new Ajv2019({ allowUnionTypes: true, strict: 'log' })
+            .addKeyword({
+                keyword: 'x-controlledValues', // Annotation listing a property's permitted values
+                metaSchema: { type: 'array', items: { type: 'string' } },
+                valid: true, // Never constrains an instance
+            })
+            .compile(schema));
+    }
+
+    return compiled.get(schema);
+}
 
 // Check all the entities in an OMC array are valid, or return false
 function atomicResult(results) {
@@ -56,8 +72,8 @@ function checkSingleEntity(entity, options) {
     const { schemaVersion } = options; // Has a specific schema version been specified?
     const testSchemaVersion = schemaVersion || entity.schemaVersion;
 
-    // Ensure the schema version is supported
-    if (!Object.hasOwn(schemaValidator, testSchemaVersion)) {
+    // Ensure the schema version is supported, without compiling it
+    if (!Object.hasOwn(schemaValidators, testSchemaVersion)) {
         return {
             valid: false,
             error: `Invalid schema version: ${testSchemaVersion}`,
@@ -66,11 +82,12 @@ function checkSingleEntity(entity, options) {
     }
 
     // Validate the entity against the schema
-    const valid = schemaValidator[testSchemaVersion](entity); // This entity has a valid schema version
+    const validate = validatorFor(testSchemaVersion); // This entity has a valid schema version
+    const valid = validate(entity);
 
     return {
         valid,
-        error: valid ? null : schemaValidator[testSchemaVersion].errors,
+        error: valid ? null : validate.errors,
         omcEntity: entity,
     };
 }
@@ -86,8 +103,8 @@ function checkOmcArray(omc, options) {
 
     return omc.map((entity) => {
         const testSchemaVersion = schemaVersion || entity.schemaVersion;
-        // Ensure the schema version is supported
-        if (!Object.hasOwn(schemaValidator, testSchemaVersion)) {
+        // Ensure the schema version is supported, without compiling it
+        if (!Object.hasOwn(schemaValidators, testSchemaVersion)) {
             return {
                 valid: false,
                 error: `Invalid schema version: ${testSchemaVersion}`,
@@ -96,11 +113,12 @@ function checkOmcArray(omc, options) {
         }
 
         // Validate the entity against the schema
-        const valid = schemaValidator[testSchemaVersion]([entity]); // This entity has a valid schema version
+        const validate = validatorFor(testSchemaVersion); // This entity has a valid schema version
+        const valid = validate([entity]);
 
         return {
             valid,
-            error: valid ? null : schemaValidator[testSchemaVersion].errors,
+            error: valid ? null : validate.errors,
             omcEntity: entity,
         };
     });
