@@ -1,6 +1,6 @@
 {
   "name": "omc-util",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Utilities for working with OMC-JSON",
   "author": "DML",
   "license": "ISC",
