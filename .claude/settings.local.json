@@ -51,7 +51,8 @@
       "Bash(grep -nE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)",
       "Bash(grep -cE \"^    [A-Za-z]+: \\\\{$\" src/templates/v3-0/edges.js)",
       "WebSearch",
-      "WebFetch(domain:linkml.io)"
+      "WebFetch(domain:linkml.io)",
+      "Bash(git check-ignore *)"
     ]
   }
 }
