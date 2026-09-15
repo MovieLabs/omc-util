@@ -19,10 +19,19 @@ const supplemental = {
     subject: 'idea',
 };
 
-// Each predicate's top-level `inverse` (skips null and per-group-only inverses)
-const generated = Object.entries(edgeDefinitions).reduce((map, [predicate, def]) => {
-    if (def.inverse) map[predicate] = def.inverse;
-    return map;
-}, {});
+/**
+ * Build the inverse map from a set of edge definitions: each predicate's top-level
+ * `inverse` (skipping null and per-group-only inverses), over the supplemental map.
+ *
+ * @param {Object} definitions - Edge definitions in the edges.js shape
+ * @returns {Object<string, string>} predicate name -> inverse predicate name
+ */
+export const inverseEdgesFrom = (definitions) => ({
+    ...supplemental,
+    ...Object.entries(definitions).reduce((map, [predicate, def]) => {
+        if (def.inverse) map[predicate] = def.inverse;
+        return map;
+    }, {}),
+});
 
-export const inverseEdges = { ...supplemental, ...generated };
+export const inverseEdges = inverseEdgesFrom(edgeDefinitions);

@@ -26,17 +26,22 @@
  * @module buildEdgeTable
  */
 
-import { edgeDefinitions, tentativeRdf } from './edges.js';
+import { edgeDefinitions as defaultDefinitions, tentativeRdf } from './edges.js';
 import { maxItemsIndex } from './schemaIndex.js';
 
 /**
  * Resolve an inverse predicate NAME to the inverse PATH on the target entity.
  * `originDomain` (the source type of the forward edge) becomes the last segment
  * of an `edges.<inv>.<originDomain>` reverse path.
+ *
+ * @param {Object} definitions - The edge definitions the inverse is looked up in
+ * @param {string|null} invName - The inverse predicate name
+ * @param {string} originDomain - The source type of the forward edge
+ * @returns {string|null} The inverse storage path
  */
-const resolveInversePath = (invName, originDomain) => {
+const resolveInversePath = (definitions, invName, originDomain) => {
     if (!invName) return null;
-    const invDef = edgeDefinitions[invName];
+    const invDef = definitions[invName];
     const invPlacement = invDef ? invDef.placement || 'edges' : 'edges';
     if (invPlacement === 'edges') return `edges.${invName}.${originDomain}`;
     // intrinsic inverse: the reverse reference lives at a named property
@@ -95,10 +100,12 @@ const computePath = (placement, pred, range, group, def) => {
 };
 
 /**
+ * @param {Object} [edgeDefinitions] - Edge definitions in the edges.js shape; defaults to
+ * the bundled edges.js
  * @returns {{ table: Object, collisions: Array<string> }} The generated per-entity
  * edgeTable plus any same-key collisions detected during expansion.
  */
-export function buildEdgeTable() {
+export function buildEdgeTable(edgeDefinitions = defaultDefinitions) {
     const table = {};
     const collisions = [];
 
@@ -135,8 +142,8 @@ export function buildEdgeTable() {
                         type: def.cardinality,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: resolveInversePath(groupInverse, domain),
-                        inversePath: resolveInversePath(groupInverse, domain),
+                        inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
+                        inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
                         rdfMap: group.rdfMap || [],
                     });
@@ -152,8 +159,8 @@ export function buildEdgeTable() {
                         type: def.cardinality,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: resolveInversePath(groupInverse, domain),
-                        inversePath: resolveInversePath(groupInverse, domain),
+                        inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
+                        inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
                         rdfMap: group.rdfMap || [],
                     });
