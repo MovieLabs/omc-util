@@ -2,30 +2,26 @@
 #
 # The shipped table is what the Edge Editor published, with the edges.js seed filling the rows the
 # publication does not build (src/templates/v3-0/edgeTable.js). That union is the subject here,
-# because it is what every consumer is handed — `--static` checks the seed alone and no longer
+# because it is what every consumer is handed - `--static` checks the seed alone and no longer
 # describes what ships.
 #
-# Two kinds of entry below, and telling them apart is the point:
+# Two kinds of entry, and telling them apart is the point:
 #   - the publication's own gaps, which close when the tool models them
 #   - rows the seed is still holding up, which close when the publication covers them and the seed
 #     can be dropped. `npm run test:registry` counts these.
 #
 # The tool's output on its own is reported, never gated: run with no arguments for that.
 
-# --- the publication's gaps ---------------------------------------------------------------
+# --- the publication's gaps ---
 MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure Location -> [Location]
 MISPLACED InfrastructureStructure infrastructureStructureProperties.Member -> the table has it at "Member"
-OTHER-BUCKET Realization RealizedBy -> [Asset,Composition,Participant,Task] not intrinsic; the edges bucket has edges.portrayedBy.Participant, edges.realizedBy.Composition, edges.usedBy.Participant, edges.usedBy.Task (same types — may or may not be the same relationship)
-TARGETS Realization RealizationOf table [NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
+TARGETS Realization RealizationOf table [Effect,NarrativeAudio,NarrativeObject,NarrativeStyling,NarrativeWardrobe,SpecialAction] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 
-# --- rows the seed still supplies, and the verbs that come with them -----------------------
+# --- rows the seed still supplies, and the verbs that come with them ---
 #
-# hasCxt/cxtFor are the Context carrier. The publication does not model Context at all, so
-# every cxtEdges row and both carrier verbs come from the seed. Infrastructure
-# InfrastructureStructure, Realization realizationProperties.RealizationBy and Provenance
-# Origin are seed rows at paths the schema has since moved or dropped.
+# hasCxt and cxtFor are the Context carrier, which the publication does not model at all.
 TABLE-ONLY Infrastructure InfrastructureStructure
 TABLE-ONLY Realization realizationProperties.RealizationBy
 TABLE-ONLY Provenance Origin
@@ -33,14 +29,11 @@ VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor
 VERB-UNDECLARED cxtFor
 VERB-UNDECLARED hasCxt
-VERB-UNDECLARED portrayedBy
-VERB-UNDECLARED realizationOf
-VERB-UNDECLARED realizedBy
 
-# --- a declared verb used where the schema does not list it --------------------------------
+# --- a declared verb used where the schema does not list it ---
 #
-# additionalProperties is true at both levels of the shared edges block, so these validate.
-# The fix is a line in the schema.
+# additionalProperties is true at both levels of the shared edges block, so these validate and
+# nothing notices. The fix is a line in the schema.
 PAIR-UNDECLARED for.ParticipantStructure (used by Location)
 PAIR-UNDECLARED has.Realization (used by Asset, Composition, Participant)
 PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
@@ -50,5 +43,4 @@ PAIR-UNDECLARED memberOf.TaskStructure (used by Task)
 PAIR-UNDECLARED neededBy.Effect (used by NarrativeAudio, NarrativeStyling)
 PAIR-UNDECLARED neededBy.NarrativeObject (used by NarrativeAudio)
 PAIR-UNDECLARED related.CreativeWork (used by CreativeWork)
-PAIR-UNDECLARED usedBy.Participant (used by Realization)
-PAIR-UNDECLARED usedBy.Task (used by Realization)
+PAIR-UNDECLARED uses.Realization (used by ProductionScene)

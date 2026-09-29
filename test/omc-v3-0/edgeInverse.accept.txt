@@ -3,36 +3,40 @@
 # The subject is the union of the publication and the edges.js seed, which is what
 # omcTemplate.inverseEdge() answers from and therefore what fMam writes reverse edges from.
 #
-# Three groups, none of them a fault in the data:
-#   INVERSE-MALFORMED / INVERSE-UNDECLARED around hasCxt, cxtFor and `has` come from the seed, and
-#     go when the publication covers Context and the seed is dropped.
-#   INVERSE-BUCKET and INVERSE-OVERRIDE are structural: inverseEdge() returns a bare name, so it
-#     can express neither an intrinsic inverse nor a per-group one. Closing them needs an accessor
-#     that returns the inverse edge rather than its name.
-#   NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn and realizedBy triangles.
+# INVERSE-BUCKET and INVERSE-OVERRIDE are structural, not data faults: inverseEdge() returns a bare
+# predicate name, so it can express neither an intrinsic inverse nor a per-group one, and fMam then
+# writes to a place the table does not agree with. Closing them needs an accessor that returns the
+# inverse edge rather than its name.
+#
+# INVERSE-MALFORMED and most INVERSE-UNDECLARED come from the seed - the Context carrier, and the
+# `has` group whose inverse names a path rather than a predicate - and go when the publication
+# covers Context and the seed can be dropped.
+#
+# NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn and realizedBy triangles.
 
-NOT-INVOLUTIVE portrayedBy -> usedBy -> realizedBy
-NOT-INVOLUTIVE realizationOf -> usedIn -> uses
-NOT-INVOLUTIVE usedBy -> realizedBy -> RealizationOf
+NOT-INVOLUTIVE uses -> usedIn -> realizationOf
 INVERSE-MALFORMED has on Composition: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Composition"
 INVERSE-MALFORMED has on Participant: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Participant"
-INVERSE-OVERRIDE realizedBy on Participant: the group inverts to "edges.usedBy.Participant", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Participant"
-INVERSE-OVERRIDE realizedBy on Realization: the group inverts to "edges.usedBy.Realization", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Realization"
-INVERSE-OVERRIDE realizedBy on Task: the group inverts to "edges.usedBy.Task", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Task"
-INVERSE-OVERRIDE usedBy on Participant: the group inverts to "edges.portrayedBy.Participant", the predicate declares "realizedBy", so fMam writes "edges.realizedBy.Participant"
-INVERSE-OVERRIDE usedBy on Task: the group inverts to "edges.usedIn.Task", the predicate declares "realizedBy", so fMam writes "edges.realizedBy.Task"
-INVERSE-OVERRIDE usedIn on Effect: the group inverts to "edges.realizationOf.Effect", the predicate declares "uses", so fMam writes "edges.uses.Effect"
-INVERSE-OVERRIDE usedIn on SpecialAction: the group inverts to "edges.realizationOf.SpecialAction", the predicate declares "uses", so fMam writes "edges.uses.SpecialAction"
+INVERSE-OVERRIDE usedIn on Asset: the group inverts to "edges.uses.Asset", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Asset"
+INVERSE-OVERRIDE usedIn on Character: the group inverts to "edges.uses.Character", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Character"
+INVERSE-OVERRIDE usedIn on ProductionLocation: the group inverts to "edges.uses.ProductionLocation", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.ProductionLocation"
+INVERSE-OVERRIDE usedIn on Realization: the group inverts to "edges.uses.Realization", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Realization"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Asset"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Infrastructure"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Participant"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Task"
 INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes "edges.Product.Asset"
-INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeLocation"
-INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeObject"
-INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeStyling"
-INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeWardrobe"
-
+INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Asset"
+INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Composition"
+INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Participant"
+INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Task"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.Effect"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeAudio"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeLocation"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeObject"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeStyling"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeWardrobe"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.SpecialAction"
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
 INVERSE-UNDECLARED cxtFor.Asset (the reverse of Asset hasCxt)
@@ -62,14 +66,4 @@ INVERSE-UNDECLARED has.Location (the reverse of Location for)
 INVERSE-UNDECLARED hasCxt.Context (the reverse of Context cxtFor)
 INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
 INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
-INVERSE-UNDECLARED realizedBy.Asset (the reverse of Asset usedBy)
-INVERSE-UNDECLARED realizedBy.Composition (the reverse of Composition usedBy)
-INVERSE-UNDECLARED realizedBy.Realization (the reverse of Realization usedBy)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
-INVERSE-UNDECLARED uses.Character (the reverse of Character usedIn)
-INVERSE-UNDECLARED uses.NarrativeAudio (the reverse of NarrativeAudio usedIn)
-INVERSE-UNDECLARED uses.NarrativeLocation (the reverse of NarrativeLocation usedIn)
-INVERSE-UNDECLARED uses.NarrativeObject (the reverse of NarrativeObject usedIn)
-INVERSE-UNDECLARED uses.NarrativeStyling (the reverse of NarrativeStyling usedIn)
-INVERSE-UNDECLARED uses.NarrativeWardrobe (the reverse of NarrativeWardrobe usedIn)
-INVERSE-UNDECLARED uses.Realization (the reverse of Realization usedIn)

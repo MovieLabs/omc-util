@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 120,
-    "rows": 159,
+    "edges": 121,
+    "rows": 160,
     "verbs": 42,
-    "properties": 119
+    "properties": 117
   },
   "namespace": {
     "prefix": "omc",
@@ -385,13 +385,22 @@
             "rdfMap": [
               "omc:representedBy (Asset)"
             ]
+          },
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "rdfMap": []
           }
         ]
       },
       "usedIn": {
         "predicate": "usedIn",
         "cardinality": "array",
-        "inverse": "uses",
+        "inverse": "realizationOf",
         "rdf": "tentative",
         "connects": [
           {
@@ -402,6 +411,7 @@
               "ProductionScene",
               "ProductionLocation"
             ],
+            "inverse": "uses",
             "rdfMap": [
               "~omc:representedBy (ProductionScene; i.e. omc:represents)"
             ]
@@ -413,6 +423,7 @@
             "range": [
               "ProductionScene"
             ],
+            "inverse": "uses",
             "rdfMap": [
               "omc:hasProductionScene"
             ]
@@ -424,6 +435,7 @@
             "range": [
               "ProductionScene"
             ],
+            "inverse": "uses",
             "rdfMap": [
               "omc:hasProductionScene",
               "omc:isUsedBy"
@@ -432,12 +444,16 @@
           {
             "domain": [
               "Effect",
-              "SpecialAction"
+              "SpecialAction",
+              "NarrativeObject",
+              "NarrativeWardrobe",
+              "NarrativeStyling",
+              "NarrativeLocation",
+              "NarrativeAudio"
             ],
             "range": [
               "Realization"
             ],
-            "inverse": "realizationOf",
             "rdfMap": []
           }
         ]
@@ -669,68 +685,6 @@
               "Task"
             ],
             "path": "taskStructureProperties.taskGroup.Member",
-            "rdfMap": []
-          }
-        ]
-      },
-      "RealizationOf": {
-        "predicate": "RealizationOf",
-        "placement": "property",
-        "cardinality": "array",
-        "inverse": "has",
-        "rdf": "tentative",
-        "connects": [
-          {
-            "domain": [
-              "Realization"
-            ],
-            "range": [
-              "NarrativeLocation",
-              "NarrativeObject",
-              "NarrativeStyling",
-              "NarrativeWardrobe"
-            ],
-            "rdfMap": []
-          }
-        ]
-      },
-      "realizedBy": {
-        "predicate": "realizedBy",
-        "cardinality": "array",
-        "inverse": "RealizationOf",
-        "rdf": "tentative",
-        "connects": [
-          {
-            "domain": [
-              "NarrativeLocation",
-              "NarrativeObject",
-              "NarrativeStyling",
-              "NarrativeWardrobe"
-            ],
-            "range": [
-              "Realization"
-            ],
-            "rdfMap": []
-          },
-          {
-            "domain": [
-              "Task",
-              "Participant"
-            ],
-            "range": [
-              "Realization"
-            ],
-            "inverse": "usedBy",
-            "rdfMap": []
-          },
-          {
-            "domain": [
-              "Realization"
-            ],
-            "range": [
-              "Composition"
-            ],
-            "inverse": "usedBy",
             "rdfMap": []
           }
         ]
@@ -1000,40 +954,46 @@
           {
             "domain": [
               "Asset",
-              "Composition"
+              "Composition",
+              "Participant",
+              "Task"
             ],
             "range": [
               "Realization"
             ],
             "rdfMap": []
-          },
+          }
+        ]
+      },
+      "realizedBy": {
+        "predicate": "realizedBy",
+        "placement": "property",
+        "path": "RealizedBy",
+        "cardinality": "array",
+        "inverse": "usedBy",
+        "rdf": "const:omc:realizedBy",
+        "connects": [
           {
             "domain": [
               "Realization"
             ],
             "range": [
-              "Task",
-              "Participant"
+              "Asset",
+              "Composition",
+              "Participant",
+              "Task"
             ],
-            "rdfMap": []
-          },
-          {
-            "domain": [
-              "Participant"
-            ],
-            "range": [
-              "Realization"
-            ],
-            "inverse": "portrayedBy",
             "rdfMap": []
           }
         ]
       },
       "realizationOf": {
         "predicate": "realizationOf",
+        "placement": "property",
+        "path": "RealizationOf",
         "cardinality": "array",
         "inverse": "usedIn",
-        "rdf": "const:omc:realizationOf",
+        "rdf": "intrinsic",
         "connects": [
           {
             "domain": [
@@ -1041,24 +1001,11 @@
             ],
             "range": [
               "Effect",
-              "SpecialAction"
-            ],
-            "rdfMap": []
-          }
-        ]
-      },
-      "portrayedBy": {
-        "predicate": "portrayedBy",
-        "cardinality": "array",
-        "inverse": "usedBy",
-        "rdf": "const:omc:portrayedBy",
-        "connects": [
-          {
-            "domain": [
-              "Realization"
-            ],
-            "range": [
-              "Participant"
+              "SpecialAction",
+              "NarrativeObject",
+              "NarrativeWardrobe",
+              "NarrativeStyling",
+              "NarrativeAudio"
             ],
             "rdfMap": []
           }
@@ -3019,19 +2966,16 @@
           "omc:realizedBy"
         ],
         "domains": [
-          "omc:Participant",
-          "omc:Realization",
-          "omc:Task"
+          "omc:Realization"
         ],
         "ranges": [
           "omc:Asset",
           "omc:Composition",
-          "omc:Realization"
+          "omc:Participant",
+          "omc:Task"
         ],
         "inverseOf": [
-          "omc:usedByParticipant",
-          "omc:usedByRealization",
-          "omc:usedByTask"
+          "omc:usedByRealization"
         ]
       },
       {
@@ -3125,22 +3069,6 @@
         ]
       },
       {
-        "id": "omc:usedByParticipant",
-        "name": "usedByParticipant",
-        "verbs": [
-          "omc:usedBy"
-        ],
-        "domains": [
-          "omc:Realization"
-        ],
-        "ranges": [
-          "omc:Participant"
-        ],
-        "inverseOf": [
-          "omc:realizedBy"
-        ]
-      },
-      {
         "id": "omc:usedByPortrayal",
         "name": "usedByPortrayal",
         "verbs": [
@@ -3166,26 +3094,12 @@
         ],
         "domains": [
           "omc:Asset",
-          "omc:Composition"
-        ],
-        "ranges": [
-          "omc:Realization"
-        ],
-        "inverseOf": [
-          "omc:realizedBy"
-        ]
-      },
-      {
-        "id": "omc:usedByTask",
-        "name": "usedByTask",
-        "verbs": [
-          "omc:usedBy"
-        ],
-        "domains": [
-          "omc:Realization"
-        ],
-        "ranges": [
+          "omc:Composition",
+          "omc:Participant",
           "omc:Task"
+        ],
+        "ranges": [
+          "omc:Realization"
         ],
         "inverseOf": [
           "omc:realizedBy"
