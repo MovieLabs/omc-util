@@ -244,6 +244,57 @@ export const generalConfig = {
             propRows: ['label', identifier],
         },
     },
+    CaptureEvent: {
+        group: 'Production',
+        idPrefix: 'cevt',
+        presentation: {
+            header: {
+                backgroundColor: '#A9DFBF',
+                fontColor: '#000',
+                entityLabel: 'Capture Event',
+                entityLabelSuffix: () => '',
+                // icon: CaptureEventIcon,
+            },
+            propRows: [
+                'label',
+                (e) => ({ fullName: e.captureEventName?.fullName || 'N/A' }),
+            ],
+        },
+    },
+    CapturePoint: {
+        group: 'Production',
+        idPrefix: 'cpnt',
+        presentation: {
+            header: {
+                backgroundColor: '#A9DFBF',
+                fontColor: '#000',
+                entityLabel: 'Capture Point',
+                entityLabelSuffix: () => '',
+                // icon: CapturePointIcon,
+            },
+            propRows: [
+                'label',
+                (e) => ({ fullName: e.capturePointName?.fullName || 'N/A' }),
+            ],
+        },
+    },
+    CaptureDevice: {
+        group: 'Production',
+        idPrefix: 'cdvc',
+        presentation: {
+            header: {
+                backgroundColor: '#A9DFBF',
+                fontColor: '#000',
+                entityLabel: 'Capture Device',
+                entityLabelSuffix: () => '',
+                // icon: CaptureDeviceIcon,
+            },
+            propRows: [
+                'label',
+                (e) => ({ fullName: e.captureDeviceName?.fullName || 'N/A' }),
+            ],
+        },
+    },
     Realization: {
         group: 'Media Creation Context',
         idPrefix: 'rel',

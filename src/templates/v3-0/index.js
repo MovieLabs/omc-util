@@ -55,6 +55,9 @@ import SpecialAction from './mediaCreation/SpecialAction.js';
 import Participant from './participant/Participant.js';
 import ParticipantStructure from './participant/ParticipantStructure.js';
 import Role from './participant/Role.js';
+import CaptureDevice from './production/CaptureDevice.js';
+import CaptureEvent from './production/CaptureEvent.js';
+import CapturePoint from './production/CapturePoint.js';
 import Task from './task/Task.js';
 import TaskStructure from './task/TaskStructure.js';
 import Collection from './utility/Collection.js';
@@ -81,6 +84,9 @@ const omcTemplate = {
     Realization,
     Slate,
     SpecialAction,
+    CaptureEvent,
+    CapturePoint,
+    CaptureDevice,
     Participant,
     ParticipantStructure,
     Role,

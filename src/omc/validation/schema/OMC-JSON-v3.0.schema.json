@@ -49,6 +49,19 @@
                   "title": "Version Number",
                   "description": "A designation indicating a place in a sequence of versions"
                 },
+                "RevisionOf": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 1,
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"}
+                    ]
+                  }
+                },
                 "DerivationOf": {
                   "type": [
                     "array",
@@ -62,7 +75,7 @@
                     ]
                   }
                 },
-                "RevisionOf": {
+                "RepresentationOf": {
                   "type": [
                     "array",
                     "null"
@@ -88,7 +101,7 @@
                     ]
                   }
                 },
-                "Alternative": {
+                "Revision": {
                   "type": [
                     "array",
                     "null"
@@ -112,7 +125,7 @@
                     ]
                   }
                 },
-                "Revision": {
+                "Representation": {
                   "type": [
                     "array",
                     "null"
@@ -125,6 +138,18 @@
                   }
                 },
                 "Variant": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"}
+                    ]
+                  }
+                },
+                "Alternative": {
                   "type": [
                     "array",
                     "null"
@@ -876,6 +901,19 @@
                   "title": "Version Number",
                   "description": "A designation indicating a place in a sequence of versions"
                 },
+                "RevisionOf": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 1,
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
+                    ]
+                  }
+                },
                 "DerivationOf": {
                   "type": [
                     "array",
@@ -902,12 +940,11 @@
                     ]
                   }
                 },
-                "RevisionOf": {
+                "Revision": {
                   "type": [
                     "array",
                     "null"
                   ],
-                  "maxItems": 1,
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
@@ -938,18 +975,6 @@
                       {"$ref": "#/$defs/Asset/properties/AssetStructure"}
                     ]
                   }
-                },
-                "Revision": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
-                    ]
-                  }
                 }
               },
               "title": "Asset Structure Version Information",
@@ -962,29 +987,29 @@
               "description": "A canonical description of the the assets form.",
               "default": "assetStructure",
               "x-controlledValues": [
-                "assetStructure",
-                "assetGroup",
                 "digital",
-                "digital.audio",
-                "digital.audio.object",
-                "digital.audioVisual",
-                "digital.data",
-                "digital.document",
                 "digital.image",
-                "digital.imageSequence",
                 "digital.movingImage",
-                "digital.procedural",
-                "digital.pointCloud",
-                "digital.volume",
+                "digital.imageSeries",
+                "digital.audio",
+                "digital.audiovisual",
+                "digital.document",
                 "digital.structuredDocument",
-                "geometry",
+                "digital.data",
+                "digital.geometry",
+                "digital.volume",
+                "digital.pointCloud",
+                "analog",
+                "analog.audio",
+                "analog.audiovisual",
+                "analog.movingImage",
                 "physical",
-                "physical.audioVisual",
-                "physical.document",
                 "physical.image",
-                "physical.imageSequence",
-                "physical.movingImage",
-                "physical.structuredDocument"
+                "physical.document",
+                "physical.structuredDocument",
+                "physical.imageSeries",
+                "procedural",
+                "assetGroup"
               ]
             },
             "assetStructureProperties": {
@@ -1011,21 +1036,7 @@
                 "linkset": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/linkset"},
                 "purpose": {"$ref": "#/$defs/Utility/properties/purpose"},
                 "scale": {"$ref": "#/$defs/Utility/properties/scale"},
-                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
-                "Member": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "title": "Asset Group Members",
-                  "description": "The set of Assets that make up the members of an asset group.",
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/Asset"}
-                    ]
-                  }
-                }
+                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"}
               },
               "additionalProperties": true
             },
@@ -1070,6 +1081,20 @@
                 "null"
               ],
               "properties": {
+                "Member": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "title": "Asset Group Members",
+                  "description": "The set of Assets that make up the members of an asset group.",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"}
+                    ]
+                  }
+                },
                 "isOrdered": {
                   "type": [
                     "boolean",
@@ -2456,6 +2481,79 @@
       },
       "additionalProperties": false,
       "title": "Media Creation Context Definitions"
+    },
+    "Production": {
+      "type": ["object"],
+      "title": "Production Entities",
+      "properties": {
+        "CaptureEvent": {
+          "type": ["object"],
+          "title": "Capture Event",
+          "allOf": [
+            {"$ref": "#/$defs/core/properties/baseEntity"}
+          ],
+          "properties": {
+            "entityType": {
+              "title": "Entity Type",
+              "const": "CaptureEvent"
+            },
+            "captureEventName": {
+              "title": "Capture Event Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"}
+              ]
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
+          },
+          "required": ["entityType"],
+          "unevaluatedProperties": false
+        },
+        "CapturePoint": {
+          "type": ["object"],
+          "title": "Capture Point",
+          "allOf": [
+            {"$ref": "#/$defs/core/properties/baseEntity"}
+          ],
+          "properties": {
+            "entityType": {
+              "title": "Entity Type",
+              "const": "CapturePoint"
+            },
+            "capturePointName": {
+              "title": "Capture Point Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"}
+              ]
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
+          },
+          "required": ["entityType"],
+          "unevaluatedProperties": false
+        },
+        "CaptureDevice": {
+          "type": ["object"],
+          "title": "Capture Device",
+          "allOf": [
+            {"$ref": "#/$defs/core/properties/baseEntity"}
+          ],
+          "properties": {
+            "entityType": {
+              "title": "Entity Type",
+              "const": "CaptureDevice"
+            },
+            "captureDeviceName": {
+              "title": "Capture Device Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"}
+              ]
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
+          },
+          "required": ["entityType"],
+          "unevaluatedProperties": false
+        }
+      },
+      "additionalProperties": false
     },
     "Participant": {
       "type": ["object"],
@@ -4469,6 +4567,30 @@
               "title": "Production Scene",
               "items": {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
             },
+            "CaptureEvent": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Event",
+              "items": {"$ref": "#/$defs/Production/properties/CaptureEvent"}
+            },
+            "CapturePoint": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Point",
+              "items": {"$ref": "#/$defs/Production/properties/CapturePoint"}
+            },
+            "CaptureDevice": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Device",
+              "items": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
+            },
             "Slate": {
               "type": [
                 "array",
@@ -4779,6 +4901,45 @@
                 ]
               }
             },
+            "CaptureEvent": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Event",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CaptureEvent"}
+                ]
+              }
+            },
+            "CapturePoint": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Point",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CapturePoint"}
+                ]
+              }
+            },
+            "CaptureDevice": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Device",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CaptureDevice"}
+                ]
+              }
+            },
             "Slate": {
               "type": [
                 "array",
@@ -4949,6 +5110,9 @@
                     "NarrativeWardrobe",
                     "ProductionLocation",
                     "ProductionScene",
+                    "CaptureEvent",
+                    "CapturePoint",
+                    "CaptureDevice",
                     "Slate",
                     "SpecialAction",
                     "Participant",
@@ -5124,6 +5288,36 @@
                 "required": ["entityType"]
               },
               "then": {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
+            },
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "entityType": {"const": "CaptureEvent"}
+                },
+                "required": ["entityType"]
+              },
+              "then": {"$ref": "#/$defs/Production/properties/CaptureEvent"}
+            },
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "entityType": {"const": "CapturePoint"}
+                },
+                "required": ["entityType"]
+              },
+              "then": {"$ref": "#/$defs/Production/properties/CapturePoint"}
+            },
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "entityType": {"const": "CaptureDevice"}
+                },
+                "required": ["entityType"]
+              },
+              "then": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
             },
             {
               "if": {
