@@ -51,9 +51,16 @@ There is no unified test runner. The `test:*` scripts are standalone node script
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
 
-The three `edges:*` checks all take `--candidate <file>`, so they can be run against the Edge
-Editor's published JSON instead of `edges.js`. That is the intended direction of travel: the
-published document becomes the table, and the first two are what have to pass before it can.
+**The `edges:*` checks read the live edge table when one is there.** With no `--candidate` they ask
+`http://localhost:8080/api/vocab/v1/edges/publish?format=json` (override with `OMC_EDGES_URL`) and
+fall back to the static `edges.js`, saying which they used and why. The route is authenticated, so
+set `LABKOAT_TOKEN` or the probe reports a 401 and falls back. `--candidate` also takes a URL or a
+saved document.
+
+**A live source reports; only a fixed one gates.** Live content changes between runs, so a failure
+would mean somebody edited an edge, not that the commit is wrong — and the accept files describe
+`edges.js`, so they are not consulted for a live source. That is the intended direction of travel:
+the published document becomes the table, and these checks are what it has to pass before it can.
 
 `edges:parity` is **transitional and deliberately not in `release:check`**. Its baseline is a
 snapshot of the hand-written `edges.js`, so it drifts by design as the schema moves; it is for

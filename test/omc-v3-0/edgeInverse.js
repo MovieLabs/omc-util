@@ -55,7 +55,8 @@ const argValue = (name) => {
 
 const line = (s = '') => console.log(s);
 
-const definitions = await loadCandidate(argValue('--candidate'));
+const source = await loadCandidate(argValue('--candidate'));
+const { definitions } = source;
 const { table, collisions } = buildEdgeTable(definitions);
 
 /** What omcTemplate.inverseEdge() will answer, built the same way the live table builds it. */
@@ -149,12 +150,15 @@ Object.keys(findings).forEach((kind) => {
 
 // ===== GATE ==================================================================
 line('=== EDGE INVERSE GATE ===');
-line(`  source: ${argValue('--candidate') || 'src/templates/v3-0/edges.js'}`);
+line(`  source: ${source.label}`);
+if (source.live) line('  live source — reporting, not gating: its content changes between runs');
 line(`  inverse map: ${Object.keys(inverses).length} entries; `
     + `${seen.size} (entityType, verb) pairs fMam could write a reverse for`);
 
 const acceptPath = argValue('--accept') || defaultAcceptPath;
-const accepted = new Set(existsSync(acceptPath)
+// A live source is not measured against the accept file: that file records where the static
+// edges.js stands, and says nothing about what the tool is serving today.
+const accepted = new Set(!source.live && existsSync(acceptPath)
     ? readFileSync(acceptPath, 'utf8').split(/\r?\n/)
         .map((entry) => entry.trim())
         .filter((entry) => entry && !entry.startsWith('#'))
@@ -184,10 +188,12 @@ if (collisions.length) {
 
 // ===== RESULT ================================================================
 line('');
-line(`${failing} unaccepted finding${failing === 1 ? '' : 's'}.`);
-if (failing) {
+line(`${failing} ${source.live ? 'finding' : 'unaccepted finding'}${failing === 1 ? '' : 's'}.`);
+if (failing && !source.live) {
     console.error('EDGE INVERSE GATE FAILED. Fix the definitions or the schema, or declare the '
         + `finding in ${acceptPath}.`);
     process.exit(1);
 }
-line('EDGE INVERSE GATE PASSED.');
+line(source.live
+    ? 'EDGE INVERSE REPORT complete — a live source is not gated.'
+    : 'EDGE INVERSE GATE PASSED.');

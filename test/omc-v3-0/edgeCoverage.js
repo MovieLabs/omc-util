@@ -130,8 +130,8 @@ function schemaRelationships(schema) {
 // ---- the two sides ----------------------------------------------------------
 
 const declared = schemaRelationships(schemav30);
-const definitions = await loadCandidate(argValue('--candidate'));
-const { table } = buildEdgeTable(definitions);
+const source = await loadCandidate(argValue('--candidate'));
+const { table } = buildEdgeTable(source.definitions);
 
 /**
  * The shared `edges` block: the verbs the schema knows, and the (verb, range) pairs it declares.
@@ -255,14 +255,17 @@ const misplaced = differences['TABLE-ONLY'].filter((key) => {
 
 // ===== GATE ==================================================================
 line('=== EDGE COVERAGE GATE ===');
-line(`  source: ${argValue('--candidate') || 'src/templates/v3-0/edges.js'}`);
+line(`  source: ${source.label}`);
+if (source.live) line('  live source — reporting, not gating: its content changes between runs');
 line(`  intrinsic — schema declares ${declared.length}; table holds ${tableEntries.length}; `
     + `${matched} matched`);
 line(`  edges — schema declares ${schemaVerbs.size} verbs / ${schemaPairs.size} pairs; `
     + `table uses ${usedVerbs.size} verbs / ${usedPairs.size} pairs`);
 
 const acceptPath = argValue('--accept') || defaultAcceptPath;
-const accepted = new Set(existsSync(acceptPath)
+// A live source is not measured against the accept file: that file records where the static
+// edges.js stands, and says nothing about what the tool is serving today.
+const accepted = new Set(!source.live && existsSync(acceptPath)
     ? readFileSync(acceptPath, 'utf8').split(/\r?\n/)
         .map((entry) => entry.trim())
         .filter((entry) => entry && !entry.startsWith('#'))
@@ -300,10 +303,12 @@ if (misplaced.length) {
 
 // ===== RESULT ================================================================
 line('');
-line(`Schema ${declared.length} intrinsic relationships; `
-    + `${failing} unaccepted difference${failing === 1 ? '' : 's'}.`);
-if (failing) {
+line(`Schema ${declared.length} intrinsic relationships; ${failing} `
+    + `${source.live ? 'difference' : 'unaccepted difference'}${failing === 1 ? '' : 's'}.`);
+if (failing && !source.live) {
     console.error(`EDGE COVERAGE GATE FAILED. Fix edges.js, or declare the difference in ${acceptPath}.`);
     process.exit(1);
 }
-line('EDGE COVERAGE GATE PASSED.');
+line(source.live
+    ? 'EDGE COVERAGE REPORT complete — a live source is not gated.'
+    : 'EDGE COVERAGE GATE PASSED.');

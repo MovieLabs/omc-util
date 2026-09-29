@@ -133,7 +133,9 @@ if (process.argv.includes('--baseline')) {
         + `${Object.keys(record.inverseEdges).length} inverses, ${record.collisions.length} collisions`);
 } else {
     const base = JSON.parse(readFileSync(baselinePath, 'utf8'));
-    const cand = recordFor(await loadCandidate(argValue('--candidate')));
+    const candidateSource = await loadCandidate(argValue('--candidate'));
+    console.log(`Candidate: ${candidateSource.label}`);
+    const cand = recordFor(candidateSource.definitions);
     const acceptPath = argValue('--accept');
     const accepted = new Set(acceptPath
         ? readFileSync(acceptPath, 'utf8').split(/\r?\n/).map((line) => line.trim()).filter(Boolean)
