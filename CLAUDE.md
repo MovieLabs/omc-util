@@ -51,11 +51,12 @@ There is no unified test runner. The `test:*` scripts are standalone node script
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
 
-**The `edges:*` checks read the live edge table when one is there.** With no `--candidate` they ask
-`http://localhost:8080/api/vocab/v1/edges/publish?format=json` (override with `OMC_EDGES_URL`) and
-fall back to the static `edges.js`, saying which they used and why. The route is authenticated, so
-set `LABKOAT_TOKEN` or the probe reports a 401 and falls back. `--candidate` also takes a URL or a
-saved document.
+**The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
+API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is
+authenticated), then `test/omc-v3-0/omc-edges.json`, which is the name the Edge Editor's UI gives
+its export and where to drop it. If neither is there they fail rather than substituting anything.
+The export's age is printed with it, and it is gitignored: it is a snapshot of live state, so
+commit one only if you want a fixed reference. `--candidate` takes a URL, a document or a module.
 
 **A live source reports; only a fixed one gates.** Live content changes between runs, so a failure
 would mean somebody edited an edge, not that the commit is wrong — and the accept files describe

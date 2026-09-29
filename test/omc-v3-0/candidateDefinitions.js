@@ -1,34 +1,38 @@
 /**
  * The edge definitions a check runs against, and where they came from.
  *
- * The table is to be driven by what the Edge Editor publishes, so during development the useful
- * answer is the one the API is serving right now — not a file somebody exported days ago. With no
- * `--candidate`, these checks ask a locally running Labkoat-API first and fall back to the static
- * edges.js when nothing answers. Every check prints which it used, because a comparison is
- * worthless if you cannot tell what was on each side of it.
+ * The table is to be driven by what the Edge Editor publishes, so that is what these checks read.
+ * With no arguments they look, in order, for:
+ *
+ *   1. a running API — `OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` for the bearer
+ *   2. `test/omc-v3-0/omc-edges.json`, the file the Edge Editor's UI exports under that name
+ *
+ * and fail if neither is there. Every check prints which it used and, for the export, how old it
+ * is: a comparison is worthless if you cannot tell what was on each side of it.
  *
  * The published document nests its OMC-JSON projection under `json`, beside the `rdf` one — the
  * two projections of the same stored edge — so the definitions are at `json.edgeDefinitions`.
- * The barer forms are accepted too, for a hand-cut file or an older export.
+ * The barer forms are accepted too, for a hand-cut file or an older export, and a document that
+ * holds neither is refused rather than read as an empty edge set.
  *
- * **There is no silent fallback to edges.js.** Substituting the hand-written table when the API is
- * not answering would report a pass for a question nobody asked — the whole point is what the tool
- * is producing now. Asked for live and unable to get it, a check fails and says how to fix it.
- * `--static` asks for the shipped table deliberately, which is the right subject at release time
- * because edges.js is still what ships.
+ * **There is no silent fallback to edges.js.** Substituting the hand-written table would report a
+ * pass for a question nobody asked — the subject here is what the tool produces. `--static` asks
+ * for the shipped table deliberately, which is the right subject at release time because edges.js
+ * is still what ships.
  *
- * **A live source reports, it does not gate.** Its content changes under you, so a failure would
- * mean "somebody edited an edge", not "this commit is wrong". Only a fixed source — `--static`, or
- * a file named with `--candidate` — is matched against an accept file and can fail the run. This is
- * also why nothing here ships: `test/` is outside the `files` allow-list, and the library itself
- * never reaches the network.
+ * **Only edges.js is gated; the tool's output is reported.** The accept files record where the
+ * hand-written table stands, so they mean nothing against a published document, and a document
+ * changes whenever somebody edits an edge — a failure would say that, not that the commit is
+ * wrong. So `--static` and a `.js` module gate; a URL or a published `.json` reports. Nothing here
+ * ships either way: `test/` is outside the `files` allow-list, and the library never reaches the
+ * network.
  *
  * @module test/omc-v3-0/candidateDefinitions
  */
 
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { existsSync, readFileSync, statSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
 import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
@@ -37,10 +41,21 @@ import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js
 export const DEFAULT_EDGES_URL = process.env.OMC_EDGES_URL
     || 'http://localhost:8080/api/vocab/v1/edges/publish?format=json';
 
+/** The name the Edge Editor's UI gives its export, beside these checks. */
+export const DEFAULT_EXPORT_PATH = join(dirname(fileURLToPath(import.meta.url)), 'omc-edges.json');
+
 /** How long to wait for the local API before deciding it is not running. */
 const PROBE_MS = 2000;
 
 const isUrl = (value) => /^https?:\/\//i.test(value);
+
+/** How long ago, in words, so a stale export cannot pass for a current one. */
+const ageOf = ((path) => {
+    const hours = (Date.now() - statSync(path).mtimeMs) / 3600000;
+    if (hours < 1) return `${Math.round(hours * 60)} min old`;
+    if (hours < 48) return `${Math.round(hours)} h old`;
+    return `${Math.round(hours / 24)} days old`;
+});
 
 /**
  * The `edgeDefinitions` of a published document, wherever the document carries them.
@@ -49,6 +64,36 @@ const isUrl = (value) => /^https?:\/\//i.test(value);
  * @returns {Object} The definitions, still holding `rdf` tokens
  */
 export const definitionsOf = (doc) => doc?.json?.edgeDefinitions ?? doc?.edgeDefinitions ?? doc;
+
+/**
+ * The definitions of a published document, refused unless they look like definitions.
+ *
+ * Without this, a document shaped differently from expected is read as a set of predicates named
+ * after its top-level keys — which is exactly what happened when the loader looked for
+ * `edgeDefinitions` at the top level and found `generated`, `namespace`, `json` and `rdf`. A
+ * nonsense comparison that runs is worse than one that refuses.
+ *
+ * @param {Object} doc - A parsed published document
+ * @param {string} where - What to name in the error
+ * @returns {Object} Definitions in the edges.js shape, with `rdf` as functions
+ * @throws {Error} When the document holds nothing shaped like edge definitions
+ */
+function definitionsFrom(doc, where) {
+    const found = definitionsOf(doc);
+    const entries = found && typeof found === 'object' ? Object.entries(found) : [];
+    const looksRight = entries.length
+        && entries.every(([, value]) => value && typeof value === 'object'
+            && (Array.isArray(value.connects) || typeof value.predicate === 'string'));
+    if (!looksRight) {
+        throw new Error([
+            `${where} holds no edge definitions.`,
+            '  Expected them at `json.edgeDefinitions` (the published document), at',
+            '  `edgeDefinitions`, or as the whole document — each value carrying `connects`.',
+            `  Found top-level keys: ${Object.keys(doc || {}).join(', ') || '(none)'}`,
+        ].join('\n'));
+    }
+    return hydrateEdgeDefinitions(found);
+}
 
 /**
  * Fetch the published document from a running API.
@@ -88,9 +133,29 @@ async function fetchPublished(url) {
     const problems = response.headers.get('X-Vocab-Problems');
     const { viewId, edges, rows } = doc?.generated || {};
     return {
-        definitions: hydrateEdgeDefinitions(definitionsOf(doc)),
+        definitions: definitionsFrom(doc, url),
         note: `view ${viewId ?? '?'}, ${edges ?? '?'} edges / ${rows ?? '?'} rows${
             problems ? `, problems: ${problems}` : ''}`,
+    };
+}
+
+/**
+ * A published document read from disk.
+ *
+ * @param {string} path
+ * @param {string} [how] - How it was chosen, for the label
+ * @returns {{definitions: Object, label: string, live: boolean}}
+ */
+function readExport(path, how = '') {
+    const doc = JSON.parse(readFileSync(resolve(path), 'utf8'));
+    const { viewId, edges, rows } = doc?.generated || {};
+    return {
+        definitions: definitionsFrom(doc, path),
+        label: `${path}${how} — exported ${ageOf(path)}`
+            + `${viewId ? `, view ${viewId}, ${edges ?? '?'} edges / ${rows ?? '?'} rows` : ''}`,
+        // A published document is the tool's output, so the accept files do not describe it and
+        // it reports rather than gates — the same reason a live fetch does.
+        live: true,
     };
 }
 
@@ -112,14 +177,7 @@ export async function loadCandidate(source, options = {}) {
         return { definitions, label: `${source} (${note})`, live: true };
     }
 
-    if (source && source.endsWith('.json')) {
-        const doc = JSON.parse(readFileSync(resolve(source), 'utf8'));
-        return {
-            definitions: hydrateEdgeDefinitions(definitionsOf(doc)),
-            label: source,
-            live: false,
-        };
-    }
+    if (source && source.endsWith('.json')) return readExport(source);
 
     if (source) {
         const mod = await import(pathToFileURL(resolve(source)).href);
@@ -130,18 +188,30 @@ export async function loadCandidate(source, options = {}) {
         return { definitions, label: source, live: false };
     }
 
+    let apiFailure;
     try {
         const { definitions, note } = await fetchPublished(DEFAULT_EDGES_URL);
         return { definitions, label: `${DEFAULT_EDGES_URL} (${note})`, live: true };
     } catch (err) {
-        throw new Error([
-            `Could not read the live edge table from ${DEFAULT_EDGES_URL}: ${err.message}`,
-            '  Start Labkoat-API and set LABKOAT_TOKEN, point OMC_EDGES_URL elsewhere, name a',
-            '  saved document with --candidate, or pass --static to check the shipped edges.js.',
-            '  It does not fall back on its own: a pass against the hand-written table would',
-            '  answer a question you did not ask.',
-        ].join('\n'));
+        apiFailure = err.message;
     }
+
+    // The export the Edge Editor's UI writes. Second rather than first: it is a snapshot, and a
+    // running API is always the more current answer. Its age is in the label so a stale one is
+    // never mistaken for what the tool is serving today.
+    if (existsSync(DEFAULT_EXPORT_PATH)) {
+        return readExport(DEFAULT_EXPORT_PATH, ' (no API)');
+    }
+
+    throw new Error([
+        `Could not read the live edge table from ${DEFAULT_EDGES_URL}: ${apiFailure}`,
+        `  …and there is no export at ${DEFAULT_EXPORT_PATH}`,
+        '  Export omc-edges.json from the Edge Editor into test/omc-v3-0/, start Labkoat-API with',
+        '  LABKOAT_TOKEN set, point OMC_EDGES_URL elsewhere, name a document with --candidate,',
+        '  or pass --static to check the shipped edges.js.',
+        '  It does not fall back on its own: a pass against the hand-written table would',
+        '  answer a question you did not ask.',
+    ].join('\n'));
 }
 
 export default { loadCandidate, definitionsOf, DEFAULT_EDGES_URL };

@@ -29,3 +29,6 @@ test/omc-v3-0/derived/
 
 # Generated output for a person to read — never source
 /.scratchpad/
+
+# The Edge Editor export the edges:* checks read — a snapshot of live state, not source
+test/omc-v3-0/omc-edges.json
