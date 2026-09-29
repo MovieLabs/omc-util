@@ -1,21 +1,17 @@
 # Differences edgeCoverage.js should not fail on.
 #
 # One line per difference, copied verbatim from the report. Blank lines and `#` comments are
-# ignored. An entry here is a claim that the difference is known and intended for now — so when
-# you add one, say why. Removing an entry is how a gap gets closed.
+# ignored. An entry is a claim that the difference is known and intended for now — say why.
 #
-# Everything below is the state edges.js was in when this check was written. None of it was
-# introduced by the check; the point of writing it down is that the next difference stands out.
+# This is the state of the STATIC edges.js. It is transitional: the table is to be driven by what
+# the Edge Editor publishes, so this file records where the hand-written set stands, not a target.
+# Run with --candidate <published.json> to ask the same questions of the published document; its
+# answers are different and are not recorded here.
 
-# --- MISSING: the schema declares the relationship, edges.js has no predicate for it ---------
+# --- MISSING: declared by the schema, nowhere in the definitions -----------------------------
 #
-# The Asset and AssetStructure versionInfo families (RevisionOf, DerivationOf, RepresentationOf,
-# VariantOf and their forward forms) are a whole relationship group edges.js has never carried.
-# They are real v3.0 relationships, so this is work outstanding, not a decision.
-#
-# Carrier, the *StructureProperties.Member properties and ParticipantStructure's Location are
-# the same story on a smaller scale. Several also appear under TABLE-ONLY below, at the wrong
-# path — see the report those lines print.
+# The Asset and AssetStructure versionInfo families are the bulk of it — a whole relationship group
+# edges.js never carried. The published document does carry them.
 MISSING Asset versionInfo.RevisionOf -> [Asset] max 1
 MISSING Asset versionInfo.DerivationOf -> [Asset] max 1
 MISSING Asset versionInfo.RepresentationOf -> [Asset] max 1
@@ -31,32 +27,31 @@ MISSING AssetStructure versionInfo.RepresentationOf -> [AssetStructure] max 1
 MISSING AssetStructure versionInfo.Revision -> [AssetStructure]
 MISSING AssetStructure versionInfo.Derivation -> [AssetStructure]
 MISSING AssetStructure versionInfo.Representation -> [AssetStructure]
-MISSING AssetStructure assetStructureProperties.assetGroup.Member -> [Asset]
 MISSING AssetStructure Carrier -> [Infrastructure]
-MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
-MISSING CreativeWork creativeWorkProperties.Series -> [CreativeWork]
-MISSING CreativeWork creativeWorkProperties.Episode -> [CreativeWork]
-MISSING CreativeWork creativeWorkProperties.Season -> [CreativeWork]
-MISSING ParticipantStructure participantStructureProperties.Member -> [Participant]
 MISSING ParticipantStructure participantStructureProperties.Location -> [Location]
-MISSING TaskStructure taskStructureProperties.Member -> [Task]
 
-# --- TABLE-ONLY: edges.js writes a path the schema does not declare -------------------------
+# --- MISPLACED: the relationship is there, at a path the schema does not declare -------------
 #
-# Collection.includes.* and Composition/Collection software.ConfigurationFile have no counterpart
-# in the v3.0 schema at all: either the schema is missing them or edges.js is modelling something
-# that no longer exists. Composition StartHere is declared as a union in the schema rather than as
-# a reference list, so this walk does not see it — harmless, but it stays listed rather than
-# special-cased.
+# The worst class, and not cosmetic: v3.0 sets unevaluatedProperties false, so an entity carrying
+# one of these fails omcValidate. edgeCreate() writes CreativeWork.Series where the schema says
+# creativeWorkProperties.Series. Re-pointing the path moves where every consumer reads, so it is
+# its own change. The published document inherits six of these from the seed.
+MISPLACED AssetStructure assetStructureProperties.assetGroup.Member -> the table has it at "Member"
+MISPLACED InfrastructureStructure infrastructureStructureProperties.Member -> the table has it at "Member"
+MISPLACED CreativeWork creativeWorkProperties.Series -> the table has it at "Series"
+MISPLACED CreativeWork creativeWorkProperties.Episode -> the table has it at "Episode"
+MISPLACED CreativeWork creativeWorkProperties.Season -> the table has it at "Season"
+MISPLACED ParticipantStructure participantStructureProperties.Member -> the table has it at "Member"
+MISPLACED TaskStructure taskStructureProperties.Member -> the table has it at "Member"
+
+# --- TABLE-ONLY: a path the schema does not declare at all -----------------------------------
 #
-# The seven the report calls out separately are different and worse: the same relationship at the
-# wrong path, which makes any entity carrying one fail validation.
-TABLE-ONLY CreativeWork Series
-TABLE-ONLY CreativeWork Season
-TABLE-ONLY CreativeWork Episode
+# Collection.includes.* and the two software.ConfigurationFile entries have no counterpart in the
+# schema: either the schema is missing them or the definitions model something that no longer
+# exists. Composition StartHere is declared as a union rather than a reference list, so this walk
+# cannot see it.
 TABLE-ONLY Composition software.ConfigurationFile
 TABLE-ONLY Composition StartHere
-TABLE-ONLY AssetStructure Member
 TABLE-ONLY Collection includes.Asset
 TABLE-ONLY Collection includes.AssetStructure
 TABLE-ONLY Collection includes.Character
@@ -78,34 +73,23 @@ TABLE-ONLY Collection includes.ProductionScene
 TABLE-ONLY Collection includes.Slate
 TABLE-ONLY Collection includes.SpecialAction
 TABLE-ONLY Collection software.ConfigurationFile
-TABLE-ONLY InfrastructureStructure Member
-TABLE-ONLY TaskStructure Member
-TABLE-ONLY ParticipantStructure Member
 
-# --- TARGETS: the predicate exists but its allowed types differ from the schema's -------------
+# --- TARGETS: the allowed types differ from the schema's -------------------------------------
 #
-# Each is one type in or out, and which side is right is a modelling question rather than a typo:
-# whether a Realization can realize a NarrativeAudio, whether a Task can realize one, and whether
-# a Provenance Origin may be an AssetStructure.
+# One type in or out each, and which side is right is a modelling question.
 TARGETS Realization realizationProperties.RealizationOf table [Character,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 TARGETS Realization realizationProperties.RealizationBy table [Asset,Composition,Participant] schema [Asset,Composition,Participant,Task]
 TARGETS Provenance Origin table [Asset,AssetStructure] schema [Asset]
 
-# --- VERB-UNDECLARED: the definitions use a verb the schema never declares -------------------
+# --- VERB-UNDECLARED / PAIR-UNDECLARED: the schema has no record of the verb, or of that spot -
 #
-# hasCxt/cxtFor carry the Context relationship and contributesTo/contributor the credit one. The
-# shared edges block has `additionalProperties: true`, so all four validate and no consumer
-# notices; the fix is to declare them in the schema. Declaring the Context pair also closes 23 of
-# the INVERSE-UNDECLARED findings in edgeInverse.accept.txt.
+# additionalProperties is true at both levels of the shared edges block, so these validate and
+# nothing notices. The fix is a line in the schema. Declaring hasCxt/cxtFor also closes 23 of the
+# INVERSE-UNDECLARED findings in edgeInverse.accept.txt.
 VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor
 VERB-UNDECLARED cxtFor
 VERB-UNDECLARED hasCxt
-
-# --- PAIR-UNDECLARED: a declared verb used at a range the schema does not list ---------------
-#
-# Someone used an existing verb in a new spot. Each is one line in the schema's shared edges
-# block; until it is added the pairing is undeclared rather than wrong.
 PAIR-UNDECLARED has.Realization (used by Asset, Composition, Participant)
 PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
 PAIR-UNDECLARED memberOf.InfrastructureStructure (used by Infrastructure)

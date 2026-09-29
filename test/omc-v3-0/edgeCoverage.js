@@ -154,6 +154,8 @@ const declaredKeys = new Set(declared.map(({ domain, path }) => `${domain} ${pat
 
 const differences = {
     'MISSING': [],
+    'MISPLACED': [],
+    'OTHER-BUCKET': [],
     'TABLE-ONLY': [],
     'TARGETS': [],
     'MAXITEMS': [],
@@ -162,13 +164,37 @@ const differences = {
 };
 let matched = 0;
 
+/** Paths already reported as MISPLACED, so TABLE-ONLY does not report the same fact again. */
+const accountedFor = new Set();
+
 declared.forEach(({
     domain, path, targets, maxItems,
 }) => {
     const entry = intrinsicOf(domain)[path];
     if (!entry) {
-        differences.MISSING.push(`${domain} ${path} -> [${targets.join(',')}]`
-            + `${maxItems ? ` max ${maxItems}` : ''}`);
+        // Not at the declared path is three different situations, and saying only "missing"
+        // hid two of them. Look for the relationship elsewhere before calling it absent.
+        const leaf = path.split('.').pop();
+        const elsewhere = Object.keys(intrinsicOf(domain))
+            .filter((other) => other.split('.').pop() === leaf);
+        const inEdges = Object.values(table[domain]?.edges || {})
+            .filter((edge) => targets.some((target) => (edge.allowed || []).includes(target)));
+
+        if (elsewhere.length) {
+            elsewhere.forEach((other) => accountedFor.add(`${domain} ${other}`));
+            differences.MISPLACED.push(`${domain} ${path} -> the table has it at `
+                + `${elsewhere.map((other) => `"${other}"`).join(', ')}`);
+        } else if (inEdges.length) {
+            // Matched on the (domain, target) pair, which does NOT prove it is the same
+            // relationship — memberOf also runs Asset -> AssetStructure, and it means something
+            // else. Report what was found and let a person judge.
+            differences['OTHER-BUCKET'].push(`${domain} ${path} -> [${targets.join(',')}] not `
+                + `intrinsic; the edges bucket has ${inEdges.map((e) => e.path).sort().join(', ')} `
+                + '(same types — may or may not be the same relationship)');
+        } else {
+            differences.MISSING.push(`${domain} ${path} -> [${targets.join(',')}]`
+                + `${maxItems ? ` max ${maxItems}` : ''}`);
+        }
         return;
     }
     matched += 1;
@@ -183,7 +209,7 @@ declared.forEach(({
     }
 });
 
-tableEntries.filter((key) => !declaredKeys.has(key))
+tableEntries.filter((key) => !declaredKeys.has(key) && !accountedFor.has(key))
     .forEach((key) => differences['TABLE-ONLY'].push(key));
 
 // ---- the edges partition: which verbs, and at which ranges ------------------

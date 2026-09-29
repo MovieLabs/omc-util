@@ -41,9 +41,9 @@ npm run test:mergekeys    # mergeKey / shape guard
 npm run test:mapping      # omcMapping engine
 npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkml + mergeKeys)
 npm run test:registry     # the four places an entity type must agree
-npm run edges:parity      # the built edge table against its baseline
 npm run edges:coverage    # the edge definitions against what the schema declares
 npm run edges:inverse     # every edge's inverse resolves, and fMam can write it
+npm run edges:parity      # TRANSITIONAL — the built table against a snapshot of edges.js
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
 
@@ -53,7 +53,14 @@ workflow.
 
 The three `edges:*` checks all take `--candidate <file>`, so they can be run against the Edge
 Editor's published JSON instead of `edges.js`. That is the intended direction of travel: the
-published document becomes the table, and these are what have to pass before it can.
+published document becomes the table, and the first two are what have to pass before it can.
+
+`edges:parity` is **transitional and deliberately not in `release:check`**. Its baseline is a
+snapshot of the hand-written `edges.js`, so it drifts by design as the schema moves; it is for
+seeing what a change moved, not for holding a line. Delete it once the published document is the
+table. The document is fetched with `GET /api/vocab/v1/edges/publish?format=json` (authenticated),
+or generated with no service in the path by `Labkoat-API/src/vocabulary/edges/generate.js`; nothing
+refreshes it on its own, so a check is only ever as current as the file it is given.
 
 ---
 

@@ -15,6 +15,12 @@
  *       that are expected and do not fail the check.
  *
  * Exits 1 when any difference is not accepted.
+ *
+ * TRANSITIONAL. The baseline is a snapshot of the hand-written edges.js, and the table is to be
+ * driven by what the Edge Editor publishes instead. While the schema keeps moving, this will drift
+ * by design: it is useful for spotting what a change moved, and for diffing a published document
+ * against where the hand-written set stood, but it is not a standing gate. It is deliberately not
+ * in release:check for that reason. Delete it once the published document is the table.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
