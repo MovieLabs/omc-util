@@ -74,35 +74,73 @@ const isReferenceBranch = (node) => isObject(node)
     && node.$ref.endsWith('core/properties/reference');
 
 /**
+ * The reference-bearing branch list of a relationship property, or null.
+ *
+ * Two storage forms, and the reference branch sits in a different place in each. An array of
+ * references keeps it under `items.anyOf` (`versionInfo.Variant`); a single reference keeps it in
+ * the property's own `anyOf` (`Composition.StartHere`, an object rather than a list).
+ *
+ * @param {Object} node - A resolved property node
+ * @returns {Array<Object>|null}
+ */
+const relationshipBranches = ((node) => {
+    const asArray = node.items?.anyOf;
+    if (Array.isArray(asArray) && asArray.some(isReferenceBranch)) return asArray;
+    if (Array.isArray(node.anyOf) && node.anyOf.some(isReferenceBranch)) return node.anyOf;
+    return null;
+});
+
+/** The alternative forms a property may take: `oneOf` (exactly one) or `anyOf` (at least one). */
+const branchesOf = ((node) => (Array.isArray(node.oneOf) && node.oneOf)
+    || (Array.isArray(node.anyOf) && node.anyOf)
+    || null);
+
+/** The schemas an array's `items` holds — one, or a tuple of them. */
+const itemSchemasOf = ((node) => {
+    if (Array.isArray(node.items)) return node.items;
+    return isObject(node.items) ? [node.items] : [];
+});
+
+/**
  * Every intrinsic relationship the schema declares, as `{ domain, path, targets, maxItems }`.
  *
  * A property is a relationship when its key is capitalized — the library's own convention, see
- * omcTemplate.isRelationshipKey — and its `items.anyOf` offers a reference branch. Reading
- * `items.anyOf` is the one thing the existing walkers decline to do (schemaDerive walks data
- * shapes, and following an edge's target list would recurse into other entities without end), so
- * it is read here, one level, for the target types only.
+ * omcTemplate.isRelationshipKey — and it offers a reference branch. Reading those branches is the
+ * one thing the existing walkers decline to do (schemaDerive walks data shapes, and following an
+ * edge's target list would recurse into other entities without end), so it is read here, one
+ * level, for the target types only.
+ *
+ * Three shapes stand between a property and the relationships under it, and all three are real in
+ * v3.0:
+ *
+ *   - `oneOf` / `anyOf` at the property. `Collection.includes` offers a collectionObject, a single
+ *     rootEntity, or an array of them — three encodings of the same members, and only the first
+ *     has a slot per entityType. **Branches are tried in order and the first that yields anything
+ *     wins**: `oneOf` means exactly one form is in play, so reading the rest would invent paths
+ *     that cannot coexist with the ones already found.
+ *   - `items` as a tuple. `Composition.software` is an array whose `items` is a one-entry list of
+ *     object schemas, and `ConfigurationFile` lives inside it.
+ *   - a `$ref` standing in for any of the above, resolved at each step.
  *
  * @param {Object} schema - The JSON Schema document
  * @returns {Array<{domain: string, path: string, targets: string[], maxItems: number|null}>}
  */
 function schemaRelationships(schema) {
     const found = [];
+    const deref = (node) => (isObject(node) && node.$ref ? resolveRef(schema, node.$ref) : node);
 
-    const walk = (node, prefix, domain, depth) => {
-        const { properties } = mergeAllOf(schema, node) || {};
-        if (!isObject(properties)) return;
+    /**
+     * Record what this node contributes at `path`, and say how much — the count is what lets a
+     * caller stop after the first productive branch.
+     *
+     * @returns {number}
+     */
+    const consider = (node, path, key, domain, depth, seen) => {
+        if (!isObject(node) || seen.has(node)) return 0;
 
-        Object.entries(properties).forEach(([key, declared]) => {
-            if (!prefix && SKIP_KEYS.has(key)) return;
-            const resolved = isObject(declared) && declared.$ref
-                ? resolveRef(schema, declared.$ref)
-                : declared;
-            if (!isObject(resolved)) return;
-
-            const path = prefix ? `${prefix}.${key}` : key;
-            const branches = resolved.items?.anyOf;
-
-            if (isCapitalized(key) && Array.isArray(branches) && branches.some(isReferenceBranch)) {
+        if (isCapitalized(key)) {
+            const branches = relationshipBranches(node);
+            if (branches) {
                 found.push({
                     domain,
                     path,
@@ -110,20 +148,48 @@ function schemaRelationships(schema) {
                         .map((branch) => refTail(branch.$ref))
                         .filter(Boolean)
                         .sort(),
-                    maxItems: resolved.maxItems ?? null,
+                    maxItems: node.maxItems ?? null,
                 });
-                return;
+                return 1;
             }
-            // A lowercase key may be a data container holding relationships (versionInfo,
-            // creativeWorkProperties, assetStructureProperties.assetGroup); descend into it.
-            if (!isCapitalized(key) && depth < MAX_DEPTH
-                && (resolved.type === 'object' || isObject(resolved.properties))) {
-                walk(resolved, path, domain, depth + 1);
-            }
-        });
+        }
+        if (depth >= MAX_DEPTH) return 0;
+
+        const nested = new Set(seen).add(node);
+        // A data container: versionInfo, creativeWorkProperties, assetStructureProperties.assetGroup.
+        if (isObject(node.properties)) return walk(node, path, domain, depth + 1, nested);
+
+        const alternatives = branchesOf(node);
+        if (alternatives) {
+            let contributed = 0;
+            alternatives.some((branch) => {
+                contributed = consider(deref(branch), path, key, domain, depth, nested);
+                return contributed > 0;
+            });
+            return contributed;
+        }
+
+        return itemSchemasOf(node)
+            .reduce((total, item) => total + consider(deref(item), path, key, domain, depth, nested), 0);
     };
 
-    listEntities(schema).forEach((def, entityType) => walk(def, '', entityType, 0));
+    /**
+     * Walk one object's properties.
+     *
+     * @returns {number}
+     */
+    function walk(node, prefix, domain, depth, seen) {
+        const { properties } = mergeAllOf(schema, node) || {};
+        if (!isObject(properties)) return 0;
+
+        return Object.entries(properties).reduce((total, [key, declared]) => {
+            if (!prefix && SKIP_KEYS.has(key)) return total;
+            const path = prefix ? `${prefix}.${key}` : key;
+            return total + consider(deref(declared), path, key, domain, depth, seen);
+        }, 0);
+    }
+
+    listEntities(schema).forEach((def, entityType) => walk(def, '', entityType, 0, new Set()));
     return found;
 }
 

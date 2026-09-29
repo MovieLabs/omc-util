@@ -1,17 +1,23 @@
-# Differences edgeCoverage.js should not fail on.
+# Differences edgeCoverage.js should not fail on, for the STATIC edges.js.
 #
 # One line per difference, copied verbatim from the report. Blank lines and `#` comments are
-# ignored. An entry is a claim that the difference is known and intended for now — say why.
+# ignored. An entry is a claim that the difference is known and intended for now.
 #
-# This is the state of the STATIC edges.js. It is transitional: the table is to be driven by what
-# the Edge Editor publishes, so this file records where the hand-written set stands, not a target.
-# Run with --candidate <published.json> to ask the same questions of the published document; its
-# answers are different and are not recorded here.
+# Regenerated after the walk learned to follow `oneOf`/`anyOf` branches and tuple `items`, which
+# raised the schema-side count from 42 relationships to 77 — Collection.includes.*,
+# software.ConfigurationFile and Composition.StartHere were invisible before, not absent. It also
+# follows the schema update of 2026-09-29, which moved Realization's RealizationBy/RealizationOf
+# to the top level, replaced Infrastructure.InfrastructureStructure with Infrastructure.Member and
+# dropped AssetStructure.Carrier.
+#
+# This file describes the hand-written table only. The tool's output is reported, never gated, so
+# none of this applies to it — run without --static to see where that stands.
 
-# --- MISSING: declared by the schema, nowhere in the definitions -----------------------------
+# --- MISSING: declared by the schema, nowhere in edges.js ------------------------------------
 #
-# The Asset and AssetStructure versionInfo families are the bulk of it — a whole relationship group
-# edges.js never carried. The published document does carry them.
+# The versionInfo families and the Collection.includes members are the bulk. The published
+# document already carries the version families, so these close when the table comes from the
+# tool rather than from here.
 MISSING Asset versionInfo.RevisionOf -> [Asset] max 1
 MISSING Asset versionInfo.DerivationOf -> [Asset] max 1
 MISSING Asset versionInfo.RepresentationOf -> [Asset] max 1
@@ -27,65 +33,51 @@ MISSING AssetStructure versionInfo.RepresentationOf -> [AssetStructure] max 1
 MISSING AssetStructure versionInfo.Revision -> [AssetStructure]
 MISSING AssetStructure versionInfo.Derivation -> [AssetStructure]
 MISSING AssetStructure versionInfo.Representation -> [AssetStructure]
-MISSING AssetStructure Carrier -> [Infrastructure]
+MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
+MISSING Infrastructure Member -> [Infrastructure]
+MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure participantStructureProperties.Location -> [Location]
+MISSING Collection includes.InfrastructureStructure -> [InfrastructureStructure]
+MISSING Collection includes.Realization -> [Realization]
+MISSING Collection includes.CaptureEvent -> [CaptureEvent]
+MISSING Collection includes.CapturePoint -> [CapturePoint]
+MISSING Collection includes.CaptureDevice -> [CaptureDevice]
+MISSING Collection includes.ParticipantStructure -> [ParticipantStructure]
+MISSING Collection includes.Role -> [Role]
+MISSING Collection includes.Task -> [Task]
+MISSING Collection includes.TaskStructure -> [TaskStructure]
 
 # --- MISPLACED: the relationship is there, at a path the schema does not declare -------------
 #
-# The worst class, and not cosmetic: v3.0 sets unevaluatedProperties false, so an entity carrying
-# one of these fails omcValidate. edgeCreate() writes CreativeWork.Series where the schema says
-# creativeWorkProperties.Series. Re-pointing the path moves where every consumer reads, so it is
-# its own change. The published document inherits six of these from the seed.
+# The class that fails validation: v3.0 sets unevaluatedProperties false, so an entity carrying
+# one of these is rejected whole. Series/Season/Episode and the Member properties predate today;
+# the two Realization entries are new, from the schema flattening them out of
+# realizationProperties, and the tool has the same lag.
 MISPLACED AssetStructure assetStructureProperties.assetGroup.Member -> the table has it at "Member"
 MISPLACED InfrastructureStructure infrastructureStructureProperties.Member -> the table has it at "Member"
 MISPLACED CreativeWork creativeWorkProperties.Series -> the table has it at "Series"
 MISPLACED CreativeWork creativeWorkProperties.Episode -> the table has it at "Episode"
 MISPLACED CreativeWork creativeWorkProperties.Season -> the table has it at "Season"
+MISPLACED Realization RealizationBy -> the table has it at "realizationProperties.RealizationBy"
+MISPLACED Realization RealizationOf -> the table has it at "realizationProperties.RealizationOf"
 MISPLACED ParticipantStructure participantStructureProperties.Member -> the table has it at "Member"
 MISPLACED TaskStructure taskStructureProperties.Member -> the table has it at "Member"
 
-# --- TABLE-ONLY: a path the schema does not declare at all -----------------------------------
+# --- OTHER-BUCKET / TABLE-ONLY ---------------------------------------------------------------
 #
-# Collection.includes.* and the two software.ConfigurationFile entries have no counterpart in the
-# schema: either the schema is missing them or the definitions model something that no longer
-# exists. Composition StartHere is declared as a union rather than a reference list, so this walk
-# cannot see it.
-TABLE-ONLY Composition software.ConfigurationFile
-TABLE-ONLY Composition StartHere
-TABLE-ONLY Collection includes.Asset
-TABLE-ONLY Collection includes.AssetStructure
-TABLE-ONLY Collection includes.Character
-TABLE-ONLY Collection includes.Collection
-TABLE-ONLY Collection includes.Composition
-TABLE-ONLY Collection includes.CreativeWork
-TABLE-ONLY Collection includes.Effect
-TABLE-ONLY Collection includes.Infrastructure
-TABLE-ONLY Collection includes.Location
-TABLE-ONLY Collection includes.NarrativeAudio
-TABLE-ONLY Collection includes.NarrativeLocation
-TABLE-ONLY Collection includes.NarrativeObject
-TABLE-ONLY Collection includes.NarrativeScene
-TABLE-ONLY Collection includes.NarrativeStyling
-TABLE-ONLY Collection includes.NarrativeWardrobe
-TABLE-ONLY Collection includes.Participant
-TABLE-ONLY Collection includes.ProductionLocation
-TABLE-ONLY Collection includes.ProductionScene
-TABLE-ONLY Collection includes.Slate
-TABLE-ONLY Collection includes.SpecialAction
-TABLE-ONLY Collection software.ConfigurationFile
+# Collection.includes.Context matches on types with edges.hasCxt.Context, which is a different
+# relationship — a Context attached to a Collection is not a member of it. InfrastructureStructure
+# is table-only because the schema replaced that property with Infrastructure.Member today.
+OTHER-BUCKET Collection includes.Context -> [Context] not intrinsic; the edges bucket has edges.hasCxt.Context (same types — may or may not be the same relationship)
+TABLE-ONLY Infrastructure InfrastructureStructure
 
-# --- TARGETS: the allowed types differ from the schema's -------------------------------------
-#
-# One type in or out each, and which side is right is a modelling question.
-TARGETS Realization realizationProperties.RealizationOf table [Character,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
-TARGETS Realization realizationProperties.RealizationBy table [Asset,Composition,Participant] schema [Asset,Composition,Participant,Task]
+# --- TARGETS ---------------------------------------------------------------------------------
 TARGETS Provenance Origin table [Asset,AssetStructure] schema [Asset]
 
 # --- VERB-UNDECLARED / PAIR-UNDECLARED: the schema has no record of the verb, or of that spot -
 #
 # additionalProperties is true at both levels of the shared edges block, so these validate and
-# nothing notices. The fix is a line in the schema. Declaring hasCxt/cxtFor also closes 23 of the
-# INVERSE-UNDECLARED findings in edgeInverse.accept.txt.
+# nothing notices. The fix is a line in the schema.
 VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor
 VERB-UNDECLARED cxtFor
