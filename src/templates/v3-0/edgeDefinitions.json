@@ -1,0 +1,3410 @@
+{
+  "generated": {
+    "format": "omc-edges",
+    "version": 1,
+    "viewId": "view:entity-structure",
+    "edges": 120,
+    "rows": 159,
+    "verbs": 42,
+    "properties": 119
+  },
+  "namespace": {
+    "prefix": "omc",
+    "base": "https://movielabs.com/omc/rdf/schema/v3.0#"
+  },
+  "json": {
+    "edgeDefinitions": {
+      "has": {
+        "predicate": "has",
+        "cardinality": "array",
+        "inverse": "for",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "Asset",
+              "NarrativeScene"
+            ],
+            "rdfMap": [
+              "omc:hasNarrativeScene (NarrativeScene)"
+            ]
+          },
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Participant",
+              "Slate"
+            ],
+            "rdfMap": [
+              "~omc:isSlateFor (Slate)"
+            ]
+          },
+          {
+            "domain": [
+              "NarrativeScene"
+            ],
+            "range": [
+              "Asset",
+              "ProductionScene"
+            ],
+            "rdfMap": [
+              "omc:hasStoryboard (Asset)",
+              "~omc:hasNarrativeScene (ProductionScene)"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "Slate"
+            ],
+            "rdfMap": [
+              "omc:hasSlate"
+            ]
+          },
+          {
+            "domain": [
+              "Slate"
+            ],
+            "range": [
+              "Infrastructure",
+              "Participant"
+            ],
+            "rdfMap": [
+              "omc:hasCameraUnit (Participant)",
+              "omc:hasDirector (Participant)"
+            ]
+          },
+          {
+            "domain": [
+              "Infrastructure"
+            ],
+            "range": [
+              "SpecialAction"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "for": {
+        "predicate": "for",
+        "cardinality": "array",
+        "inverse": "has",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "NarrativeScene"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": [
+              "omc:isFromWork"
+            ]
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "inverse": null,
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Slate"
+            ],
+            "range": [
+              "Asset",
+              "ProductionScene"
+            ],
+            "rdfMap": [
+              "omc:isSlateFor (ProductionScene)"
+            ]
+          },
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "NarrativeScene"
+            ],
+            "rdfMap": [
+              "omc:isStoryboardFor"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "NarrativeScene"
+            ],
+            "rdfMap": [
+              "omc:hasNarrativeScene"
+            ]
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "inverse": "ProductionCompany",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Slate"
+            ],
+            "inverse": "Director",
+            "rdfMap": [
+              "omc:isDirectorFor"
+            ]
+          },
+          {
+            "domain": [
+              "Infrastructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Location"
+            ],
+            "range": [
+              "ParticipantStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "ProductionCompany": {
+        "predicate": "ProductionCompany",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "for",
+        "rdf": "const:omc:hasProductionCompany",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "Director": {
+        "predicate": "Director",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "for",
+        "rdf": "const:omc:hasDirector",
+        "connects": [
+          {
+            "domain": [
+              "Slate"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "rdfMap": [
+              "omc:hasDirector"
+            ]
+          }
+        ]
+      },
+      "needs": {
+        "predicate": "needs",
+        "cardinality": "array",
+        "inverse": "neededBy",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Character"
+            ],
+            "range": [
+              "Effect",
+              "NarrativeAudio",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe",
+              "SpecialAction"
+            ],
+            "rdfMap": [
+              "omc:usesWardrobe (NarrativeWardrobe)"
+            ]
+          },
+          {
+            "domain": [
+              "NarrativeObject"
+            ],
+            "range": [
+              "NarrativeAudio"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Effect"
+            ],
+            "range": [
+              "NarrativeAudio",
+              "NarrativeStyling"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "neededBy": {
+        "predicate": "neededBy",
+        "cardinality": "array",
+        "inverse": "needs",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Effect",
+              "NarrativeAudio",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe",
+              "SpecialAction"
+            ],
+            "range": [
+              "Character"
+            ],
+            "rdfMap": [
+              "omc:isWardrobeFor (NarrativeWardrobe)",
+              "omc:interactsWithCharacter (NarrativeObject)"
+            ]
+          },
+          {
+            "domain": [
+              "NarrativeAudio"
+            ],
+            "range": [
+              "NarrativeObject",
+              "Effect"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "NarrativeStyling"
+            ],
+            "range": [
+              "Effect"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "features": {
+        "predicate": "features",
+        "cardinality": "array",
+        "inverse": "featuresIn",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "NarrativeScene"
+            ],
+            "range": [
+              "Character",
+              "Effect",
+              "NarrativeAudio",
+              "NarrativeLocation",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe",
+              "SpecialAction"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "featuresIn": {
+        "predicate": "featuresIn",
+        "cardinality": "array",
+        "inverse": "features",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Character",
+              "Effect",
+              "NarrativeAudio",
+              "NarrativeLocation",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe",
+              "SpecialAction"
+            ],
+            "range": [
+              "NarrativeScene"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "uses": {
+        "predicate": "uses",
+        "cardinality": "array",
+        "inverse": "usedIn",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "Asset",
+              "ProductionLocation"
+            ],
+            "rdfMap": [
+              "omc:representedBy (Asset)"
+            ]
+          }
+        ]
+      },
+      "usedIn": {
+        "predicate": "usedIn",
+        "cardinality": "array",
+        "inverse": "uses",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "ProductionScene",
+              "ProductionLocation"
+            ],
+            "rdfMap": [
+              "~omc:representedBy (ProductionScene; i.e. omc:represents)"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionLocation"
+            ],
+            "range": [
+              "ProductionScene"
+            ],
+            "rdfMap": [
+              "omc:hasProductionScene"
+            ]
+          },
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "ProductionScene"
+            ],
+            "rdfMap": [
+              "omc:hasProductionScene",
+              "omc:isUsedBy"
+            ]
+          },
+          {
+            "domain": [
+              "Effect",
+              "SpecialAction"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "inverse": "realizationOf",
+            "rdfMap": []
+          }
+        ]
+      },
+      "contributesTo": {
+        "predicate": "contributesTo",
+        "cardinality": "array",
+        "inverse": "contributor",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "contributor": {
+        "predicate": "contributor",
+        "cardinality": "array",
+        "inverse": "contributesTo",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "informs": {
+        "predicate": "informs",
+        "cardinality": "array",
+        "inverse": "informedBy",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Task"
+            ],
+            "range": [
+              "Task"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "informedBy": {
+        "predicate": "informedBy",
+        "cardinality": "array",
+        "inverse": "informs",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Task"
+            ],
+            "range": [
+              "Task"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "related": {
+        "predicate": "related",
+        "cardinality": "array",
+        "inverse": "related",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "ProductionScene"
+            ],
+            "rdfMap": [
+              "omc:hasRelatedScene"
+            ]
+          }
+        ]
+      },
+      "productOf": {
+        "predicate": "productOf",
+        "cardinality": "array",
+        "inverse": "Product",
+        "rdf": "const:omc-legacy:isProducedBy.Composition",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Composition"
+            ],
+            "rdfMap": [
+              "omc:isProducedBy.Composition"
+            ]
+          }
+        ]
+      },
+      "Product": {
+        "predicate": "Product",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "productOf",
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "Composition"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": [
+              "omc:produces.Asset"
+            ]
+          }
+        ]
+      },
+      "memberOf": {
+        "predicate": "memberOf",
+        "cardinality": "array",
+        "inverse": "Member",
+        "rdf": "const:omc:memberOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": [
+              "omc:isAssetComponentOf (range AssetGroup)"
+            ]
+          },
+          {
+            "domain": [
+              "Infrastructure"
+            ],
+            "range": [
+              "Infrastructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "ParticipantStructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Task"
+            ],
+            "range": [
+              "TaskStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "Member": {
+        "predicate": "Member",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "memberOf",
+        "rdf": "const:omc:member",
+        "connects": [
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "path": "assetStructureProperties.assetGroup.Member",
+            "rdfMap": [
+              "omc:hasAssetComponent (domain AssetGroup)"
+            ]
+          },
+          {
+            "domain": [
+              "Infrastructure"
+            ],
+            "range": [
+              "Infrastructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "ParticipantStructure"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "path": "participantStructureProperties.participantGroup.Member",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "TaskStructure"
+            ],
+            "range": [
+              "Task"
+            ],
+            "path": "taskStructureProperties.taskGroup.Member",
+            "rdfMap": []
+          }
+        ]
+      },
+      "RealizationOf": {
+        "predicate": "RealizationOf",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "has",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "NarrativeLocation",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "realizedBy": {
+        "predicate": "realizedBy",
+        "cardinality": "array",
+        "inverse": "RealizationOf",
+        "rdf": "tentative",
+        "connects": [
+          {
+            "domain": [
+              "NarrativeLocation",
+              "NarrativeObject",
+              "NarrativeStyling",
+              "NarrativeWardrobe"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Task",
+              "Participant"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "inverse": "usedBy",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "Composition"
+            ],
+            "inverse": "usedBy",
+            "rdfMap": []
+          }
+        ]
+      },
+      "includes": {
+        "predicate": "includes",
+        "placement": "property",
+        "pathTemplate": "includes.{range}",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "Collection"
+            ],
+            "range": [
+              "Asset",
+              "AssetStructure",
+              "Character",
+              "Collection",
+              "Composition",
+              "CreativeWork",
+              "Effect",
+              "Infrastructure",
+              "Location",
+              "NarrativeAudio",
+              "NarrativeLocation",
+              "NarrativeObject",
+              "NarrativeScene",
+              "NarrativeStyling",
+              "NarrativeWardrobe",
+              "Participant",
+              "ProductionLocation",
+              "ProductionScene",
+              "Slate",
+              "SpecialAction",
+              "Context",
+              "CapturePoint",
+              "CaptureEvent",
+              "CaptureDevice",
+              "Realization",
+              "ParticipantStructure",
+              "Role",
+              "Task",
+              "TaskStructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Composition"
+            ],
+            "range": [
+              "Asset",
+              "AssetStructure",
+              "Composition"
+            ],
+            "rdfMap": [
+              "omc:includesAsset (Asset)",
+              "omc:includesComposition (Composition)"
+            ]
+          }
+        ]
+      },
+      "ConfigurationFile": {
+        "predicate": "ConfigurationFile",
+        "placement": "property",
+        "path": "software.ConfigurationFile",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "const:omc:hasConfigurationFile",
+        "connects": [
+          {
+            "domain": [
+              "Collection",
+              "Composition"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": [
+              "omc:hasConfigurationFile (RDF domain Software)"
+            ]
+          }
+        ]
+      },
+      "StartHere": {
+        "predicate": "StartHere",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "const:omc:startHere",
+        "connects": [
+          {
+            "domain": [
+              "Composition"
+            ],
+            "range": [
+              "Asset",
+              "AssetStructure"
+            ],
+            "rdfMap": [
+              "omc:startHere"
+            ]
+          }
+        ]
+      },
+      "CreatedBy": {
+        "predicate": "CreatedBy",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "const:omc:hasAuthor",
+        "connects": [
+          {
+            "domain": [
+              "Provenance"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "rdfMap": [
+              "omc:isCreatedBy",
+              "omc:hasAuthor"
+            ]
+          }
+        ]
+      },
+      "Role": {
+        "predicate": "Role",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Role"
+            ],
+            "pathTemplate": "participantFunction.{range}",
+            "rdfMap": [
+              "omc:hasRole"
+            ]
+          },
+          {
+            "domain": [
+              "Provenance"
+            ],
+            "range": [
+              "Role"
+            ],
+            "rdfMap": [
+              "omc:hasRole"
+            ]
+          }
+        ]
+      },
+      "CreativeWork": {
+        "predicate": "CreativeWork",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": "has",
+        "rdf": "const:omc:hasCreativeWork",
+        "connects": [
+          {
+            "domain": [
+              "Slate"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": [
+              "omc:hasCreativeWork",
+              "omc:isSlateFor.CreativeWork"
+            ]
+          }
+        ]
+      },
+      "Series": {
+        "predicate": "Series",
+        "placement": "property",
+        "path": "creativeWorkProperties.Series",
+        "cardinality": "array",
+        "inverse": "related",
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "Season": {
+        "predicate": "Season",
+        "placement": "property",
+        "path": "creativeWorkProperties.Season",
+        "cardinality": "array",
+        "inverse": "related",
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "Episode": {
+        "predicate": "Episode",
+        "placement": "property",
+        "path": "creativeWorkProperties.Episode",
+        "cardinality": "array",
+        "inverse": "related",
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "CreativeWork"
+            ],
+            "range": [
+              "CreativeWork"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "Location": {
+        "predicate": "Location",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "intrinsic",
+        "connects": [
+          {
+            "domain": [
+              "NarrativeLocation",
+              "ProductionLocation"
+            ],
+            "range": [
+              "Location"
+            ],
+            "rdfMap": [
+              "omc:hasAssociatedLocation"
+            ]
+          }
+        ]
+      },
+      "usedBy": {
+        "predicate": "usedBy",
+        "cardinality": "array",
+        "inverse": "realizedBy",
+        "rdf": "const:omc:usedByRealization",
+        "connects": [
+          {
+            "domain": [
+              "Asset",
+              "Composition"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "Task",
+              "Participant"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Realization"
+            ],
+            "inverse": "portrayedBy",
+            "rdfMap": []
+          }
+        ]
+      },
+      "realizationOf": {
+        "predicate": "realizationOf",
+        "cardinality": "array",
+        "inverse": "usedIn",
+        "rdf": "const:omc:realizationOf",
+        "connects": [
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "Effect",
+              "SpecialAction"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "portrayedBy": {
+        "predicate": "portrayedBy",
+        "cardinality": "array",
+        "inverse": "usedBy",
+        "rdf": "const:omc:portrayedBy",
+        "connects": [
+          {
+            "domain": [
+              "Realization"
+            ],
+            "range": [
+              "Participant"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "hasRevision": {
+        "predicate": "hasRevision",
+        "placement": "property",
+        "path": "versionInfo.Revision",
+        "cardinality": "array",
+        "inverse": "isRevisionOf",
+        "rdf": "const:omc:hasRevision",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "isRevisionOf": {
+        "predicate": "isRevisionOf",
+        "placement": "property",
+        "path": "versionInfo.RevisionOf",
+        "cardinality": "array",
+        "inverse": "hasRevision",
+        "rdf": "const:omc:isRevisionOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "hasDerivation": {
+        "predicate": "hasDerivation",
+        "placement": "property",
+        "path": "versionInfo.Derivation",
+        "cardinality": "array",
+        "inverse": "isDerivationOf",
+        "rdf": "const:omc:hasDerivation",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "isDerivationOf": {
+        "predicate": "isDerivationOf",
+        "placement": "property",
+        "path": "versionInfo.DerivationOf",
+        "cardinality": "array",
+        "inverse": "hasDerivation",
+        "rdf": "const:omc:isDerivationOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "hasRepresentation": {
+        "predicate": "hasRepresentation",
+        "placement": "property",
+        "path": "versionInfo.Representation",
+        "cardinality": "array",
+        "inverse": "isRepresentationOf",
+        "rdf": "const:omc:hasRepresentation",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "isRepresentationOf": {
+        "predicate": "isRepresentationOf",
+        "placement": "property",
+        "path": "versionInfo.RepresentationOf",
+        "cardinality": "array",
+        "inverse": "hasRepresentation",
+        "rdf": "const:omc:isRepresentationOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "isAlternativeOf": {
+        "predicate": "isAlternativeOf",
+        "placement": "property",
+        "path": "versionInfo.Alternative",
+        "cardinality": "array",
+        "inverse": "isAlternativeOf",
+        "rdf": "const:omc:isAlternativeOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "hasVariant": {
+        "predicate": "hasVariant",
+        "placement": "property",
+        "path": "versionInfo.Variant",
+        "cardinality": "array",
+        "inverse": "isVariantOf",
+        "rdf": "const:omc:hasVariant",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          }
+        ]
+      },
+      "isVariantOf": {
+        "predicate": "isVariantOf",
+        "placement": "property",
+        "path": "versionInfo.VariantOf",
+        "cardinality": "array",
+        "inverse": "hasVariant",
+        "rdf": "const:omc:isVariantOf",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "rdfMap": []
+          }
+        ]
+      }
+    }
+  },
+  "rdf": {
+    "verbs": [
+      {
+        "id": "omc:configurationFile",
+        "name": "configurationFile",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:contributesTo",
+        "name": "contributesTo",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:contributor"
+      },
+      {
+        "id": "omc:contributor",
+        "name": "contributor",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:contributesTo"
+      },
+      {
+        "id": "omc:createdBy",
+        "name": "createdBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:creativeWork",
+        "name": "creativeWork",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:depictedBy",
+        "name": "depictedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:depictionOf",
+        "name": "depictionOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:features",
+        "name": "features",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:featuresIn"
+      },
+      {
+        "id": "omc:featuresIn",
+        "name": "featuresIn",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:features"
+      },
+      {
+        "id": "omc:for",
+        "name": "for",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:has"
+      },
+      {
+        "id": "omc:has",
+        "name": "has",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:for"
+      },
+      {
+        "id": "omc:hasDerivation",
+        "name": "hasDerivation",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:isDerivationOf"
+      },
+      {
+        "id": "omc:hasRepresentation",
+        "name": "hasRepresentation",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:isRepresentationOf"
+      },
+      {
+        "id": "omc:hasRevision",
+        "name": "hasRevision",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:isRevisionOf"
+      },
+      {
+        "id": "omc:hasVariant",
+        "name": "hasVariant",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:isVariantOf"
+      },
+      {
+        "id": "omc:includes",
+        "name": "includes",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:informedBy",
+        "name": "informedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:informs"
+      },
+      {
+        "id": "omc:informs",
+        "name": "informs",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:informedBy"
+      },
+      {
+        "id": "omc:isAlternativeOf",
+        "name": "isAlternativeOf",
+        "definition": null,
+        "symmetric": true,
+        "inverse": null
+      },
+      {
+        "id": "omc:isDerivationOf",
+        "name": "isDerivationOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:hasDerivation"
+      },
+      {
+        "id": "omc:isRepresentationOf",
+        "name": "isRepresentationOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:hasRepresentation"
+      },
+      {
+        "id": "omc:isRevisionOf",
+        "name": "isRevisionOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:hasRevision"
+      },
+      {
+        "id": "omc:isVariantOf",
+        "name": "isVariantOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:hasVariant"
+      },
+      {
+        "id": "omc:location",
+        "name": "location",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:member",
+        "name": "member",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:memberOf"
+      },
+      {
+        "id": "omc:memberOf",
+        "name": "memberOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:member"
+      },
+      {
+        "id": "omc:neededBy",
+        "name": "neededBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:needs"
+      },
+      {
+        "id": "omc:needs",
+        "name": "needs",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:neededBy"
+      },
+      {
+        "id": "omc:participantStructure",
+        "name": "participantStructure",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:portrayalOf",
+        "name": "portrayalOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:portrayedBy",
+        "name": "portrayedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:product",
+        "name": "product",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:productOf"
+      },
+      {
+        "id": "omc:productOf",
+        "name": "productOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:product"
+      },
+      {
+        "id": "omc:realizationOf",
+        "name": "realizationOf",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:realizedBy",
+        "name": "realizedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:related",
+        "name": "related",
+        "definition": null,
+        "symmetric": true,
+        "inverse": null
+      },
+      {
+        "id": "omc:role",
+        "name": "role",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:startHere",
+        "name": "startHere",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:taskStructure",
+        "name": "taskStructure",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:usedBy",
+        "name": "usedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": null
+      },
+      {
+        "id": "omc:usedIn",
+        "name": "usedIn",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:uses"
+      },
+      {
+        "id": "omc:uses",
+        "name": "uses",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:usedIn"
+      }
+    ],
+    "properties": [
+      {
+        "id": "omc:contributesToCreativeWork",
+        "name": "contributesToCreativeWork",
+        "verbs": [
+          "omc:contributesTo"
+        ],
+        "domains": [
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:CreativeWork"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:contributorParticipant",
+        "name": "contributorParticipant",
+        "verbs": [
+          "omc:contributor"
+        ],
+        "domains": [
+          "omc:CreativeWork"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:createdByParticipant",
+        "name": "createdByParticipant",
+        "verbs": [
+          "omc:createdBy"
+        ],
+        "domains": [
+          "omc:Provenance"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:depictedBy",
+        "name": "depictedBy",
+        "verbs": [
+          "omc:depictedBy"
+        ],
+        "domains": [
+          "omc:Composition",
+          "omc:Depiction"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:Depiction"
+        ],
+        "inverseOf": [
+          "omc:usedByComposition",
+          "omc:usedByDepiction"
+        ]
+      },
+      {
+        "id": "omc:depictionOf",
+        "name": "depictionOf",
+        "verbs": [
+          "omc:depictionOf"
+        ],
+        "domains": [
+          "omc:Depiction"
+        ],
+        "ranges": [
+          "omc:DepictableNarrative"
+        ],
+        "inverseOf": [
+          "omc:usedInDepiction"
+        ]
+      },
+      {
+        "id": "omc:featuresCharacter",
+        "name": "featuresCharacter",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:Character"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresEffect",
+        "name": "featuresEffect",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:Effect"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresInNarrativeScene",
+        "name": "featuresInNarrativeScene",
+        "verbs": [
+          "omc:featuresIn"
+        ],
+        "domains": [
+          "omc:Character",
+          "omc:Effect",
+          "omc:NarrativeAudio",
+          "omc:NarrativeLocation",
+          "omc:NarrativeObject",
+          "omc:NarrativeStyling",
+          "omc:NarrativeWardrobe",
+          "omc:SpecialAction"
+        ],
+        "ranges": [
+          "omc:NarrativeScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresNarrativeAudio",
+        "name": "featuresNarrativeAudio",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:NarrativeAudio"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresNarrativeLocation",
+        "name": "featuresNarrativeLocation",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:NarrativeLocation"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresNarrativeObject",
+        "name": "featuresNarrativeObject",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:NarrativeObject"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresNarrativeStyling",
+        "name": "featuresNarrativeStyling",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:NarrativeStyling"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresNarrativeWardrobe",
+        "name": "featuresNarrativeWardrobe",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:NarrativeWardrobe"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:featuresSpecialAction",
+        "name": "featuresSpecialAction",
+        "verbs": [
+          "omc:features"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:SpecialAction"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forAsset",
+        "name": "forAsset",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Participant",
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forAssetStructure",
+        "name": "forAssetStructure",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Infrastructure"
+        ],
+        "ranges": [
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forCreativeWork",
+        "name": "forCreativeWork",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:NarrativeScene",
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:CreativeWork"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forInfrastructure",
+        "name": "forInfrastructure",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:SpecialAction"
+        ],
+        "ranges": [
+          "omc:Infrastructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forNarrativeScene",
+        "name": "forNarrativeScene",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:NarrativeScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forParticipantStructure",
+        "name": "forParticipantStructure",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Location"
+        ],
+        "ranges": [
+          "omc:ParticipantStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forProductionScene",
+        "name": "forProductionScene",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:forSlate",
+        "name": "forSlate",
+        "verbs": [
+          "omc:for"
+        ],
+        "domains": [
+          "omc:Infrastructure",
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:Slate"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasAssetStructure",
+        "name": "hasAssetStructure",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasCarrier",
+        "name": "hasCarrier",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Infrastructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasConfigurationFile",
+        "name": "hasConfigurationFile",
+        "verbs": [
+          "omc:configurationFile"
+        ],
+        "domains": [
+          "omc:Collection",
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasCreativeWork",
+        "name": "hasCreativeWork",
+        "verbs": [
+          "omc:creativeWork"
+        ],
+        "domains": [
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:CreativeWork"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasDerivation",
+        "name": "hasDerivation",
+        "verbs": [
+          "omc:hasDerivation"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasDirector",
+        "name": "hasDirector",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasInfrastructure",
+        "name": "hasInfrastructure",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:Infrastructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasLocation",
+        "name": "hasLocation",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:ParticipantStructure"
+        ],
+        "ranges": [
+          "omc:Location"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasNarrativeScene",
+        "name": "hasNarrativeScene",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:CreativeWork"
+        ],
+        "ranges": [
+          "omc:NarrativeScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasParticipant",
+        "name": "hasParticipant",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:Slate"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasParticipantStructure",
+        "name": "hasParticipantStructure",
+        "verbs": [
+          "omc:participantStructure"
+        ],
+        "domains": [
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:ParticipantStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasProductionCompany",
+        "name": "hasProductionCompany",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:CreativeWork"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasProductionScene",
+        "name": "hasProductionScene",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasRepresentation",
+        "name": "hasRepresentation",
+        "verbs": [
+          "omc:hasRepresentation"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasRevision",
+        "name": "hasRevision",
+        "verbs": [
+          "omc:hasRevision"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasScript",
+        "name": "hasScript",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:CreativeWork",
+          "omc:NarrativeScene"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:Script"
+            }
+          }
+        ]
+      },
+      {
+        "id": "omc:hasSlate",
+        "name": "hasSlate",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:Slate"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasSpecialAction",
+        "name": "hasSpecialAction",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Infrastructure"
+        ],
+        "ranges": [
+          "omc:SpecialAction"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasTaskStructure",
+        "name": "hasTaskStructure",
+        "verbs": [
+          "omc:taskStructure"
+        ],
+        "domains": [
+          "omc:Task"
+        ],
+        "ranges": [
+          "omc:TaskStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasVariant",
+        "name": "hasVariant",
+        "verbs": [
+          "omc:hasVariant"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesAsset",
+        "name": "includesAsset",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection",
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesAssetStructure",
+        "name": "includesAssetStructure",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection",
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCaptureDevice",
+        "name": "includesCaptureDevice",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:CaptureDevice"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCaptureEvent",
+        "name": "includesCaptureEvent",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:CaptureEvent"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCapturePoint",
+        "name": "includesCapturePoint",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:CapturePoint"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCharacter",
+        "name": "includesCharacter",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Character"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCollection",
+        "name": "includesCollection",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Collection"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesComposition",
+        "name": "includesComposition",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection",
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Composition"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesContext",
+        "name": "includesContext",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Context"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesCreativeWork",
+        "name": "includesCreativeWork",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:CreativeWork"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesEffect",
+        "name": "includesEffect",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Effect"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesInfrastructure",
+        "name": "includesInfrastructure",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Infrastructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesLocation",
+        "name": "includesLocation",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Location"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeAudio",
+        "name": "includesNarrativeAudio",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeAudio"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeLocation",
+        "name": "includesNarrativeLocation",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeLocation"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeObject",
+        "name": "includesNarrativeObject",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeObject"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeScene",
+        "name": "includesNarrativeScene",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeStyling",
+        "name": "includesNarrativeStyling",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeStyling"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesNarrativeWardrobe",
+        "name": "includesNarrativeWardrobe",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:NarrativeWardrobe"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesParticipant",
+        "name": "includesParticipant",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesParticipantStructure",
+        "name": "includesParticipantStructure",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:ParticipantStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesProductionLocation",
+        "name": "includesProductionLocation",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:ProductionLocation"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesProductionScene",
+        "name": "includesProductionScene",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesRealization",
+        "name": "includesRealization",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Realization"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesRole",
+        "name": "includesRole",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Role"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesSlate",
+        "name": "includesSlate",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Slate"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesSpecialAction",
+        "name": "includesSpecialAction",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:SpecialAction"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesTask",
+        "name": "includesTask",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Task"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesTaskStructure",
+        "name": "includesTaskStructure",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:TaskStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:informedByTask",
+        "name": "informedByTask",
+        "verbs": [
+          "omc:informedBy"
+        ],
+        "domains": [
+          "omc:Task"
+        ],
+        "ranges": [
+          "omc:Task"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:informsTask",
+        "name": "informsTask",
+        "verbs": [
+          "omc:informs"
+        ],
+        "domains": [
+          "omc:Task"
+        ],
+        "ranges": [
+          "omc:Task"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:isAlternativeOf",
+        "name": "isAlternativeOf",
+        "verbs": [
+          "omc:isAlternativeOf"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:isDerivationOf",
+        "name": "isDerivationOf",
+        "verbs": [
+          "omc:isDerivationOf"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:isRepresentationOf",
+        "name": "isRepresentationOf",
+        "verbs": [
+          "omc:isRepresentationOf"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:isRevisionOf",
+        "name": "isRevisionOf",
+        "verbs": [
+          "omc:isRevisionOf"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:isVariantOf",
+        "name": "isVariantOf",
+        "verbs": [
+          "omc:isVariantOf"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:locationLocation",
+        "name": "locationLocation",
+        "verbs": [
+          "omc:location"
+        ],
+        "domains": [
+          "omc:NarrativeLocation",
+          "omc:ProductionLocation"
+        ],
+        "ranges": [
+          "omc:Location"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:member",
+        "name": "member",
+        "verbs": [
+          "omc:member"
+        ],
+        "domains": [
+          "omc:AssetStructure",
+          "omc:Infrastructure",
+          "omc:ParticipantStructure",
+          "omc:TaskStructure"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:Infrastructure",
+          "omc:Participant",
+          "omc:Task"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:memberOf",
+        "name": "memberOf",
+        "verbs": [
+          "omc:memberOf"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:Infrastructure",
+          "omc:Participant",
+          "omc:Task"
+        ],
+        "ranges": [
+          "omc:AssetStructure",
+          "omc:Infrastructure",
+          "omc:ParticipantStructure",
+          "omc:TaskStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:neededByCharacter",
+        "name": "neededByCharacter",
+        "verbs": [
+          "omc:neededBy"
+        ],
+        "domains": [
+          "omc:Effect",
+          "omc:NarrativeAudio",
+          "omc:NarrativeObject",
+          "omc:NarrativeStyling",
+          "omc:NarrativeWardrobe",
+          "omc:SpecialAction"
+        ],
+        "ranges": [
+          "omc:Character"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:neededByEffect",
+        "name": "neededByEffect",
+        "verbs": [
+          "omc:neededBy"
+        ],
+        "domains": [
+          "omc:NarrativeAudio",
+          "omc:NarrativeStyling"
+        ],
+        "ranges": [
+          "omc:Effect"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:neededByNarrativeProp",
+        "name": "neededByNarrativeProp",
+        "verbs": [
+          "omc:neededBy"
+        ],
+        "domains": [
+          "omc:NarrativeAudio"
+        ],
+        "ranges": [
+          "omc:NarrativeProp"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:neededByNarrativeVehicle",
+        "name": "neededByNarrativeVehicle",
+        "verbs": [
+          "omc:neededBy"
+        ],
+        "domains": [
+          "omc:NarrativeAudio"
+        ],
+        "ranges": [
+          "omc:NarrativeVehicle"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsEffect",
+        "name": "needsEffect",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character"
+        ],
+        "ranges": [
+          "omc:Effect"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsNarrativeAudio",
+        "name": "needsNarrativeAudio",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character",
+          "omc:Effect",
+          "omc:NarrativeProp",
+          "omc:NarrativeVehicle"
+        ],
+        "ranges": [
+          "omc:NarrativeAudio"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsNarrativeObject",
+        "name": "needsNarrativeObject",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character"
+        ],
+        "ranges": [
+          "omc:NarrativeObject"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsNarrativeStyling",
+        "name": "needsNarrativeStyling",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character",
+          "omc:Effect"
+        ],
+        "ranges": [
+          "omc:NarrativeStyling"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsNarrativeWardrobe",
+        "name": "needsNarrativeWardrobe",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character"
+        ],
+        "ranges": [
+          "omc:NarrativeWardrobe"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:needsSpecialAction",
+        "name": "needsSpecialAction",
+        "verbs": [
+          "omc:needs"
+        ],
+        "domains": [
+          "omc:Character"
+        ],
+        "ranges": [
+          "omc:SpecialAction"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:portrayalOf",
+        "name": "portrayalOf",
+        "verbs": [
+          "omc:portrayalOf"
+        ],
+        "domains": [
+          "omc:Portrayal"
+        ],
+        "ranges": [
+          "omc:Character"
+        ],
+        "inverseOf": [
+          "omc:usedInPortrayal"
+        ]
+      },
+      {
+        "id": "omc:portrayedBy",
+        "name": "portrayedBy",
+        "verbs": [
+          "omc:portrayedBy"
+        ],
+        "domains": [
+          "omc:Portrayal"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:Composition",
+          "omc:Participant"
+        ],
+        "inverseOf": [
+          "omc:usedByPortrayal"
+        ]
+      },
+      {
+        "id": "omc:productAsset",
+        "name": "productAsset",
+        "verbs": [
+          "omc:product"
+        ],
+        "domains": [
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:productOfComposition",
+        "name": "productOfComposition",
+        "verbs": [
+          "omc:productOf"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Composition"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:realizationOf",
+        "name": "realizationOf",
+        "verbs": [
+          "omc:realizationOf"
+        ],
+        "domains": [
+          "omc:Realization"
+        ],
+        "ranges": [
+          "omc:Effect",
+          "omc:SpecialAction"
+        ],
+        "inverseOf": [
+          "omc:usedInRealization"
+        ]
+      },
+      {
+        "id": "omc:realizedBy",
+        "name": "realizedBy",
+        "verbs": [
+          "omc:realizedBy"
+        ],
+        "domains": [
+          "omc:Participant",
+          "omc:Realization",
+          "omc:Task"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:Composition",
+          "omc:Realization"
+        ],
+        "inverseOf": [
+          "omc:usedByParticipant",
+          "omc:usedByRealization",
+          "omc:usedByTask"
+        ]
+      },
+      {
+        "id": "omc:relatedCreativeWork",
+        "name": "relatedCreativeWork",
+        "verbs": [
+          "omc:related"
+        ],
+        "domains": [
+          "omc:CreativeWork"
+        ],
+        "ranges": [
+          "omc:CreativeWork"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:relatedProductionScene",
+        "name": "relatedProductionScene",
+        "verbs": [
+          "omc:related"
+        ],
+        "domains": [
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:roleRole",
+        "name": "roleRole",
+        "verbs": [
+          "omc:role"
+        ],
+        "domains": [
+          "omc:Participant",
+          "omc:Provenance"
+        ],
+        "ranges": [
+          "omc:Role"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:startHere",
+        "name": "startHere",
+        "verbs": [
+          "omc:startHere"
+        ],
+        "domains": [
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:usedByComposition",
+        "name": "usedByComposition",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Depiction"
+        ],
+        "ranges": [
+          "omc:Composition"
+        ],
+        "inverseOf": [
+          "omc:depictedBy"
+        ]
+      },
+      {
+        "id": "omc:usedByDepiction",
+        "name": "usedByDepiction",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Depiction"
+        ],
+        "inverseOf": [
+          "omc:depictedBy"
+        ]
+      },
+      {
+        "id": "omc:usedByParticipant",
+        "name": "usedByParticipant",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Realization"
+        ],
+        "ranges": [
+          "omc:Participant"
+        ],
+        "inverseOf": [
+          "omc:realizedBy"
+        ]
+      },
+      {
+        "id": "omc:usedByPortrayal",
+        "name": "usedByPortrayal",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:Composition",
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:Portrayal"
+        ],
+        "inverseOf": [
+          "omc:portrayedBy"
+        ]
+      },
+      {
+        "id": "omc:usedByRealization",
+        "name": "usedByRealization",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:Composition"
+        ],
+        "ranges": [
+          "omc:Realization"
+        ],
+        "inverseOf": [
+          "omc:realizedBy"
+        ]
+      },
+      {
+        "id": "omc:usedByTask",
+        "name": "usedByTask",
+        "verbs": [
+          "omc:usedBy"
+        ],
+        "domains": [
+          "omc:Realization"
+        ],
+        "ranges": [
+          "omc:Task"
+        ],
+        "inverseOf": [
+          "omc:realizedBy"
+        ]
+      },
+      {
+        "id": "omc:usedInDepiction",
+        "name": "usedInDepiction",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:DepictableNarrative"
+        ],
+        "ranges": [
+          "omc:Depiction"
+        ],
+        "inverseOf": [
+          "omc:depictionOf"
+        ]
+      },
+      {
+        "id": "omc:usedInPortrayal",
+        "name": "usedInPortrayal",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Character"
+        ],
+        "ranges": [
+          "omc:Portrayal"
+        ],
+        "inverseOf": [
+          "omc:portrayalOf"
+        ]
+      },
+      {
+        "id": "omc:usedInProductionLocation",
+        "name": "usedInProductionLocation",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:ProductionLocation"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:usedInProductionScene",
+        "name": "usedInProductionScene",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:ProductionLocation",
+          "omc:Realization"
+        ],
+        "ranges": [
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:usedInProductionSet",
+        "name": "usedInProductionSet",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:ProductionSet"
+            }
+          }
+        ]
+      },
+      {
+        "id": "omc:usedInProductionSetDressing",
+        "name": "usedInProductionSetDressing",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:ProductionSetDressing"
+            }
+          }
+        ]
+      },
+      {
+        "id": "omc:usedInRealization",
+        "name": "usedInRealization",
+        "verbs": [
+          "omc:usedIn"
+        ],
+        "domains": [
+          "omc:Effect",
+          "omc:SpecialAction"
+        ],
+        "ranges": [
+          "omc:Realization"
+        ],
+        "inverseOf": [
+          "omc:realizationOf"
+        ]
+      },
+      {
+        "id": "omc:usesAsset",
+        "name": "usesAsset",
+        "verbs": [
+          "omc:uses"
+        ],
+        "domains": [
+          "omc:ProductionLocation",
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:usesProductionGreenery",
+        "name": "usesProductionGreenery",
+        "verbs": [
+          "omc:uses"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:ProductionGreenery"
+            }
+          }
+        ]
+      },
+      {
+        "id": "omc:usesProductionLocation",
+        "name": "usesProductionLocation",
+        "verbs": [
+          "omc:uses"
+        ],
+        "domains": [
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:ProductionLocation"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:usesProductionSet",
+        "name": "usesProductionSet",
+        "verbs": [
+          "omc:uses"
+        ],
+        "domains": [
+          "omc:Asset"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:ProductionSet"
+            }
+          }
+        ]
+      },
+      {
+        "id": "omc:usesRealization",
+        "name": "usesRealization",
+        "verbs": [
+          "omc:uses"
+        ],
+        "domains": [
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:Realization"
+        ],
+        "inverseOf": []
+      }
+    ]
+  }
+}

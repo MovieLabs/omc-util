@@ -1,7 +1,16 @@
 /**
  * The edge definitions a check runs against, and where they came from.
  *
- * The table is to be driven by what the Edge Editor publishes, so that is what these checks read.
+ * Four subjects, and which one a check is looking at decides what its answer means:
+ *
+ *   `--shipped`    what the library exports — the publication with the edges.js seed filling its
+ *                  gaps (see src/templates/v3-0/edgeTable.js). The table every consumer is handed,
+ *                  and the only one worth gating.
+ *   `--static`     the edges.js seed alone. Since the cut-over this is a component of what ships,
+ *                  not what ships.
+ *   `--candidate`  a named URL, published document or module.
+ *   (nothing)      the live table, so a check during development sees what the tool is producing.
+ *
  * With no arguments they look, in order, for:
  *
  *   1. a running API — `OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` for the bearer
@@ -15,16 +24,13 @@
  * The barer forms are accepted too, for a hand-cut file or an older export, and a document that
  * holds neither is refused rather than read as an empty edge set.
  *
- * **There is no silent fallback to edges.js.** Substituting the hand-written table would report a
- * pass for a question nobody asked — the subject here is what the tool produces. `--static` asks
- * for the shipped table deliberately, which is the right subject at release time because edges.js
- * is still what ships.
+ * **There is no silent fallback.** Substituting one subject for another would report a pass for a
+ * question nobody asked, so a check that cannot read what it was asked for fails and says so.
  *
- * **Only edges.js is gated; the tool's output is reported.** The accept files record where the
- * hand-written table stands, so they mean nothing against a published document, and a document
- * changes whenever somebody edits an edge — a failure would say that, not that the commit is
- * wrong. So `--static` and a `.js` module gate; a URL or a published `.json` reports. Nothing here
- * ships either way: `test/` is outside the `files` allow-list, and the library never reaches the
+ * **A fixed subject gates; a live one reports.** A published document changes whenever somebody
+ * edits an edge, so a failure would say that rather than that the commit is wrong. `--shipped`,
+ * `--static` and a `.js` module gate; a URL or a published `.json` reports. Nothing here ships
+ * either way: `test/` is outside the `files` allow-list, and the library never reaches the
  * network.
  *
  * @module test/omc-v3-0/candidateDefinitions
@@ -35,7 +41,8 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
-import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
+import { definitionsOf, hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
+import { publishedDefinitions, unionEdgeTable, unionInverseEdges } from '../../src/templates/v3-0/edgeTable.js';
 
 /** Where a locally running API serves the published document. `OMC_EDGES_URL` overrides it. */
 export const DEFAULT_EDGES_URL = process.env.OMC_EDGES_URL
@@ -56,14 +63,6 @@ const ageOf = ((path) => {
     if (hours < 48) return `${Math.round(hours)} h old`;
     return `${Math.round(hours / 24)} days old`;
 });
-
-/**
- * The `edgeDefinitions` of a published document, wherever the document carries them.
- *
- * @param {Object} doc - A parsed published document
- * @returns {Object} The definitions, still holding `rdf` tokens
- */
-export const definitionsOf = (doc) => doc?.json?.edgeDefinitions ?? doc?.edgeDefinitions ?? doc;
 
 /**
  * The definitions of a published document, refused unless they look like definitions.
@@ -169,6 +168,20 @@ function readExport(path, how = '') {
  * @throws {Error} When the live table was wanted and could not be read
  */
 export async function loadCandidate(source, options = {}) {
+    if (!source && options.shipped) {
+        // What the library exports: the publication with the seed filling its gaps. This is the
+        // only subject worth gating, because it is the table every consumer is handed.
+        const { table, provenance } = unionEdgeTable();
+        return {
+            table,
+            // Per predicate, for a reader that needs to ask whether one is intrinsic.
+            definitions: { ...edgeDefinitions, ...publishedDefinitions },
+            inverses: unionInverseEdges(),
+            label: `the shipped table — ${provenance.published} rows published, `
+                + `${provenance.seed.length} still from the edges.js seed`,
+            live: false,
+        };
+    }
     if (!source && options.static) {
         return { definitions: edgeDefinitions, label: 'src/templates/v3-0/edges.js (--static)', live: false };
     }

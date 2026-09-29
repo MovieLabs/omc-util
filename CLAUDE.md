@@ -51,6 +51,13 @@ There is no unified test runner. The `test:*` scripts are standalone node script
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
 
+**The edge table is what the Edge Editor published.** `src/templates/v3-0/edgeDefinitions.json`
+is that publication, and `edgeTable.js` unions it row by row with the `edges.js` seed: the
+publication wins wherever it speaks, the seed fills the rows it does not build. `edges.js` is a
+fallback now, not an authority — `npm run test:registry` reports how many rows it is still holding
+up, and that number is meant to reach zero. Refresh the publication by replacing that file with a
+fresh export.
+
 **The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
 API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is
 authenticated), then `test/omc-v3-0/omc-edges.json`, which is the name the Edge Editor's UI gives
@@ -62,6 +69,10 @@ commit one only if you want a fixed reference. `--candidate` takes a URL, a docu
 would mean somebody edited an edge, not that the commit is wrong — and the accept files describe
 `edges.js`, so they are not consulted for a live source. That is the intended direction of travel:
 the published document becomes the table, and these checks are what it has to pass before it can.
+
+`--shipped` is the subject `release:check` gates on: the union, which is what consumers are
+handed. `--static` is the seed alone, which since the cut-over is a component of what ships rather
+than what ships.
 
 `edges:parity` is **transitional and deliberately not in `release:check`**. Its baseline is a
 snapshot of the hand-written `edges.js`, so it drifts by design as the schema moves; it is for

@@ -1,44 +1,38 @@
-# Findings edgeInverse.js should not fail on.
+# Findings edgeInverse.js should not fail on for the SHIPPED table.
 #
-# One line per finding, copied verbatim from the report. Blank lines and `#` comments are ignored.
-# An entry is a claim that the finding is known — say why beside it, and remove it when the gap
-# closes. This is the state edges.js was in when the check was written.
+# The subject is the union of the publication and the edges.js seed, which is what
+# omcTemplate.inverseEdge() answers from and therefore what fMam writes reverse edges from.
+#
+# Three groups, none of them a fault in the data:
+#   INVERSE-MALFORMED / INVERSE-UNDECLARED around hasCxt, cxtFor and `has` come from the seed, and
+#     go when the publication covers Context and the seed is dropped.
+#   INVERSE-BUCKET and INVERSE-OVERRIDE are structural: inverseEdge() returns a bare name, so it
+#     can express neither an intrinsic inverse nor a per-group one. Closing them needs an accessor
+#     that returns the inverse edge rather than its name.
+#   NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn and realizedBy triangles.
 
-# --- INVERSE-MALFORMED ------------------------------------------------------------------------
-#
-# `has` group 6 gives its inverse as "realizationProperties.RealizationBy" — a storage path where a
-# predicate name belongs. resolveInversePath cannot find a predicate by that name, so it falls back
-# to the edges default and builds a four-segment path that is not a place an edge can live. The
-# predicate is `RealizationBy`, and it declares no `path`, which is presumably why the path was
-# written into the inverse instead. Fixing it means naming the predicate and giving that predicate
-# its schema path.
+NOT-INVOLUTIVE portrayedBy -> usedBy -> realizedBy
+NOT-INVOLUTIVE realizationOf -> usedIn -> uses
+NOT-INVOLUTIVE usedBy -> realizedBy -> RealizationOf
 INVERSE-MALFORMED has on Composition: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Composition"
 INVERSE-MALFORMED has on Participant: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Participant"
-
-# --- NOT-INVOLUTIVE ---------------------------------------------------------------------------
-#
-# uses / usedBy / usedIn are three predicates where the other pairs are two, so the round trip does
-# not return. Which pairing is intended is a modelling question.
-NOT-INVOLUTIVE usedBy -> usedIn -> uses
-
-# --- INVERSE-BUCKET ---------------------------------------------------------------------------
-#
-# memberOf and productOf invert onto intrinsic properties (Member, Product). buildEdgeTable knows
-# that and resolves inversePath to the property; omcTemplate.inverseEdge returns only the name, so
-# fMam writes edges.Member.<Type> instead. Closing this needs an accessor that returns the inverse
-# edge rather than its name — an omcUtil change, not a definitions change.
+INVERSE-OVERRIDE realizedBy on Participant: the group inverts to "edges.usedBy.Participant", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Participant"
+INVERSE-OVERRIDE realizedBy on Realization: the group inverts to "edges.usedBy.Realization", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Realization"
+INVERSE-OVERRIDE realizedBy on Task: the group inverts to "edges.usedBy.Task", the predicate declares "RealizationOf", so fMam writes "edges.RealizationOf.Task"
+INVERSE-OVERRIDE usedBy on Participant: the group inverts to "edges.portrayedBy.Participant", the predicate declares "realizedBy", so fMam writes "edges.realizedBy.Participant"
+INVERSE-OVERRIDE usedBy on Task: the group inverts to "edges.usedIn.Task", the predicate declares "realizedBy", so fMam writes "edges.realizedBy.Task"
+INVERSE-OVERRIDE usedIn on Effect: the group inverts to "edges.realizationOf.Effect", the predicate declares "uses", so fMam writes "edges.uses.Effect"
+INVERSE-OVERRIDE usedIn on SpecialAction: the group inverts to "edges.realizationOf.SpecialAction", the predicate declares "uses", so fMam writes "edges.uses.SpecialAction"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Asset"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Infrastructure"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Participant"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Task"
 INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes "edges.Product.Asset"
+INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeLocation"
+INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeObject"
+INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeStyling"
+INVERSE-BUCKET realizedBy -> RealizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.RealizationOf.NarrativeWardrobe"
 
-# --- INVERSE-UNDECLARED -----------------------------------------------------------------------
-#
-# The schema's shared edges block does not declare the reverse pair, so fMam writes an edge the
-# schema has no record of. It validates (additionalProperties: true), which is why it is reported
-# rather than caught. 22 are cxtFor and 1 is hasCxt — neither verb is declared at all, so declaring
-# the Context pair closes 23 of these at once.
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
 INVERSE-UNDECLARED cxtFor.Asset (the reverse of Asset hasCxt)
@@ -64,17 +58,18 @@ INVERSE-UNDECLARED cxtFor.Slate (the reverse of Slate hasCxt)
 INVERSE-UNDECLARED cxtFor.SpecialAction (the reverse of SpecialAction hasCxt)
 INVERSE-UNDECLARED cxtFor.Task (the reverse of Task hasCxt)
 INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
+INVERSE-UNDECLARED has.Location (the reverse of Location for)
 INVERSE-UNDECLARED hasCxt.Context (the reverse of Context cxtFor)
+INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
+INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
+INVERSE-UNDECLARED realizedBy.Asset (the reverse of Asset usedBy)
+INVERSE-UNDECLARED realizedBy.Composition (the reverse of Composition usedBy)
+INVERSE-UNDECLARED realizedBy.Realization (the reverse of Realization usedBy)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
-INVERSE-UNDECLARED usedIn.Asset (the reverse of Asset usedBy)
-INVERSE-UNDECLARED usedIn.Participant (the reverse of Participant usedBy)
-INVERSE-UNDECLARED usedIn.Task (the reverse of Task usedBy)
 INVERSE-UNDECLARED uses.Character (the reverse of Character usedIn)
-INVERSE-UNDECLARED uses.Effect (the reverse of Effect usedIn)
 INVERSE-UNDECLARED uses.NarrativeAudio (the reverse of NarrativeAudio usedIn)
 INVERSE-UNDECLARED uses.NarrativeLocation (the reverse of NarrativeLocation usedIn)
 INVERSE-UNDECLARED uses.NarrativeObject (the reverse of NarrativeObject usedIn)
 INVERSE-UNDECLARED uses.NarrativeStyling (the reverse of NarrativeStyling usedIn)
 INVERSE-UNDECLARED uses.NarrativeWardrobe (the reverse of NarrativeWardrobe usedIn)
 INVERSE-UNDECLARED uses.Realization (the reverse of Realization usedIn)
-INVERSE-UNDECLARED uses.SpecialAction (the reverse of SpecialAction usedIn)

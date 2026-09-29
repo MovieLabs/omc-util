@@ -12,6 +12,17 @@
 import { intrinsicRdf, tentativeRdf } from './edges.js';
 
 /**
+ * The `edgeDefinitions` of a published document, wherever the document carries them.
+ *
+ * The document nests its OMC-JSON projection under `json`, beside the `rdf` one — two projections
+ * of the same stored edge. The barer forms are accepted for a hand-cut file or an older export.
+ *
+ * @param {Object} doc - A parsed published document
+ * @returns {Object} The definitions, still holding `rdf` tokens
+ */
+export const definitionsOf = ((doc) => doc?.json?.edgeDefinitions ?? doc?.edgeDefinitions ?? doc);
+
+/**
  * The RDF name generator a token stands for.
  *
  * @param {string} token

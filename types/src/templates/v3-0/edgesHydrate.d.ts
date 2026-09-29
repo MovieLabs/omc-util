@@ -9,4 +9,5 @@ export function hydrateEdgeDefinitions(definitions: {
 }): {
     [x: string]: any;
 };
+export function definitionsOf(doc: any): any;
 //# sourceMappingURL=edgesHydrate.d.ts.map

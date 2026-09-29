@@ -29,7 +29,7 @@
  * warnings about modelling rather than assertions that the definitions are wrong, but an
  * unaccepted one fails so that a new gap is answered rather than accumulated.
  *
- *   Usage: node test/omc-v3-0/edgeInverse.js [--candidate <src>] [--static] [--accept <file>]
+ *   Usage: node test/omc-v3-0/edgeInverse.js [--candidate <src>] [--shipped|--static] [--accept <file>]
  *       --candidate takes the Edge Editor's published JSON or a module exporting
  *       `edgeDefinitions`; the default is the current edges.js.
  *       default accept file: test/omc-v3-0/edgeInverse.accept.txt
@@ -60,6 +60,7 @@ async function main() {
     try {
         source = await loadCandidate(argValue('--candidate'), {
             static: process.argv.includes('--static'),
+            shipped: process.argv.includes('--shipped'),
         });
     } catch (err) {
         // The reason a source could not be read is the whole message; a stack trace says nothing a
@@ -70,10 +71,11 @@ async function main() {
         return;
     }
     const { definitions } = source;
-    const { table, collisions } = buildEdgeTable(definitions);
+    const { table, collisions = [] } = source.table ? source : buildEdgeTable(definitions);
 
-    /** What omcTemplate.inverseEdge() will answer, built the same way the live table builds it. */
-    const inverses = inverseEdgesFrom(definitions);
+    /** What omcTemplate.inverseEdge() will answer. The shipped subject supplies its own,
+     *  since the exported map is a union the definitions alone do not describe. */
+    const inverses = source.inverses ?? inverseEdgesFrom(definitions);
 
     /** Relational when the definitions say so; an unknown name is relational by the same default
      *  buildEdgeTable applies when it resolves an inverse path. */

@@ -27,7 +27,7 @@
  * in the schema — but a finding that is NOT in the accept file fails the run, because a warning
  * nobody has to answer is a warning nobody reads.
  *
- *   Usage: node test/omc-v3-0/edgeCoverage.js [--candidate <src>] [--static] [--accept <file>]
+ *   Usage: node test/omc-v3-0/edgeCoverage.js [--candidate <src>] [--shipped|--static] [--accept <file>]
  *       --candidate takes the Edge Editor's published JSON (hydrated the way edgeParity does) or
  *       a module exporting `edgeDefinitions`; the default is the current edges.js. This is the
  *       check that has to pass for a published document to replace the static table.
@@ -201,6 +201,7 @@ async function main() {
     try {
         source = await loadCandidate(argValue('--candidate'), {
             static: process.argv.includes('--static'),
+            shipped: process.argv.includes('--shipped'),
         });
     } catch (err) {
         // The reason a source could not be read is the whole message; a stack trace says nothing a
@@ -210,7 +211,9 @@ async function main() {
         process.exitCode = 1;
         return;
     }
-    const { table } = buildEdgeTable(source.definitions);
+    // A subject may hand over a table already built — the shipped one is a union of two
+    // sources, which no single set of definitions describes.
+    const { table } = source.table ? source : buildEdgeTable(source.definitions);
 
     /**
      * The shared `edges` block: the verbs the schema knows, and the (verb, range) pairs it declares.
