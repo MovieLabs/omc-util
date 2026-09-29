@@ -75,9 +75,21 @@ export type EdgeTemplate = {
      */
     inverse: string;
     /**
-     * - The formal predicate for this edge, from RDF model
+     * - The formal predicate for this edge, from the RDF model: the
+     * published property name where the model names exactly one, otherwise the generated
+     * `omcT:` template.
      */
     omcPredicate: string;
+    /**
+     * - Every RDF property the model names for this row, one per
+     * allowed range it covers. Empty where the model names none.
+     */
+    rdfProperties: string[];
+    /**
+     * - The generated name, kept so a templated fallback can be
+     * told from a published one.
+     */
+    rdfTemplated: string;
 };
 export type GraphQlTemplate = {
     /**

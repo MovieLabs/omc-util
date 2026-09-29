@@ -47,7 +47,13 @@
  * @property {string} relativePath - `path` minus the bucket prefix (e.g. `hasCxt.Context`);
  *   equal to `path` for intrinsic edges
  * @property {string} inverse - The path on the target entity that carries the inverse edge
- * @property {string} omcPredicate - The formal predicate for this edge, from RDF model
+ * @property {string} omcPredicate - The formal predicate for this edge, from the RDF model: the
+ *   published property name where the model names exactly one, otherwise the generated
+ *   `omcT:` template.
+ * @property {string[]} rdfProperties - Every RDF property the model names for this row, one per
+ *   allowed range it covers. Empty where the model names none.
+ * @property {string} rdfTemplated - The generated name, kept so a templated fallback can be
+ *   told from a published one.
  */
 
 /**
