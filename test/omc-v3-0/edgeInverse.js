@@ -15,6 +15,11 @@
  *      table knows this and resolves `inversePath` to the bare property (`Member`, `Product`);
  *      `inverseEdge()` returns only the name, so fMam cannot tell, and writes it into a
  *      predicate-shaped bucket. The two sides then disagree about where that reference lives.
+ *   4. A `connects` group overrides the predicate's inverse — `realizedBy` inverts to
+ *      `RealizationOf` in general but to `usedBy` from Task and Participant. `buildEdgeTable`
+ *      honours the override when it resolves `inversePath`; `inverseEdgesFrom` reads only the
+ *      definition-level `inverse`, by its own account, so the map cannot express it. The table
+ *      and fMam then hold different answers for the same edge, and only the table's is right.
  *
  * Involution is checked only between relational predicates. An intrinsic property's inverse is a
  * general predicate (`Member` ↔ `memberOf`, `Series` ↔ `related`), so the round trip legitimately
@@ -31,14 +36,14 @@
  */
 
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import schemav30 from '../../src/omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
-import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
-import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
 import { inverseEdgesFrom } from '../../src/templates/v3-0/inverseEdges.js';
+
+import { loadCandidate } from './candidateDefinitions.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const defaultAcceptPath = join(here, 'edgeInverse.accept.txt');
@@ -49,20 +54,6 @@ const argValue = (name) => {
 };
 
 const line = (s = '') => console.log(s);
-
-const loadCandidate = async (modulePath) => {
-    if (!modulePath) return edgeDefinitions;
-    if (modulePath.endsWith('.json')) {
-        const doc = JSON.parse(readFileSync(resolve(modulePath), 'utf8'));
-        return hydrateEdgeDefinitions(doc.edgeDefinitions ?? doc);
-    }
-    const mod = await import(pathToFileURL(resolve(modulePath)).href);
-    const definitions = mod.edgeDefinitions || mod.default?.edgeDefinitions || mod.default;
-    if (!definitions || typeof definitions !== 'object') {
-        throw new Error(`${modulePath} exports no edgeDefinitions`);
-    }
-    return definitions;
-};
 
 const definitions = await loadCandidate(argValue('--candidate'));
 const { table, collisions } = buildEdgeTable(definitions);
@@ -85,6 +76,8 @@ const findings = {
     'NO-INVERSE': [],
     'INVERSE-UNKNOWN': [],
     'NOT-INVOLUTIVE': [],
+    'INVERSE-MALFORMED': [],
+    'INVERSE-OVERRIDE': [],
     'INVERSE-BUCKET': [],
     'INVERSE-UNDECLARED': [],
 };
@@ -117,9 +110,31 @@ Object.entries(table).forEach(([domain, partitions]) => {
             findings['NO-INVERSE'].push(`${verb} (on ${domain}) — fMam writes no reverse edge`);
             return;
         }
+
+        // What fMam writes, having only the name, against what the table resolved for this group.
+        const fMamWrites = `edges.${inverse}.${domain}`;
+        const tablePath = entry.inversePath;
+        const tableVerb = tablePath?.startsWith('edges.') ? tablePath.split('.')[1] : null;
+
+        // An edges-bucket path is exactly `edges.<verb>.<Range>`. More segments than that means the
+        // name the group gave as its inverse is not a predicate — a storage path was written where
+        // a predicate name belongs, and resolveInversePath fell back to the edges default around
+        // it. The reverse edge then has nowhere real to live.
+        if (tablePath?.startsWith('edges.') && tablePath.split('.').length !== 3) {
+            findings['INVERSE-MALFORMED'].push(`${verb} on ${domain}: the group names inverse `
+                + `"${tablePath.split('.').slice(1, -1).join('.')}", which is not a predicate, so `
+                + `the table resolved "${tablePath}"`);
+            return;
+        }
+        if (tableVerb && tableVerb !== inverse) {
+            findings['INVERSE-OVERRIDE'].push(`${verb} on ${domain}: the group inverts to `
+                + `"${tablePath}", the predicate declares "${inverse}", so fMam writes `
+                + `"${fMamWrites}"`);
+            return;
+        }
         if (!isRelational(inverse)) {
             findings['INVERSE-BUCKET'].push(`${verb} -> ${inverse} — intrinsic property, `
-                + `table path "${entry.inversePath}", fMam writes edges.${inverse}.${domain}`);
+                + `table path "${tablePath}", fMam writes "${fMamWrites}"`);
             return;
         }
         if (!schemaPairs.has(`${inverse}.${domain}`)) {

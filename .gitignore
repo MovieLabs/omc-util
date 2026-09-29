@@ -26,3 +26,6 @@ test/omc-v3-0/derived/
 *.sln
 *.sw?
 /claude/
+
+# Generated output for a person to read — never source
+/.scratchpad/

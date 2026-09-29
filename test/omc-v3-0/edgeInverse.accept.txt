@@ -2,39 +2,43 @@
 #
 # One line per finding, copied verbatim from the report. Blank lines and `#` comments are ignored.
 # An entry is a claim that the finding is known — say why beside it, and remove it when the gap
-# closes.
-#
-# This is the state edges.js was in when the check was written. Three root causes account for all
-# of it.
+# closes. This is the state edges.js was in when the check was written.
 
-# --- NOT-INVOLUTIVE -------------------------------------------------------------------------
+# --- INVERSE-MALFORMED ------------------------------------------------------------------------
 #
-# uses / usedBy / usedIn are three predicates where the other pairs are two: usedBy's inverse is
-# usedIn, but usedIn's inverse is uses, so the round trip does not return. Which of the three
-# pairings is intended is a modelling question.
+# `has` group 6 gives its inverse as "realizationProperties.RealizationBy" — a storage path where a
+# predicate name belongs. resolveInversePath cannot find a predicate by that name, so it falls back
+# to the edges default and builds a four-segment path that is not a place an edge can live. The
+# predicate is `RealizationBy`, and it declares no `path`, which is presumably why the path was
+# written into the inverse instead. Fixing it means naming the predicate and giving that predicate
+# its schema path.
+INVERSE-MALFORMED has on Composition: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Composition"
+INVERSE-MALFORMED has on Participant: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Participant"
+
+# --- NOT-INVOLUTIVE ---------------------------------------------------------------------------
+#
+# uses / usedBy / usedIn are three predicates where the other pairs are two, so the round trip does
+# not return. Which pairing is intended is a modelling question.
 NOT-INVOLUTIVE usedBy -> usedIn -> uses
 
-# --- INVERSE-BUCKET -------------------------------------------------------------------------
+# --- INVERSE-BUCKET ---------------------------------------------------------------------------
 #
-# memberOf and productOf invert onto intrinsic properties (Member, Product). The edge table knows
-# that and resolves inversePath to the bare property, but omcTemplate.inverseEdge() returns only
-# the name, so fMam writes edges.Member.<Type> instead. Closing this needs an accessor that
-# returns the inverse edge rather than its name — an omcUtil change, not a definitions change.
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Asset
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Infrastructure
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Participant
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Task
-INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes edges.Product.Asset
+# memberOf and productOf invert onto intrinsic properties (Member, Product). buildEdgeTable knows
+# that and resolves inversePath to the property; omcTemplate.inverseEdge returns only the name, so
+# fMam writes edges.Member.<Type> instead. Closing this needs an accessor that returns the inverse
+# edge rather than its name — an omcUtil change, not a definitions change.
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Asset"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Infrastructure"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Participant"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Task"
+INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes "edges.Product.Asset"
 
-# --- INVERSE-UNDECLARED ---------------------------------------------------------------------
+# --- INVERSE-UNDECLARED -----------------------------------------------------------------------
 #
 # The schema's shared edges block does not declare the reverse pair, so fMam writes an edge the
-# schema has no record of. It validates (additionalProperties: true), which is why it needs
-# reporting rather than catching.
-#
-# 22 of these are cxtFor, and 1 is hasCxt: neither verb is declared in the schema at all, so
-# declaring the Context pair closes 23 of the 40 at once. uses/usedIn account for 12 more and go
-# with the involution question above.
+# schema has no record of. It validates (additionalProperties: true), which is why it is reported
+# rather than caught. 22 are cxtFor and 1 is hasCxt — neither verb is declared at all, so declaring
+# the Context pair closes 23 of these at once.
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
 INVERSE-UNDECLARED cxtFor.Asset (the reverse of Asset hasCxt)
@@ -60,7 +64,6 @@ INVERSE-UNDECLARED cxtFor.Slate (the reverse of Slate hasCxt)
 INVERSE-UNDECLARED cxtFor.SpecialAction (the reverse of SpecialAction hasCxt)
 INVERSE-UNDECLARED cxtFor.Task (the reverse of Task hasCxt)
 INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
-INVERSE-UNDECLARED for.Participant (the reverse of Participant has)
 INVERSE-UNDECLARED hasCxt.Context (the reverse of Context cxtFor)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
 INVERSE-UNDECLARED usedIn.Asset (the reverse of Asset usedBy)

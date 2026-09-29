@@ -35,15 +35,15 @@
  */
 
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { isCapitalized } from '../../src/mlHelpers/util.js';
 import schemav30 from '../../src/omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 import { listEntities, mergeAllOf, resolveRef } from '../../src/templates/schemaDerive.js';
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
-import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
-import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
+
+import { loadCandidate } from './candidateDefinitions.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const defaultAcceptPath = join(here, 'edgeCoverage.accept.txt');
@@ -126,28 +126,6 @@ function schemaRelationships(schema) {
     listEntities(schema).forEach((def, entityType) => walk(def, '', entityType, 0));
     return found;
 }
-
-/**
- * The edge definitions under test: the published JSON the Edge Editor produces, a module
- * exporting `edgeDefinitions`, or the static edges.js. Shared shape with edgeParity's loader so
- * the same published document can be handed to both.
- *
- * @param {string|null} modulePath
- * @returns {Promise<Object>}
- */
-const loadCandidate = async (modulePath) => {
-    if (!modulePath) return edgeDefinitions;
-    if (modulePath.endsWith('.json')) {
-        const doc = JSON.parse(readFileSync(resolve(modulePath), 'utf8'));
-        return hydrateEdgeDefinitions(doc.edgeDefinitions ?? doc);
-    }
-    const mod = await import(pathToFileURL(resolve(modulePath)).href);
-    const definitions = mod.edgeDefinitions || mod.default?.edgeDefinitions || mod.default;
-    if (!definitions || typeof definitions !== 'object') {
-        throw new Error(`${modulePath} exports no edgeDefinitions`);
-    }
-    return definitions;
-};
 
 // ---- the two sides ----------------------------------------------------------
 

@@ -18,13 +18,14 @@
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
 import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
-import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
 import { inverseEdgesFrom } from '../../src/templates/v3-0/inverseEdges.js';
+
+import { loadCandidate } from './candidateDefinitions.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const baselinePath = join(here, 'edgeParity.baseline.json');
@@ -70,20 +71,6 @@ const recordFor = (definitions) => {
  * @param {string|null} modulePath
  * @returns {Promise<Object>}
  */
-const loadCandidate = async (modulePath) => {
-    if (!modulePath) return edgeDefinitions;
-    if (modulePath.endsWith('.json')) {
-        const doc = JSON.parse(readFileSync(resolve(modulePath), 'utf8'));
-        return hydrateEdgeDefinitions(doc.edgeDefinitions ?? doc);
-    }
-    const mod = await import(pathToFileURL(resolve(modulePath)).href);
-    const definitions = mod.edgeDefinitions || mod.default?.edgeDefinitions || mod.default;
-    if (!definitions || typeof definitions !== 'object') {
-        throw new Error(`${modulePath} exports no edgeDefinitions`);
-    }
-    return definitions;
-};
-
 // JSON.stringify drops undefined, so compare values in their serialised form
 const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 const show = (value) => JSON.stringify(value ?? null);
