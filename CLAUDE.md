@@ -31,14 +31,18 @@ Labkoat-API and Data-Pipeline. **Treat every change as additive** unless you hav
 ```bash
 npm run docs            # Markdown API reference → docs/api/
 npm run build:types     # .d.ts declarations via tsc → types/
-npm run release:check   # build:types + mergerefs + mergechanges + cleanentity
+npm run release:check   # build:types + every gate below
 
 npm run test:mergerefs    # relationship-array merge guard
 npm run test:mergechanges # mergeChanges behaviour
 npm run test:cleanentity  # cleanEntity behaviour
+npm run test:validate     # omcValidate across the three accepted OMC shapes
 npm run test:mergekeys    # mergeKey / shape guard
 npm run test:mapping      # omcMapping engine
 npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkml + mergeKeys)
+npm run test:registry     # the four places an entity type must agree
+npm run edges:parity      # the built edge table against its baseline
+npm run edges:coverage    # intrinsic edges against what the schema declares
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
 
@@ -144,6 +148,13 @@ stay in the Portal.)
 
 **Treat every change as additive.** Consumers pick up releases independently, and Data-Management
 holds a vendored copy that gets nothing.
+
+**An entity type must be registered, not just declared.** The schema, the schema's own `rootEntity`
+enum, `generalConfig` and the v3-0 barrel all have to agree, and three of the four is the easy
+mistake — the type then reaches no consumer, silently. `npm run test:registry` compares them.
+**The full procedure — all four places, what the schema derives versus what is hand-authored, the
+edge-path rule that decides whether an entity validates, and fMam's boot-order constraint — is in
+the `omc-entity-type` skill. Read it before adding or changing an entity type or an edge.**
 
 ---
 

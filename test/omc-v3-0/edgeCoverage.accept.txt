@@ -1,0 +1,92 @@
+# Differences edgeCoverage.js should not fail on.
+#
+# One line per difference, copied verbatim from the report. Blank lines and `#` comments are
+# ignored. An entry here is a claim that the difference is known and intended for now — so when
+# you add one, say why. Removing an entry is how a gap gets closed.
+#
+# Everything below is the state edges.js was in when this check was written. None of it was
+# introduced by the check; the point of writing it down is that the next difference stands out.
+
+# --- MISSING: the schema declares the relationship, edges.js has no predicate for it ---------
+#
+# The Asset and AssetStructure versionInfo families (RevisionOf, DerivationOf, RepresentationOf,
+# VariantOf and their forward forms) are a whole relationship group edges.js has never carried.
+# They are real v3.0 relationships, so this is work outstanding, not a decision.
+#
+# Carrier, the *StructureProperties.Member properties and ParticipantStructure's Location are
+# the same story on a smaller scale. Several also appear under TABLE-ONLY below, at the wrong
+# path — see the report those lines print.
+MISSING Asset versionInfo.RevisionOf -> [Asset] max 1
+MISSING Asset versionInfo.DerivationOf -> [Asset] max 1
+MISSING Asset versionInfo.RepresentationOf -> [Asset] max 1
+MISSING Asset versionInfo.VariantOf -> [Asset] max 1
+MISSING Asset versionInfo.Revision -> [Asset]
+MISSING Asset versionInfo.Derivation -> [Asset]
+MISSING Asset versionInfo.Representation -> [Asset]
+MISSING Asset versionInfo.Variant -> [Asset]
+MISSING Asset versionInfo.Alternative -> [Asset]
+MISSING AssetStructure versionInfo.RevisionOf -> [AssetStructure] max 1
+MISSING AssetStructure versionInfo.DerivationOf -> [AssetStructure] max 1
+MISSING AssetStructure versionInfo.RepresentationOf -> [AssetStructure] max 1
+MISSING AssetStructure versionInfo.Revision -> [AssetStructure]
+MISSING AssetStructure versionInfo.Derivation -> [AssetStructure]
+MISSING AssetStructure versionInfo.Representation -> [AssetStructure]
+MISSING AssetStructure assetStructureProperties.assetGroup.Member -> [Asset]
+MISSING AssetStructure Carrier -> [Infrastructure]
+MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
+MISSING CreativeWork creativeWorkProperties.Series -> [CreativeWork]
+MISSING CreativeWork creativeWorkProperties.Episode -> [CreativeWork]
+MISSING CreativeWork creativeWorkProperties.Season -> [CreativeWork]
+MISSING ParticipantStructure participantStructureProperties.Member -> [Participant]
+MISSING ParticipantStructure participantStructureProperties.Location -> [Location]
+MISSING TaskStructure taskStructureProperties.Member -> [Task]
+
+# --- TABLE-ONLY: edges.js writes a path the schema does not declare -------------------------
+#
+# Collection.includes.* and Composition/Collection software.ConfigurationFile have no counterpart
+# in the v3.0 schema at all: either the schema is missing them or edges.js is modelling something
+# that no longer exists. Composition StartHere is declared as a union in the schema rather than as
+# a reference list, so this walk does not see it — harmless, but it stays listed rather than
+# special-cased.
+#
+# The seven the report calls out separately are different and worse: the same relationship at the
+# wrong path, which makes any entity carrying one fail validation.
+TABLE-ONLY CreativeWork Series
+TABLE-ONLY CreativeWork Season
+TABLE-ONLY CreativeWork Episode
+TABLE-ONLY Composition software.ConfigurationFile
+TABLE-ONLY Composition StartHere
+TABLE-ONLY AssetStructure Member
+TABLE-ONLY Collection includes.Asset
+TABLE-ONLY Collection includes.AssetStructure
+TABLE-ONLY Collection includes.Character
+TABLE-ONLY Collection includes.Collection
+TABLE-ONLY Collection includes.Composition
+TABLE-ONLY Collection includes.CreativeWork
+TABLE-ONLY Collection includes.Effect
+TABLE-ONLY Collection includes.Infrastructure
+TABLE-ONLY Collection includes.Location
+TABLE-ONLY Collection includes.NarrativeAudio
+TABLE-ONLY Collection includes.NarrativeLocation
+TABLE-ONLY Collection includes.NarrativeObject
+TABLE-ONLY Collection includes.NarrativeScene
+TABLE-ONLY Collection includes.NarrativeStyling
+TABLE-ONLY Collection includes.NarrativeWardrobe
+TABLE-ONLY Collection includes.Participant
+TABLE-ONLY Collection includes.ProductionLocation
+TABLE-ONLY Collection includes.ProductionScene
+TABLE-ONLY Collection includes.Slate
+TABLE-ONLY Collection includes.SpecialAction
+TABLE-ONLY Collection software.ConfigurationFile
+TABLE-ONLY InfrastructureStructure Member
+TABLE-ONLY TaskStructure Member
+TABLE-ONLY ParticipantStructure Member
+
+# --- TARGETS: the predicate exists but its allowed types differ from the schema's -------------
+#
+# Each is one type in or out, and which side is right is a modelling question rather than a typo:
+# whether a Realization can realize a NarrativeAudio, whether a Task can realize one, and whether
+# a Provenance Origin may be an AssetStructure.
+TARGETS Realization realizationProperties.RealizationOf table [Character,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
+TARGETS Realization realizationProperties.RealizationBy table [Asset,Composition,Participant] schema [Asset,Composition,Participant,Task]
+TARGETS Provenance Origin table [Asset,AssetStructure] schema [Asset]

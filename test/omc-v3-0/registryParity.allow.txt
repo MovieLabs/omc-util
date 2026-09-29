@@ -1,0 +1,8 @@
+# Differences registryParity.js should not fail on.
+#
+# One `<CATEGORY> <EntityType>` per line, copied verbatim from the report. Blank lines and
+# `#` comments are ignored. An entry here says the difference is intended — a type sitting in
+# the schema ahead of its template work, say — so write down why beside it.
+#
+# Empty today: all 31 v3.0 entity types appear in $defs, the rootEntity enum, generalConfig and
+# the barrel.

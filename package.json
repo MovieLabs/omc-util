@@ -81,9 +81,11 @@
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "docs": "node build-docs.js",
     "build:types": "tsc && node postbuild-types.js",
-    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity && npm run test:validate",
+    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity && npm run test:validate && npm run test:mapping && npm run test:derive && npm run test:registry && npm run edges:parity && npm run edges:coverage",
     "test:mapping": "node test/omcMapping.js",
-    "edges:parity": "node test/omc-v3-0/edgeParity.js"
+    "test:registry": "node test/omc-v3-0/registryParity.js",
+    "edges:parity": "node test/omc-v3-0/edgeParity.js",
+    "edges:coverage": "node test/omc-v3-0/edgeCoverage.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",
