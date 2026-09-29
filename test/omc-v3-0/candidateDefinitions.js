@@ -11,9 +11,15 @@
  * two projections of the same stored edge — so the definitions are at `json.edgeDefinitions`.
  * The barer forms are accepted too, for a hand-cut file or an older export.
  *
+ * **There is no silent fallback to edges.js.** Substituting the hand-written table when the API is
+ * not answering would report a pass for a question nobody asked — the whole point is what the tool
+ * is producing now. Asked for live and unable to get it, a check fails and says how to fix it.
+ * `--static` asks for the shipped table deliberately, which is the right subject at release time
+ * because edges.js is still what ships.
+ *
  * **A live source reports, it does not gate.** Its content changes under you, so a failure would
- * mean "somebody edited an edge", not "this commit is wrong". Only a fixed source — edges.js, or a
- * file named with `--candidate` — is matched against an accept file and can fail the run. This is
+ * mean "somebody edited an edge", not "this commit is wrong". Only a fixed source — `--static`, or
+ * a file named with `--candidate` — is matched against an accept file and can fail the run. This is
  * also why nothing here ships: `test/` is outside the `files` allow-list, and the library itself
  * never reaches the network.
  *
@@ -58,11 +64,23 @@ export const definitionsOf = (doc) => doc?.json?.edgeDefinitions ?? doc?.edgeDef
  */
 async function fetchPublished(url) {
     const token = process.env.LABKOAT_TOKEN;
-    const response = await fetch(url, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        signal: AbortSignal.timeout(PROBE_MS),
-    });
+    // An own controller rather than AbortSignal.timeout: its timer is cleared here, so nothing
+    // is left pending when a caller exits on the failure this throws.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), PROBE_MS);
+    let response;
+    try {
+        response = await fetch(url, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            signal: controller.signal,
+        });
+    } finally {
+        clearTimeout(timer);
+    }
     if (!response.ok) {
+        // Release the socket before throwing: a caller that exits on this error would otherwise
+        // do so with the connection still open, which trips a libuv assertion on Windows.
+        await response.body?.cancel();
         throw new Error(`${response.status} ${response.statusText}${
             response.status === 401 && !token ? ' — set LABKOAT_TOKEN' : ''}`);
     }
@@ -79,12 +97,16 @@ async function fetchPublished(url) {
 /**
  * Load a candidate set of edge definitions, and say where they came from.
  *
- * @param {string|null} source - A URL, a published `.json`, a module exporting `edgeDefinitions`,
- *   or null to try the local API and fall back to edges.js
+ * @param {string|null} source - A URL, a published `.json`, or a module exporting `edgeDefinitions`
+ * @param {{static?: boolean}} [options] - `static` takes the shipped edges.js instead of the API
  * @returns {Promise<{definitions: Object, label: string, live: boolean}>} `live` is true only for a
  *   source that can change between runs, and a live source must not gate.
+ * @throws {Error} When the live table was wanted and could not be read
  */
-export async function loadCandidate(source) {
+export async function loadCandidate(source, options = {}) {
+    if (!source && options.static) {
+        return { definitions: edgeDefinitions, label: 'src/templates/v3-0/edges.js (--static)', live: false };
+    }
     if (source && isUrl(source)) {
         const { definitions, note } = await fetchPublished(source);
         return { definitions, label: `${source} (${note})`, live: true };
@@ -112,11 +134,13 @@ export async function loadCandidate(source) {
         const { definitions, note } = await fetchPublished(DEFAULT_EDGES_URL);
         return { definitions, label: `${DEFAULT_EDGES_URL} (${note})`, live: true };
     } catch (err) {
-        return {
-            definitions: edgeDefinitions,
-            label: `src/templates/v3-0/edges.js — no live API (${err.message})`,
-            live: false,
-        };
+        throw new Error([
+            `Could not read the live edge table from ${DEFAULT_EDGES_URL}: ${err.message}`,
+            '  Start Labkoat-API and set LABKOAT_TOKEN, point OMC_EDGES_URL elsewhere, name a',
+            '  saved document with --candidate, or pass --static to check the shipped edges.js.',
+            '  It does not fall back on its own: a pass against the hand-written table would',
+            '  answer a question you did not ask.',
+        ].join('\n'));
     }
 }
 
