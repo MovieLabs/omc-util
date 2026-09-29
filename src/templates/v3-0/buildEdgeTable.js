@@ -145,7 +145,6 @@ export function buildEdgeTable(edgeDefinitions) {
                         inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
-                        rdfMap: group.rdfMap || [],
                     });
                 }));
             } else {
@@ -162,7 +161,6 @@ export function buildEdgeTable(edgeDefinitions) {
                         inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
-                        rdfMap: group.rdfMap || [],
                     });
                 });
             }
@@ -178,7 +176,6 @@ export function buildEdgeTable(edgeDefinitions) {
     const cxtForRdf = typeof edgeDefinitions.cxtFor?.rdf === 'function'
         ? edgeDefinitions.cxtFor.rdf
         : tentativeRdf;
-    const cxtForRdfMap = edgeDefinitions.cxtFor?.connects?.[0]?.rdfMap || [];
     const predicateOf = (path) => (path.startsWith('edges.') ? path.split('.')[1] : null);
     const repointInverse = (inverse) => {
         if (!inverse || !inverse.startsWith('edges.')) return inverse; // null or intrinsic — unchanged
@@ -203,7 +200,6 @@ export function buildEdgeTable(edgeDefinitions) {
             inverse: `edges.hasCxt.${CONTEXT}`,
             inversePath: `edges.hasCxt.${CONTEXT}`,
             omcPredicate: cxtForRdf({ domain: CONTEXT, predicate: 'cxtFor', range: subject }),
-            rdfMap: cxtForRdfMap,
         };
 
         // Right-side inheritance: A's forward relational edges, re-homed on the
@@ -221,7 +217,6 @@ export function buildEdgeTable(edgeDefinitions) {
                 inverse: repointInverse(edge.inverse),
                 inversePath: repointInverse(edge.inverse),
                 omcPredicate: edge.omcPredicate,
-                rdfMap: [...(edge.rdfMap || [])],
             };
         });
     });

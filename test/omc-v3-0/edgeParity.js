@@ -36,7 +36,7 @@ import { loadCandidate } from './candidateDefinitions.js';
 const here = dirname(fileURLToPath(import.meta.url));
 const baselinePath = join(here, 'edgeParity.baseline.json');
 const PARTITIONS = ['edges', 'intrinsic', 'cxtEdges'];
-const FIELDS = ['predicate', 'allowed', 'type', 'maxItems', 'inverse', 'inversePath', 'omcPredicate', 'rdfMap'];
+const FIELDS = ['predicate', 'allowed', 'type', 'maxItems', 'inverse', 'inversePath', 'omcPredicate'];
 
 const argValue = (name) => {
     const at = process.argv.indexOf(name);
