@@ -254,12 +254,6 @@
                     "udimTile"
                   ]
                 },
-                "category": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "assetFunctionProperties": {
                   "type": [
                     "object",
@@ -1036,36 +1030,14 @@
                 "linkset": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/linkset"},
                 "purpose": {"$ref": "#/$defs/Utility/properties/purpose"},
                 "scale": {"$ref": "#/$defs/Utility/properties/scale"},
+                "software": {
+                  "title": "Software",
+                  "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
+                  "$ref": "#/$defs/Utility/properties/software"
+                },
                 "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"}
               },
               "additionalProperties": true
-            },
-            "isAnalog": {
-              "type": [
-                "boolean",
-                "null"
-              ],
-              "title": "Is Analog",
-              "description": "True if the Asset is an Analog Asset."
-            },
-            "software": {
-              "title": "Software",
-              "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
-              "$ref": "#/$defs/Utility/properties/software"
-            },
-            "Carrier": {
-              "title": "Carrier",
-              "description": "For describing the physical storage device on which the digital essence is stored.",
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
-                ]
-              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1274,20 +1246,6 @@
               "title": "Infrastructure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "InfrastructureStructure": {
-              "title": "Structure",
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
-                ]
-              }
-            },
             "infrastructureFunction": {
               "type": [
                 "object",
@@ -1315,6 +1273,20 @@
               "additionalProperties": false,
               "description": "Describes the use or purpose of an Infrastructure within the production process",
               "required": ["infrastructureFunctionType"]
+            },
+            "Member": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Infrastructure Group Member",
+              "description": "The set of Infrastructure that make up the members of a infrastructure group.",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
+                ]
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -1398,6 +1370,10 @@
               "title": "Entity Type",
               "const": "Character"
             },
+            "characterName": {
+              "title": "Character Name",
+              "$ref": "#/$defs/Utility/properties/completeName"
+            },
             "characterType": {
               "title": "Character Type",
               "description": "Describes the specific type of Character, equivalent to the sub-class used in OMC-RDF.",
@@ -1407,10 +1383,6 @@
                 "character",
                 "extra"
               ]
-            },
-            "characterName": {
-              "title": "Character Name",
-              "$ref": "#/$defs/Utility/properties/completeName"
             },
             "characterProperties": {
               "type": [
@@ -1813,6 +1785,10 @@
               "title": "Entity Type",
               "const": "Realization"
             },
+            "realizationName": {
+              "title": "Realization Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "realizationType": {
               "title": "Realization type",
               "description": "A categorization of the type of realization",
@@ -1833,53 +1809,45 @@
               "additionalProperties": true,
               "title": "Realization Properties",
               "description": "Properties specific to Realization sub-types",
-              "properties": {
-                "RealizationOf": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "maxItems": 1,
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
-                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"}
-                    ]
-                  }
-                },
-                "RealizationBy": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
-                      {"$ref": "#/$defs/Participant/properties/Participant"},
-                      {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/Task/properties/Task"}
-                    ]
-                  }
-                }
+              "properties": {}
+            },
+            "RealizedBy": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"},
+                  {"$ref": "#/$defs/Participant/properties/Participant"},
+                  {"$ref": "#/$defs/Utility/properties/Composition"},
+                  {"$ref": "#/$defs/Task/properties/Task"}
+                ]
               }
             },
-            "realizationName": {
-              "title": "Realization Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
+            "RealizationOf": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"}
+                ]
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "unevaluatedProperties": false,
-          "required": [
-            "entityType",
-            "realizationType"
-          ],
+          "required": ["entityType"],
           "description": "The representation of something in the narrative by one or more  Assets, Participants, Tasks, or Compositions."
         },
         "Effect": {
@@ -1892,6 +1860,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "Effect"
+            },
+            "effectName": {
+              "title": "Effect Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "effectType": {
               "title": "Effect Type",
@@ -1913,10 +1885,6 @@
               "title": "Effect Properties",
               "description": "Properties specific to Effect sub-types"
             },
-            "effectName": {
-              "title": "Effect Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
-            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
@@ -1936,6 +1904,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "NarrativeAudio"
+            },
+            "narrativeAudioName": {
+              "title": "Narrative Audio Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "narrativeAudioType": {
               "title": "Narrative Type (narrative audio)",
@@ -1957,10 +1929,6 @@
               "title": "Narrative Audio Properties",
               "description": "Properties specific to Narrative Audio sub-types"
             },
-            "narrativeAudioName": {
-              "title": "Narrative Audio Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
-            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
@@ -1981,6 +1949,10 @@
               "title": "Entity Type",
               "const": "NarrativeLocation"
             },
+            "narrativeLocationName": {
+              "title": "Narrative Location Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
             "narrativeLocationType": {
               "type": "string",
               "x-controlledValues": ["narrativeLocation"],
@@ -1997,11 +1969,6 @@
               "title": "Narrative Location Properties",
               "description": "Properties specific to Narrative Location sub-types"
             },
-            "narrativeLocationName": {
-              "title": "Narrative Location Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
-            },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Location": {
               "type": [
                 "array",
@@ -2014,7 +1981,8 @@
                   {"$ref": "#/$defs/Utility/properties/Location"}
                 ]
               }
-            }
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
             "entityType",
@@ -2033,6 +2001,10 @@
             "entityType": {
               "title": "Entity Type",
               "const": "NarrativeObject"
+            },
+            "narrativeObjectName": {
+              "title": "Narrative Object Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "narrativeObjectType": {
               "title": "Narrative Type (narrative object)",
@@ -2055,10 +2027,6 @@
               "additionalProperties": true,
               "title": "Narrative Object Properties",
               "description": "Properties specific to Narrative Object sub-types"
-            },
-            "narrativeObjectName": {
-              "title": "Narrative Object Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "size": {
               "type": [
@@ -2095,6 +2063,10 @@
               "title": "Entity Type",
               "const": "NarrativeScene"
             },
+            "narrativeSceneName": {
+              "title": "Narrative Scene Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
             "narrativeSceneType": {
               "title": "Narrative Type (narrative scene)",
               "description": "Describes the specific type of Narrative Scene, equivalent to the sub-class used in OMC-RDF.",
@@ -2110,10 +2082,6 @@
               "additionalProperties": true,
               "title": "Narrative Scene Properties",
               "description": "Properties specific to Narrative Scene sub-types"
-            },
-            "narrativeSceneName": {
-              "title": "Narrative Scene Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "sceneNumber": {
               "type": [
@@ -2149,6 +2117,10 @@
               "title": "Entity Type",
               "const": "NarrativeStyling"
             },
+            "narrativeStylingName": {
+              "title": "Narrative Styling Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
             "narrativeStylingType": {
               "title": "Narrative Type (narrative styling)",
               "description": "Describes the specific type of Narrative Styling, equivalent to the sub-class used in OMC-RDF.",
@@ -2170,10 +2142,6 @@
               "title": "Narrative Styling Properties",
               "description": "Properties specific to Narrative Styling sub-types"
             },
-            "narrativeStylingName": {
-              "title": "Narrative Styling Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
-            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
@@ -2194,6 +2162,10 @@
               "title": "Entity Type",
               "const": "NarrativeWardrobe"
             },
+            "narrativeWardrobeName": {
+              "title": "Narrative Wardrobe Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
             "narrativeWardrobeType": {
               "title": "Narrative Wardrobe Type (narrative wardrobe)",
               "description": "Describes the specific type of Narrative Wardrobe, equivalent to the sub-class used in OMC-RDF.",
@@ -2209,10 +2181,6 @@
               "additionalProperties": true,
               "title": "Narrative Wardrobe Properties",
               "description": "Properties specific to Narrative Wardrobe sub-types"
-            },
-            "narrativeWardrobeName": {
-              "title": "Narrative Wardrobe Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2234,6 +2202,10 @@
               "title": "Entity Type",
               "const": "ProductionLocation"
             },
+            "productionLocationName": {
+              "title": "Production Location Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "productionLocationType": {
               "description": "Describes whether this is production location or more specifically a shooting location",
               "type": "string",
@@ -2253,11 +2225,6 @@
               "title": "Production Location Properties",
               "description": "Properties specific to Production Location sub-types"
             },
-            "productionLocationName": {
-              "title": "Production Location Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
-            },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
             "Location": {
               "type": [
                 "array",
@@ -2270,7 +2237,8 @@
                   {"$ref": "#/$defs/Utility/properties/Location"}
                 ]
               }
-            }
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": [
             "entityType",
@@ -2394,7 +2362,6 @@
               "title": "Recording FPS",
               "description": "Frames per second recorded by the camera."
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"},
             "CreativeWork": {
               "type": [
                 "array",
@@ -2421,7 +2388,8 @@
                   {"$ref": "#/$defs/Participant/properties/Participant"}
                 ]
               }
-            }
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
           "description": "Used to capture key identifying information about what is being recorded on any given setup and take.",
@@ -2438,6 +2406,10 @@
               "title": "Entity Type",
               "const": "SpecialAction"
             },
+            "specialActionName": {
+              "title": "Special Action Name",
+              "$ref": "#/$defs/Utility/properties/narrativeName"
+            },
             "specialActionType": {
               "title": "Special Action Type",
               "description": "A categorization of the type action.",
@@ -2452,10 +2424,6 @@
                 "specialAction"
               ],
               "default": "specialAction"
-            },
-            "specialActionName": {
-              "title": "Special Action Name",
-              "$ref": "#/$defs/Utility/properties/narrativeName"
             },
             "specialActionProperties": {
               "type": [
@@ -2577,21 +2545,6 @@
                 {"$ref": "#/$defs/Utility/properties/completeName"}
               ]
             },
-            "ParticipantStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Participant/properties/ParticipantStructure"}
-                ]
-              },
-              "title": "Participant Structure",
-              "description": "Describes the form of a Participant along with the attributes specific to that Participant’s form."
-            },
             "participantFunction": {
               "type": [
                 "object",
@@ -2603,6 +2556,14 @@
                   "type": "string",
                   "default": "participantFunction",
                   "title": "Functional Type"
+                },
+                "participantFunctionProperties": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": true,
+                  "title": "Participant Functional Properties"
                 },
                 "jobTitle": {
                   "type": [
@@ -2625,19 +2586,26 @@
                     ]
                   },
                   "title": "Role"
-                },
-                "participantFunctionProperties": {
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "additionalProperties": true,
-                  "title": "Participant Functional Properties"
                 }
               },
               "additionalProperties": false,
               "description": "The use or purpose of a Participant within the production process",
               "required": ["participantFunctionType"]
+            },
+            "ParticipantStructure": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Participant/properties/ParticipantStructure"}
+                ]
+              },
+              "title": "Participant Structure",
+              "description": "Describes the form of a Participant along with the attributes specific to that Participant’s form."
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2670,6 +2638,7 @@
               "default": "participantStructure",
               "x-controlledValues": [
                 "participantStructure",
+                "participantGroup",
                 "person",
                 "department",
                 "organization",
@@ -2705,34 +2674,45 @@
                   "$ref": "#/$defs/Utility/properties/contact",
                   "title": "Participant Contact"
                 },
-                "Member": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "title": "Participant Group Member",
-                  "description": "The set of Participants that make up the members of a participant group.",
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Participant/properties/Participant"}
-                    ]
-                  }
-                },
-                "Location": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Utility/properties/Location"}
-                    ]
+                "participantGroup": {
+                  "type": "object",
+                  "properties": {
+                    "Member": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "title": "Participant Group Member",
+                      "description": "The set of Participants that make up the members of a participant group.",
+                      "items": {
+                        "anyOf": [
+                          {"$ref": "#/$defs/core/properties/reference"},
+                          {"$ref": "#/$defs/Participant/properties/Participant"}
+                        ]
+                      }
+                    },
+                    "isOrdered": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
                   }
                 }
               },
               "additionalProperties": true
+            },
+            "Location": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Utility/properties/Location"}
+                ]
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2807,20 +2787,6 @@
               "title": "Task Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
-            "TaskStructure": {
-              "title": "Task Structure",
-              "type": [
-                "array",
-                "null"
-              ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Task/properties/TaskStructure"}
-                ]
-              }
-            },
             "taskFunction": {
               "title": "Task Function",
               "properties": {
@@ -2846,6 +2812,20 @@
               ],
               "required": ["taskFunctionType"]
             },
+            "TaskStructure": {
+              "title": "Task Structure",
+              "type": [
+                "array",
+                "null"
+              ],
+              "maxItems": 1,
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Task/properties/TaskStructure"}
+                ]
+              }
+            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "title": "Task",
@@ -2864,16 +2844,16 @@
               "title": "Entity Type",
               "const": "TaskStructure"
             },
+            "taskStructureName": {
+              "title": "Task Structure Name",
+              "$ref": "#/$defs/Utility/properties/basicName"
+            },
             "taskStructureType": {
               "type": "string",
               "default": "taskStructure",
               "x-controlledValues": ["taskStructure"],
               "title": "Task Structure Type",
               "description": "A structured description of the the Tasks form"
-            },
-            "taskStructureName": {
-              "title": "Task Structure Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
             },
             "taskStructureProperties": {
               "type": [
@@ -2883,18 +2863,29 @@
               "title": "Task Structure Properties",
               "description": "A set of properties that describe the Task in this form",
               "properties": {
-                "Member": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "title": "Task Group Member",
-                  "description": "The set of Tasks that make up the members of a task group.",
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Task/properties/Task"}
-                    ]
+                "taskGroup": {
+                  "type": "object",
+                  "properties": {
+                    "Member": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "title": "Task Group Member",
+                      "description": "The set of Tasks that make up the members of a task group.",
+                      "items": {
+                        "anyOf": [
+                          {"$ref": "#/$defs/core/properties/reference"},
+                          {"$ref": "#/$defs/Task/properties/Task"}
+                        ]
+                      }
+                    },
+                    "isOrdered": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
                   }
                 }
               },
@@ -3195,16 +3186,9 @@
             },
             "Origin": {
               "type": [
-                "array",
+                "string",
                 "null"
               ],
-              "maxItems": 1,
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Asset/properties/Asset"}
-                ]
-              },
               "title": "Origin",
               "description": "A relationship to something with an identifier, or a URI for the source, or a  some string explaining the origin of the thing."
             },
@@ -4732,19 +4716,6 @@
                 ]
               }
             },
-            "InfrastructureStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "InfrastructureStructure",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
-                ]
-              }
-            },
             "Character": {
               "type": [
                 "array",
@@ -5096,7 +5067,6 @@
                     "Asset",
                     "AssetStructure",
                     "Infrastructure",
-                    "InfrastructureStructure",
                     "Character",
                     "Context",
                     "CreativeWork",
@@ -5158,16 +5128,6 @@
                 "required": ["entityType"]
               },
               "then": {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
-            },
-            {
-              "if": {
-                "type": "object",
-                "properties": {
-                  "entityType": {"const": "InfrastructureStructure"}
-                },
-                "required": ["entityType"]
-              },
-              "then": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"}
             },
             {
               "if": {

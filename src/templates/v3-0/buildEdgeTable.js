@@ -26,7 +26,7 @@
  * @module buildEdgeTable
  */
 
-import { edgeDefinitions as defaultDefinitions, tentativeRdf } from './edges.js';
+import { tentativeRdf } from './rdfTemplates.js';
 import { maxItemsIndex } from './schemaIndex.js';
 
 /**
@@ -105,7 +105,7 @@ const computePath = (placement, pred, range, group, def) => {
  * @returns {{ table: Object, collisions: Array<string> }} The generated per-entity
  * edgeTable plus any same-key collisions detected during expansion.
  */
-export function buildEdgeTable(edgeDefinitions = defaultDefinitions) {
+export function buildEdgeTable(edgeDefinitions) {
     const table = {};
     const collisions = [];
 

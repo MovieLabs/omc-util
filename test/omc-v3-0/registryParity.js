@@ -34,7 +34,7 @@ import { fileURLToPath } from 'node:url';
 import { isCapitalized } from '../../src/mlHelpers/util.js';
 import schemav30 from '../../src/omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 import { listEntities } from '../../src/templates/schemaDerive.js';
-import { unionEdgeTable } from '../../src/templates/v3-0/edgeTable.js';
+import { shippedEdgeTable } from '../../src/templates/v3-0/edgeTable.js';
 import { generalConfig } from '../../src/templates/v3-0/generalConfig.js';
 import { entityTemplate } from '../../src/templates/v3-0/index.js';
 
@@ -150,11 +150,10 @@ const noEdges = registeredTypes.filter((type) => {
 line(`  no graphQl template (${noGraphQl.length}): ${noGraphQl.join(', ') || 'none'}`);
 line('    A type with no graphQl template still reaches graphQlEntities, so the query builder');
 line('    will offer it. fMam must know the type before a query for it can succeed.');
-const { provenance } = unionEdgeTable();
-line(`  shipped edge table: ${provenance.published} rows from the publication, `
-    + `${provenance.seed.length} still from the edges.js seed`);
-line('    The seed is a fallback, not an authority. Every row it still supplies is one the Edge');
-line('    Editor does not yet publish, and the number is meant to reach zero.');
+const { rows: shippedRows } = shippedEdgeTable();
+line(`  shipped edge table: ${shippedRows} rows, every one from the publication`);
+line('    edges.js is parked and reaches nothing here. `npm run edges:missing` lists what it');
+line('    still holds that the publication does not.');
 line(`  empty edge table (${noEdges.length}): ${noEdges.join(', ') || 'none'}`);
 line('    Creatable and editable, but with no relationships: edges.js carries no predicate for');
 line('    it, and fMam omits the edges field entirely for such a type.');

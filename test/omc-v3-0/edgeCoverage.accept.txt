@@ -1,43 +1,30 @@
 # Differences edgeCoverage.js should not fail on for the SHIPPED table.
 #
-# The shipped table is what the Edge Editor published, with the edges.js seed filling the rows the
-# publication does not build (src/templates/v3-0/edgeTable.js). That union is the subject here,
-# because it is what every consumer is handed - `--static` checks the seed alone and no longer
-# describes what ships.
+# The shipped table is what the Edge Editor published, and nothing else: edges.js is parked.
+# Every entry below is therefore a gap in the publication, to be closed in the tool or in the
+# schema. Nothing here is a row some other source is quietly supplying.
 #
-# Two kinds of entry, and telling them apart is the point:
-#   - the publication's own gaps, which close when the tool models them
-#   - rows the seed is still holding up, which close when the publication covers them and the seed
-#     can be dropped. `npm run test:registry` counts these.
-#
+# `npm run edges:missing` lists what the parked seed still holds that the publication does not.
 # The tool's output on its own is reported, never gated: run with no arguments for that.
 
-# --- the publication's gaps ---
+# --- the publication against what the schema declares ---
 MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
+MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
 MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure Location -> [Location]
-MISPLACED InfrastructureStructure infrastructureStructureProperties.Member -> the table has it at "Member"
+OTHER-BUCKET Asset AssetStructure -> [AssetStructure] not intrinsic; the edges bucket has edges.memberOf.AssetStructure (same types — may or may not be the same relationship)
+OTHER-BUCKET Participant ParticipantStructure -> [ParticipantStructure] not intrinsic; the edges bucket has edges.memberOf.ParticipantStructure (same types — may or may not be the same relationship)
+OTHER-BUCKET Task TaskStructure -> [TaskStructure] not intrinsic; the edges bucket has edges.memberOf.TaskStructure (same types — may or may not be the same relationship)
 TARGETS Realization RealizationOf table [Effect,NarrativeAudio,NarrativeObject,NarrativeStyling,NarrativeWardrobe,SpecialAction] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 
-# --- rows the seed still supplies, and the verbs that come with them ---
-#
-# hasCxt and cxtFor are the Context carrier, which the publication does not model at all.
-TABLE-ONLY Infrastructure InfrastructureStructure
-TABLE-ONLY Realization realizationProperties.RealizationBy
-TABLE-ONLY Provenance Origin
-VERB-UNDECLARED contributesTo
-VERB-UNDECLARED contributor
-VERB-UNDECLARED cxtFor
-VERB-UNDECLARED hasCxt
-
-# --- a declared verb used where the schema does not list it ---
+# --- verbs and spots the schema has no record of ---
 #
 # additionalProperties is true at both levels of the shared edges block, so these validate and
 # nothing notices. The fix is a line in the schema.
+VERB-UNDECLARED contributesTo
+VERB-UNDECLARED contributor
 PAIR-UNDECLARED for.ParticipantStructure (used by Location)
-PAIR-UNDECLARED has.Realization (used by Asset, Composition, Participant)
 PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
-PAIR-UNDECLARED memberOf.InfrastructureStructure (used by Infrastructure)
 PAIR-UNDECLARED memberOf.ParticipantStructure (used by Participant)
 PAIR-UNDECLARED memberOf.TaskStructure (used by Task)
 PAIR-UNDECLARED neededBy.Effect (used by NarrativeAudio, NarrativeStyling)

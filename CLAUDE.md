@@ -43,6 +43,7 @@ npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkm
 npm run test:registry     # the four places an entity type must agree
 npm run edges:coverage    # the edge definitions against what the schema declares
 npm run edges:inverse     # every edge's inverse resolves, and fMam can write it
+npm run edges:missing     # what the parked edges.js holds that the publication does not
 npm run edges:parity      # TRANSITIONAL — the built table against a snapshot of edges.js
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
@@ -51,12 +52,12 @@ There is no unified test runner. The `test:*` scripts are standalone node script
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
 
-**The edge table is what the Edge Editor published.** `src/templates/v3-0/edgeDefinitions.json`
-is that publication, and `edgeTable.js` unions it row by row with the `edges.js` seed: the
-publication wins wherever it speaks, the seed fills the rows it does not build. `edges.js` is a
-fallback now, not an authority — `npm run test:registry` reports how many rows it is still holding
-up, and that number is meant to reach zero. Refresh the publication by replacing that file with a
-fresh export.
+**The edge table is what the Edge Editor published, and nothing else.**
+`src/templates/v3-0/edgeDefinitions.json` is that publication; drop in a fresh export and the
+shipped table follows. `edges.js` is **parked**: it is the hand-written set the tool was seeded
+from, it reaches nothing on the path to the shipped table, and `buildEdgeTable` has no default
+definitions so nothing can fall back to it by omission. `npm run edges:missing` lists what it
+still holds that the publication does not — the worklist for the tool, not a fallback.
 
 **The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
 API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is

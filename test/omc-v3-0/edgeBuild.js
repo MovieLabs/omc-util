@@ -9,8 +9,9 @@
  */
 
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
+import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
 
-const { table, collisions } = buildEdgeTable();
+const { table, collisions } = buildEdgeTable(edgeDefinitions);
 const only = process.argv[2];
 
 console.log(JSON.stringify(only ? { [only]: table[only] } : table, null, 2));

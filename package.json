@@ -86,7 +86,8 @@
     "test:registry": "node test/omc-v3-0/registryParity.js",
     "edges:parity": "node test/omc-v3-0/edgeParity.js",
     "edges:coverage": "node test/omc-v3-0/edgeCoverage.js",
-    "edges:inverse": "node test/omc-v3-0/edgeInverse.js"
+    "edges:inverse": "node test/omc-v3-0/edgeInverse.js",
+    "edges:missing": "node test/omc-v3-0/edgeMissing.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",

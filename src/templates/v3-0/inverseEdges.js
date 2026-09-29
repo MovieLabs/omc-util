@@ -1,16 +1,22 @@
 /**
  * Inverse-edge map: predicate name -> inverse predicate name.
  *
- * Generated from the consolidated edge definitions (edges.js) so the relational inverses no
- * longer need hand-maintaining — each predicate declares its own `inverse`. A small
- * `supplemental` map covers predicates not yet modelled in edges.js but still referenced by
- * consumers (e.g. the fMam edge service via `omcTemplate.inverseEdge()`).
+ * Built from a set of edge definitions, each predicate declaring its own `inverse`. The shipped
+ * map comes from what the Edge Editor published and from nothing else — see edgeTable.js.
+ *
+ * A hand-written `supplemental` map used to be merged in underneath, covering predicates that
+ * consumers referenced but edges.js did not model. It is kept below as a record and is **not**
+ * merged: every inverse the library answers with has to come from the tool, so a predicate the
+ * publication lacks must be added there rather than propped up here.
  */
 
-import { edgeDefinitions } from './edges.js';
-
-// Predicates referenced by consumers but not yet present in edges.js
-const supplemental = {
+/**
+ * What the old hand-written map supplied. Retained so the six are not forgotten while the tool
+ * catches up; nothing reads it.
+ *
+ * @type {Object<string, string>}
+ */
+export const LEGACY_SUPPLEMENTAL = {
     contributor: 'contributesTo',
     contributesTo: 'contributor',
     represents: 'representedBy',
@@ -20,18 +26,14 @@ const supplemental = {
 };
 
 /**
- * Build the inverse map from a set of edge definitions: each predicate's top-level
- * `inverse` (skipping null and per-group-only inverses), over the supplemental map.
+ * Build the inverse map from a set of edge definitions: each predicate's top-level `inverse`,
+ * skipping null and the per-group-only ones, which this shape cannot express.
  *
- * @param {Object} definitions - Edge definitions in the edges.js shape
+ * @param {Object} definitions - Edge definitions in the published shape
  * @returns {Object<string, string>} predicate name -> inverse predicate name
  */
-export const inverseEdgesFrom = (definitions) => ({
-    ...supplemental,
-    ...Object.entries(definitions).reduce((map, [predicate, def]) => {
+export const inverseEdgesFrom = (definitions) => Object.entries(definitions)
+    .reduce((map, [predicate, def]) => {
         if (def.inverse) map[predicate] = def.inverse;
         return map;
-    }, {}),
-});
-
-export const inverseEdges = inverseEdgesFrom(edgeDefinitions);
+    }, {});

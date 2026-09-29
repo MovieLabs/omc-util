@@ -1,4 +1,4 @@
-/** The inverse map the publication and the seed agree on, published first. */
+/** The inverse map, as published. */
 export const inverseEdges: {
     [x: string]: string;
 };

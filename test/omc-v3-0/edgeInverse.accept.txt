@@ -1,24 +1,19 @@
 # Findings edgeInverse.js should not fail on for the SHIPPED table.
 #
-# The subject is the union of the publication and the edges.js seed, which is what
-# omcTemplate.inverseEdge() answers from and therefore what fMam writes reverse edges from.
+# The subject is the publication alone, which is what omcTemplate.inverseEdge() answers from and
+# therefore what fMam writes reverse edges from. The hand-written supplemental map is no longer
+# merged in, so a predicate the publication does not name gets no inverse at all and fMam writes
+# no reverse edge: `npm run edges:missing` lists those.
 #
-# INVERSE-BUCKET and INVERSE-OVERRIDE are structural, not data faults: inverseEdge() returns a bare
-# predicate name, so it can express neither an intrinsic inverse nor a per-group one, and fMam then
-# writes to a place the table does not agree with. Closing them needs an accessor that returns the
-# inverse edge rather than its name.
-#
-# INVERSE-MALFORMED and most INVERSE-UNDECLARED come from the seed - the Context carrier, and the
-# `has` group whose inverse names a path rather than a predicate - and go when the publication
-# covers Context and the seed can be dropped.
+# INVERSE-BUCKET and INVERSE-OVERRIDE are structural, not data faults. inverseEdge() returns a
+# bare predicate name, so it can express neither an intrinsic inverse nor a per-group one, and
+# fMam then writes to a place the table does not agree with. Closing them needs an accessor that
+# returns the inverse edge rather than its name.
 #
 # NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn and realizedBy triangles.
 
 NOT-INVOLUTIVE uses -> usedIn -> realizationOf
-INVERSE-MALFORMED has on Composition: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Composition"
-INVERSE-MALFORMED has on Participant: the group names inverse "realizationProperties.RealizationBy", which is not a predicate, so the table resolved "edges.realizationProperties.RealizationBy.Participant"
 INVERSE-OVERRIDE usedIn on Asset: the group inverts to "edges.uses.Asset", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Asset"
-INVERSE-OVERRIDE usedIn on Character: the group inverts to "edges.uses.Character", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Character"
 INVERSE-OVERRIDE usedIn on ProductionLocation: the group inverts to "edges.uses.ProductionLocation", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.ProductionLocation"
 INVERSE-OVERRIDE usedIn on Realization: the group inverts to "edges.uses.Realization", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Realization"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Asset"
@@ -39,31 +34,8 @@ INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "Reali
 INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.SpecialAction"
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
-INVERSE-UNDECLARED cxtFor.Asset (the reverse of Asset hasCxt)
-INVERSE-UNDECLARED cxtFor.Character (the reverse of Character hasCxt)
-INVERSE-UNDECLARED cxtFor.Collection (the reverse of Collection hasCxt)
-INVERSE-UNDECLARED cxtFor.Composition (the reverse of Composition hasCxt)
-INVERSE-UNDECLARED cxtFor.Context (the reverse of Context hasCxt)
-INVERSE-UNDECLARED cxtFor.CreativeWork (the reverse of CreativeWork hasCxt)
-INVERSE-UNDECLARED cxtFor.Effect (the reverse of Effect hasCxt)
-INVERSE-UNDECLARED cxtFor.Infrastructure (the reverse of Infrastructure hasCxt)
-INVERSE-UNDECLARED cxtFor.Location (the reverse of Location hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeAudio (the reverse of NarrativeAudio hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeLocation (the reverse of NarrativeLocation hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeObject (the reverse of NarrativeObject hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeScene (the reverse of NarrativeScene hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeStyling (the reverse of NarrativeStyling hasCxt)
-INVERSE-UNDECLARED cxtFor.NarrativeWardrobe (the reverse of NarrativeWardrobe hasCxt)
-INVERSE-UNDECLARED cxtFor.Participant (the reverse of Participant hasCxt)
-INVERSE-UNDECLARED cxtFor.ProductionLocation (the reverse of ProductionLocation hasCxt)
-INVERSE-UNDECLARED cxtFor.ProductionScene (the reverse of ProductionScene hasCxt)
-INVERSE-UNDECLARED cxtFor.Provenance (the reverse of Provenance hasCxt)
-INVERSE-UNDECLARED cxtFor.Slate (the reverse of Slate hasCxt)
-INVERSE-UNDECLARED cxtFor.SpecialAction (the reverse of SpecialAction hasCxt)
-INVERSE-UNDECLARED cxtFor.Task (the reverse of Task hasCxt)
 INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
 INVERSE-UNDECLARED has.Location (the reverse of Location for)
-INVERSE-UNDECLARED hasCxt.Context (the reverse of Context cxtFor)
 INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
 INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)

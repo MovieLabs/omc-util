@@ -42,7 +42,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
 import { definitionsOf, hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
-import { publishedDefinitions, unionEdgeTable, unionInverseEdges } from '../../src/templates/v3-0/edgeTable.js';
+import { publishedDefinitions, shippedEdgeTable, shippedInverseEdges } from '../../src/templates/v3-0/edgeTable.js';
 
 /** Where a locally running API serves the published document. `OMC_EDGES_URL` overrides it. */
 export const DEFAULT_EDGES_URL = process.env.OMC_EDGES_URL
@@ -169,16 +169,13 @@ function readExport(path, how = '') {
  */
 export async function loadCandidate(source, options = {}) {
     if (!source && options.shipped) {
-        // What the library exports: the publication with the seed filling its gaps. This is the
-        // only subject worth gating, because it is the table every consumer is handed.
-        const { table, provenance } = unionEdgeTable();
+        // What the library exports: the publication, and nothing else.
+        const { table, rows } = shippedEdgeTable();
         return {
             table,
-            // Per predicate, for a reader that needs to ask whether one is intrinsic.
-            definitions: { ...edgeDefinitions, ...publishedDefinitions },
-            inverses: unionInverseEdges(),
-            label: `the shipped table — ${provenance.published} rows published, `
-                + `${provenance.seed.length} still from the edges.js seed`,
+            definitions: publishedDefinitions,
+            inverses: shippedInverseEdges(),
+            label: `the shipped table — ${rows} rows, all published`,
             live: false,
         };
     }

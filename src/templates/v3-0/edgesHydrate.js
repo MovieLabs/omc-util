@@ -9,7 +9,7 @@
  * @module edgesHydrate
  */
 
-import { intrinsicRdf, tentativeRdf } from './edges.js';
+import { intrinsicRdf, tentativeRdf } from './rdfTemplates.js';
 
 /**
  * The `edgeDefinitions` of a published document, wherever the document carries them.

@@ -29,10 +29,8 @@
 // eslint-disable-next-line import/order
 import { graphQlSnippets } from './graphQlSnippets.js';
 
-// The seed's own inverse map is not used directly: see `inverseEdges` below, which unions it with
-// the publication's the same way the table is unioned.
 // eslint-disable-next-line import/order
-import { unionEdgeTable, unionInverseEdges } from './edgeTable.js';
+import { shippedEdgeTable, shippedInverseEdges } from './edgeTable.js';
 
 import Asset from './asset/Asset.js';
 import AssetStructure from './asset/AssetStructure.js';
@@ -105,18 +103,17 @@ const omcTemplate = {
  * For each entity type build the configuration consumed by the rest of the library.
  *
  * Edge tables ({ intrinsic, edges, cxtEdges } per entityType) come from what the Edge Editor
- * published (edgeDefinitions.json), with the hand-written edges.js filling any row the
- * publication does not build — see edgeTable.js for what that union costs and why. Entries are
- * keyed by their storage path. Entity templates still supply idPrefix, schemaGroup, presentation
- * and graphQl.
+ * published (edgeDefinitions.json) and from nothing else; the hand-written edges.js is parked,
+ * see edgeTable.js. Entries are keyed by their storage path. Entity templates still supply
+ * idPrefix, schemaGroup, presentation and graphQl.
  *
  * Shape templates are stamped with `$maxItems` from the JSON Schema (see schemaFacts.js)
  * so cardinality is never hand-authored alongside the shape, where it would drift.
  */
-const { table: edgeTables } = unionEdgeTable();
+const { table: edgeTables } = shippedEdgeTable();
 
-/** The inverse map the publication and the seed agree on, published first. */
-const inverseEdges = unionInverseEdges();
+/** The inverse map, as published. */
+const inverseEdges = shippedInverseEdges();
 
 const entityTemplate = Object.keys(omcTemplate).reduce((obj, entityType) => ({
     ...obj,

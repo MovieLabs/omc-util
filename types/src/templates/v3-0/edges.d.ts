@@ -1,11 +1,3 @@
-export function tentativeRdf({ domain, predicate, range }: {
-    domain: any;
-    predicate: any;
-    range: any;
-}): string;
-export function intrinsicRdf({ predicate }: {
-    predicate: any;
-}): string;
 export namespace edgeDefinitions {
     export namespace has {
         export let predicate: string;
@@ -665,4 +657,7 @@ export namespace edgeDefinitions {
         export { connects_38 as connects };
     }
 }
+import { intrinsicRdf } from './rdfTemplates.js';
+import { tentativeRdf } from './rdfTemplates.js';
+export { intrinsicRdf, tentativeRdf };
 //# sourceMappingURL=edges.d.ts.map

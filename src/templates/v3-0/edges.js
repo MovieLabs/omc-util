@@ -59,19 +59,9 @@
  * @module edges
  */
 
-const VOWELS = /^[AEIOU]/;
-const article = (word) => (VOWELS.test(word) ? 'an' : 'a');
-const cap = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+import { intrinsicRdf, tentativeRdf } from './rdfTemplates.js';
 
-/**
- * Default tentative ("omcT") layer name, e.g. omcT:aNarrativeSceneFeatures.Character
- * Matches the dominant pattern in the existing data: omcT:a{Domain}{Predicate}.{Range}
- */
-export const tentativeRdf = ({ domain, predicate, range }) =>
-    `omcT:${article(domain)}${domain}${cap(predicate)}.${range}`;
-
-/** Default name for intrinsic "has-a" property edges, e.g. omc:hasProvenance */
-export const intrinsicRdf = ({ predicate }) => `omc:has${cap(predicate)}`;
+export { intrinsicRdf, tentativeRdf };
 
 /**
  * Entities that may carry an attached Context (and thus expose `edges.hasCxt.Context`).

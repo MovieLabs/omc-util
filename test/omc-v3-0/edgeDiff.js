@@ -21,10 +21,11 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
+import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const snap = JSON.parse(readFileSync(join(here, 'edgeTable.snapshot.json'), 'utf8'));
-const { table: gen, collisions } = buildEdgeTable();
+const { table: gen, collisions } = buildEdgeTable(edgeDefinitions);
 
 const PARTITIONS = ['edges', 'intrinsic'];
 const setEq = (a = [], b = []) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
