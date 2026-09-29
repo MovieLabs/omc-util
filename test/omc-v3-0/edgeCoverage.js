@@ -16,23 +16,34 @@
  * mints CreativeWork entities omcValidate rejects. The same shape applies to the Member
  * properties of AssetStructure, InfrastructureStructure, ParticipantStructure and TaskStructure.
  *
- * Differences are matched verbatim against an accept file, exactly as edgeParity.js does, so the
- * known gaps are declared in one reviewable place and anything new fails. This is a development
- * gate, not a runtime one: the shipped table has to be static, and the point is that it cannot
- * quietly fall behind the schema while it is being worked on.
+ * The `edges` partition is checked differently, and only as far as the schema allows. The shared
+ * block declares 19 predicates and 74 (predicate, range) pairs, with `additionalProperties: true`
+ * at both levels — so a verb nobody declared, or a declared verb used at a new range, validates
+ * silently. Those are reported as undeclared rather than wrong: the definitions are where the
+ * modelling happens and the schema is what needs catching up.
  *
- *   Usage: node test/omc-v3-0/edgeCoverage.js [--accept <file>]
+ * Every finding is matched verbatim against an accept file, exactly as edgeParity.js does. They
+ * are warnings in the sense that none of them says the definitions are wrong — the fix is usually
+ * in the schema — but a finding that is NOT in the accept file fails the run, because a warning
+ * nobody has to answer is a warning nobody reads.
+ *
+ *   Usage: node test/omc-v3-0/edgeCoverage.js [--candidate <module>] [--accept <file>]
+ *       --candidate takes the Edge Editor's published JSON (hydrated the way edgeParity does) or
+ *       a module exporting `edgeDefinitions`; the default is the current edges.js. This is the
+ *       check that has to pass for a published document to replace the static table.
  *       default accept file: test/omc-v3-0/edgeCoverage.accept.txt
  */
 
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { isCapitalized } from '../../src/mlHelpers/util.js';
 import schemav30 from '../../src/omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 import { listEntities, mergeAllOf, resolveRef } from '../../src/templates/schemaDerive.js';
 import { buildEdgeTable } from '../../src/templates/v3-0/buildEdgeTable.js';
+import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
+import { hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const defaultAcceptPath = join(here, 'edgeCoverage.accept.txt');
@@ -116,10 +127,44 @@ function schemaRelationships(schema) {
     return found;
 }
 
+/**
+ * The edge definitions under test: the published JSON the Edge Editor produces, a module
+ * exporting `edgeDefinitions`, or the static edges.js. Shared shape with edgeParity's loader so
+ * the same published document can be handed to both.
+ *
+ * @param {string|null} modulePath
+ * @returns {Promise<Object>}
+ */
+const loadCandidate = async (modulePath) => {
+    if (!modulePath) return edgeDefinitions;
+    if (modulePath.endsWith('.json')) {
+        const doc = JSON.parse(readFileSync(resolve(modulePath), 'utf8'));
+        return hydrateEdgeDefinitions(doc.edgeDefinitions ?? doc);
+    }
+    const mod = await import(pathToFileURL(resolve(modulePath)).href);
+    const definitions = mod.edgeDefinitions || mod.default?.edgeDefinitions || mod.default;
+    if (!definitions || typeof definitions !== 'object') {
+        throw new Error(`${modulePath} exports no edgeDefinitions`);
+    }
+    return definitions;
+};
+
 // ---- the two sides ----------------------------------------------------------
 
 const declared = schemaRelationships(schemav30);
-const { table } = buildEdgeTable();
+const definitions = await loadCandidate(argValue('--candidate'));
+const { table } = buildEdgeTable(definitions);
+
+/**
+ * The shared `edges` block: the verbs the schema knows, and the (verb, range) pairs it declares.
+ * Both levels carry `additionalProperties: true`, so anything absent here still validates — which
+ * is exactly why an omission has to be reported rather than left to validation.
+ */
+const schemaEdgeNode = schemav30.$defs?.core?.properties?.edges?.properties || {};
+const schemaVerbs = new Set(Object.keys(schemaEdgeNode));
+const schemaPairs = new Set(Object.keys(schemaEdgeNode).flatMap((verb) => (
+    Object.keys(schemaEdgeNode[verb].properties || {}).map((range) => `${verb}.${range}`)
+)));
 
 const intrinsicOf = (domain) => table[domain]?.intrinsic || {};
 const tableEntries = Object.entries(table).flatMap(([domain, partitions]) => (
@@ -129,7 +174,14 @@ const declaredKeys = new Set(declared.map(({ domain, path }) => `${domain} ${pat
 
 // ---- differences ------------------------------------------------------------
 
-const differences = { 'MISSING': [], 'TABLE-ONLY': [], 'TARGETS': [], 'MAXITEMS': [] };
+const differences = {
+    'MISSING': [],
+    'TABLE-ONLY': [],
+    'TARGETS': [],
+    'MAXITEMS': [],
+    'VERB-UNDECLARED': [],
+    'PAIR-UNDECLARED': [],
+};
 let matched = 0;
 
 declared.forEach(({
@@ -156,6 +208,34 @@ declared.forEach(({
 tableEntries.filter((key) => !declaredKeys.has(key))
     .forEach((key) => differences['TABLE-ONLY'].push(key));
 
+// ---- the edges partition: which verbs, and at which ranges ------------------
+
+/** Every `edges.<verb>.<Range>` the definitions produce, and the domains that use each. */
+const usedPairs = new Map();
+Object.entries(table).forEach(([domain, partitions]) => {
+    Object.values(partitions.edges || {}).forEach(({ path }) => {
+        const [, verb, range] = path.split('.');
+        if (!verb || !range) return;
+        const pair = `${verb}.${range}`;
+        usedPairs.set(pair, [...(usedPairs.get(pair) || []), domain]);
+    });
+});
+
+const usedVerbs = new Set([...usedPairs.keys()].map((pair) => pair.split('.')[0]));
+
+[...usedVerbs].filter((verb) => !schemaVerbs.has(verb)).sort()
+    .forEach((verb) => differences['VERB-UNDECLARED'].push(verb));
+
+[...usedPairs.keys()]
+    .filter((pair) => schemaVerbs.has(pair.split('.')[0]) && !schemaPairs.has(pair))
+    .sort()
+    .forEach((pair) => differences['PAIR-UNDECLARED'].push(
+        `${pair} (used by ${[...new Set(usedPairs.get(pair))].sort().join(', ')})`,
+    ));
+
+/** Declared by the schema and used by nobody: the schema is ahead, which is harmless. */
+const unusedPairs = [...schemaPairs].filter((pair) => !usedPairs.has(pair)).sort();
+
 /**
  * A TABLE-ONLY path whose last segment also appears, on the same entity, at a path the schema
  * does declare: the same relationship written to the wrong place. These are the ones that make
@@ -170,8 +250,12 @@ const misplaced = differences['TABLE-ONLY'].filter((key) => {
 });
 
 // ===== GATE ==================================================================
-line('=== EDGE COVERAGE GATE (intrinsic partition) ===');
-line(`  schema declares ${declared.length}; table holds ${tableEntries.length}; ${matched} matched`);
+line('=== EDGE COVERAGE GATE ===');
+line(`  source: ${argValue('--candidate') || 'src/templates/v3-0/edges.js'}`);
+line(`  intrinsic — schema declares ${declared.length}; table holds ${tableEntries.length}; `
+    + `${matched} matched`);
+line(`  edges — schema declares ${schemaVerbs.size} verbs / ${schemaPairs.size} pairs; `
+    + `table uses ${usedVerbs.size} verbs / ${usedPairs.size} pairs`);
 
 const acceptPath = argValue('--accept') || defaultAcceptPath;
 const accepted = new Set(existsSync(acceptPath)
@@ -196,9 +280,12 @@ Object.entries(differences).forEach(([kind, lines]) => {
 });
 
 // ===== REPORT (informational — not a gate) ===================================
+line('');
+line('=== REPORT (informational — not a gate) ===');
+line(`  declared by the schema, used by no edge (${unusedPairs.length}): the schema is ahead here,`);
+line(`    which costs nothing. ${unusedPairs.slice(0, 6).join(', ')}${unusedPairs.length > 6 ? ', …' : ''}`);
+
 if (misplaced.length) {
-    line('');
-    line('=== REPORT (informational — not a gate) ===');
     line(`  the same relationship at a path the schema does not declare (${misplaced.length}):`);
     misplaced.forEach((key) => line(`    ${key}`));
     line('  An entity carrying one of these fails omcValidate — v3.0 sets');

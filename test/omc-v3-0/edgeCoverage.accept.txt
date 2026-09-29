@@ -90,3 +90,25 @@ TABLE-ONLY ParticipantStructure Member
 TARGETS Realization realizationProperties.RealizationOf table [Character,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 TARGETS Realization realizationProperties.RealizationBy table [Asset,Composition,Participant] schema [Asset,Composition,Participant,Task]
 TARGETS Provenance Origin table [Asset,AssetStructure] schema [Asset]
+
+# --- VERB-UNDECLARED: the definitions use a verb the schema never declares -------------------
+#
+# hasCxt/cxtFor carry the Context relationship and contributesTo/contributor the credit one. The
+# shared edges block has `additionalProperties: true`, so all four validate and no consumer
+# notices; the fix is to declare them in the schema. Declaring the Context pair also closes 23 of
+# the INVERSE-UNDECLARED findings in edgeInverse.accept.txt.
+VERB-UNDECLARED contributesTo
+VERB-UNDECLARED contributor
+VERB-UNDECLARED cxtFor
+VERB-UNDECLARED hasCxt
+
+# --- PAIR-UNDECLARED: a declared verb used at a range the schema does not list ---------------
+#
+# Someone used an existing verb in a new spot. Each is one line in the schema's shared edges
+# block; until it is added the pairing is undeclared rather than wrong.
+PAIR-UNDECLARED has.Realization (used by Asset, Composition, Participant)
+PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
+PAIR-UNDECLARED memberOf.InfrastructureStructure (used by Infrastructure)
+PAIR-UNDECLARED memberOf.ParticipantStructure (used by Participant)
+PAIR-UNDECLARED memberOf.TaskStructure (used by Task)
+PAIR-UNDECLARED related.CreativeWork (used by CreativeWork)

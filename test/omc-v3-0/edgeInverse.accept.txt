@@ -1,0 +1,77 @@
+# Findings edgeInverse.js should not fail on.
+#
+# One line per finding, copied verbatim from the report. Blank lines and `#` comments are ignored.
+# An entry is a claim that the finding is known — say why beside it, and remove it when the gap
+# closes.
+#
+# This is the state edges.js was in when the check was written. Three root causes account for all
+# of it.
+
+# --- NOT-INVOLUTIVE -------------------------------------------------------------------------
+#
+# uses / usedBy / usedIn are three predicates where the other pairs are two: usedBy's inverse is
+# usedIn, but usedIn's inverse is uses, so the round trip does not return. Which of the three
+# pairings is intended is a modelling question.
+NOT-INVOLUTIVE usedBy -> usedIn -> uses
+
+# --- INVERSE-BUCKET -------------------------------------------------------------------------
+#
+# memberOf and productOf invert onto intrinsic properties (Member, Product). The edge table knows
+# that and resolves inversePath to the bare property, but omcTemplate.inverseEdge() returns only
+# the name, so fMam writes edges.Member.<Type> instead. Closing this needs an accessor that
+# returns the inverse edge rather than its name — an omcUtil change, not a definitions change.
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Asset
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Infrastructure
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Participant
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes edges.Member.Task
+INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes edges.Product.Asset
+
+# --- INVERSE-UNDECLARED ---------------------------------------------------------------------
+#
+# The schema's shared edges block does not declare the reverse pair, so fMam writes an edge the
+# schema has no record of. It validates (additionalProperties: true), which is why it needs
+# reporting rather than catching.
+#
+# 22 of these are cxtFor, and 1 is hasCxt: neither verb is declared in the schema at all, so
+# declaring the Context pair closes 23 of the 40 at once. uses/usedIn account for 12 more and go
+# with the involution question above.
+INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
+INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
+INVERSE-UNDECLARED cxtFor.Asset (the reverse of Asset hasCxt)
+INVERSE-UNDECLARED cxtFor.Character (the reverse of Character hasCxt)
+INVERSE-UNDECLARED cxtFor.Collection (the reverse of Collection hasCxt)
+INVERSE-UNDECLARED cxtFor.Composition (the reverse of Composition hasCxt)
+INVERSE-UNDECLARED cxtFor.Context (the reverse of Context hasCxt)
+INVERSE-UNDECLARED cxtFor.CreativeWork (the reverse of CreativeWork hasCxt)
+INVERSE-UNDECLARED cxtFor.Effect (the reverse of Effect hasCxt)
+INVERSE-UNDECLARED cxtFor.Infrastructure (the reverse of Infrastructure hasCxt)
+INVERSE-UNDECLARED cxtFor.Location (the reverse of Location hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeAudio (the reverse of NarrativeAudio hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeLocation (the reverse of NarrativeLocation hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeObject (the reverse of NarrativeObject hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeScene (the reverse of NarrativeScene hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeStyling (the reverse of NarrativeStyling hasCxt)
+INVERSE-UNDECLARED cxtFor.NarrativeWardrobe (the reverse of NarrativeWardrobe hasCxt)
+INVERSE-UNDECLARED cxtFor.Participant (the reverse of Participant hasCxt)
+INVERSE-UNDECLARED cxtFor.ProductionLocation (the reverse of ProductionLocation hasCxt)
+INVERSE-UNDECLARED cxtFor.ProductionScene (the reverse of ProductionScene hasCxt)
+INVERSE-UNDECLARED cxtFor.Provenance (the reverse of Provenance hasCxt)
+INVERSE-UNDECLARED cxtFor.Slate (the reverse of Slate hasCxt)
+INVERSE-UNDECLARED cxtFor.SpecialAction (the reverse of SpecialAction hasCxt)
+INVERSE-UNDECLARED cxtFor.Task (the reverse of Task hasCxt)
+INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
+INVERSE-UNDECLARED for.Participant (the reverse of Participant has)
+INVERSE-UNDECLARED hasCxt.Context (the reverse of Context cxtFor)
+INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
+INVERSE-UNDECLARED usedIn.Asset (the reverse of Asset usedBy)
+INVERSE-UNDECLARED usedIn.Participant (the reverse of Participant usedBy)
+INVERSE-UNDECLARED usedIn.Task (the reverse of Task usedBy)
+INVERSE-UNDECLARED uses.Character (the reverse of Character usedIn)
+INVERSE-UNDECLARED uses.Effect (the reverse of Effect usedIn)
+INVERSE-UNDECLARED uses.NarrativeAudio (the reverse of NarrativeAudio usedIn)
+INVERSE-UNDECLARED uses.NarrativeLocation (the reverse of NarrativeLocation usedIn)
+INVERSE-UNDECLARED uses.NarrativeObject (the reverse of NarrativeObject usedIn)
+INVERSE-UNDECLARED uses.NarrativeStyling (the reverse of NarrativeStyling usedIn)
+INVERSE-UNDECLARED uses.NarrativeWardrobe (the reverse of NarrativeWardrobe usedIn)
+INVERSE-UNDECLARED uses.Realization (the reverse of Realization usedIn)
+INVERSE-UNDECLARED uses.SpecialAction (the reverse of SpecialAction usedIn)

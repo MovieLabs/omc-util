@@ -42,13 +42,18 @@ npm run test:mapping      # omcMapping engine
 npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkml + mergeKeys)
 npm run test:registry     # the four places an entity type must agree
 npm run edges:parity      # the built edge table against its baseline
-npm run edges:coverage    # intrinsic edges against what the schema declares
+npm run edges:coverage    # the edge definitions against what the schema declares
+npm run edges:inverse     # every edge's inverse resolves, and fMam can write it
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
 
 There is no unified test runner. The `test:*` scripts are standalone node scripts that exit non-zero
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
+
+The three `edges:*` checks all take `--candidate <file>`, so they can be run against the Edge
+Editor's published JSON instead of `edges.js`. That is the intended direction of travel: the
+published document becomes the table, and these are what have to pass before it can.
 
 ---
 
