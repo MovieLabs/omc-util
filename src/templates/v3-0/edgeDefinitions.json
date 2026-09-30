@@ -5,7 +5,7 @@
     "viewId": "view:entity-structure",
     "edges": 121,
     "rows": 166,
-    "verbs": 40,
+    "verbs": 39,
     "properties": 117
   },
   "namespace": {
@@ -116,6 +116,18 @@
           },
           {
             "domain": [
+              "NarrativeLocation",
+              "ProductionLocation"
+            ],
+            "range": [
+              "Location"
+            ],
+            "inverse": null,
+            "placement": "property",
+            "pathTemplate": "{range}"
+          },
+          {
+            "domain": [
               "ParticipantStructure"
             ],
             "range": [
@@ -123,6 +135,17 @@
             ],
             "placement": "property",
             "pathTemplate": "{range}"
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Role"
+            ],
+            "inverse": null,
+            "placement": "property",
+            "pathTemplate": "participantFunction.{range}"
           }
         ]
       },
@@ -720,15 +743,6 @@
         "connects": [
           {
             "domain": [
-              "Participant"
-            ],
-            "range": [
-              "Role"
-            ],
-            "pathTemplate": "participantFunction.{range}"
-          },
-          {
-            "domain": [
               "Provenance"
             ],
             "range": [
@@ -800,23 +814,6 @@
             ],
             "range": [
               "CreativeWork"
-            ]
-          }
-        ]
-      },
-      "Location": {
-        "predicate": "Location",
-        "placement": "property",
-        "inverse": null,
-        "rdf": "intrinsic",
-        "connects": [
-          {
-            "domain": [
-              "NarrativeLocation",
-              "ProductionLocation"
-            ],
-            "range": [
-              "Location"
             ]
           }
         ]
@@ -1255,13 +1252,6 @@
         "definition": null,
         "symmetric": false,
         "inverse": "omc:hasVariant"
-      },
-      {
-        "id": "omc:location",
-        "name": "location",
-        "definition": null,
-        "symmetric": false,
-        "inverse": null
       },
       {
         "id": "omc:member",
@@ -1812,7 +1802,9 @@
           "omc:has"
         ],
         "domains": [
-          "omc:ParticipantStructure"
+          "omc:NarrativeLocation",
+          "omc:ParticipantStructure",
+          "omc:ProductionLocation"
         ],
         "ranges": [
           "omc:Location"
@@ -1919,6 +1911,20 @@
         "ranges": [
           "omc:Asset",
           "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasRole",
+        "name": "hasRole",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Participant"
+        ],
+        "ranges": [
+          "omc:Role"
         ],
         "inverseOf": []
       },
@@ -2517,21 +2523,6 @@
         "inverseOf": []
       },
       {
-        "id": "omc:locationLocation",
-        "name": "locationLocation",
-        "verbs": [
-          "omc:location"
-        ],
-        "domains": [
-          "omc:NarrativeLocation",
-          "omc:ProductionLocation"
-        ],
-        "ranges": [
-          "omc:Location"
-        ],
-        "inverseOf": []
-      },
-      {
         "id": "omc:member",
         "name": "member",
         "verbs": [
@@ -2854,7 +2845,6 @@
           "omc:role"
         ],
         "domains": [
-          "omc:Participant",
           "omc:Provenance"
         ],
         "ranges": [
