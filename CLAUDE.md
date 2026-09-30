@@ -62,6 +62,16 @@ The hand-written seed the tool was grown from is **deleted**, along with `edges:
 is absent rather than quietly supplied, and `edges:coverage` answers the question that replaced it:
 where the table and the JSON Schema disagree.
 
+**Placement belongs to the pairing, not the verb.** One verb reaches some ranges under
+`edges.<verb>.*` and others as a named property — `has` does both — so a `connects` group states its
+`placement` where it differs from the predicate's usual one, the same way it states a `path`. An
+intrinsic relationship has no predicate in OMC-JSON, only a path, so its row carries the real
+lower-case verb; the generator used to capitalise it to keep the two placements from colliding in a
+publication keyed by predicate, and dropped every row that disagreed.
+
+**`cxtEdges` is a v2.8 partition and is empty in v3.0** — the publication models neither `hasCxt`
+nor `cxtFor`, and `Context` is not in the v3.0 table at all. Settled, not a gap.
+
 **`edgeCreate` refuses a full slot, and writes nothing when it does.** The cap is `maxItems` on the
 edge table, and it applies to the reverse as much as the forward side: `Realization.RealizationOf`
 admits one reference, so a second NarrativeObject connected to the same Realization is refused even
