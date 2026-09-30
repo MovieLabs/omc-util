@@ -1,13 +1,11 @@
 /**
  * The edge definitions a check runs against, and where they came from.
  *
- * Four subjects, and which one a check is looking at decides what its answer means:
+ * Three subjects, and which one a check is looking at decides what its answer means:
  *
- *   `--shipped`    what the library exports — the publication with the edges.js seed filling its
- *                  gaps (see src/templates/v3-0/edgeTable.js). The table every consumer is handed,
- *                  and the only one worth gating.
- *   `--static`     the edges.js seed alone. Since the cut-over this is a component of what ships,
- *                  not what ships.
+ *   `--shipped`    what the library exports — the publication alone (see
+ *                  src/templates/v3-0/edgeTable.js). The table every consumer is handed, and the
+ *                  only one worth gating.
  *   `--candidate`  a named URL, published document or module.
  *   (nothing)      the live table, so a check during development sees what the tool is producing.
  *
@@ -28,10 +26,9 @@
  * question nobody asked, so a check that cannot read what it was asked for fails and says so.
  *
  * **A fixed subject gates; a live one reports.** A published document changes whenever somebody
- * edits an edge, so a failure would say that rather than that the commit is wrong. `--shipped`,
- * `--static` and a `.js` module gate; a URL or a published `.json` reports. Nothing here ships
- * either way: `test/` is outside the `files` allow-list, and the library never reaches the
- * network.
+ * edits an edge, so a failure would say that rather than that the commit is wrong. `--shipped` and
+ * a `.js` module gate; a URL or a published `.json` reports. Nothing here ships either way:
+ * `test/` is outside the `files` allow-list, and the library never reaches the network.
  *
  * @module test/omc-v3-0/candidateDefinitions
  */
@@ -40,7 +37,6 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-import { edgeDefinitions } from '../../src/templates/v3-0/edges.js';
 import { definitionsOf, hydrateEdgeDefinitions } from '../../src/templates/v3-0/edgesHydrate.js';
 import { publishedDefinitions, shippedEdgeTable, shippedInverseEdges } from '../../src/templates/v3-0/edgeTable.js';
 
@@ -162,7 +158,7 @@ function readExport(path, how = '') {
  * Load a candidate set of edge definitions, and say where they came from.
  *
  * @param {string|null} source - A URL, a published `.json`, or a module exporting `edgeDefinitions`
- * @param {{static?: boolean}} [options] - `static` takes the shipped edges.js instead of the API
+ * @param {{shipped?: boolean}} [options] - `shipped` takes the library's own table instead of the API
  * @returns {Promise<{definitions: Object, label: string, live: boolean}>} `live` is true only for a
  *   source that can change between runs, and a live source must not gate.
  * @throws {Error} When the live table was wanted and could not be read
@@ -178,9 +174,6 @@ export async function loadCandidate(source, options = {}) {
             label: `the shipped table — ${rows} rows, all published`,
             live: false,
         };
-    }
-    if (!source && options.static) {
-        return { definitions: edgeDefinitions, label: 'src/templates/v3-0/edges.js (--static)', live: false };
     }
     if (source && isUrl(source)) {
         const { definitions, note } = await fetchPublished(source);
@@ -218,8 +211,8 @@ export async function loadCandidate(source, options = {}) {
         `  …and there is no export at ${DEFAULT_EXPORT_PATH}`,
         '  Export omc-edges.json from the Edge Editor into test/omc-v3-0/, start Labkoat-API with',
         '  LABKOAT_TOKEN set, point OMC_EDGES_URL elsewhere, name a document with --candidate,',
-        '  or pass --static to check the shipped edges.js.',
-        '  It does not fall back on its own: a pass against the hand-written table would',
+        '  or pass --shipped to check what the library currently exports.',
+        '  It does not fall back on its own: a pass against a subject you did not name would',
         '  answer a question you did not ask.',
     ].join('\n'));
 }

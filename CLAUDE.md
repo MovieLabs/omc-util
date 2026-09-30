@@ -43,8 +43,7 @@ npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkm
 npm run test:registry     # the four places an entity type must agree
 npm run edges:coverage    # the edge definitions against what the schema declares
 npm run edges:inverse     # every edge's inverse resolves, and fMam can write it
-npm run edges:missing     # what the parked edges.js holds that the publication does not
-npm run edges:parity      # TRANSITIONAL — the built table against a snapshot of edges.js
+npm run edges:update      # take a fresh export and make it the shipped table
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
 
@@ -53,11 +52,15 @@ on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI 
 workflow.
 
 **The edge table is what the Edge Editor published, and nothing else.**
-`src/templates/v3-0/edgeDefinitions.json` is that publication; drop in a fresh export and the
-shipped table follows. `edges.js` is **parked**: it is the hand-written set the tool was seeded
-from, it reaches nothing on the path to the shipped table, and `buildEdgeTable` has no default
-definitions so nothing can fall back to it by omission. `npm run edges:missing` lists what it
-still holds that the publication does not — the worklist for the tool, not a fallback.
+`src/templates/v3-0/edgeDefinitions.json` is that publication, and `npm run edges:update` is how a
+fresh export gets there — one step, because it used to be two hand-copies of the same bytes and the
+second one, the one that actually ships, was easy to forget. `buildEdgeTable` has no default
+definitions, so nothing can reach a table built from something it was not given.
+
+The hand-written seed the tool was grown from is **deleted**, along with `edges:parity`,
+`edges:missing` and the two committed baselines they diffed against. What the tool has not modelled
+is absent rather than quietly supplied, and `edges:coverage` answers the question that replaced it:
+where the table and the JSON Schema disagree.
 
 **`edgeCreate` refuses a full slot, and writes nothing when it does.** The cap is `maxItems` on the
 edge table, and it applies to the reverse as much as the forward side: `Realization.RealizationOf`
@@ -85,20 +88,14 @@ The export's age is printed with it, and it is gitignored: it is a snapshot of l
 commit one only if you want a fixed reference. `--candidate` takes a URL, a document or a module.
 
 **A live source reports; only a fixed one gates.** Live content changes between runs, so a failure
-would mean somebody edited an edge, not that the commit is wrong — and the accept files describe
-`edges.js`, so they are not consulted for a live source. That is the intended direction of travel:
-the published document becomes the table, and these checks are what it has to pass before it can.
+would mean somebody edited an edge, not that the commit is wrong — and both accept files describe
+the **shipped** table, so they say nothing about what the tool is serving today.
 
-`--shipped` is the subject `release:check` gates on: the union, which is what consumers are
-handed. `--static` is the seed alone, which since the cut-over is a component of what ships rather
-than what ships.
+`--shipped` is the subject `release:check` gates on: what consumers are handed.
 
-`edges:parity` is **transitional and deliberately not in `release:check`**. Its baseline is a
-snapshot of the hand-written `edges.js`, so it drifts by design as the schema moves; it is for
-seeing what a change moved, not for holding a line. Delete it once the published document is the
-table. The document is fetched with `GET /api/vocab/v1/edges/publish?format=json` (authenticated),
-or generated with no service in the path by `Labkoat-API/src/vocabulary/edges/generate.js`; nothing
-refreshes it on its own, so a check is only ever as current as the file it is given.
+The document is fetched with `GET /api/vocab/v1/edges/publish?format=json` (authenticated), or
+generated with no service in the path by `Labkoat-API/src/vocabulary/edges/generate.js`, which needs
+no token.
 
 ---
 

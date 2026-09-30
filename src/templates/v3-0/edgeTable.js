@@ -2,22 +2,14 @@
  * The edge table the library ships, built from what the Edge Editor published and nothing else.
  *
  * `edgeDefinitions.json` is that publication — the OMC-JSON projection of the edges authored in the
- * tool, exported from `/api/vocab/v1/edges/publish`. Replace that file with a fresh export and the
- * shipped table follows.
+ * tool, exported from `/api/vocab/v1/edges/publish`. `npm run edges:update` puts a fresh export
+ * here, and the shipped table follows.
  *
- * ## The seed is parked
- *
- * `edges.js` is the hand-written set the tool was seeded from, and for one commit it filled the
- * rows the publication did not build. It no longer does. A table half from a file nobody edits is
- * one nobody can reason about, and there was no way to tell, in the graph or anywhere else, which
- * half an edge had come from.
- *
- * Nothing on the path from the publication to the shipped table imports it: the RDF name templates
- * it used to own are in `rdfTemplates.js`, `buildEdgeTable` has no default definitions, so a caller
- * cannot reach the seed by omission, and the inverse map no longer merges its supplemental pairs.
- *
- * What the seed used to supply and the publication does not is therefore **absent**, not hidden.
- * `npm run edges:missing` lists it, so the gap is a worklist rather than a surprise.
+ * The hand-written set the tool was seeded from is gone, along with everything that diffed against
+ * it. A table half from a file nobody edits is one nobody can reason about, and there was no way to
+ * tell, in the graph or anywhere else, which half an edge had come from. What the tool has not
+ * modelled is therefore **absent**, not quietly supplied: `npm run edges:coverage` says where the
+ * table and the JSON Schema disagree, which is the question that actually matters.
  *
  * @module edgeTable
  */

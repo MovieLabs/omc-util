@@ -3,7 +3,7 @@
  *
  * The Edge Editor publishes the definitions as JSON, where an edge's RDF name generator cannot be a
  * function. Each definition carries a token instead, and this turns it back into the function
- * `buildEdgeTable` calls: `tentative` and `intrinsic` name the two templates in edges.js, and
+ * `buildEdgeTable` calls: `tentative` and `intrinsic` name the two templates in rdfTemplates.js, and
  * `const:<name>` is a fixed name.
  *
  * @module edgesHydrate
@@ -41,7 +41,7 @@ const rdfFromToken = ((token) => {
  * Edge definitions with every `rdf` token replaced by its function.
  *
  * @param {Object<string, object>} definitions - The `edgeDefinitions` of a published document
- * @returns {Object<string, object>} Definitions in the edges.js shape
+ * @returns {Object<string, object>} Definitions in the shape `buildEdgeTable` reads
  */
 export function hydrateEdgeDefinitions(definitions) {
     return Object.fromEntries(Object.entries(definitions)

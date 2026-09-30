@@ -29,7 +29,7 @@
  * warnings about modelling rather than assertions that the definitions are wrong, but an
  * unaccepted one fails so that a new gap is answered rather than accumulated.
  *
- *   Usage: node test/omc-v3-0/edgeInverse.js [--candidate <src>] [--shipped|--static] [--accept <file>]
+ *   Usage: node test/omc-v3-0/edgeInverse.js [--candidate <src>] [--shipped] [--accept <file>]
  *       --candidate takes the Edge Editor's published JSON or a module exporting
  *       `edgeDefinitions`; the default is the current edges.js.
  *       default accept file: test/omc-v3-0/edgeInverse.accept.txt
@@ -59,7 +59,6 @@ async function main() {
     let source;
     try {
         source = await loadCandidate(argValue('--candidate'), {
-            static: process.argv.includes('--static'),
             shipped: process.argv.includes('--shipped'),
         });
     } catch (err) {
@@ -171,8 +170,8 @@ async function main() {
         + `${seen.size} (entityType, verb) pairs fMam could write a reverse for`);
 
     const acceptPath = argValue('--accept') || defaultAcceptPath;
-    // A live source is not measured against the accept file: that file records where the static
-    // edges.js stands, and says nothing about what the tool is serving today.
+    // A live source is not measured against the accept file: that file records where the shipped
+    // table stands, and says nothing about what the tool is serving today.
     const accepted = new Set(!source.live && existsSync(acceptPath)
         ? readFileSync(acceptPath, 'utf8').split(/\r?\n/)
             .map((entry) => entry.trim())

@@ -1,5 +1,5 @@
 /**
- * Expands the consolidated `edgeDefinitions` (edges.js) into the
+ * Expands the Edge Editor's published `edgeDefinitions` into the
  * `edgeTable` shape — `{ intrinsic, edges, cxtEdges }` per entityType.
  * Wired into the live `entityTemplate` build (see ./index.js).
  *
@@ -142,8 +142,8 @@ const computePath = (placement, pred, range, group, def) => {
 };
 
 /**
- * @param {Object} [edgeDefinitions] - Edge definitions in the edges.js shape; defaults to
- * the bundled edges.js
+ * @param {Object} edgeDefinitions - The published edge definitions. No default: a caller must
+ * name its subject, so nothing can reach a table built from something it did not ask for.
  * @returns {{ table: Object, collisions: Array<string> }} The generated per-entity
  * edgeTable plus any same-key collisions detected during expansion.
  */

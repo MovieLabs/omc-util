@@ -27,10 +27,10 @@
  * in the schema — but a finding that is NOT in the accept file fails the run, because a warning
  * nobody has to answer is a warning nobody reads.
  *
- *   Usage: node test/omc-v3-0/edgeCoverage.js [--candidate <src>] [--shipped|--static] [--accept <file>]
- *       --candidate takes the Edge Editor's published JSON (hydrated the way edgeParity does) or
- *       a module exporting `edgeDefinitions`; the default is the current edges.js. This is the
- *       check that has to pass for a published document to replace the static table.
+ *   Usage: node test/omc-v3-0/edgeCoverage.js [--candidate <src>] [--shipped] [--accept <file>]
+ *       --candidate takes the Edge Editor's published JSON or a module exporting
+ *       `edgeDefinitions`; with nothing named it reads the live table. This is the check a
+ *       published document has to pass before it ships.
  *       default accept file: test/omc-v3-0/edgeCoverage.accept.txt
  */
 
@@ -200,7 +200,6 @@ async function main() {
     let source;
     try {
         source = await loadCandidate(argValue('--candidate'), {
-            static: process.argv.includes('--static'),
             shipped: process.argv.includes('--shipped'),
         });
     } catch (err) {
@@ -345,8 +344,8 @@ async function main() {
         + `table uses ${usedVerbs.size} verbs / ${usedPairs.size} pairs`);
 
     const acceptPath = argValue('--accept') || defaultAcceptPath;
-    // A live source is not measured against the accept file: that file records where the static
-    // edges.js stands, and says nothing about what the tool is serving today.
+    // A live source is not measured against the accept file: that file records where the shipped
+    // table stands, and says nothing about what the tool is serving today.
     const accepted = new Set(!source.live && existsSync(acceptPath)
         ? readFileSync(acceptPath, 'utf8').split(/\r?\n/)
             .map((entry) => entry.trim())
