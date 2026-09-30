@@ -65,20 +65,6 @@ export function getContextProps(omcEntity: any): {};
  */
 export function removeEdge(omcEntity: OmcEntity, identifier: OmcEntity | OmcIdentifier): OmcEntity;
 /**
- * Returns an array of the entity types this entity can have an edge to as per the ontology
- * @function intrinsicAllowed
- * @static
- * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
- * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
- */
-/**
- * Returns an array of the entity types this entity can have an edge to as per the ontology
- * @function edgesAllowed
- * @static
- * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
- * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
- */
-/**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
  * @function edgeValid
  * @param {Object} params

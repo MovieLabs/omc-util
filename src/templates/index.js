@@ -46,14 +46,17 @@
  *   the property name for an intrinsic one). `[]` for a top-level intrinsic property.
  * @property {string} relativePath - `path` minus the bucket prefix (e.g. `hasCxt.Context`);
  *   equal to `path` for intrinsic edges
- * @property {string} inverse - The path on the target entity that carries the inverse edge
+ * @property {Object|null} inverseEdge - Where the reverse reference goes, as an edge: `predicate`,
+ *   `bucket`, `path`, `pathSegments`, `containerSegments`, `relativePath` and the `maxItems` of the
+ *   slot it lands in. Null where the edge is one-directional. This replaced `inverse` and
+ *   `inversePath`, which said the same thing as a bare string and could not say that a reverse is
+ *   an intrinsic property rather than a predicate.
  * @property {string} omcPredicate - The formal predicate for this edge, from the RDF model: the
  *   published property name where the model names exactly one, otherwise the generated
  *   `omcT:` template.
  * @property {string[]} rdfProperties - Every RDF property the model names for this row, one per
- *   allowed range it covers. Empty where the model names none.
- * @property {string} rdfTemplated - The generated name, kept so a templated fallback can be
- *   told from a published one.
+ *   allowed range it covers. Empty where the model names none, which is also what says
+ *   `omcPredicate` fell back to the generated `omcT:` template.
  */
 
 /**

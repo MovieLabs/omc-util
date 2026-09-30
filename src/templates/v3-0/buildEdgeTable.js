@@ -188,8 +188,6 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: inversePath(domain),
-                        inversePath: inversePath(domain),
                         inverseEdge: inverseEdgeOf(inversePath(domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
                     });
@@ -205,8 +203,6 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: inversePath(domain),
-                        inversePath: inversePath(domain),
                         inverseEdge: inverseEdgeOf(inversePath(domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
                     });
@@ -245,8 +241,6 @@ export function buildEdgeTable(edgeDefinitions) {
             type: 'array',
             maxItems: undefined,
             ...decomposePath(`edges.cxtFor.${subject}`, 'edges'),
-            inverse: `edges.hasCxt.${CONTEXT}`,
-            inversePath: `edges.hasCxt.${CONTEXT}`,
             inverseEdge: inverseEdgeOf(`edges.hasCxt.${CONTEXT}`),
             omcPredicate: cxtForRdf({ domain: CONTEXT, predicate: 'cxtFor', range: subject }),
         };
@@ -263,8 +257,6 @@ export function buildEdgeTable(edgeDefinitions) {
                 type: edge.type,
                 maxItems: edge.maxItems,
                 ...decomposePath(edge.path, edge.bucket),
-                inverse: repointInverse(edge.inverse),
-                inversePath: repointInverse(edge.inverse),
                 inverseEdge: inverseEdgeOf(repointInverse(edge.inverse)),
                 omcPredicate: edge.omcPredicate,
             };
@@ -303,7 +295,6 @@ export function buildEdgeTable(edgeDefinitions) {
                         && (candidate.allowed || []).includes(domain)), null);
                 if (!byPredicate) return;
                 entry.inverseEdge = inverseEdgeOf(byPredicate.path, byPredicate.maxItems);
-                entry.inversePath = byPredicate.path;
             });
         });
     });

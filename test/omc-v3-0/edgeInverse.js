@@ -128,7 +128,7 @@ async function main() {
 
             // What fMam writes, having only the name, against what the table resolved for this group.
             const fMamWrites = `edges.${inverse}.${domain}`;
-            const tablePath = entry.inversePath;
+            const tablePath = entry.inverseEdge?.path;
             const tableVerb = tablePath?.startsWith('edges.') ? tablePath.split('.')[1] : null;
 
             // An edges-bucket path is exactly `edges.<verb>.<Range>`. More segments than that means the

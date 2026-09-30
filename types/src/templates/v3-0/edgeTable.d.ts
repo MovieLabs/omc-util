@@ -4,7 +4,7 @@
  * Each row gains `rdfProperties`, the RDF model's own names for it, and `omcPredicate` becomes that
  * name where the row has exactly one — which is what `omcPredicate` has always claimed to be, "the
  * formal predicate for this edge, from RDF model". The `omcT:` template survives only where the RDF
- * model names nothing, and `rdfTemplated` keeps the generated name so the two can be told apart.
+ * model names nothing, and `rdfProperties` being empty is what says so.
  *
  * @returns {{table: Object, collisions: Array, rows: number, rdfNamed: number}}
  */

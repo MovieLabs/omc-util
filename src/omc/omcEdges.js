@@ -36,6 +36,7 @@ const baseKeys = [
     'Context',
 ];
 
+// baseKeys already carries 'Context'; a Context's own relationship keys are what is left over.
 const contextKeys = [
     ...baseKeys,
     'contextType',
@@ -43,8 +44,14 @@ const contextKeys = [
     'contextProperties',
     'For',
     'ForEntity',
-    'Context',
 ];
+
+/**
+ * How a reference is stored in a slot. Every v3.0 edge is an array, intrinsic or not, so the reverse
+ * side does not have to be told — and `insertEdge` dispatches on this with no default, so a missing
+ * one writes nothing and reports success.
+ */
+const REFERENCE_STORAGE = 'array';
 
 /**
  * Helper functions for edgeCreate
@@ -57,9 +64,20 @@ const chkIdentifier = ((omcEntity, removeIdentifier) => {
     return hasMatching(omcEntity, removeIdentifier) ? null : omcEntity;
 });
 
-// Dummy call
-// Used by edgeCreate
-const idDeDupe = ((identifier) => identifier); // Dummy entry for now
+/**
+ * The references a slot should hold, with any repeat of the same entity dropped.
+ *
+ * Referencing one entity twice in one slot says nothing the single reference does not, and the
+ * duplicate then has to be reasoned about by everything downstream. This was a stub returning its
+ * argument, so connecting the same pair twice appended a second copy.
+ *
+ * Used by edgeCreate.
+ */
+const idDeDupe = ((references) => references.filter((reference, at) => (
+    references.findIndex((other) => (other.identifier || []).some(
+        (id) => hasMatching(reference, id),
+    )) === at
+)));
 
 // Select the nested element using dotted path notation
 // Used by edgeCreate
@@ -127,10 +145,6 @@ export function getContextKeys(omcEntity) {
     return Object.keys(omcEntity).filter((k) => !contextKeys.includes(k));
 }
 
-// export function intrinsic(omcEntity) {
-//     return Object.keys(omcEntity).filter((k) => k[0].toLowerCase() !== k[0]); // Intrinsic properties are upper case
-// }
-
 /**
  * Return an array containing intrinsic property keys that are present on the entity
  * @memberof module:omcEdges
@@ -193,28 +207,6 @@ export function removeEdge(omcEntity, identifier) {
             : { ...acc, ...{ [key]: omcEntity[key] } };
     }, {});
 }
-
-/**
- * Returns an array of the entity types this entity can have an edge to as per the ontology
- * @function intrinsicAllowed
- * @static
- * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
- * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
- */
-// export function intrinsicAllowed(entityType) {
-//     return Object.keys(edgeTable[entityType].intrinsic).flatMap((intEdge) => edgeTable[entityType].intrinsic[intEdge].allowed);
-// }
-
-/**
- * Returns an array of the entity types this entity can have an edge to as per the ontology
- * @function edgesAllowed
- * @static
- * @param {OmcEntityType} entityType - The entityType for which you wish to know the entities it can have an edge to.
- * @returns {Array<OmcEntityType>} An Array of the entity types this type may have an edge to
- */
-// export function edgesAllowed(entityType) {
-//     return Object.keys(edgeTable[entityType].edges).flatMap((predicate) => edgeTable[entityType].edges[predicate].allowed);
-// }
 
 /**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
@@ -343,13 +335,13 @@ export function edgeRefusal(params) {
     });
     if (forward) return { ...forward, reason: 'full' };
 
-    if (!inverse || !selectedEdge.inverse) return null;
+    if (!inverse || !selectedEdge.inverseEdge) return null;
     const reverse = capExceeded({
         side: 'target',
         omcEntity: toEntity,
         refEntity: fromEntity,
-        path: selectedEdge.inversePath,
-        maxItems: selectedEdge.inverseEdge?.maxItems,
+        path: selectedEdge.inverseEdge.path,
+        maxItems: selectedEdge.inverseEdge.maxItems,
     });
     return reverse ? { ...reverse, reason: 'full' } : null;
 }
@@ -384,24 +376,11 @@ export function edgeCreate(params) {
     const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
     const updatedEntity = insertEdge(fromEntity, toEntity, selectedEdge);
 
-    // If inverse edges are requested and there is one to apply, then recurse with the entities reversed
-    if (inverse && selectedEdge.inverse) {
-        const { inversePath } = selectedEdge;
-        const inverseEntity = insertEdge(toEntity, fromEntity, { path: inversePath, type: 'array' });
-        // const updatedInverse = edgeCreate({
-        //     toEntity: fromEntity, // Reverse the from and to entities to calculate the inverse edge
-        //     fromEntity: toEntity,
-        //     forEntity: toEntity.entityType === 'Context' ? fromEntity : toEntity,
-        //     intrinsicEdge: selectedEdge.inverse, // Use the inverse edge from the edgeTable
-        //     inverse: false, // Inverse is always false on second call
-        //     toEdgePath: selectedEdge.path,
-        // });
-        // return {
-        //     fromEntity: updatedEntity,
-        //     toEntity: updatedInverse.fromEntity,
-        //     fromEdgePath: selectedEdge.path,
-        //     toEdgePath: updatedInverse.fromEdgePath,
-        // };
+    // The reverse reference, written where the target's own table says it lives — which is not
+    // always a predicate bucket: `memberOf` inverts to `assetStructureProperties.assetGroup.Member`.
+    if (inverse && selectedEdge.inverseEdge) {
+        const { path: inversePath } = selectedEdge.inverseEdge;
+        const inverseEntity = insertEdge(toEntity, fromEntity, { path: inversePath, type: REFERENCE_STORAGE });
         return {
             fromEntity: updatedEntity,
             toEntity: inverseEntity,
