@@ -1,14 +1,11 @@
 # Differences edgeCoverage.js should not fail on for the SHIPPED table.
 #
-# The shipped table is what the Edge Editor published, and nothing else: edges.js is parked.
-# Every entry is a gap in the publication, to be closed in the tool or in the schema.
-#
-# `npm run edges:missing` lists what the parked seed still holds that the publication does not.
+# The shipped table is the Edge Editor's publication and nothing else. Every entry is a gap in
+# the publication, to be closed in the tool or in the schema.
 
 MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
 MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
-MISSING ParticipantStructure Location -> [Location]
 TARGETS Realization RealizationOf table [Effect,NarrativeAudio,NarrativeObject,NarrativeStyling,NarrativeWardrobe,SpecialAction] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor

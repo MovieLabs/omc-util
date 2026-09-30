@@ -4,7 +4,7 @@
     "version": 1,
     "viewId": "view:entity-structure",
     "edges": 121,
-    "rows": 163,
+    "rows": 164,
     "verbs": 40,
     "properties": 117
   },
@@ -126,15 +126,6 @@
           },
           {
             "domain": [
-              "Location"
-            ],
-            "range": [
-              "ParticipantStructure"
-            ],
-            "rdfMap": []
-          },
-          {
-            "domain": [
               "Participant"
             ],
             "range": [
@@ -161,6 +152,16 @@
               "Slate"
             ],
             "inverse": "Director",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Location"
+            ],
+            "range": [
+              "ParticipantStructure"
+            ],
+            "inverse": "Has",
             "rdfMap": []
           }
         ]
@@ -1179,6 +1180,17 @@
               "TaskStructure"
             ],
             "path": "TaskStructure",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "ParticipantStructure"
+            ],
+            "range": [
+              "Location"
+            ],
+            "inverse": "for",
+            "path": "Location",
             "rdfMap": []
           }
         ]

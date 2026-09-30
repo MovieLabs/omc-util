@@ -1,8 +1,13 @@
 # Findings edgeInverse.js should not fail on for the SHIPPED table.
 #
-# INVERSE-BUCKET and INVERSE-OVERRIDE are structural: omcTemplate.inverseEdge() returns a bare
-# predicate name, so it can express neither an intrinsic inverse nor a per-group one, and fMam
-# writes to a place the table does not agree with. NOT-INVOLUTIVE is a modelling question.
+# All of these are one structural limitation: omcTemplate.inverseEdge() answers with a bare
+# predicate name from a flat map, so it can express neither an intrinsic inverse nor one a
+# connects group overrides, and two pairs sharing a verb collapse into one entry. fMam reads that
+# map to write reverse edges, so what it writes disagrees with what the table says.
+#
+# Closing them needs an accessor that returns the inverse EDGE - name, bucket and path, per
+# domain - rather than its name. NOT-INVOLUTIVE is a modelling question about the
+# uses/usedBy/usedIn triangle.
 
 NOT-INVOLUTIVE uses -> usedIn -> realizationOf
 INVERSE-OVERRIDE usedIn on Asset: the group inverts to "edges.uses.Asset", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Asset"
