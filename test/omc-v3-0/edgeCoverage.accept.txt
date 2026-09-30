@@ -1,26 +1,16 @@
 # Differences edgeCoverage.js should not fail on for the SHIPPED table.
 #
 # The shipped table is what the Edge Editor published, and nothing else: edges.js is parked.
-# Every entry below is therefore a gap in the publication, to be closed in the tool or in the
-# schema. Nothing here is a row some other source is quietly supplying.
+# Every entry is a gap in the publication, to be closed in the tool or in the schema.
 #
 # `npm run edges:missing` lists what the parked seed still holds that the publication does not.
-# The tool's output on its own is reported, never gated: run with no arguments for that.
 
-# --- the publication against what the schema declares ---
 MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
 MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure Location -> [Location]
-OTHER-BUCKET Asset AssetStructure -> [AssetStructure] not intrinsic; the edges bucket has edges.memberOf.AssetStructure (same types — may or may not be the same relationship)
-OTHER-BUCKET Participant ParticipantStructure -> [ParticipantStructure] not intrinsic; the edges bucket has edges.memberOf.ParticipantStructure (same types — may or may not be the same relationship)
 OTHER-BUCKET Task TaskStructure -> [TaskStructure] not intrinsic; the edges bucket has edges.memberOf.TaskStructure (same types — may or may not be the same relationship)
 TARGETS Realization RealizationOf table [Effect,NarrativeAudio,NarrativeObject,NarrativeStyling,NarrativeWardrobe,SpecialAction] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
-
-# --- verbs and spots the schema has no record of ---
-#
-# additionalProperties is true at both levels of the shared edges block, so these validate and
-# nothing notices. The fix is a line in the schema.
 VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor
 PAIR-UNDECLARED for.ParticipantStructure (used by Location)

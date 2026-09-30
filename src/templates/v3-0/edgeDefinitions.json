@@ -4,8 +4,8 @@
     "version": 1,
     "viewId": "view:entity-structure",
     "edges": 121,
-    "rows": 160,
-    "verbs": 42,
+    "rows": 162,
+    "verbs": 41,
     "properties": 117
   },
   "namespace": {
@@ -28,9 +28,7 @@
               "Asset",
               "NarrativeScene"
             ],
-            "rdfMap": [
-              "omc:hasNarrativeScene (NarrativeScene)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -40,9 +38,7 @@
               "Participant",
               "Slate"
             ],
-            "rdfMap": [
-              "~omc:isSlateFor (Slate)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -52,10 +48,7 @@
               "Asset",
               "ProductionScene"
             ],
-            "rdfMap": [
-              "omc:hasStoryboard (Asset)",
-              "~omc:hasNarrativeScene (ProductionScene)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -64,9 +57,7 @@
             "range": [
               "Slate"
             ],
-            "rdfMap": [
-              "omc:hasSlate"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -76,10 +67,7 @@
               "Infrastructure",
               "Participant"
             ],
-            "rdfMap": [
-              "omc:hasCameraUnit (Participant)",
-              "omc:hasDirector (Participant)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -105,18 +93,6 @@
             "range": [
               "CreativeWork"
             ],
-            "rdfMap": [
-              "omc:isFromWork"
-            ]
-          },
-          {
-            "domain": [
-              "Participant"
-            ],
-            "range": [
-              "Asset"
-            ],
-            "inverse": null,
             "rdfMap": []
           },
           {
@@ -127,31 +103,45 @@
               "Asset",
               "ProductionScene"
             ],
-            "rdfMap": [
-              "omc:isSlateFor (ProductionScene)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
-              "Asset"
-            ],
-            "range": [
-              "NarrativeScene"
-            ],
-            "rdfMap": [
-              "omc:isStoryboardFor"
-            ]
-          },
-          {
-            "domain": [
+              "Asset",
               "ProductionScene"
             ],
             "range": [
               "NarrativeScene"
             ],
-            "rdfMap": [
-              "omc:hasNarrativeScene"
-            ]
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Infrastructure"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Location"
+            ],
+            "range": [
+              "ParticipantStructure"
+            ],
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "Asset"
+            ],
+            "inverse": null,
+            "rdfMap": []
           },
           {
             "domain": [
@@ -171,26 +161,6 @@
               "Slate"
             ],
             "inverse": "Director",
-            "rdfMap": [
-              "omc:isDirectorFor"
-            ]
-          },
-          {
-            "domain": [
-              "Infrastructure"
-            ],
-            "range": [
-              "AssetStructure"
-            ],
-            "rdfMap": []
-          },
-          {
-            "domain": [
-              "Location"
-            ],
-            "range": [
-              "ParticipantStructure"
-            ],
             "rdfMap": []
           }
         ]
@@ -227,9 +197,7 @@
             "range": [
               "Participant"
             ],
-            "rdfMap": [
-              "omc:hasDirector"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -251,9 +219,7 @@
               "NarrativeWardrobe",
               "SpecialAction"
             ],
-            "rdfMap": [
-              "omc:usesWardrobe (NarrativeWardrobe)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -285,25 +251,21 @@
           {
             "domain": [
               "Effect",
-              "NarrativeAudio",
               "NarrativeObject",
-              "NarrativeStyling",
               "NarrativeWardrobe",
               "SpecialAction"
             ],
             "range": [
               "Character"
             ],
-            "rdfMap": [
-              "omc:isWardrobeFor (NarrativeWardrobe)",
-              "omc:interactsWithCharacter (NarrativeObject)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
               "NarrativeAudio"
             ],
             "range": [
+              "Character",
               "NarrativeObject",
               "Effect"
             ],
@@ -314,6 +276,7 @@
               "NarrativeStyling"
             ],
             "range": [
+              "Character",
               "Effect"
             ],
             "rdfMap": []
@@ -380,17 +343,7 @@
             ],
             "range": [
               "Asset",
-              "ProductionLocation"
-            ],
-            "rdfMap": [
-              "omc:representedBy (Asset)"
-            ]
-          },
-          {
-            "domain": [
-              "ProductionScene"
-            ],
-            "range": [
+              "ProductionLocation",
               "Realization"
             ],
             "rdfMap": []
@@ -412,34 +365,18 @@
               "ProductionLocation"
             ],
             "inverse": "uses",
-            "rdfMap": [
-              "~omc:representedBy (ProductionScene; i.e. omc:represents)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
-              "ProductionLocation"
-            ],
-            "range": [
-              "ProductionScene"
-            ],
-            "inverse": "uses",
-            "rdfMap": [
-              "omc:hasProductionScene"
-            ]
-          },
-          {
-            "domain": [
+              "ProductionLocation",
               "Realization"
             ],
             "range": [
               "ProductionScene"
             ],
             "inverse": "uses",
-            "rdfMap": [
-              "omc:hasProductionScene",
-              "omc:isUsedBy"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -548,9 +485,7 @@
             "range": [
               "ProductionScene"
             ],
-            "rdfMap": [
-              "omc:hasRelatedScene"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -567,9 +502,7 @@
             "range": [
               "Composition"
             ],
-            "rdfMap": [
-              "omc:isProducedBy.Composition"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -587,9 +520,7 @@
             "range": [
               "Asset"
             ],
-            "rdfMap": [
-              "omc:produces.Asset"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -606,9 +537,7 @@
             "range": [
               "AssetStructure"
             ],
-            "rdfMap": [
-              "omc:isAssetComponentOf (range AssetGroup)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -654,9 +583,7 @@
               "Asset"
             ],
             "path": "assetStructureProperties.assetGroup.Member",
-            "rdfMap": [
-              "omc:hasAssetComponent (domain AssetGroup)"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -743,10 +670,7 @@
               "AssetStructure",
               "Composition"
             ],
-            "rdfMap": [
-              "omc:includesAsset (Asset)",
-              "omc:includesComposition (Composition)"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -766,9 +690,7 @@
             "range": [
               "Asset"
             ],
-            "rdfMap": [
-              "omc:hasConfigurationFile (RDF domain Software)"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -787,9 +709,7 @@
               "Asset",
               "AssetStructure"
             ],
-            "rdfMap": [
-              "omc:startHere"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -807,10 +727,7 @@
             "range": [
               "Participant"
             ],
-            "rdfMap": [
-              "omc:isCreatedBy",
-              "omc:hasAuthor"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -829,9 +746,7 @@
               "Role"
             ],
             "pathTemplate": "participantFunction.{range}",
-            "rdfMap": [
-              "omc:hasRole"
-            ]
+            "rdfMap": []
           },
           {
             "domain": [
@@ -840,9 +755,7 @@
             "range": [
               "Role"
             ],
-            "rdfMap": [
-              "omc:hasRole"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -860,10 +773,7 @@
             "range": [
               "CreativeWork"
             ],
-            "rdfMap": [
-              "omc:hasCreativeWork",
-              "omc:isSlateFor.CreativeWork"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -939,9 +849,7 @@
             "range": [
               "Location"
             ],
-            "rdfMap": [
-              "omc:hasAssociatedLocation"
-            ]
+            "rdfMap": []
           }
         ]
       },
@@ -1235,6 +1143,35 @@
             "rdfMap": []
           }
         ]
+      },
+      "Has": {
+        "predicate": "Has",
+        "placement": "property",
+        "cardinality": "array",
+        "inverse": null,
+        "rdf": "const:omc:hasAssetStructure",
+        "connects": [
+          {
+            "domain": [
+              "Asset"
+            ],
+            "range": [
+              "AssetStructure"
+            ],
+            "path": "AssetStructure",
+            "rdfMap": []
+          },
+          {
+            "domain": [
+              "Participant"
+            ],
+            "range": [
+              "ParticipantStructure"
+            ],
+            "path": "ParticipantStructure",
+            "rdfMap": []
+          }
+        ]
       }
     }
   },
@@ -1435,13 +1372,6 @@
         "definition": null,
         "symmetric": false,
         "inverse": "omc:neededBy"
-      },
-      {
-        "id": "omc:participantStructure",
-        "name": "participantStructure",
-        "definition": null,
-        "symmetric": false,
-        "inverse": null
       },
       {
         "id": "omc:portrayalOf",
@@ -2011,7 +1941,7 @@
         "id": "omc:hasParticipantStructure",
         "name": "hasParticipantStructure",
         "verbs": [
-          "omc:participantStructure"
+          "omc:has"
         ],
         "domains": [
           "omc:Participant"

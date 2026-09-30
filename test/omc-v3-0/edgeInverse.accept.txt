@@ -1,16 +1,11 @@
 # Findings edgeInverse.js should not fail on for the SHIPPED table.
 #
 # The subject is the publication alone, which is what omcTemplate.inverseEdge() answers from and
-# therefore what fMam writes reverse edges from. The hand-written supplemental map is no longer
-# merged in, so a predicate the publication does not name gets no inverse at all and fMam writes
-# no reverse edge: `npm run edges:missing` lists those.
+# therefore what fMam writes reverse edges from.
 #
-# INVERSE-BUCKET and INVERSE-OVERRIDE are structural, not data faults. inverseEdge() returns a
-# bare predicate name, so it can express neither an intrinsic inverse nor a per-group one, and
-# fMam then writes to a place the table does not agree with. Closing them needs an accessor that
-# returns the inverse edge rather than its name.
-#
-# NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn and realizedBy triangles.
+# INVERSE-BUCKET and INVERSE-OVERRIDE are structural: inverseEdge() returns a bare predicate
+# name, so it can express neither an intrinsic inverse nor a per-group one. NOT-INVOLUTIVE is a
+# modelling question about the uses/usedBy/usedIn and realizedBy triangles.
 
 NOT-INVOLUTIVE uses -> usedIn -> realizationOf
 INVERSE-OVERRIDE usedIn on Asset: the group inverts to "edges.uses.Asset", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Asset"

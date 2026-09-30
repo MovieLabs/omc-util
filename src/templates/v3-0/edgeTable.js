@@ -33,8 +33,17 @@ export const publishedDefinitions = hydrateEdgeDefinitions(definitionsOf(publish
 /** What the publication says about itself: the view, and how much of it there is. */
 export const publishedInfo = publishedDocument?.generated ?? {};
 
-/** `omc:usedIn` and `usedIn` name the same thing; the index is keyed without the prefix. */
-const bare = (term) => String(term).replace(/^omc:/, '');
+/**
+ * `omc:usedIn` and `usedIn` name the same thing; the index is keyed without the prefix, and folded
+ * to lower case.
+ *
+ * The case has to be folded because the two projections disagree about it by design. An intrinsic
+ * predicate is the capitalised verb — `Has`, so the property reads `AssetStructure` and not
+ * `assetStructure` — while the RDF model keys by the verb itself, `omc:has`. Matching them verbatim
+ * silently missed every intrinsic row: `Participant.ParticipantStructure` took the name of the
+ * predicate's other group and published `omc:hasAssetStructure`.
+ */
+const bare = (term) => String(term).replace(/^omc:/, '').toLowerCase();
 
 /**
  * The publication's RDF properties, keyed `verb|domain|range`.
@@ -71,7 +80,9 @@ const rdfPropertyIndex = (() => {
  * @returns {string[]}
  */
 const rdfPropertiesFor = ((domain, entry) => [...new Set(
-    (entry.allowed ?? []).flatMap((range) => rdfPropertyIndex.get(`${entry.predicate}|${domain}|${range}`) ?? []),
+    (entry.allowed ?? []).flatMap((range) => (
+        rdfPropertyIndex.get(`${bare(entry.predicate)}|${bare(domain)}|${bare(range)}`) ?? []
+    )),
 )]);
 
 /**
