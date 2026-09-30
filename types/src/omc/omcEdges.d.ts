@@ -93,6 +93,24 @@ export function edgeValid({ fromEntity, toEntity, forEntity, }: {
     forEntity: OmcEntity;
 }): any | null;
 /**
+ * Why `edgeCreate` would refuse to write this edge, or null where it would write it.
+ *
+ * Ask this when there is someone to tell. `edgeCreate` returns falsy on a refusal and writes
+ * nothing, which is the whole of what a caller with nowhere to put a message needs; this says which
+ * side was full, how full, and whether the reference is one already there — the difference between
+ * "only one is allowed" and "these two are already related", which read as different problems to
+ * whoever pressed the button.
+ *
+ * The cap is checked on both sides because both are written. `Realization.RealizationOf` admits one
+ * reference, so a second NarrativeObject connected to the same Realization is refused by the
+ * reverse even though the forward slot on the NarrativeObject has room.
+ *
+ * @function edgeRefusal
+ * @param {Object} params - The same parameters `edgeCreate` takes
+ * @returns {EdgeRefusal|null}
+ */
+export function edgeRefusal(params: any): EdgeRefusal | null;
+/**
  * Creates a new edge from one entity to another, based on the allowed edges for the entity
  * - Setting the 'inverse' property will also create the inverse edge in the toEntity if applicable
  * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific property to be targeted
@@ -121,5 +139,41 @@ export function edgeCreate(params: {
     toEntity: OmcEntity;
     fromEdgePath: any;
     toEdgePath?: undefined;
+};
+/**
+ * Why an edge was not written.
+ */
+export type EdgeRefusal = {
+    /**
+     * - The schema does not admit the edge at all, or the slot it
+     * goes in is already at its cap
+     */
+    reason: "notAllowed" | "full";
+    /**
+     * - Which entity the full slot is on. `target` means the reverse
+     * edge had nowhere to go, which refuses the forward edge with it: nothing is written on either.
+     */
+    side: "source" | "target";
+    /**
+     * - The type carrying the full slot
+     */
+    entityType: OmcEntityType;
+    /**
+     * - The slot's storage path on that entity
+     */
+    path?: string;
+    /**
+     * - What the schema admits there
+     */
+    maxItems?: number;
+    /**
+     * - What it already holds
+     */
+    held?: number;
+    /**
+     * - Whether one of those is the entity being connected, which
+     * makes this an existing relationship rather than a cap that has been reached
+     */
+    holdsTarget?: boolean;
 };
 //# sourceMappingURL=omcEdges.d.ts.map

@@ -59,6 +59,14 @@ from, it reaches nothing on the path to the shipped table, and `buildEdgeTable` 
 definitions so nothing can fall back to it by omission. `npm run edges:missing` lists what it
 still holds that the publication does not — the worklist for the tool, not a fallback.
 
+**`edgeCreate` refuses a full slot, and writes nothing when it does.** The cap is `maxItems` on the
+edge table, and it applies to the reverse as much as the forward side: `Realization.RealizationOf`
+admits one reference, so a second NarrativeObject connected to the same Realization is refused even
+though the forward slot has room. `edgeRefusal` takes the same parameters and returns the reason —
+side, path, `maxItems`, `held`, and `holdsTarget` where the reference is already there. Every caller
+already treated a falsy return as "not written", so refusing needs nothing of them; a caller with a
+user to inform asks `edgeRefusal` as well.
+
 **Ask for an inverse with `inverseEdgeFor`, not `inverseEdge`.** It takes the domain as well as
 the edge and answers with the inverse *as an edge* — `predicate`, `bucket`, `path`, `pathSegments`,
 `containerSegments`, `relativePath` — which is what `buildEdgeTable` resolves per row anyway.

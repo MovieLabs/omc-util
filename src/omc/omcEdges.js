@@ -7,6 +7,11 @@
  * resolved through the edge table rather than by reading the shape of the data — which is also why
  * `edgeCreate` returns falsy for an edge the schema does not allow, instead of writing it.
  *
+ * It returns falsy for a full slot on the same grounds. Every v3.0 edge is *stored* as an array, so
+ * the shape of the data cannot say how many references a slot admits — only `maxItems` on the edge
+ * table can, and it applies to the reverse as much as the forward side. `edgeRefusal` answers why,
+ * for a caller that has someone to tell.
+ *
  * The separation these functions draw is between an entity's own data and its references to other
  * entities. `getBaseProps` gives the former, `getIntrinsicProps` and `relatedEdges` the latter.
  *
@@ -245,6 +250,111 @@ export function edgeValid({
 }
 
 /**
+ * Why an edge was not written.
+ *
+ * @typedef {Object} EdgeRefusal
+ * @property {'notAllowed'|'full'} reason - The schema does not admit the edge at all, or the slot it
+ *   goes in is already at its cap
+ * @property {'source'|'target'} side - Which entity the full slot is on. `target` means the reverse
+ *   edge had nowhere to go, which refuses the forward edge with it: nothing is written on either.
+ * @property {OmcEntityType} entityType - The type carrying the full slot
+ * @property {string} [path] - The slot's storage path on that entity
+ * @property {number} [maxItems] - What the schema admits there
+ * @property {number} [held] - What it already holds
+ * @property {boolean} [holdsTarget] - Whether one of those is the entity being connected, which
+ *   makes this an existing relationship rather than a cap that has been reached
+ */
+
+/**
+ * What a slot currently holds, as an array however the value is stored.
+ *
+ * @param {OmcEntity} omcEntity
+ * @param {string} path - Dotted storage path from the edge table
+ * @returns {Array<Object>}
+ */
+const slotHolds = ((omcEntity, path) => {
+    const value = path.split('.').reduce((acc, key) => (acc ? acc[key] : undefined), omcEntity);
+    if (value === null || value === undefined) return [];
+    return Array.isArray(value) ? value : [value];
+});
+
+/**
+ * Whether one side of a proposed edge would exceed the cap the schema puts on its slot.
+ *
+ * @param {Object} params
+ * @param {'source'|'target'} params.side
+ * @param {OmcEntity} params.omcEntity - The entity the reference would be written on
+ * @param {OmcEntity} params.refEntity - The entity being referenced
+ * @param {string} params.path
+ * @param {number|undefined} params.maxItems
+ * @returns {EdgeRefusal|null}
+ */
+const capExceeded = (({
+    side, omcEntity, refEntity, path, maxItems,
+}) => {
+    if (!maxItems || !path) return null;
+    const held = slotHolds(omcEntity, path);
+    if (held.length < maxItems) return null;
+    return {
+        side,
+        entityType: omcEntity.entityType,
+        path,
+        maxItems,
+        held: held.length,
+        holdsTarget: held.some((ref) => hasMatching(ref, refEntity.identifier)),
+    };
+});
+
+/**
+ * Why `edgeCreate` would refuse to write this edge, or null where it would write it.
+ *
+ * Ask this when there is someone to tell. `edgeCreate` returns falsy on a refusal and writes
+ * nothing, which is the whole of what a caller with nowhere to put a message needs; this says which
+ * side was full, how full, and whether the reference is one already there — the difference between
+ * "only one is allowed" and "these two are already related", which read as different problems to
+ * whoever pressed the button.
+ *
+ * The cap is checked on both sides because both are written. `Realization.RealizationOf` admits one
+ * reference, so a second NarrativeObject connected to the same Realization is refused by the
+ * reverse even though the forward slot on the NarrativeObject has room.
+ *
+ * @function edgeRefusal
+ * @param {Object} params - The same parameters `edgeCreate` takes
+ * @returns {EdgeRefusal|null}
+ */
+export function edgeRefusal(params) {
+    const {
+        fromEntity = null,
+        toEntity = null,
+        intrinsicEdge = null,
+        inverse = false,
+    } = params;
+
+    const validEdges = edgeValid(params);
+    if (!validEdges) return { side: 'source', reason: 'notAllowed', entityType: fromEntity?.entityType };
+
+    const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]];
+    const forward = capExceeded({
+        side: 'source',
+        omcEntity: fromEntity,
+        refEntity: toEntity,
+        path: selectedEdge.path,
+        maxItems: selectedEdge.maxItems,
+    });
+    if (forward) return { ...forward, reason: 'full' };
+
+    if (!inverse || !selectedEdge.inverse) return null;
+    const reverse = capExceeded({
+        side: 'target',
+        omcEntity: toEntity,
+        refEntity: fromEntity,
+        path: selectedEdge.inversePath,
+        maxItems: selectedEdge.inverseEdge?.maxItems,
+    });
+    return reverse ? { ...reverse, reason: 'full' } : null;
+}
+
+/**
  * Creates a new edge from one entity to another, based on the allowed edges for the entity
  * - Setting the 'inverse' property will also create the inverse edge in the toEntity if applicable
  * - Some entities have multiple properties where the same toEntity is allowed, using the intrinsicEdge property allows a specific property to be targeted
@@ -267,6 +377,9 @@ export function edgeCreate(params) {
 
     const validEdges = edgeValid(params);
     if (!validEdges) return null;
+    // Nothing is written when either slot is already at its cap — not the forward edge either, so a
+    // refused connection leaves both entities exactly as they were. `edgeRefusal` gives the reason.
+    if (edgeRefusal(params)) return null;
 
     const selectedEdge = validEdges[intrinsicEdge] || validEdges[Object.keys(validEdges)[0]]; // Check if an edge was specified, otherwise default to first option
     const updatedEntity = insertEdge(fromEntity, toEntity, selectedEdge);

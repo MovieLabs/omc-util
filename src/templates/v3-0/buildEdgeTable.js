@@ -57,11 +57,16 @@ const resolveInversePath = (definitions, invName, originDomain) => {
  * a reader given only the name has to guess a bucket and cannot see the override at all. Consumers
  * that write the reverse edge — fMam does, on every save — need the place, not the word.
  *
+ * `maxItems` is the cap on the slot the reverse goes into, which is a fact about the TARGET's row
+ * rather than this one. It is known only once the target's table exists, so it arrives in the third
+ * pass below; until then the inverse carries the place but not the cap.
+ *
  * @param {string|null} inversePath - The resolved inverse path, or null where there is no inverse
+ * @param {number|undefined} [maxItems] - The cap on the target's slot, from its own row
  * @returns {{predicate: string, bucket: string, path: string, pathSegments: string[],
- *   containerSegments: string[], relativePath: string}|null}
+ *   containerSegments: string[], relativePath: string, maxItems: (number|undefined)}|null}
  */
-const inverseEdgeOf = ((inversePath) => {
+const inverseEdgeOf = ((inversePath, maxItems) => {
     if (!inversePath) return null;
     const bucket = inversePath.startsWith('edges.') ? 'edges' : 'intrinsic';
     const decomposed = decomposePath(inversePath, bucket);
@@ -70,6 +75,7 @@ const inverseEdgeOf = ((inversePath) => {
         predicate: bucket === 'edges' ? decomposed.pathSegments[1] : decomposed.pathSegments.at(-1),
         path: inversePath,
         ...decomposed,
+        maxItems,
     };
 });
 
@@ -257,21 +263,35 @@ export function buildEdgeTable(edgeDefinitions) {
     // `resolveInversePath` works from the inverse's NAME, so where an intrinsic predicate takes its
     // path from a group — `Has` writing `AssetStructure` on an Asset and `Location` on a
     // ParticipantStructure — the name is all it can offer and the path comes back as the predicate.
-    // The built table knows better: the reverse of an edge is the entry on the TARGET whose
-    // predicate is the inverse and whose allowed types include this domain. Resolving against it
-    // turns a guess into the place the reference is actually written.
+    // The built table knows better: the reverse of an edge is a row on the TARGET that admits this
+    // domain. Resolving against it turns a guess into the place the reference is actually written,
+    // and is the only way to reach the cap on that slot, which is a fact about the target's row.
+    //
+    // Two ways to find it, in order. By path, where the name-derived path already names a real row
+    // — the common case, and the one that supplies a cap the first pass could not know. Then by
+    // predicate, which is what repairs a guess: `Has` where the answer is
+    // `assetStructureProperties.assetGroup.Member`. The predicate comparison folds case, because
+    // the two halves spell the same predicate differently by design — an intrinsic path is named
+    // by the capitalised property (`RealizationOf`) and a row's `predicate` by the verb
+    // (`realizationOf`). Compared verbatim, every intrinsic inverse missed.
+    const fold = (term) => String(term).toLowerCase();
+    const rowsOn = (target) => ['intrinsic', 'edges']
+        .flatMap((part) => Object.values(table[target]?.[part] || {}));
+
     Object.entries(table).forEach(([domain, partitions]) => {
         PARTITION_NAMES.forEach((partition) => {
             Object.values(partitions[partition] || {}).forEach((entry) => {
-                const name = entry.inverseEdge?.predicate;
+                const { path: guessedPath, predicate: name } = entry.inverseEdge ?? {};
                 if (!name) return;
-                const found = (entry.allowed || []).reduce((hit, target) => hit || ['intrinsic', 'edges']
-                    .flatMap((part) => Object.values(table[target]?.[part] || {}))
-                    .find((candidate) => candidate.predicate === name
+                const targets = entry.allowed || [];
+                const byPath = targets.reduce((hit, target) => hit
+                    || rowsOn(target).find((candidate) => candidate.path === guessedPath), null);
+                const byPredicate = byPath || targets.reduce((hit, target) => hit
+                    || rowsOn(target).find((candidate) => fold(candidate.predicate) === fold(name)
                         && (candidate.allowed || []).includes(domain)), null);
-                if (!found || found.path === entry.inverseEdge.path) return;
-                entry.inverseEdge = inverseEdgeOf(found.path);
-                entry.inversePath = found.path;
+                if (!byPredicate) return;
+                entry.inverseEdge = inverseEdgeOf(byPredicate.path, byPredicate.maxItems);
+                entry.inversePath = byPredicate.path;
             });
         });
     });
