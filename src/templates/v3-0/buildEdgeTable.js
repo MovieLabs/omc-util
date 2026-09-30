@@ -79,6 +79,14 @@ const inverseEdgeOf = ((inversePath, maxItems) => {
     };
 });
 
+/**
+ * How a reference is stored on the source entity. Every v3.0 edge is an array — intrinsic or not —
+ * so this is a constant, not something the publication has to state. It is **not** a cardinality cap:
+ * `maxItems` is. `insertEdge` dispatches on it with no default, so a row without one writes nothing
+ * and says nothing about it.
+ */
+const STORAGE_TYPE = 'array';
+
 /** The three partitions every entityType's table carries. */
 const PARTITION_NAMES = ['intrinsic', 'edges', 'cxtEdges'];
 
@@ -177,7 +185,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         predicate: def.predicate,
                         allowed: [range],
                         path,
-                        type: def.cardinality,
+                        type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
                         inverse: inversePath(domain),
@@ -194,7 +202,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         predicate: def.predicate,
                         allowed: [...group.range],
                         path,
-                        type: def.cardinality,
+                        type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
                         inverse: inversePath(domain),

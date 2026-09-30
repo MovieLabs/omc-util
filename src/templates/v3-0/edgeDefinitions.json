@@ -16,7 +16,6 @@
     "edgeDefinitions": {
       "has": {
         "predicate": "has",
-        "cardinality": "array",
         "inverse": "for",
         "rdf": "tentative",
         "connects": [
@@ -129,7 +128,6 @@
       },
       "for": {
         "predicate": "for",
-        "cardinality": "array",
         "inverse": "has",
         "rdf": "tentative",
         "connects": [
@@ -207,7 +205,6 @@
       "ProductionCompany": {
         "predicate": "ProductionCompany",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "for",
         "rdf": "const:omc:hasProductionCompany",
         "connects": [
@@ -224,7 +221,6 @@
       "Director": {
         "predicate": "Director",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "for",
         "rdf": "const:omc:hasDirector",
         "connects": [
@@ -240,7 +236,6 @@
       },
       "needs": {
         "predicate": "needs",
-        "cardinality": "array",
         "inverse": "neededBy",
         "rdf": "tentative",
         "connects": [
@@ -278,7 +273,6 @@
       },
       "neededBy": {
         "predicate": "neededBy",
-        "cardinality": "array",
         "inverse": "needs",
         "rdf": "tentative",
         "connects": [
@@ -316,7 +310,6 @@
       },
       "features": {
         "predicate": "features",
-        "cardinality": "array",
         "inverse": "featuresIn",
         "rdf": "tentative",
         "connects": [
@@ -339,7 +332,6 @@
       },
       "featuresIn": {
         "predicate": "featuresIn",
-        "cardinality": "array",
         "inverse": "features",
         "rdf": "tentative",
         "connects": [
@@ -362,7 +354,6 @@
       },
       "uses": {
         "predicate": "uses",
-        "cardinality": "array",
         "inverse": "usedIn",
         "rdf": "tentative",
         "connects": [
@@ -380,7 +371,6 @@
       },
       "usedIn": {
         "predicate": "usedIn",
-        "cardinality": "array",
         "inverse": "realizationOf",
         "rdf": "tentative",
         "connects": [
@@ -422,7 +412,6 @@
       },
       "contributesTo": {
         "predicate": "contributesTo",
-        "cardinality": "array",
         "inverse": "contributor",
         "rdf": "tentative",
         "connects": [
@@ -438,7 +427,6 @@
       },
       "contributor": {
         "predicate": "contributor",
-        "cardinality": "array",
         "inverse": "contributesTo",
         "rdf": "tentative",
         "connects": [
@@ -454,7 +442,6 @@
       },
       "informs": {
         "predicate": "informs",
-        "cardinality": "array",
         "inverse": "informedBy",
         "rdf": "tentative",
         "connects": [
@@ -470,7 +457,6 @@
       },
       "informedBy": {
         "predicate": "informedBy",
-        "cardinality": "array",
         "inverse": "informs",
         "rdf": "tentative",
         "connects": [
@@ -486,7 +472,6 @@
       },
       "related": {
         "predicate": "related",
-        "cardinality": "array",
         "inverse": "related",
         "rdf": "tentative",
         "connects": [
@@ -510,7 +495,6 @@
       },
       "productOf": {
         "predicate": "productOf",
-        "cardinality": "array",
         "inverse": "Product",
         "rdf": "const:omc-legacy:isProducedBy.Composition",
         "connects": [
@@ -527,7 +511,6 @@
       "Product": {
         "predicate": "Product",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "productOf",
         "rdf": "intrinsic",
         "connects": [
@@ -543,7 +526,6 @@
       },
       "memberOf": {
         "predicate": "memberOf",
-        "cardinality": "array",
         "inverse": "Member",
         "rdf": "const:omc:memberOf",
         "connects": [
@@ -584,7 +566,6 @@
       "Member": {
         "predicate": "Member",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "memberOf",
         "rdf": "const:omc:member",
         "connects": [
@@ -629,7 +610,6 @@
         "predicate": "includes",
         "placement": "property",
         "pathTemplate": "includes.{range}",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "intrinsic",
         "connects": [
@@ -685,7 +665,6 @@
         "predicate": "ConfigurationFile",
         "placement": "property",
         "path": "software.ConfigurationFile",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "const:omc:hasConfigurationFile",
         "connects": [
@@ -703,7 +682,6 @@
       "StartHere": {
         "predicate": "StartHere",
         "placement": "property",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "const:omc:startHere",
         "connects": [
@@ -721,7 +699,6 @@
       "CreatedBy": {
         "predicate": "CreatedBy",
         "placement": "property",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "const:omc:hasAuthor",
         "connects": [
@@ -738,7 +715,6 @@
       "Role": {
         "predicate": "Role",
         "placement": "property",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "intrinsic",
         "connects": [
@@ -764,7 +740,6 @@
       "CreativeWork": {
         "predicate": "CreativeWork",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "has",
         "rdf": "const:omc:hasCreativeWork",
         "connects": [
@@ -782,7 +757,6 @@
         "predicate": "Series",
         "placement": "property",
         "path": "creativeWorkProperties.Series",
-        "cardinality": "array",
         "inverse": "related",
         "rdf": "intrinsic",
         "connects": [
@@ -800,7 +774,6 @@
         "predicate": "Season",
         "placement": "property",
         "path": "creativeWorkProperties.Season",
-        "cardinality": "array",
         "inverse": "related",
         "rdf": "intrinsic",
         "connects": [
@@ -818,7 +791,6 @@
         "predicate": "Episode",
         "placement": "property",
         "path": "creativeWorkProperties.Episode",
-        "cardinality": "array",
         "inverse": "related",
         "rdf": "intrinsic",
         "connects": [
@@ -835,7 +807,6 @@
       "Location": {
         "predicate": "Location",
         "placement": "property",
-        "cardinality": "array",
         "inverse": null,
         "rdf": "intrinsic",
         "connects": [
@@ -852,7 +823,6 @@
       },
       "usedBy": {
         "predicate": "usedBy",
-        "cardinality": "array",
         "inverse": "realizedBy",
         "rdf": "const:omc:usedByRealization",
         "connects": [
@@ -873,7 +843,6 @@
         "predicate": "realizedBy",
         "placement": "property",
         "path": "RealizedBy",
-        "cardinality": "array",
         "inverse": "usedBy",
         "rdf": "const:omc:realizedBy",
         "connects": [
@@ -893,7 +862,6 @@
       "realizationOf": {
         "predicate": "realizationOf",
         "placement": "property",
-        "cardinality": "array",
         "inverse": "usedIn",
         "rdf": "intrinsic",
         "connects": [
@@ -926,7 +894,6 @@
         "predicate": "hasRevision",
         "placement": "property",
         "path": "versionInfo.Revision",
-        "cardinality": "array",
         "inverse": "isRevisionOf",
         "rdf": "const:omc:hasRevision",
         "connects": [
@@ -952,7 +919,6 @@
         "predicate": "isRevisionOf",
         "placement": "property",
         "path": "versionInfo.RevisionOf",
-        "cardinality": "array",
         "inverse": "hasRevision",
         "rdf": "const:omc:isRevisionOf",
         "connects": [
@@ -978,7 +944,6 @@
         "predicate": "hasDerivation",
         "placement": "property",
         "path": "versionInfo.Derivation",
-        "cardinality": "array",
         "inverse": "isDerivationOf",
         "rdf": "const:omc:hasDerivation",
         "connects": [
@@ -1004,7 +969,6 @@
         "predicate": "isDerivationOf",
         "placement": "property",
         "path": "versionInfo.DerivationOf",
-        "cardinality": "array",
         "inverse": "hasDerivation",
         "rdf": "const:omc:isDerivationOf",
         "connects": [
@@ -1030,7 +994,6 @@
         "predicate": "hasRepresentation",
         "placement": "property",
         "path": "versionInfo.Representation",
-        "cardinality": "array",
         "inverse": "isRepresentationOf",
         "rdf": "const:omc:hasRepresentation",
         "connects": [
@@ -1056,7 +1019,6 @@
         "predicate": "isRepresentationOf",
         "placement": "property",
         "path": "versionInfo.RepresentationOf",
-        "cardinality": "array",
         "inverse": "hasRepresentation",
         "rdf": "const:omc:isRepresentationOf",
         "connects": [
@@ -1082,7 +1044,6 @@
         "predicate": "isAlternativeOf",
         "placement": "property",
         "path": "versionInfo.Alternative",
-        "cardinality": "array",
         "inverse": "isAlternativeOf",
         "rdf": "const:omc:isAlternativeOf",
         "connects": [
@@ -1100,7 +1061,6 @@
         "predicate": "hasVariant",
         "placement": "property",
         "path": "versionInfo.Variant",
-        "cardinality": "array",
         "inverse": "isVariantOf",
         "rdf": "const:omc:hasVariant",
         "connects": [
@@ -1118,7 +1078,6 @@
         "predicate": "isVariantOf",
         "placement": "property",
         "path": "versionInfo.VariantOf",
-        "cardinality": "array",
         "inverse": "hasVariant",
         "rdf": "const:omc:isVariantOf",
         "connects": [
