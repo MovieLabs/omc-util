@@ -59,6 +59,16 @@ from, it reaches nothing on the path to the shipped table, and `buildEdgeTable` 
 definitions so nothing can fall back to it by omission. `npm run edges:missing` lists what it
 still holds that the publication does not — the worklist for the tool, not a fallback.
 
+**Ask for an inverse with `inverseEdgeFor`, not `inverseEdge`.** It takes the domain as well as
+the edge and answers with the inverse *as an edge* — `predicate`, `bucket`, `path`, `pathSegments`,
+`containerSegments`, `relativePath` — which is what `buildEdgeTable` resolves per row anyway.
+`inverseEdge` reads a flat predicate map, and a flat map cannot say three things that are true of
+this model: that an inverse is an intrinsic property rather than a predicate
+(`memberOf` ↔ `assetStructureProperties.assetGroup.Member`), that a `connects` group overrides it
+(`usedIn` inverts to `realizationOf` in general but to `uses` from Asset), or that two pairs share a
+verb. `npm run edges:inverse` counts the pairs the two disagree on; the accessor is right on each.
+`inverseEdge` stays because fMam reads it and is on 1.5.0 — its switch waits on a release.
+
 **The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
 API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is
 authenticated), then `test/omc-v3-0/omc-edges.json`, which is the name the Edge Editor's UI gives
@@ -139,7 +149,7 @@ claude/                      # JSDoc review notes (not shipped)
 
 **`omcTemplate` is the point of the library.** It answers, per `{ schemaVersion, entityType }`:
 `edgeTable`, `shape`, `presentation`, `schemaGroup`, `allSchemaGroups`, `idPrefix`, `mergeKey`,
-`allEntityTypes`, `graphQl`, `graphQlEntities`, `inverseEdge`, plus the version-agnostic
+`allEntityTypes`, `graphQl`, `graphQlEntities`, `inverseEdge`, `inverseEdgeFor`, plus the version-agnostic
 `versionLabel`, `isRelationshipKey`, `referenceTemplate`, `metaKeys` and `recordKeys`. Consumers ask
 these rather than restating them. `generalConfig`, `inverseEdges`, `edgeTable` and `graphQlTemplate`
 are **not** top-level exports — they are reached through `omcTemplate`.

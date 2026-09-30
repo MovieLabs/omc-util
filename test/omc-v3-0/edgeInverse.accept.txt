@@ -1,22 +1,25 @@
 # Findings edgeInverse.js should not fail on for the SHIPPED table.
 #
-# All of these are one structural limitation: omcTemplate.inverseEdge() answers with a bare
-# predicate name from a flat map, so it can express neither an intrinsic inverse nor one a
-# connects group overrides, and two pairs sharing a verb collapse into one entry. fMam reads that
-# map to write reverse edges, so what it writes disagrees with what the table says.
+# All of these but NOT-INVOLUTIVE are one structural limitation: omcTemplate.inverseEdge()
+# answers with a bare predicate name from a flat map, so it can express neither an intrinsic
+# inverse nor one a connects group overrides, and two pairs sharing a verb collapse into one
+# entry. fMam reads that map to write reverse edges, so what it writes disagrees with the table.
 #
-# Closing them needs an accessor that returns the inverse EDGE - name, bucket and path, per
-# domain - rather than its name. NOT-INVOLUTIVE is a modelling question about the
-# uses/usedBy/usedIn triangle.
+# omcTemplate.inverseEdgeFor() closes them: it returns the inverse as an EDGE - name, bucket and
+# path - resolved against the domain asked about. The run's REPORT section counts the pairs the
+# two disagree on. They stay accepted here because the map is still what fMam reads: it runs
+# omc-util 1.5.0, so the switch waits on a release. This file shrinks when fMam has made it.
+#
+# NOT-INVOLUTIVE is a modelling question about the uses/usedBy/usedIn triangle, not this.
 
 NOT-INVOLUTIVE uses -> usedIn -> realizationOf
 INVERSE-OVERRIDE usedIn on Asset: the group inverts to "edges.uses.Asset", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Asset"
 INVERSE-OVERRIDE usedIn on ProductionLocation: the group inverts to "edges.uses.ProductionLocation", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.ProductionLocation"
 INVERSE-OVERRIDE usedIn on Realization: the group inverts to "edges.uses.Realization", the predicate declares "realizationOf", so fMam writes "edges.realizationOf.Realization"
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Asset"
 INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Infrastructure"
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Participant"
-INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "Member", fMam writes "edges.Member.Task"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "assetStructureProperties.assetGroup.Member", fMam writes "edges.Member.Asset"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "participantStructureProperties.participantGroup.Member", fMam writes "edges.Member.Participant"
+INVERSE-BUCKET memberOf -> Member — intrinsic property, table path "taskStructureProperties.taskGroup.Member", fMam writes "edges.Member.Task"
 INVERSE-BUCKET productOf -> Product — intrinsic property, table path "Product", fMam writes "edges.Product.Asset"
 INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Asset"
 INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Composition"

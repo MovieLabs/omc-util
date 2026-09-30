@@ -48,6 +48,34 @@ const resolveInversePath = (definitions, invName, originDomain) => {
     return (invDef && invDef.path) || invName;
 };
 
+/**
+ * The inverse as an edge rather than a name: where the reverse reference is written on the target,
+ * decomposed the same way a forward path is.
+ *
+ * A name alone cannot say this. `memberOf` inverts to the intrinsic property `Member`, and
+ * `realizedBy` inverts to `RealizationOf` in general but to `usedBy` from Task and Participant, so
+ * a reader given only the name has to guess a bucket and cannot see the override at all. Consumers
+ * that write the reverse edge — fMam does, on every save — need the place, not the word.
+ *
+ * @param {string|null} inversePath - The resolved inverse path, or null where there is no inverse
+ * @returns {{predicate: string, bucket: string, path: string, pathSegments: string[],
+ *   containerSegments: string[], relativePath: string}|null}
+ */
+const inverseEdgeOf = ((inversePath) => {
+    if (!inversePath) return null;
+    const bucket = inversePath.startsWith('edges.') ? 'edges' : 'intrinsic';
+    const decomposed = decomposePath(inversePath, bucket);
+    return {
+        // An edges path is named by its verb; an intrinsic one by the property it ends in.
+        predicate: bucket === 'edges' ? decomposed.pathSegments[1] : decomposed.pathSegments.at(-1),
+        path: inversePath,
+        ...decomposed,
+    };
+});
+
+/** The three partitions every entityType's table carries. */
+const PARTITION_NAMES = ['intrinsic', 'edges', 'cxtEdges'];
+
 const pathDependsOnRange = (placement, template) =>
     placement === 'edges' || (!!template && template.includes('{range}'));
 
@@ -144,6 +172,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         ...decomposePath(path, partition),
                         inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
+                        inverseEdge: inverseEdgeOf(resolveInversePath(edgeDefinitions, groupInverse, domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
                     });
                 }));
@@ -160,6 +189,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         ...decomposePath(path, partition),
                         inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
                         inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
+                        inverseEdge: inverseEdgeOf(resolveInversePath(edgeDefinitions, groupInverse, domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
                     });
                 });
@@ -199,6 +229,7 @@ export function buildEdgeTable(edgeDefinitions) {
             ...decomposePath(`edges.cxtFor.${subject}`, 'edges'),
             inverse: `edges.hasCxt.${CONTEXT}`,
             inversePath: `edges.hasCxt.${CONTEXT}`,
+            inverseEdge: inverseEdgeOf(`edges.hasCxt.${CONTEXT}`),
             omcPredicate: cxtForRdf({ domain: CONTEXT, predicate: 'cxtFor', range: subject }),
         };
 
@@ -216,8 +247,32 @@ export function buildEdgeTable(edgeDefinitions) {
                 ...decomposePath(edge.path, edge.bucket),
                 inverse: repointInverse(edge.inverse),
                 inversePath: repointInverse(edge.inverse),
+                inverseEdge: inverseEdgeOf(repointInverse(edge.inverse)),
                 omcPredicate: edge.omcPredicate,
             };
+        });
+    });
+
+    // ---- Third pass: resolve each inverse against the table it points into ----
+    // `resolveInversePath` works from the inverse's NAME, so where an intrinsic predicate takes its
+    // path from a group — `Has` writing `AssetStructure` on an Asset and `Location` on a
+    // ParticipantStructure — the name is all it can offer and the path comes back as the predicate.
+    // The built table knows better: the reverse of an edge is the entry on the TARGET whose
+    // predicate is the inverse and whose allowed types include this domain. Resolving against it
+    // turns a guess into the place the reference is actually written.
+    Object.entries(table).forEach(([domain, partitions]) => {
+        PARTITION_NAMES.forEach((partition) => {
+            Object.values(partitions[partition] || {}).forEach((entry) => {
+                const name = entry.inverseEdge?.predicate;
+                if (!name) return;
+                const found = (entry.allowed || []).reduce((hit, target) => hit || ['intrinsic', 'edges']
+                    .flatMap((part) => Object.values(table[target]?.[part] || {}))
+                    .find((candidate) => candidate.predicate === name
+                        && (candidate.allowed || []).includes(domain)), null);
+                if (!found || found.path === entry.inverseEdge.path) return;
+                entry.inverseEdge = inverseEdgeOf(found.path);
+                entry.inversePath = found.path;
+            });
         });
     });
 

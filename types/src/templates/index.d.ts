@@ -208,6 +208,16 @@ export type OmcTemplate = {
      */
     schemaGroup: (arg0: TemplateQuery) => string;
     /**
+     *   The reverse of one edge, as an edge — name, bucket and path, resolved per domain. Prefer
+     *   it to `inverseEdge`, whose flat map cannot express an intrinsic inverse, a per-group
+     *   override, or two pairs sharing a verb.
+     */
+    inverseEdgeFor: (arg0: {
+        schemaVersion: string;
+        entityType: OmcEntityType;
+        edge: string;
+    }) => (object | null);
+    /**
      * - Returns all entities in schema by their group
      */
     allSchemaGroups: (arg0: TemplateQuery) => SchemaGroups;

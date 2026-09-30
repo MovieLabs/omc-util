@@ -194,9 +194,32 @@ async function main() {
         });
     });
 
+    // ===== REPORT ================================================================
+    // What the accessor answers that the flat map cannot. `omcTemplate.inverseEdgeFor` hands back
+    // the inverse as an edge — bucket, path and all — resolved against the domain it was asked
+    // about, which is where every finding above but NOT-INVOLUTIVE and INVERSE-UNDECLARED comes
+    // from: the flat map has one answer per predicate, and these rows need one per group.
+    const disagreements = [];
+    Object.entries(table).forEach(([domain, partitions]) => {
+        Object.values(partitions.edges || {}).forEach((entry) => {
+            const [, verb] = entry.path.split('.');
+            const name = inverses[verb];
+            if (!name) return;
+            const flat = `edges.${name}.${domain}`;
+            const resolved = entry.inverseEdge?.path;
+            if (resolved && resolved !== flat) disagreements.push(`${domain} ${entry.path}: map "${flat}", accessor "${resolved}"`);
+        });
+    });
+
+    line('');
+    line('=== REPORT (informational — not a gate) ===');
+    line(`  inverseEdgeFor disagrees with the flat map on ${[...new Set(disagreements)].length} of `
+        + `${seen.size} (entityType, verb) pairs, and is right on each: the map cannot express an `
+        + 'intrinsic inverse, a per-group override, or two pairs sharing a verb.');
+    [...new Set(disagreements)].sort().forEach((entry) => line(`    ${entry}`));
+
     if (collisions.length) {
         line('');
-        line('=== REPORT (informational — not a gate) ===');
         line(`  edge-table collisions (${collisions.length}): two definitions claiming one storage path.`);
         collisions.forEach((collision) => line(`    ${JSON.stringify(collision)}`));
     }
