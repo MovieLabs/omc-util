@@ -4,8 +4,8 @@
     "version": 1,
     "viewId": "view:entity-structure",
     "edges": 121,
-    "rows": 162,
-    "verbs": 41,
+    "rows": 163,
+    "verbs": 40,
     "properties": 117
   },
   "namespace": {
@@ -1170,6 +1170,16 @@
             ],
             "path": "ParticipantStructure",
             "rdfMap": []
+          },
+          {
+            "domain": [
+              "Task"
+            ],
+            "range": [
+              "TaskStructure"
+            ],
+            "path": "TaskStructure",
+            "rdfMap": []
           }
         ]
       }
@@ -1432,13 +1442,6 @@
       {
         "id": "omc:startHere",
         "name": "startHere",
-        "definition": null,
-        "symmetric": false,
-        "inverse": null
-      },
-      {
-        "id": "omc:taskStructure",
-        "name": "taskStructure",
         "definition": null,
         "symmetric": false,
         "inverse": null
@@ -2068,7 +2071,7 @@
         "id": "omc:hasTaskStructure",
         "name": "hasTaskStructure",
         "verbs": [
-          "omc:taskStructure"
+          "omc:has"
         ],
         "domains": [
           "omc:Task"

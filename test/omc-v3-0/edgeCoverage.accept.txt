@@ -9,7 +9,6 @@ MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [A
 MISSING InfrastructureStructure infrastructureStructureProperties.Member -> [Infrastructure]
 MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
 MISSING ParticipantStructure Location -> [Location]
-OTHER-BUCKET Task TaskStructure -> [TaskStructure] not intrinsic; the edges bucket has edges.memberOf.TaskStructure (same types — may or may not be the same relationship)
 TARGETS Realization RealizationOf table [Effect,NarrativeAudio,NarrativeObject,NarrativeStyling,NarrativeWardrobe,SpecialAction] schema [Character,NarrativeAudio,NarrativeLocation,NarrativeObject,NarrativeStyling,NarrativeWardrobe]
 VERB-UNDECLARED contributesTo
 VERB-UNDECLARED contributor
