@@ -157,13 +157,17 @@ export function buildEdgeTable(edgeDefinitions) {
     };
 
     for (const [pred, def] of Object.entries(edgeDefinitions)) {
-        const placement = def.placement || 'edges';
-        const partition = placement === 'edges' ? 'edges' : 'intrinsic';
         const rdf = typeof def.rdf === 'function' ? def.rdf : tentativeRdf;
 
         for (const group of def.connects) {
+            // Placement belongs to the pairing. One verb reaches some ranges through `edges.<verb>.*`
+            // and others through a named property — `has` does both — so the group states it where it
+            // differs from the predicate's usual one, exactly as it states a path.
+            const placement = group.placement || def.placement || 'edges';
+            const partition = placement === 'edges' ? 'edges' : 'intrinsic';
             const groupInverse = Object.hasOwn(group, 'inverse') ? group.inverse : def.inverse;
             const template = group.pathTemplate || def.pathTemplate;
+            const inversePath = (domain) => resolveInversePath(edgeDefinitions, groupInverse, domain);
 
             if (pathDependsOnRange(placement, template)) {
                 // one entry per (domain, range), keyed by the range/target type
@@ -176,9 +180,9 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: def.cardinality,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
-                        inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
-                        inverseEdge: inverseEdgeOf(resolveInversePath(edgeDefinitions, groupInverse, domain)),
+                        inverse: inversePath(domain),
+                        inversePath: inversePath(domain),
+                        inverseEdge: inverseEdgeOf(inversePath(domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
                     });
                 }));
@@ -193,9 +197,9 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: def.cardinality,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverse: resolveInversePath(edgeDefinitions, groupInverse, domain),
-                        inversePath: resolveInversePath(edgeDefinitions, groupInverse, domain),
-                        inverseEdge: inverseEdgeOf(resolveInversePath(edgeDefinitions, groupInverse, domain)),
+                        inverse: inversePath(domain),
+                        inversePath: inversePath(domain),
+                        inverseEdge: inverseEdgeOf(inversePath(domain)),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
                     });
                 });

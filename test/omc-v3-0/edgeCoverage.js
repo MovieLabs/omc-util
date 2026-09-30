@@ -379,8 +379,8 @@ async function main() {
         misplaced.forEach((key) => line(`    ${key}`));
         line('  An entity carrying one of these fails omcValidate — v3.0 sets');
         line('  `unevaluatedProperties: false`, so the undeclared property invalidates the whole');
-        line('  entity. Re-pointing the path in edges.js changes where consumers read, so it is its');
-        line('  own change, not a fix to make from here.');
+        line('  entity. Re-pointing the path changes where consumers read, so it is a change to make');
+        line('  in the Edge Editor and re-publish, not a fix to make from here.');
     }
 
     // ===== RESULT ================================================================
@@ -388,7 +388,8 @@ async function main() {
     line(`Schema ${declared.length} intrinsic relationships; ${failing} `
         + `${source.live ? 'difference' : 'unaccepted difference'}${failing === 1 ? '' : 's'}.`);
     if (failing && !source.live) {
-        console.error(`EDGE COVERAGE GATE FAILED. Fix edges.js, or declare the difference in ${acceptPath}.`);
+        console.error('EDGE COVERAGE GATE FAILED. Fix the edge in the Edge Editor and re-publish, '
+            + `or declare the difference in ${acceptPath}.`);
         process.exitCode = 1;
         return;
     }
