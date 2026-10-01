@@ -230,6 +230,8 @@ export function edgeValid({
     const edgeSet = isContext
         ? omcTemplate.edgeTable({ ...forEntity, schemaVersion: fromEntity.schemaVersion })
         : omcTemplate.edgeTable(fromEntity);
+    // An entityType the schema does not declare has no table, so no edge to it is valid.
+    if (!edgeSet) return null;
     const allEdges = isContext ? edgeSet.cxtEdges : { ...edgeSet.intrinsic, ...edgeSet.edges };
 
     const onlyValidEdges = Object.keys(allEdges).reduce((obj, key) => (

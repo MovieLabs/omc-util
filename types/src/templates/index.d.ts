@@ -194,9 +194,9 @@ export type SchemaGroups = {
 };
 export type OmcTemplate = {
     /**
-     * - Returns the edge table definition for the given schema version and entity type.
+     * - Where this entityType may store references, per partition. Null when the schema version or entityType is unknown — a type the schema no longer declares answers null rather than throwing.
      */
-    edgeTable: (arg0: TemplateQuery) => EdgeTable;
+    edgeTable: (arg0: TemplateQuery) => (EdgeTable | null);
     /**
      * - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
      */

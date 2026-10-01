@@ -133,7 +133,7 @@
 /**
  * @memberof OmcUtil
  * @typedef {Object} OmcTemplate
- * @property {function(TemplateQuery): EdgeTable} edgeTable - Returns the edge table definition for the given schema version and entity type.
+ * @property {function(TemplateQuery): (EdgeTable|null)} edgeTable - Where this entityType may store references, per partition. Null when the schema version or entityType is unknown — a type the schema no longer declares answers null rather than throwing.
  * @property {function(TemplateQuery): (object|null)} shape - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
  * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
  * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second argument is the fallback returned when there is no version (default 'unknown').
@@ -192,7 +192,7 @@ const derivedShapeVersions = new Set([
  */
 const omcTemplate = {
     edgeTable: (({ schemaVersion, entityType }) => (
-        versionTemplates[schemaVersion].entityTemplate[entityType].edgeTable
+        versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.edgeTable || null
     )),
     presentation: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.presentation || null
