@@ -31,21 +31,38 @@ import { maxItemsIndex } from './schemaIndex.js';
 
 /**
  * Resolve an inverse predicate NAME to the inverse PATH on the target entity.
- * `originDomain` (the source type of the forward edge) becomes the last segment
- * of an `edges.<inv>.<originDomain>` reverse path.
+ *
+ * The reverse is an edge in its own right, on the target and pointing back here, so it is read from
+ * the inverse predicate's own `connects` group — the one whose domain is the target and whose range is
+ * this edge's domain. Placement and path both belong to that group: `has` is `edges` for seven of its
+ * pairings and a named property for the other seven, so the definition can only say which is more
+ * common, and a reverse resolved from it lands in the wrong bucket for the rest.
+ *
+ * `originDomain` is this edge's source type, which is the reverse's range: it is the last segment of
+ * an `edges.<inv>.<originDomain>` path and what `{range}` fills with.
  *
  * @param {Object} definitions - The edge definitions the inverse is looked up in
  * @param {string|null} invName - The inverse predicate name
  * @param {string} originDomain - The source type of the forward edge
+ * @param {string} targetType - The type the forward edge points at, which carries the reverse
  * @returns {string|null} The inverse storage path
  */
-const resolveInversePath = (definitions, invName, originDomain) => {
+const resolveInversePath = (definitions, invName, originDomain, targetType) => {
     if (!invName) return null;
     const invDef = definitions[invName];
-    const invPlacement = invDef ? invDef.placement || 'edges' : 'edges';
-    if (invPlacement === 'edges') return `edges.${invName}.${originDomain}`;
-    // intrinsic inverse: the reverse reference lives at a named property
-    return (invDef && invDef.path) || invName;
+    if (!invDef) return `edges.${invName}.${originDomain}`;
+
+    const group = (invDef.connects || []).find((candidate) => (candidate.domain || []).includes(targetType)
+        && (candidate.range || []).includes(originDomain));
+    const placement = group?.placement || invDef.placement || 'edges';
+    if (placement === 'edges') return `edges.${invName}.${originDomain}`;
+
+    // An intrinsic reverse lives at a named property, stated by its group where the nesting differs
+    // per type — a structure's member list is `<type>Properties.<type>Group.Member`.
+    const template = group?.pathTemplate ?? invDef.pathTemplate;
+    if (group?.path) return group.path;
+    if (template) return template.replace('{predicate}', invName).replace('{range}', originDomain);
+    return invDef.path || invName;
 };
 
 /**
@@ -175,7 +192,7 @@ export function buildEdgeTable(edgeDefinitions) {
             const partition = placement === 'edges' ? 'edges' : 'intrinsic';
             const groupInverse = Object.hasOwn(group, 'inverse') ? group.inverse : def.inverse;
             const template = group.pathTemplate || def.pathTemplate;
-            const inversePath = (domain) => resolveInversePath(edgeDefinitions, groupInverse, domain);
+            const inversePath = ((domain, target) => resolveInversePath(edgeDefinitions, groupInverse, domain, target));
 
             if (pathDependsOnRange(placement, template)) {
                 // one entry per (domain, range), keyed by the range/target type
@@ -188,7 +205,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverseEdge: inverseEdgeOf(inversePath(domain)),
+                        inverseEdge: inverseEdgeOf(inversePath(domain, range)),
                         omcPredicate: rdf({ domain, predicate: pred, range }),
                     });
                 }));
@@ -203,7 +220,7 @@ export function buildEdgeTable(edgeDefinitions) {
                         type: STORAGE_TYPE,
                         maxItems: maxItemsFor(domain, path),
                         ...decomposePath(path, partition),
-                        inverseEdge: inverseEdgeOf(inversePath(domain)),
+                        inverseEdge: inverseEdgeOf(inversePath(domain, group.range[0])),
                         omcPredicate: rdf({ domain, predicate: pred, range: group.range[0] }),
                     });
                 });
@@ -263,38 +280,22 @@ export function buildEdgeTable(edgeDefinitions) {
         });
     });
 
-    // ---- Third pass: resolve each inverse against the table it points into ----
-    // `resolveInversePath` works from the inverse's NAME, so where an intrinsic predicate takes its
-    // path from a group — `Has` writing `AssetStructure` on an Asset and `Location` on a
-    // ParticipantStructure — the name is all it can offer and the path comes back as the predicate.
-    // The built table knows better: the reverse of an edge is a row on the TARGET that admits this
-    // domain. Resolving against it turns a guess into the place the reference is actually written,
-    // and is the only way to reach the cap on that slot, which is a fact about the target's row.
-    //
-    // Two ways to find it, in order. By path, where the name-derived path already names a real row
-    // — the common case, and the one that supplies a cap the first pass could not know. Then by
-    // predicate, which is what repairs a guess: `Has` where the answer is
-    // `assetStructureProperties.assetGroup.Member`. The predicate comparison folds case, because
-    // the two halves spell the same predicate differently by design — an intrinsic path is named
-    // by the capitalised property (`RealizationOf`) and a row's `predicate` by the verb
-    // (`realizationOf`). Compared verbatim, every intrinsic inverse missed.
-    const fold = (term) => String(term).toLowerCase();
+    // ---- Third pass: the cap on each reverse slot ----
+    // How many references the reverse admits is a JSON Schema fact about the TARGET's row, so it is
+    // only knowable once every table is built. The path itself is resolved in the first pass, from the
+    // inverse predicate's own group.
     const rowsOn = (target) => ['intrinsic', 'edges']
         .flatMap((part) => Object.values(table[target]?.[part] || {}));
 
-    Object.entries(table).forEach(([domain, partitions]) => {
+    Object.entries(table).forEach(([, partitions]) => {
         PARTITION_NAMES.forEach((partition) => {
             Object.values(partitions[partition] || {}).forEach((entry) => {
-                const { path: guessedPath, predicate: name } = entry.inverseEdge ?? {};
-                if (!name) return;
-                const targets = entry.allowed || [];
-                const byPath = targets.reduce((hit, target) => hit
-                    || rowsOn(target).find((candidate) => candidate.path === guessedPath), null);
-                const byPredicate = byPath || targets.reduce((hit, target) => hit
-                    || rowsOn(target).find((candidate) => fold(candidate.predicate) === fold(name)
-                        && (candidate.allowed || []).includes(domain)), null);
-                if (!byPredicate) return;
-                entry.inverseEdge = inverseEdgeOf(byPredicate.path, byPredicate.maxItems);
+                const reverse = entry.inverseEdge;
+                if (!reverse) return;
+                const target = (entry.allowed || [])
+                    .map((type) => rowsOn(type).find((row) => row.path === reverse.path))
+                    .find(Boolean);
+                if (target) entry.inverseEdge = inverseEdgeOf(reverse.path, target.maxItems);
             });
         });
     });
