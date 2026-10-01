@@ -53,14 +53,12 @@ workflow.
 
 **The edge table is what the Edge Editor published, and nothing else.**
 `src/templates/v3-0/edgeDefinitions.json` is that publication, and `npm run edges:update` is how a
-fresh export gets there — one step, because it used to be two hand-copies of the same bytes and the
-second one, the one that actually ships, was easy to forget. `buildEdgeTable` has no default
-definitions, so nothing can reach a table built from something it was not given.
+fresh export gets there, in one step, and says which table rows move. `buildEdgeTable` has no
+default definitions, so nothing can reach a table built from something it was not given.
 
-The hand-written seed the tool was grown from is **deleted**, along with `edges:parity`,
-`edges:missing` and the two committed baselines they diffed against. What the tool has not modelled
-is absent rather than quietly supplied, and `edges:coverage` answers the question that replaced it:
-where the table and the JSON Schema disagree.
+Nothing supplements the publication. A relationship the tool has not modelled is absent from the
+table rather than filled in from elsewhere, so `edges:coverage` — the table against the JSON Schema —
+is where a gap shows.
 
 **Placement belongs to the pairing, not the verb.** One verb reaches some ranges under
 `edges.<verb>.*` and others as a named property — `has` does both — so a `connects` group states its
@@ -80,15 +78,14 @@ side, path, `maxItems`, `held`, and `holdsTarget` where the reference is already
 already treated a falsy return as "not written", so refusing needs nothing of them; a caller with a
 user to inform asks `edgeRefusal` as well.
 
-**Ask for an inverse with `inverseEdgeFor`, not `inverseEdge`.** It takes the domain as well as
-the edge and answers with the inverse *as an edge* — `predicate`, `bucket`, `path`, `pathSegments`,
-`containerSegments`, `relativePath` — which is what `buildEdgeTable` resolves per row anyway.
-`inverseEdge` reads a flat predicate map, and a flat map cannot say three things that are true of
-this model: that an inverse is an intrinsic property rather than a predicate
-(`memberOf` ↔ `assetStructureProperties.assetGroup.Member`), that a `connects` group overrides it
-(`usedIn` inverts to `realizationOf` in general but to `uses` from Asset), or that two pairs share a
-verb. `npm run edges:inverse` counts the pairs the two disagree on; the accessor is right on each.
-`inverseEdge` stays because fMam reads it and is on 1.5.0 — its switch waits on a release.
+**Ask for an inverse with `inverseEdgeFor`, not `inverseEdge`.** It takes the domain as well as the
+edge and answers with an `InverseEdge` — bucket, path, segments and the cap on the slot — which is
+what every row already carries. A flat map keyed by predicate alone cannot say that a reverse is an
+intrinsic property (`memberOf` ↔ `assetStructureProperties.assetGroup.Member`), that a `connects`
+group overrides it (`usedIn` inverts to `realizationOf` in general but to `uses` from Asset), or that
+two pairs share a verb. `npm run edges:inverse` counts the pairs the two disagree on and gates on an
+accept file that empties when fMam reads the accessor; `inverseEdge` is `@deprecated` and kept until
+then.
 
 **The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
 API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is
