@@ -1854,7 +1854,9 @@
                   {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
                   {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"},
                   {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"}
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/Effect"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"}
                 ]
               }
             },

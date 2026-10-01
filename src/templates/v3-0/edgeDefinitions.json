@@ -3,8 +3,8 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 123,
-    "rows": 170,
+    "edges": 124,
+    "rows": 172,
     "verbs": 39,
     "properties": 118
   },
@@ -443,7 +443,8 @@
               "NarrativeWardrobe",
               "NarrativeStyling",
               "NarrativeLocation",
-              "NarrativeAudio"
+              "NarrativeAudio",
+              "Character"
             ],
             "range": [
               "Realization"
@@ -892,7 +893,8 @@
               "NarrativeWardrobe",
               "NarrativeStyling",
               "NarrativeLocation",
-              "NarrativeAudio"
+              "NarrativeAudio",
+              "Character"
             ]
           }
         ]

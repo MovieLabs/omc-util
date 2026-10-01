@@ -25,6 +25,7 @@ INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "Realized
 INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Composition"
 INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Participant"
 INVERSE-BUCKET usedBy -> realizedBy — intrinsic property, table path "RealizedBy", fMam writes "edges.realizedBy.Task"
+INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.Character"
 INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.Effect"
 INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeAudio"
 INVERSE-BUCKET usedIn -> realizationOf — intrinsic property, table path "RealizationOf", fMam writes "edges.realizationOf.NarrativeLocation"
