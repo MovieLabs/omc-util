@@ -20,14 +20,8 @@ import { inverseEdgesFrom } from './inverseEdges.js';
 /** The published definitions, with each `rdf` token turned back into its generator. */
 export const publishedDefinitions = hydrateEdgeDefinitions(definitionsOf(publishedDocument));
 
-/**
- * A term as the index keys it: without the `omc:` prefix, folded to lower case.
- *
- * Folding matters because an RDF property name lower-cases its verb's first letter while the
- * OMC-JSON predicate keeps it, so a pair whose verb is authored capitalised — `Member`, `Role` —
- * spells the same verb two ways across the two projections. Seven predicates match only once folded.
- */
-const bare = (term) => String(term).replace(/^omc:/, '').toLowerCase();
+/** A term as the index keys it: without the `omc:` prefix. `omc:usedIn` and `usedIn` are one key. */
+const bare = (term) => String(term).replace(/^omc:/, '');
 
 /**
  * The publication's RDF properties, keyed `verb|domain|range`.

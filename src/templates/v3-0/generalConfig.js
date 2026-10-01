@@ -278,23 +278,6 @@ export const generalConfig = {
             ],
         },
     },
-    CaptureDevice: {
-        group: 'Production',
-        idPrefix: 'cdvc',
-        presentation: {
-            header: {
-                backgroundColor: '#A9DFBF',
-                fontColor: '#000',
-                entityLabel: 'Capture Device',
-                entityLabelSuffix: () => '',
-                // icon: CaptureDeviceIcon,
-            },
-            propRows: [
-                'label',
-                (e) => ({ fullName: e.captureDeviceName?.fullName || 'N/A' }),
-            ],
-        },
-    },
     Realization: {
         group: 'Media Creation Context',
         idPrefix: 'rel',
@@ -410,23 +393,6 @@ export const generalConfig = {
             propRows: [
                 'label',
                 (e) => ({ functionType: e.infrastructureFunction?.infrastructureFunctionType || 'N/A' }),
-            ],
-        },
-    },
-    InfrastructureStructure: {
-        group: 'Infrastructure',
-        idPrefix: 'infs',
-        mergeKey: ['infrastructureStructureName.fullName'],
-        presentation: {
-            header: {
-                backgroundColor: '#F0B27A',
-                fontColor: '#000',
-                entityLabel: 'Infrastructure Structure',
-                entityLabelSuffix: () => '',
-            },
-            propRows: [
-                'label',
-                (e) => ({ structureType: e?.infrastructureStructureType || 'N/A' }),
             ],
         },
     },

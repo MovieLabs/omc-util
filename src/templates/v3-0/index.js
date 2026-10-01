@@ -35,7 +35,6 @@ import { shippedEdgeTable, shippedInverseEdges } from './edgeTable.js';
 import Asset from './asset/Asset.js';
 import AssetStructure from './asset/AssetStructure.js';
 import Infrastructure from './infrastructure/Infrastructure.js';
-import InfrastructureStructure from './infrastructure/InfrastructureStructure.js';
 import Character from './mediaCreation/Character.js';
 import Context from './mediaCreation/Context.js';
 import CreativeWork from './mediaCreation/CreativeWork.js';
@@ -54,7 +53,6 @@ import SpecialAction from './mediaCreation/SpecialAction.js';
 import Participant from './participant/Participant.js';
 import ParticipantStructure from './participant/ParticipantStructure.js';
 import Role from './participant/Role.js';
-import CaptureDevice from './production/CaptureDevice.js';
 import CaptureEvent from './production/CaptureEvent.js';
 import CapturePoint from './production/CapturePoint.js';
 import Task from './task/Task.js';
@@ -85,12 +83,10 @@ const omcTemplate = {
     SpecialAction,
     CaptureEvent,
     CapturePoint,
-    CaptureDevice,
     Participant,
     ParticipantStructure,
     Role,
     Infrastructure,
-    InfrastructureStructure,
     Task,
     TaskStructure,
     Collection,

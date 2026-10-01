@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 124,
-    "rows": 172,
-    "verbs": 39,
-    "properties": 118
+    "edges": 125,
+    "rows": 175,
+    "verbs": 41,
+    "properties": 119
   },
   "namespace": {
     "prefix": "omc",
@@ -537,7 +537,7 @@
       },
       "productOf": {
         "predicate": "productOf",
-        "inverse": "Product",
+        "inverse": "product",
         "rdf": "const:omc-legacy:isProducedBy.Composition",
         "connects": [
           {
@@ -550,9 +550,10 @@
           }
         ]
       },
-      "Product": {
-        "predicate": "Product",
+      "product": {
+        "predicate": "product",
         "placement": "property",
+        "path": "Product",
         "inverse": "productOf",
         "rdf": "intrinsic",
         "connects": [
@@ -568,7 +569,7 @@
       },
       "memberOf": {
         "predicate": "memberOf",
-        "inverse": "Member",
+        "inverse": "member",
         "rdf": "const:omc:memberOf",
         "connects": [
           {
@@ -605,8 +606,8 @@
           }
         ]
       },
-      "Member": {
-        "predicate": "Member",
+      "member": {
+        "predicate": "member",
         "placement": "property",
         "inverse": "memberOf",
         "rdf": "const:omc:member",
@@ -626,7 +627,8 @@
             ],
             "range": [
               "Infrastructure"
-            ]
+            ],
+            "path": "Member"
           },
           {
             "domain": [
@@ -683,7 +685,6 @@
               "Context",
               "CapturePoint",
               "CaptureEvent",
-              "CaptureDevice",
               "Realization",
               "ParticipantStructure",
               "Role",
@@ -703,8 +704,8 @@
           }
         ]
       },
-      "ConfigurationFile": {
-        "predicate": "ConfigurationFile",
+      "configurationFile": {
+        "predicate": "configurationFile",
         "placement": "property",
         "path": "software.ConfigurationFile",
         "inverse": null,
@@ -721,9 +722,10 @@
           }
         ]
       },
-      "StartHere": {
-        "predicate": "StartHere",
+      "startHere": {
+        "predicate": "startHere",
         "placement": "property",
+        "path": "StartHere",
         "inverse": null,
         "rdf": "const:omc:startHere",
         "connects": [
@@ -738,9 +740,10 @@
           }
         ]
       },
-      "CreatedBy": {
-        "predicate": "CreatedBy",
+      "createdBy": {
+        "predicate": "createdBy",
         "placement": "property",
+        "path": "CreatedBy",
         "inverse": null,
         "rdf": "const:omc:hasAuthor",
         "connects": [
@@ -754,9 +757,10 @@
           }
         ]
       },
-      "Role": {
-        "predicate": "Role",
+      "role": {
+        "predicate": "role",
         "placement": "property",
+        "pathTemplate": "{range}",
         "inverse": null,
         "rdf": "intrinsic",
         "connects": [
@@ -770,9 +774,10 @@
           }
         ]
       },
-      "CreativeWork": {
-        "predicate": "CreativeWork",
+      "creativeWork": {
+        "predicate": "creativeWork",
         "placement": "property",
+        "pathTemplate": "{range}",
         "inverse": "has",
         "rdf": "const:omc:hasCreativeWork",
         "connects": [
@@ -786,8 +791,8 @@
           }
         ]
       },
-      "Series": {
-        "predicate": "Series",
+      "series": {
+        "predicate": "series",
         "placement": "property",
         "path": "creativeWorkProperties.Series",
         "inverse": "related",
@@ -803,8 +808,8 @@
           }
         ]
       },
-      "Season": {
-        "predicate": "Season",
+      "season": {
+        "predicate": "season",
         "placement": "property",
         "path": "creativeWorkProperties.Season",
         "inverse": "related",
@@ -820,8 +825,8 @@
           }
         ]
       },
-      "Episode": {
-        "predicate": "Episode",
+      "episode": {
+        "predicate": "episode",
         "placement": "property",
         "path": "creativeWorkProperties.Episode",
         "inverse": "related",
@@ -1099,6 +1104,52 @@
             ]
           }
         ]
+      },
+      "refines": {
+        "predicate": "refines",
+        "inverse": "refinedBy",
+        "rdf": "const:omc:refines",
+        "connects": [
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "ProductionScene"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionLocation"
+            ],
+            "range": [
+              "ProductionLocation"
+            ]
+          }
+        ]
+      },
+      "refinedBy": {
+        "predicate": "refinedBy",
+        "inverse": "refines",
+        "rdf": "const:omc:refinedBy",
+        "connects": [
+          {
+            "domain": [
+              "ProductionScene"
+            ],
+            "range": [
+              "ProductionScene"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionLocation"
+            ],
+            "range": [
+              "ProductionLocation"
+            ]
+          }
+        ]
       }
     }
   },
@@ -1334,6 +1385,20 @@
         "definition": null,
         "symmetric": false,
         "inverse": null
+      },
+      {
+        "id": "omc:refinedBy",
+        "name": "refinedBy",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:refines"
+      },
+      {
+        "id": "omc:refines",
+        "name": "refines",
+        "definition": null,
+        "symmetric": false,
+        "inverse": "omc:refinedBy"
       },
       {
         "id": "omc:related",
@@ -2065,20 +2130,6 @@
         ],
         "ranges": [
           "omc:AssetStructure"
-        ],
-        "inverseOf": []
-      },
-      {
-        "id": "omc:includesCaptureDevice",
-        "name": "includesCaptureDevice",
-        "verbs": [
-          "omc:includes"
-        ],
-        "domains": [
-          "omc:Collection"
-        ],
-        "ranges": [
-          "omc:CaptureDevice"
         ],
         "inverseOf": []
       },
@@ -2838,6 +2889,38 @@
         "inverseOf": [
           "omc:usedByRealization"
         ]
+      },
+      {
+        "id": "omc:refinedBy",
+        "name": "refinedBy",
+        "verbs": [
+          "omc:refinedBy"
+        ],
+        "domains": [
+          "omc:ProductionLocation",
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:ProductionLocation",
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:refines",
+        "name": "refines",
+        "verbs": [
+          "omc:refines"
+        ],
+        "domains": [
+          "omc:ProductionLocation",
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:ProductionLocation",
+          "omc:ProductionScene"
+        ],
+        "inverseOf": []
       },
       {
         "id": "omc:relatedCreativeWork",

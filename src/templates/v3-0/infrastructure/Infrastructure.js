@@ -14,7 +14,6 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             infrastructureName: basicName.graphQl.properties,
-            InfrastructureStructure: null,
             infrastructureFunction: {
                 infrastructureFunctionType: null,
                 infrastructureFunctionProperties: null,

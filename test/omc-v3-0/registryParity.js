@@ -108,6 +108,15 @@ const checks = [
         why: 'declared in $defs but neither configured nor registered — allow-list it while adoption is pending',
         types: schemaTypes.filter(not(registeredTypes)).filter(not(configTypes)),
     },
+    {
+        // The reverse of UNADOPTED, and the direction a deprecation arrives from: the schema drops a
+        // type and the registry keeps it. `shape()` then has nothing to derive, so the type is
+        // offered by allEntityTypes and allSchemaGroups, reaches the query builder and the UI, and
+        // cannot validate. `test/mergeKeys.js` catches it only where the type has a mergeKey.
+        category: 'UNDECLARED',
+        why: 'registered or configured but absent from $defs — nothing can be derived for it',
+        types: [...new Set([...registeredTypes, ...configTypes])].filter(not(schemaTypes)),
+    },
 ];
 
 const allowPath = argValue('--allow') || defaultAllowPath;
@@ -152,11 +161,10 @@ line('    A type with no graphQl template still reaches graphQlEntities, so the 
 line('    will offer it. fMam must know the type before a query for it can succeed.');
 const { rows: shippedRows } = shippedEdgeTable();
 line(`  shipped edge table: ${shippedRows} rows, every one from the publication`);
-line('    edges.js is parked and reaches nothing here. `npm run edges:missing` lists what it');
-line('    still holds that the publication does not.');
+line('    Where the table and the JSON Schema disagree is `npm run edges:coverage`.');
 line(`  empty edge table (${noEdges.length}): ${noEdges.join(', ') || 'none'}`);
-line('    Creatable and editable, but with no relationships: edges.js carries no predicate for');
-line('    it, and fMam omits the edges field entirely for such a type.');
+line('    Creatable and editable, but with no relationships: the publication carries no predicate');
+line('    for it, and fMam omits the edges field entirely for such a type.');
 
 // ===== RESULT ================================================================
 line('');

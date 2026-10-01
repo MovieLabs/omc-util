@@ -1308,62 +1308,6 @@
           "title": "Infrastructure",
           "description": "The underlying systems and framework required for the production of the Creative Work; it is generally not specific to a particular Creative Work.",
           "unevaluatedProperties": false
-        },
-        "InfrastructureStructure": {
-          "type": "object",
-          "title": "Infrastructure Structure",
-          "allOf": [
-            {"$ref": "#/$defs/core/properties/baseEntity"}
-          ],
-          "properties": {
-            "entityType": {
-              "title": "Entity Type",
-              "const": "InfrastructureStructure"
-            },
-            "infrastructureStructureName": {
-              "title": "Infrastructure Structure Name",
-              "$ref": "#/$defs/Utility/properties/basicName"
-            },
-            "infrastructureStructureType": {
-              "type": "string",
-              "title": "Infrastructure Structure Type",
-              "description": "A structured description of the the Infrastructures form",
-              "default": "infrastructureStructure",
-              "x-controlledValues": ["infrastructureStructure"]
-            },
-            "infrastructureStructureProperties": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "title": "Infrastructure Structure Properties",
-              "description": "A set of properties that describe the infrastructure in this form",
-              "properties": {
-                "Member": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "title": "Infrastructure Group Member",
-                  "description": "The set of Infrastructure that make up the members of an infrastructure group.",
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
-                    ]
-                  }
-                }
-              },
-              "additionalProperties": true
-            },
-            "edges": {"$ref": "#/$defs/core/properties/edges"}
-          },
-          "required": [
-            "entityType",
-            "infrastructureStructureType"
-          ],
-          "description": "Describes the form of the Infrastructure along with the attributes specific to that infrastructure's form",
-          "unevaluatedProperties": false
         }
       },
       "title": "Infrastructure Definitions",
@@ -2487,7 +2431,19 @@
                 {"$ref": "#/$defs/Utility/properties/basicName"}
               ]
             },
-            "edges": {"$ref": "#/$defs/core/properties/edges"}
+            "edges": {"$ref": "#/$defs/core/properties/edges"},
+            "startDate": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "endDate": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
           },
           "required": ["entityType"],
           "unevaluatedProperties": false
@@ -2505,28 +2461,6 @@
             },
             "capturePointName": {
               "title": "Capture Point Name",
-              "anyOf": [
-                {"$ref": "#/$defs/Utility/properties/basicName"}
-              ]
-            },
-            "edges": {"$ref": "#/$defs/core/properties/edges"}
-          },
-          "required": ["entityType"],
-          "unevaluatedProperties": false
-        },
-        "CaptureDevice": {
-          "type": ["object"],
-          "title": "Capture Device",
-          "allOf": [
-            {"$ref": "#/$defs/core/properties/baseEntity"}
-          ],
-          "properties": {
-            "entityType": {
-              "title": "Entity Type",
-              "const": "CaptureDevice"
-            },
-            "captureDeviceName": {
-              "title": "Capture Device Name",
               "anyOf": [
                 {"$ref": "#/$defs/Utility/properties/basicName"}
               ]
@@ -4463,14 +4397,6 @@
               "items": {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
               "title": "Infrastructure"
             },
-            "InfrastructureStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Infrastructure/properties/InfrastructureStructure"},
-              "title": "InfrastructureStructure"
-            },
             "Character": {
               "type": [
                 "array",
@@ -4582,14 +4508,6 @@
               ],
               "title": "Capture Point",
               "items": {"$ref": "#/$defs/Production/properties/CapturePoint"}
-            },
-            "CaptureDevice": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Device",
-              "items": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
             },
             "Slate": {
               "type": [
@@ -4914,19 +4832,6 @@
                 ]
               }
             },
-            "CaptureDevice": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Device",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Production/properties/CaptureDevice"}
-                ]
-              }
-            },
             "Slate": {
               "type": [
                 "array",
@@ -5098,7 +5003,6 @@
                     "ProductionScene",
                     "CaptureEvent",
                     "CapturePoint",
-                    "CaptureDevice",
                     "Slate",
                     "SpecialAction",
                     "Participant",
@@ -5284,16 +5188,6 @@
                 "required": ["entityType"]
               },
               "then": {"$ref": "#/$defs/Production/properties/CapturePoint"}
-            },
-            {
-              "if": {
-                "type": "object",
-                "properties": {
-                  "entityType": {"const": "CaptureDevice"}
-                },
-                "required": ["entityType"]
-              },
-              "then": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
             },
             {
               "if": {
@@ -5768,6 +5662,30 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/Slate"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "CaptureEvent": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Production/properties/CaptureEvent"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "CapturePoint": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Production/properties/CapturePoint"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6557,6 +6475,70 @@
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
                       {"$ref": "#/$defs/Task/properties/Task"}
+                    ]
+                  }
+                }
+              }
+            },
+            "refines": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "ProductionScene": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
+                    ]
+                  }
+                },
+                "ProductionLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionLocation"}
+                    ]
+                  }
+                }
+              }
+            },
+            "refinedBy": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "ProductionScene": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
+                    ]
+                  }
+                },
+                "ProductionLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/ProductionLocation"}
                     ]
                   }
                 }
