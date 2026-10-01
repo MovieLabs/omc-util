@@ -2,7 +2,6 @@
  * Template details for NarrativeScene
  */
 
-import { inverseEdges } from '../../v3-0/index.js';
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName, note } from '../utility/utility.js';
 

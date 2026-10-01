@@ -5,11 +5,9 @@
  * tool, exported from `/api/vocab/v1/edges/publish`. `npm run edges:update` puts a fresh export
  * here, and the shipped table follows.
  *
- * The hand-written set the tool was seeded from is gone, along with everything that diffed against
- * it. A table half from a file nobody edits is one nobody can reason about, and there was no way to
- * tell, in the graph or anywhere else, which half an edge had come from. What the tool has not
- * modelled is therefore **absent**, not quietly supplied: `npm run edges:coverage` says where the
- * table and the JSON Schema disagree, which is the question that actually matters.
+ * Nothing supplements it. A relationship the tool has not modelled is absent from the table rather
+ * than filled in from somewhere else, so `npm run edges:coverage` — the table against the JSON
+ * Schema — is where a gap shows.
  *
  * @module edgeTable
  */
@@ -22,30 +20,22 @@ import { inverseEdgesFrom } from './inverseEdges.js';
 /** The published definitions, with each `rdf` token turned back into its generator. */
 export const publishedDefinitions = hydrateEdgeDefinitions(definitionsOf(publishedDocument));
 
-/** What the publication says about itself: the view, and how much of it there is. */
-export const publishedInfo = publishedDocument?.generated ?? {};
-
 /**
- * `omc:usedIn` and `usedIn` name the same thing; the index is keyed without the prefix, and folded
- * to lower case.
+ * A term as the index keys it: without the `omc:` prefix, folded to lower case.
  *
- * The case has to be folded because the two projections disagree about it by design. An intrinsic
- * predicate is the capitalised verb — `Has`, so the property reads `AssetStructure` and not
- * `assetStructure` — while the RDF model keys by the verb itself, `omc:has`. Matching them verbatim
- * silently missed every intrinsic row: `Participant.ParticipantStructure` took the name of the
- * predicate's other group and published `omc:hasAssetStructure`.
+ * Folding matters because an RDF property name lower-cases its verb's first letter while the
+ * OMC-JSON predicate keeps it, so a pair whose verb is authored capitalised — `Member`, `Role` —
+ * spells the same verb two ways across the two projections. Seven predicates match only once folded.
  */
 const bare = (term) => String(term).replace(/^omc:/, '').toLowerCase();
 
 /**
  * The publication's RDF properties, keyed `verb|domain|range`.
  *
- * The document carries two projections of each stored edge. `json` is the OMC-JSON one the table is
- * built from; `rdf` is the RDF model — `properties` naming an actual property per domain/range
- * pairing (`omc:usedInProductionScene`), over `verbs` naming the predicate families. Only the
- * OMC-JSON half was ever read, so an edge whose definition carries no curated `const:` name fell to
- * the machine-expanded `omcT:` template even where the RDF model names it properly: of 74 rows
- * showing a templated name, 67 had a real property sitting in this half of the same document.
+ * The document carries two projections of each stored edge: `json`, which the table is built from,
+ * and `rdf`, whose `properties` name an actual property per domain/range pairing
+ * (`omc:usedInProductionScene`). This index is how a built row finds its RDF name there, instead of
+ * falling back to the generated `omcT:` template.
  *
  * @type {Map<string, string[]>}
  */
@@ -116,6 +106,4 @@ export function shippedInverseEdges() {
     return inverseEdgesFrom(publishedDefinitions);
 }
 
-export default {
-    publishedDefinitions, publishedInfo, shippedEdgeTable, shippedInverseEdges,
-};
+export default { publishedDefinitions, shippedEdgeTable, shippedInverseEdges };

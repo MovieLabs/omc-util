@@ -1,6 +1,10 @@
 /**
  * Guard: the inverse of every edge can be calculated, and what fMam writes from it is sound.
  *
+ * Every finding here is about `inverseEdge`, the flat map fMam still reads. The table's own
+ * `inverseEdge` field is right in each case; `omcTemplate.inverseEdgeFor` returns it, and the report
+ * below counts the pairs the two disagree on. The accept file empties when fMam moves onto it.
+ *
  * fMam generates the reverse of every edge on save. `mongo-3/edge.js computeInverseEdges` asks
  * one function — `omcTemplate.inverseEdge({ edge, schemaVersion })` — and writes the answer as
  * `inverse[<name>][<sourceEntityType>] = [ids]`. That is the whole contract, and it has three
@@ -12,12 +16,12 @@
  *      shared edges block is `additionalProperties: true`, so this validates — the edge is real,
  *      the schema just has no record of that verb being used in that direction.
  *   3. The name belongs to an INTRINSIC property rather than a relational predicate. The edge
- *      table knows this and resolves `inversePath` to the bare property (`Member`, `Product`);
+ *      table knows this and resolves the reverse to the bare property (`Member`, `Product`);
  *      `inverseEdge()` returns only the name, so fMam cannot tell, and writes it into a
  *      predicate-shaped bucket. The two sides then disagree about where that reference lives.
  *   4. A `connects` group overrides the predicate's inverse — `realizedBy` inverts to
  *      `RealizationOf` in general but to `usedBy` from Task and Participant. `buildEdgeTable`
- *      honours the override when it resolves `inversePath`; `inverseEdgesFrom` reads only the
+ *      honours the override when it resolves the reverse; `inverseEdgesFrom` reads only the
  *      definition-level `inverse`, by its own account, so the map cannot express it. The table
  *      and fMam then hold different answers for the same edge, and only the table's is right.
  *

@@ -4,9 +4,8 @@
  * Built from a set of edge definitions, each predicate declaring its own `inverse`. The shipped
  * map comes from what the Edge Editor published and from nothing else — see edgeTable.js.
  *
- * A hand-written map used to be merged in underneath, covering predicates that consumers referenced
- * but the seed did not model. Nothing is merged now: every inverse the library answers with comes
- * from the tool, so a predicate the publication lacks is added there rather than propped up here.
+ * Nothing is merged underneath: every inverse the library answers with comes from the tool, so a
+ * predicate the publication lacks is added there rather than propped up here.
  */
 
 /**

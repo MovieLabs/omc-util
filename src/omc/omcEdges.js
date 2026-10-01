@@ -46,11 +46,7 @@ const contextKeys = [
     'ForEntity',
 ];
 
-/**
- * How a reference is stored in a slot. Every v3.0 edge is an array, intrinsic or not, so the reverse
- * side does not have to be told — and `insertEdge` dispatches on this with no default, so a missing
- * one writes nothing and reports success.
- */
+/** How a reference is stored in a slot. Every v3.0 edge is an array, intrinsic or not. */
 const REFERENCE_STORAGE = 'array';
 
 /**
@@ -65,13 +61,8 @@ const chkIdentifier = ((omcEntity, removeIdentifier) => {
 });
 
 /**
- * The references a slot should hold, with any repeat of the same entity dropped.
- *
- * Referencing one entity twice in one slot says nothing the single reference does not, and the
- * duplicate then has to be reasoned about by everything downstream. This was a stub returning its
- * argument, so connecting the same pair twice appended a second copy.
- *
- * Used by edgeCreate.
+ * The references a slot should hold, with any repeat of the same entity dropped: referencing one
+ * entity twice in a slot says nothing the single reference does not. Used by edgeCreate.
  */
 const idDeDupe = ((references) => references.filter((reference, at) => (
     references.findIndex((other) => (other.identifier || []).some(
@@ -127,9 +118,17 @@ export function getBaseProps(omcEntity) {
     ), {});
 }
 
+/**
+ * The keys on a Context that are the relationships it mediates. Alias of {@link getContextKeys}.
+ *
+ * @memberof module:omcEdges
+ * @function relatedEdges
+ * @static
+ * @param {OmcEntity} omcEntity
+ * @returns {Array<string>|null} Null when the entity is not a Context
+ */
 export function relatedEdges(omcEntity) {
-    if (omcEntity.entityType !== 'Context') return null;
-    return Object.keys(omcEntity).filter((k) => !contextKeys.includes(k));
+    return getContextKeys(omcEntity);
 }
 
 /**

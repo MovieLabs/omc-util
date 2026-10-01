@@ -26,11 +26,8 @@ export function shippedInverseEdges(): {
 export const publishedDefinitions: {
     [x: string]: any;
 };
-/** What the publication says about itself: the view, and how much of it there is. */
-export const publishedInfo: {};
 declare namespace _default {
     export { publishedDefinitions };
-    export { publishedInfo };
     export { shippedEdgeTable };
     export { shippedInverseEdges };
 }

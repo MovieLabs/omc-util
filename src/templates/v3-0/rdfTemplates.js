@@ -3,8 +3,8 @@
  *
  * Naming templates, not edges: they say how a predicate's RDF name is spelt, and the Edge Editor's
  * published document names one of them with a token (`tentative`, `intrinsic`) that `edgesHydrate`
- * turns back into the function. They live here rather than in edges.js so that nothing on the path
- * from the publication to the shipped table imports the hand-written definitions.
+ * turns back into the function. A row only falls back to one of these where the publication's `rdf`
+ * projection names no property for it.
  *
  * @module rdfTemplates
  */

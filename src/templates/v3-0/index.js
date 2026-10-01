@@ -103,9 +103,9 @@ const omcTemplate = {
  * For each entity type build the configuration consumed by the rest of the library.
  *
  * Edge tables ({ intrinsic, edges, cxtEdges } per entityType) come from what the Edge Editor
- * published (edgeDefinitions.json) and from nothing else; the hand-written edges.js is parked,
- * see edgeTable.js. Entries are keyed by their storage path. Entity templates still supply
- * idPrefix, schemaGroup, presentation and graphQl.
+ * published (edgeDefinitions.json) and from nothing else — see edgeTable.js. Entries are keyed by
+ * their storage path. Entity templates still supply idPrefix, schemaGroup, presentation and
+ * graphQl.
  *
  * Shape templates are stamped with `$maxItems` from the JSON Schema (see schemaFacts.js)
  * so cardinality is never hand-authored alongside the shape, where it would drift.

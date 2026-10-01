@@ -1,15 +1,13 @@
 /**
  * Take a published edge document and make it the shipped table.
  *
- * The edge table is what the Edge Editor published and nothing else, but getting a fresh
- * publication into the library used to be two hand-copies of the same bytes — once beside these
- * checks, once over `src/templates/v3-0/edgeDefinitions.json`, which is the copy that actually
- * ships. The second was easy to forget, and forgetting it meant the checks passed against a
- * document the library was not built from.
+ * `src/templates/v3-0/edgeDefinitions.json` is the copy the library is built from. This reads a
+ * published document, refuses it unless it is shaped like edge definitions, says which table rows
+ * move, and writes it there and beside these checks. It writes nothing when the document would
+ * change nothing, so it is safe to re-run.
  *
- * This does the whole step: read the document, refuse it unless it is shaped like edge definitions,
- * say what moves, write it, and report what the shipped table became. It writes nothing when the
- * document would not change anything, so it is safe to re-run.
+ * It does not run the gates: writing the file and judging the result are separate, so a failure
+ * afterwards cannot leave you unsure whether anything was written.
  *
  *   Usage: node test/omc-v3-0/edgesUpdate.js [--from <file>] [--api] [--dry]
  *       --from   a file to take, default test/omc-v3-0/omc-edges.json (the export's own name)

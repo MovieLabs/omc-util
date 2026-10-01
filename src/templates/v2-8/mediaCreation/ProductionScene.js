@@ -2,7 +2,6 @@
  * Template details for ProductionScene
  */
 
-import { inverseEdges } from '../../v3-0/index.js';
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 

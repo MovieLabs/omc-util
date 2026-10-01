@@ -27,6 +27,27 @@ export type PropertyTemplate = {
      */
     mergeKey: boolean;
 };
+/**
+ * Where the reverse of an edge is written on its target, decomposed as a forward path is.
+ */
+export type InverseEdge = {
+    /**
+     * - The verb for an `edges.*` path, the property name for an intrinsic one
+     */
+    predicate: string;
+    bucket: "edges" | "intrinsic";
+    /**
+     * - Full storage path on the target
+     */
+    path: string;
+    pathSegments: Array<string>;
+    containerSegments: Array<string>;
+    relativePath: string;
+    /**
+     * - Cap on the slot it lands in; `undefined` means uncapped
+     */
+    maxItems: number | undefined;
+};
 export type EdgeTemplate = {
     /**
      * - How the reference is STORED on the source entity ('array' | 'object').
@@ -71,13 +92,10 @@ export type EdgeTemplate = {
      */
     relativePath: string;
     /**
-     * - Where the reverse reference goes, as an edge: `predicate`,
-     * `bucket`, `path`, `pathSegments`, `containerSegments`, `relativePath` and the `maxItems` of the
-     * slot it lands in. Null where the edge is one-directional. This replaced `inverse` and
-     * `inversePath`, which said the same thing as a bare string and could not say that a reverse is
-     * an intrinsic property rather than a predicate.
+     * - Where the reverse reference goes. Null where the edge
+     * is one-directional.
      */
-    inverseEdge: any | null;
+    inverseEdge: InverseEdge | null;
     /**
      * - The formal predicate for this edge, from the RDF model: the
      * published property name where the model names exactly one, otherwise the generated
@@ -208,15 +226,14 @@ export type OmcTemplate = {
      */
     schemaGroup: (arg0: TemplateQuery) => string;
     /**
-     *   The reverse of one edge, as an edge — name, bucket and path, resolved per domain. Prefer
-     *   it to `inverseEdge`, whose flat map cannot express an intrinsic inverse, a per-group
-     *   override, or two pairs sharing a verb.
+     *   Where the reverse of one edge is written, resolved for the entityType asked about. Use this
+     *   rather than `inverseEdge`.
      */
     inverseEdgeFor: (arg0: {
         schemaVersion: string;
         entityType: OmcEntityType;
         edge: string;
-    }) => (object | null);
+    }) => (InverseEdge | null);
     /**
      * - Returns all entities in schema by their group
      */

@@ -2,7 +2,6 @@
  * Template details for Slate
  */
 
-import { inverseEdges } from '../../v3-0/index.js';
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity } from '../utility/utility.js';
 

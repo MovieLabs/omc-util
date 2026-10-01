@@ -18,7 +18,16 @@ export function getBaseKeys(omcEntity: OmcEntity): Array<string>;
 export function getBaseProps(omcEntity: OmcEntity): {
     [x: string]: any;
 };
-export function relatedEdges(omcEntity: any): string[];
+/**
+ * The keys on a Context that are the relationships it mediates. Alias of {@link getContextKeys}.
+ *
+ * @memberof module:omcEdges
+ * @function relatedEdges
+ * @static
+ * @param {OmcEntity} omcEntity
+ * @returns {Array<string>|null} Null when the entity is not a Context
+ */
+export function relatedEdges(omcEntity: OmcEntity): Array<string> | null;
 /**
  * If the entityType is a Context, return an array containing property keys that specific to that Context
  * @memberof module:omcEdges

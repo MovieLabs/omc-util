@@ -29,6 +29,20 @@
  */
 
 /**
+ * Where the reverse of an edge is written on its target, decomposed as a forward path is.
+ *
+ * @memberof OmcUtil
+ * @typedef {Object} InverseEdge
+ * @property {string} predicate - The verb for an `edges.*` path, the property name for an intrinsic one
+ * @property {'edges'|'intrinsic'} bucket
+ * @property {string} path - Full storage path on the target
+ * @property {Array<string>} pathSegments
+ * @property {Array<string>} containerSegments
+ * @property {string} relativePath
+ * @property {number|undefined} maxItems - Cap on the slot it lands in; `undefined` means uncapped
+ */
+
+/**
  * @memberof OmcUtil
  * @typedef EdgeTemplate
  * @property {string} type - How the reference is STORED on the source entity ('array' | 'object').
@@ -46,11 +60,8 @@
  *   the property name for an intrinsic one). `[]` for a top-level intrinsic property.
  * @property {string} relativePath - `path` minus the bucket prefix (e.g. `hasCxt.Context`);
  *   equal to `path` for intrinsic edges
- * @property {Object|null} inverseEdge - Where the reverse reference goes, as an edge: `predicate`,
- *   `bucket`, `path`, `pathSegments`, `containerSegments`, `relativePath` and the `maxItems` of the
- *   slot it lands in. Null where the edge is one-directional. This replaced `inverse` and
- *   `inversePath`, which said the same thing as a bare string and could not say that a reverse is
- *   an intrinsic property rather than a predicate.
+ * @property {InverseEdge|null} inverseEdge - Where the reverse reference goes. Null where the edge
+ *   is one-directional.
  * @property {string} omcPredicate - The formal predicate for this edge, from the RDF model: the
  *   published property name where the model names exactly one, otherwise the generated
  *   `omcT:` template.
@@ -129,10 +140,9 @@
  * @property {function({key: string}): boolean} isRelationshipKey - True when `key` names an entity reference (a relationship) rather than a data property.
  * @property {function({schemaVersion: string}): (object|null)} referenceTemplate - The shape template of an entity reference (its identifier array), or null if the schema version is unknown. Required fields (identifierScope, identifierValue) are marked `$required`.
  * @property {function(TemplateQuery): string} schemaGroup - Returns a group name for which the entityType belongs.
- * @property {function({schemaVersion: string, entityType: OmcEntityType, edge: string}): (object|null)} inverseEdgeFor
- *   The reverse of one edge, as an edge — name, bucket and path, resolved per domain. Prefer
- *   it to `inverseEdge`, whose flat map cannot express an intrinsic inverse, a per-group
- *   override, or two pairs sharing a verb.
+ * @property {function({schemaVersion: string, entityType: OmcEntityType, edge: string}): (InverseEdge|null)} inverseEdgeFor
+ *   Where the reverse of one edge is written, resolved for the entityType asked about. Use this
+ *   rather than `inverseEdge`.
  * @property {function(TemplateQuery): SchemaGroups} allSchemaGroups - Returns all entities in schema by their group
  * @property {function(TemplateQuery): string} idPrefix - Returns a standard prefix for an entityType that can be used for identifierValue.
  * @property {function(TemplateQuery): string[]} mergeKey - The property path(s) whose value(s) are unique within a project for this entityType, usable as an identity substitute when merging data from multiple sources. An ordered composite key; `[]` when the type has no merge key.
@@ -247,29 +257,32 @@ const omcTemplate = {
     graphQlSnippets: (({ schemaVersion }) => (
         versionTemplates[schemaVersion].graphQlSnippets || null
     )),
+    /**
+     * The name of a predicate's inverse, from a flat map keyed by predicate alone.
+     *
+     * One answer per predicate, so it cannot express an inverse that is an intrinsic property, one a
+     * `connects` group overrides, or two pairs sharing a verb. Use `inverseEdgeFor`.
+     *
+     * @deprecated
+     * @param {Object} query
+     * @param {string} query.edge - The predicate
+     * @param {string} query.schemaVersion
+     * @returns {string|null}
+     */
     inverseEdge: (({ edge, schemaVersion }) => (
         versionTemplates[schemaVersion].inverseEdges[edge] || null
     )),
     /**
-     * The reverse of one edge, as an edge: where the target writes its reference back.
+     * Where the reverse of one edge is written on its target.
      *
-     * `inverseEdge` answers with a name from a flat predicate map, which cannot say three things it
-     * needs to. An intrinsic inverse is a named property, not a predicate, so a caller building
-     * `edges.<name>.<type>` from it writes to the wrong bucket. A `connects` group may override its
-     * predicate's inverse, and one entry per predicate cannot hold both. And two predicate pairs
-     * sharing a verb collapse into a single entry, so the last one loaded answers for both.
-     *
-     * This asks the edge instead. Every row already carries where its reverse lives, resolved
-     * against the target's own table, so the bucket, the path and any override come with it.
+     * Answers with the edge rather than a name, so an inverse that is an intrinsic property, or one a
+     * `connects` group overrides, arrives as the path it actually occupies.
      *
      * @param {Object} query
      * @param {string} query.schemaVersion
      * @param {OmcEntityType} query.entityType - The type the forward edge is on
      * @param {string} query.edge - The forward edge's storage path, or its predicate
-     * @returns {{predicate: string, bucket: 'edges'|'intrinsic', path: string,
-     *   pathSegments: string[], containerSegments: string[], relativePath: string}|null}
-     *   Null when the edge is unknown, or carries no reverse — which is not a fault: an edge may
-     *   be one-directional, and a caller must not invent a reverse for one that is.
+     * @returns {InverseEdge|null} Null when the edge is unknown or one-directional.
      */
     inverseEdgeFor: (({ schemaVersion, entityType, edge }) => {
         const table = versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.edgeTable;

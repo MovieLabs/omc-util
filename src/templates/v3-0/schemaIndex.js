@@ -1,9 +1,9 @@
 /**
  * Schema-derived fact indexes for v3.0, built once and shared.
  *
- * Both the edge-table build and the entity-template assembly need the same
- * cardinality facts; building the index here keeps the (single) schema walk out of
- * each of them and guarantees they cannot disagree.
+ * `buildEdgeTable` joins the index onto each row as `maxItems`. `schemaDerive` reads the same
+ * `maxItems` nodes on its own walk when it stamps a shape with `$maxItems`, so the two agree by
+ * reading one schema rather than by sharing this index.
  *
  * @module schemaIndex
  */
