@@ -1035,7 +1035,21 @@
                   "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
                   "$ref": "#/$defs/Utility/properties/software"
                 },
-                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"}
+                "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
+                "Carrier": {
+                  "title": "Carrier",
+                  "maxItems": 1,
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
+                    ]
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                }
               },
               "additionalProperties": true
             },
@@ -5067,7 +5081,6 @@
                     "Asset",
                     "AssetStructure",
                     "Infrastructure",
-                    "InfrastructureStructure",
                     "Character",
                     "Context",
                     "CreativeWork",

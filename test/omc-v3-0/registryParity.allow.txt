@@ -3,6 +3,10 @@
 # One `<CATEGORY> <EntityType>` per line, copied verbatim from the report. Blank lines and
 # `#` comments are ignored. An entry here says the difference is intended — a type sitting in
 # the schema ahead of its template work, say — so write down why beside it.
-#
-# Empty today: all 31 v3.0 entity types appear in $defs, the rootEntity enum, generalConfig and
-# the barrel.
+
+# InfrastructureStructure is on its way out: it was taken out of the rootEntity enum deliberately
+# and is likely to be deprecated, so it cannot validate as a root entity and is not meant to.
+# It remains in $defs, generalConfig and the barrel until the deprecation is decided, which is what
+# this category reports. **Do not put it back in the enum** — that has been done twice by mistake,
+# each time reading a deliberate removal as the omission this gate was built to catch.
+ENUM-MISSING InfrastructureStructure

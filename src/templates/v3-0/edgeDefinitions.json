@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 121,
-    "rows": 166,
+    "edges": 123,
+    "rows": 170,
     "verbs": 39,
-    "properties": 117
+    "properties": 118
   },
   "namespace": {
     "prefix": "omc",
@@ -34,7 +34,8 @@
             ],
             "range": [
               "Participant",
-              "Slate"
+              "Slate",
+              "Provenance"
             ]
           },
           {
@@ -69,6 +70,14 @@
             ],
             "range": [
               "SpecialAction"
+            ]
+          },
+          {
+            "domain": [
+              "AssetStructure"
+            ],
+            "range": [
+              "Provenance"
             ]
           },
           {
@@ -194,6 +203,15 @@
             ],
             "range": [
               "ParticipantStructure"
+            ]
+          },
+          {
+            "domain": [
+              "Provenance"
+            ],
+            "range": [
+              "Asset",
+              "AssetStructure"
             ]
           },
           {
@@ -859,6 +877,7 @@
       "realizationOf": {
         "predicate": "realizationOf",
         "placement": "property",
+        "path": "RealizationOf",
         "inverse": "usedIn",
         "rdf": "intrinsic",
         "connects": [
@@ -872,18 +891,9 @@
               "NarrativeObject",
               "NarrativeWardrobe",
               "NarrativeStyling",
+              "NarrativeLocation",
               "NarrativeAudio"
-            ],
-            "path": "RealizationOf"
-          },
-          {
-            "domain": [
-              "Realization"
-            ],
-            "range": [
-              "NarrativeLocation"
-            ],
-            "placement": "edges"
+            ]
           }
         ]
       },
@@ -1585,6 +1595,7 @@
         ],
         "domains": [
           "omc:Participant",
+          "omc:Provenance",
           "omc:Slate"
         ],
         "ranges": [
@@ -1599,7 +1610,8 @@
           "omc:for"
         ],
         "domains": [
-          "omc:Infrastructure"
+          "omc:Infrastructure",
+          "omc:Provenance"
         ],
         "ranges": [
           "omc:AssetStructure"
@@ -1879,6 +1891,21 @@
         ],
         "ranges": [
           "omc:ProductionScene"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasProvenance",
+        "name": "hasProvenance",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:Asset",
+          "omc:AssetStructure"
+        ],
+        "ranges": [
+          "omc:Provenance"
         ],
         "inverseOf": []
       },
