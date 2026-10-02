@@ -24,5 +24,6 @@ export const severity: {
     'NO-INVERSE': string;
     'NOT-INVOLUTIVE': string;
     'INVERSE-UNDECLARED': string;
+    'INVERSE-UNREACHABLE': string;
 };
 //# sourceMappingURL=inverse.d.ts.map

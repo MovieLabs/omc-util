@@ -174,21 +174,7 @@
             "has"
           ],
           "relativePath": "has.Asset",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.CreativeWork",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "CreativeWork"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.CreativeWork"
-          },
+          "inverseEdge": null,
           "omcPredicate": "omc:hasScript",
           "rdfProperties": [
             "omc:hasScript"
@@ -923,21 +909,7 @@
             "usedIn"
           ],
           "relativePath": "usedIn.ProductionLocation",
-          "inverseEdge": {
-            "predicate": "uses",
-            "path": "edges.uses.Asset",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "uses",
-              "Asset"
-            ],
-            "containerSegments": [
-              "edges",
-              "uses"
-            ],
-            "relativePath": "uses.Asset"
-          },
+          "inverseEdge": null,
           "omcPredicate": "omc:usedInProductionLocation",
           "rdfProperties": [
             "omc:usedInProductionLocation"
@@ -1897,16 +1869,7 @@
           ],
           "containerSegments": [],
           "relativePath": "CreativeWork",
-          "inverseEdge": {
-            "predicate": "has",
-            "path": "has",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "has"
-            ],
-            "containerSegments": [],
-            "relativePath": "has"
-          },
+          "inverseEdge": null,
           "omcPredicate": "omc:hasCreativeWork",
           "rdfProperties": [
             "omc:hasCreativeWork"
@@ -1932,21 +1895,7 @@
             "has"
           ],
           "relativePath": "has.Infrastructure",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.Slate",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "Slate"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.Slate"
-          },
+          "inverseEdge": null,
           "omcPredicate": "omc:hasInfrastructure",
           "rdfProperties": [
             "omc:hasInfrastructure"
@@ -2125,21 +2074,7 @@
             "has"
           ],
           "relativePath": "has.SpecialAction",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.Infrastructure",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "Infrastructure"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.Infrastructure"
-          },
+          "inverseEdge": null,
           "omcPredicate": "omc:hasSpecialAction",
           "rdfProperties": [
             "omc:hasSpecialAction"

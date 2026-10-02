@@ -6,13 +6,17 @@
  * edges from it, and the Portal reads it to label the far end of a relationship. That field is the
  * subject here.
  *
- * Two things can go wrong, neither of which announces itself:
+ * Three things can go wrong, none of which announces itself:
  *
  *   1. A row has no inverse, so the relationship is one-way from the moment it is written.
  *   2. The schema does not declare `edges.<inverse>.<sourceType>`. The shared edges block is
  *      `additionalProperties: true`, so the reverse edge validates; the schema simply has no
  *      record of the pair, so nothing can be narrowed onto it and no reader of the schema knows
  *      the relationship runs that way.
+ *   3. The inverse names a path the target type has no row at. That is worse than the second: the
+ *      reverse still validates, but it is stored where the edge table cannot find it, so what is
+ *      written can never be read back. The build composes a path only from a `connects` group that
+ *      admits the pairing, so this holds unless that changes.
  *
  * Involution is read from the definitions, which are the publication's own statement of each
  * predicate's inverse, and is checked only between relational predicates: an intrinsic property's
@@ -36,6 +40,8 @@ export const severity = {
     'NO-INVERSE': 'warning',
     'NOT-INVOLUTIVE': 'warning',
     'INVERSE-UNDECLARED': 'warning',
+    // Not a judgement about the publication: the table is contradicting itself.
+    'INVERSE-UNREACHABLE': 'error',
 };
 
 /**
@@ -57,6 +63,7 @@ export function run({
         'NO-INVERSE': [],
         'NOT-INVOLUTIVE': [],
         'INVERSE-UNDECLARED': [],
+        'INVERSE-UNREACHABLE': [],
     };
 
     // ---- involution, from the definitions ----
@@ -69,6 +76,29 @@ export function run({
         if (isRelational(inverse) && back && back !== predicate) {
             findings['NOT-INVOLUTIVE'].push(`${predicate} -> ${inverse} -> ${back}`);
         }
+    });
+
+    // ---- an inverse must name a path its target actually has ----
+    // Every row and every range it admits, not one test per (domain, verb): two ranges of one verb
+    // can resolve to different reverses, and an intrinsic reverse is as unreachable as any other.
+    const declaredPaths = new Map(Object.entries(table).map(([entityType, partitions]) => [
+        entityType,
+        new Set([
+            ...Object.values(partitions.intrinsic || {}),
+            ...Object.values(partitions.edges || {}),
+        ].map((entry) => entry.path)),
+    ]));
+
+    Object.entries(table).forEach(([domain, partitions]) => {
+        [...Object.values(partitions.intrinsic || {}), ...Object.values(partitions.edges || {})]
+            .forEach((entry) => {
+                if (!entry.inverseEdge?.path) return;
+                (entry.allowed || []).forEach((target) => {
+                    if (declaredPaths.get(target)?.has(entry.inverseEdge.path)) return;
+                    findings['INVERSE-UNREACHABLE'].push(`${target} declares no ${entry.inverseEdge.path} `
+                        + `(the reverse of ${domain} ${entry.path})`);
+                });
+            });
     });
 
     // ---- the reverse each table row resolves to ----

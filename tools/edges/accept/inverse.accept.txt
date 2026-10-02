@@ -11,7 +11,6 @@
 #   refines/refinedBy on ProductionScene and ProductionLocation were closed.
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
-INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
 INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
 INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)

@@ -34,26 +34,35 @@ import { tentativeRdf } from './definitions.js';
  * its pairings and a named property for others, so a reverse resolved from the definition alone
  * lands in the wrong bucket for the rest.
  *
+ * **A predicate names the inverse verb, not a promise that a reverse edge exists.** Where no group
+ * admits the pairing, the publication is declaring a one-way edge — `Infrastructure has
+ * SpecialAction` is published without a `SpecialAction for Infrastructure` to match — and the
+ * answer is that there is no inverse. Composing a path from the verb instead names somewhere the
+ * target has no row, which a consumer then writes to and nothing can read back.
+ *
  * @param {Object} definitions - The edge definitions the inverse is looked up in
  * @param {string|null} invName - The inverse predicate name
  * @param {string} originDomain - The source type of the forward edge, which is the reverse's range
  * @param {string} targetType - The type the forward edge points at, which carries the reverse
- * @returns {string|null} The inverse storage path
+ * @returns {string|null} The inverse storage path, or null where the reverse is not declared
  */
 const resolveInversePath = (definitions, invName, originDomain, targetType) => {
     if (!invName) return null;
     const invDef = definitions[invName];
-    if (!invDef) return `edges.${invName}.${originDomain}`;
+    if (!invDef) return null;
 
     const group = (invDef.connects || []).find((candidate) => (candidate.domain || []).includes(targetType)
         && (candidate.range || []).includes(originDomain));
-    const placement = group?.placement || invDef.placement || 'edges';
+    if (!group) return null;
+
+    const placement = group.placement || invDef.placement || 'edges';
     if (placement === 'edges') return `edges.${invName}.${originDomain}`;
 
     // An intrinsic reverse lives at a named property, stated by its group where the nesting differs
-    // per type — a structure's member list is `<type>Properties.<type>Group.Member`.
-    const template = group?.pathTemplate ?? invDef.pathTemplate;
-    if (group?.path) return group.path;
+    // per type — a structure's member list is `<type>Properties.<type>Group.Member`. Where neither
+    // states one the property is the predicate itself, as `Director` and `ProductionCompany` are.
+    const template = group.pathTemplate ?? invDef.pathTemplate;
+    if (group.path) return group.path;
     if (template) return template.replace('{predicate}', invName).replace('{range}', originDomain);
     return invDef.path || invName;
 };
