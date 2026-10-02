@@ -1,0 +1,1 @@
+{"version":3,"file":"assemble.d.ts","sourceRoot":"","sources":["../../../src/edgeBuild/assemble.js"],"names":[],"mappings":"AAyCA;;;;;;;;;;;;GAYG;AACH,qDALW,MAAM,UACN,MAAM,GACJ;IAAC,KAAK,MAAS;IAAC,YAAY,EAAE;YAAO,MAAM,GAAE,MAAM;KAAC,CAAC;IAAC,WAAW,MAAS;IAClF,UAAU,EAAE,MAAM,EAAE,CAAC;IAAC,IAAI,EAAE,MAAM,CAAC;IAAC,QAAQ,EAAE,MAAM,CAAA;CAAC,CA0BzD;AAQuB,8CAIb"}

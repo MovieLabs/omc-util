@@ -1,0 +1,26 @@
+# Known findings edgeCoverage.js should not fail on. Not a statement that any of them is correct.
+#
+# Every line is outstanding work with the condition that closes it. Nothing here is permanent: a
+# finding that stops occurring is reported as stale and must be deleted, and the file is expected
+# to empty. If you cannot write a closing condition for an entry, it does not belong here.
+
+# MISSING — the schema declares an intrinsic edge the publication does not carry, so the property
+# cannot be written through the edge table at all.
+#   Closed by: defining the edge in the Edge Editor, or dropping it from the schema.
+MISSING AssetStructure assetStructureProperties.software.ConfigurationFile -> [Asset]
+MISSING ParticipantStructure participantStructureProperties.software.ConfigurationFile -> [Asset]
+
+# VERB-UNDECLARED / PAIR-UNDECLARED — the publication uses a verb, or a (verb, range) pair, that
+# core.properties.edges does not declare. The shared edges block permits it, so it validates; the
+# schema simply has no record of it, and nothing can be narrowed onto what it does not declare.
+#   Closed by: declaring the verb and its ranges in the authored schema.
+VERB-UNDECLARED contributesTo
+VERB-UNDECLARED contributor
+PAIR-UNDECLARED for.ParticipantStructure (used by Location)
+PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
+PAIR-UNDECLARED memberOf.ParticipantStructure (used by Participant)
+PAIR-UNDECLARED memberOf.TaskStructure (used by Task)
+PAIR-UNDECLARED neededBy.Effect (used by NarrativeAudio, NarrativeStyling)
+PAIR-UNDECLARED neededBy.NarrativeObject (used by NarrativeAudio)
+PAIR-UNDECLARED related.CreativeWork (used by CreativeWork)
+PAIR-UNDECLARED uses.Realization (used by ProductionScene)

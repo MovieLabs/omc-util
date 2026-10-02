@@ -40,10 +40,10 @@ npm run test:validate     # omcValidate across the three accepted OMC shapes
 npm run test:mergekeys    # mergeKey / shape guard
 npm run test:mapping      # omcMapping engine
 npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkml + mergeKeys)
-npm run test:registry     # the four places an entity type must agree
-npm run edges:coverage    # the edge definitions against what the schema declares
-npm run edges:inverse     # every edge's inverse resolves, and fMam can write it
-npm run edges:update      # take a fresh export and make it the shipped table
+npm run test:registry     # the four places an entity type must agree, + the edge table's schema
+npm run test:edgebuild    # bundled table = the build of its input; runtime install/reset round trip
+npm run edges:check       # build the edges and report findings (--from, --api, --schema)
+npm run edges:build       # gate, then write edgeTable.json (+ schema with --schema)
 npm run derive:dump       # dump derived facts, for eyeballing
 ```
 
@@ -51,14 +51,34 @@ There is no unified test runner. The `test:*` scripts are standalone node script
 on failure; `npm test` is a placeholder that just fails. Nothing is wired to CI — this repo has no
 workflow.
 
-**The edge table is what the Edge Editor published, and nothing else.**
-`src/templates/v3-0/edgeDefinitions.json` is that publication, and `npm run edges:update` is how a
-fresh export gets there, in one step, and says which table rows move. `buildEdgeTable` has no
-default definitions, so nothing can reach a table built from something it was not given.
+**The edge table is generated in one place and served in another.**
+
+- **Serving** — `src/templates/`. `src/templates/v3-0/edgeTable.json` is the bundled default: the
+  per-entity rows and the flat inverse map. **Do not edit it by hand.** A consumer may serve a
+  different table at runtime with `omcTemplate.setEdgeTable({ schemaVersion, artifact, source })`,
+  undo it with `resetEdgeTable`, ask `edgeTableSource` which is being served, and observe either with
+  `omcTemplate.subscribe` / `getVersion` (the omcSDK observer shape). Installing replaces the
+  version's entry in `versionTemplates` with one built from the bundled templates, so every accessor
+  that reads edges follows it and a reset is exact; nothing else in the templates changes.
+- **Generation** — `src/edgeBuild/`, exported as `omc-util/edge-build`. `buildEdgeArtifact(document,
+  { schema })` turns the Edge Editor's publication (`GET /api/vocab/v1/edges/publish?format=json`)
+  into an artifact of the same shape as `edgeTable.json`, with the coverage and inverse findings.
+  Pure and browser-safe (it reads caps through `schemaFacts`, entities through `schemaDerive`), so the
+  same code serves the CLI and a client trying a live publication. Never gates.
+- **The CLI** — `tools/edges/`, node-only and outside `files`. `npm run edges:check` reports;
+  `npm run edges:build` gates on `tools/edges/accept/*.txt` and, on a pass, writes
+  `edgeTable.json`, the schema when `--schema` names one, and `tools/edges/input/omc-edges.json` (the
+  document it was built from, which `test:edgebuild` rebuilds and compares). Sources: `--from
+  <file|url>`, `--api` (`OMC_EDGES_URL`, `LABKOAT_TOKEN`), default the saved input. Paths resolve
+  against `INIT_CWD`, so OMC-Development runs it in place:
+  `npm --prefix ../../MovieLabs-POC/omcUtil run edges:build -- --schema OMC-JSON/OMC-JSON-v3.0.schema.json --from <export>`.
+
+The table records a fingerprint of the schema it was built against (`src/edgeBuild/fingerprint.js`),
+and `test:registry` fails (`EDGES-SCHEMA`) if that is not the schema bundled here: the rows'
+`maxItems` were read from it. Copying a schema in by hand without rebuilding is what that catches.
 
 Nothing supplements the publication. A relationship the tool has not modelled is absent from the
-table rather than filled in from elsewhere, so `edges:coverage` — the table against the JSON Schema —
-is where a gap shows.
+table rather than filled in from elsewhere, and the coverage check is where a gap shows.
 
 **Placement belongs to the pairing, not the verb.** One verb reaches some ranges under
 `edges.<verb>.*` and others as a named property — `has` does both — so a `connects` group states its
@@ -83,26 +103,9 @@ edge and answers with an `InverseEdge` — bucket, path, segments and the cap on
 what every row already carries. A flat map keyed by predicate alone cannot say that a reverse is an
 intrinsic property (`memberOf` ↔ `assetStructureProperties.assetGroup.Member`), that a `connects`
 group overrides it (`usedIn` inverts to `realizationOf` in general but to `uses` from Asset), or that
-two pairs share a verb. `npm run edges:inverse` counts the pairs the two disagree on and gates on an
-accept file that empties when fMam reads the accessor; `inverseEdge` is `@deprecated` and kept until
-then.
-
-**The `edges:*` checks read what the Edge Editor produces.** With no arguments they try a running
-API (`OMC_EDGES_URL`, or localhost:8080, with `LABKOAT_TOKEN` as the bearer — the route is
-authenticated), then `test/omc-v3-0/omc-edges.json`, which is the name the Edge Editor's UI gives
-its export and where to drop it. If neither is there they fail rather than substituting anything.
-The export's age is printed with it, and it is gitignored: it is a snapshot of live state, so
-commit one only if you want a fixed reference. `--candidate` takes a URL, a document or a module.
-
-**A live source reports; only a fixed one gates.** Live content changes between runs, so a failure
-would mean somebody edited an edge, not that the commit is wrong — and both accept files describe
-the **shipped** table, so they say nothing about what the tool is serving today.
-
-`--shipped` is the subject `release:check` gates on: what consumers are handed.
-
-The document is fetched with `GET /api/vocab/v1/edges/publish?format=json` (authenticated), or
-generated with no service in the path by `Labkoat-API/src/vocabulary/edges/generate.js`, which needs
-no token.
+two pairs share a verb. The edge build's inverse check counts the pairs the two disagree on and gates
+on an accept file that empties when fMam reads the accessor; `inverseEdge` is `@deprecated` and kept
+until then.
 
 ---
 
@@ -127,7 +130,8 @@ no token.
 | `entityModel` | `src/omcModel/entityModel.js` | Prototype model extending entities with edge/property methods |
 
 `package.json` also declares an `exports` subpath map (`omc-util/merge`, `/identifier`, `/sdk`, …)
-so a consumer can import one module without pulling the index.
+so a consumer can import one module without pulling the index. `omc-util/edge-build` is reachable only that way: the
+edge generator, kept off the main entry so a consumer that only reads edges never loads it.
 
 ### Directory layout
 
@@ -148,10 +152,12 @@ src/
 │   ├── schemaDerive.js      # derives shapes/facts from a JSON Schema
 │   ├── schemaFacts.js       # build-time cardinality extraction
 │   ├── v2-8/                # hand-authored templates, by domain
-│   └── v3-0/                #   asset, infrastructure, mediaCreation,
-│                            #   participant, task, utility
+│   └── v3-0/                #   asset, infrastructure, mediaCreation, participant, task,
+│                            #   utility; edgeTable.json (generated — the bundled default)
+├── edgeBuild/               # generation: publication → edge table (omc-util/edge-build)
 └── mlHelpers/util.js        # internal helpers; excluded from docs and types
 test/                        # test data + the standalone test scripts
+tools/edges/                 # edges:check / edges:build CLI, accept files, last input (not shipped)
 docs/api/                    # generated Markdown reference
 types/                       # generated + committed .d.ts
 claude/                      # JSDoc review notes (not shipped)

@@ -71,6 +71,29 @@
  */
 
 /**
+ * A built edge table: what `omc-util/edge-build` produces, what `v3-0/edgeTable.json` holds, and
+ * what `omcTemplate.setEdgeTable` installs.
+ *
+ * @memberof OmcUtil
+ * @typedef {Object} EdgeTableArtifact
+ * @property {Object|null} generated - Provenance: the publication's `generated` block, the schema
+ *   fingerprint, row counts
+ * @property {Object.<OmcEntityType, EdgeTable>} table - Per-entity edge tables
+ * @property {Object.<string, string>} inverseEdges - The flat predicate → inverse map
+ */
+
+/**
+ * Which edge table a schema version is serving.
+ *
+ * @memberof OmcUtil
+ * @typedef {Object} EdgeTableSource
+ * @property {'bundled'|'installed'} kind - `installed` after `setEdgeTable`, until `resetEdgeTable`
+ * @property {string} schemaVersion - The schema version it serves
+ * @property {string} label - `'bundled'`, or the `source` named when it was installed
+ * @property {Object|null} generated - The artifact's `generated` block
+ */
+
+/**
  * @memberof OmcUtil
  * @typedef {Object} GraphQlTemplate
  * @property {Object} properties - The properties that can be queried
@@ -150,6 +173,16 @@
  * @property {function(TemplateQuery): GraphQlTemplate} graphQl - Templates for construction graphQl queries using queryBuiler
  * @property {function(TemplateQuery): Array<OmcEntityType>} graphQlEntities - An array of entityTypes that are available in the graphql schema for this version
  * @property {function({schemaVersion: string}=): string[]} metaKeys - The top-level envelope keys that do not identify an entity: the envelope (identifier, schemaVersion, entityType), the edge buckets (edges, Context) and the free-form extension keys (customData, annotation, tag). Excludes label/description/instanceInfo, which are data. Use it to skip non-identifying keys when treating an entity's own data as identity.
+ * @property {function({schemaVersion: string, artifact: EdgeTableArtifact, source: string=}): {rows: number, unregistered: string[]}} setEdgeTable
+ *   Serve a different edge table for a schema version, until `resetEdgeTable` or the process ends.
+ *   Throws on a malformed artifact and leaves the current table in place.
+ * @property {function({schemaVersion: string}): void} resetEdgeTable - Serve the bundled edge table again.
+ * @property {function({schemaVersion: string}=): (EdgeTableSource|null)} edgeTableSource - Which edge
+ *   table a schema version is serving. Null for an unknown schema version. Without a schema version,
+ *   the installed table of whichever version has one, or null when all serve their bundled table.
+ * @property {function(function(): void): function(): void} subscribe - Call `listener` whenever an
+ *   edge table is installed or reset. Returns an unsubscribe.
+ * @property {function(): number} getVersion - A counter that changes whenever the served templates do.
  * @property {function({schemaVersion: string}=): string[]} recordKeys - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
  */
 
@@ -169,6 +202,44 @@ const versionTemplates = {
     'https://movielabs.com/omc/json/schema/v2.8': { ...omc2 },
     'https://movielabs.com/omc/json/schema/v3.0': { ...omc3 },
 };
+
+/**
+ * The templates each version ships with. `setEdgeTable` replaces an entry of `versionTemplates`
+ * with one built from these, and `resetEdgeTable` puts the bundled one back — nothing is mutated,
+ * so a reset is exact.
+ */
+const bundledTemplates = { ...versionTemplates };
+
+/** Provenance of an installed table, by schema version; absent while the bundled one is served. */
+const installedSources = {};
+
+/** Observers of the served templates, in the omcSDK shape. */
+const listeners = new Set();
+let templateVersion = 0;
+const changed = (() => {
+    templateVersion += 1;
+    listeners.forEach((listener) => listener());
+});
+
+const PARTITIONS = ['intrinsic', 'edges', 'cxtEdges'];
+const isMap = ((value) => !!value && typeof value === 'object' && !Array.isArray(value));
+
+/**
+ * Refuse anything not shaped like an edge-table artifact, before it replaces a working table.
+ *
+ * @param {*} artifact
+ * @throws {Error}
+ */
+const assertArtifact = ((artifact) => {
+    const badType = isMap(artifact) && isMap(artifact.table)
+        && Object.entries(artifact.table).find(([, partitions]) => !isMap(partitions)
+            || PARTITIONS.some((part) => partitions[part] !== undefined && !isMap(partitions[part])));
+    const problem = (!isMap(artifact) && 'it is not an object')
+        || (!isMap(artifact.table) && 'it has no `table` object')
+        || (!isMap(artifact.inverseEdges) && 'it has no `inverseEdges` object')
+        || (badType && `table.${badType[0]} is not { intrinsic, edges, cxtEdges }`);
+    if (problem) throw new Error(`Not an edge-table artifact: ${problem}.`);
+});
 
 /** The schema behind each version, for facts the hand-authored templates don't carry. */
 const versionSchemas = {
@@ -258,21 +329,6 @@ const omcTemplate = {
         versionTemplates[schemaVersion].graphQlSnippets || null
     )),
     /**
-     * The name of a predicate's inverse, from a flat map keyed by predicate alone.
-     *
-     * One answer per predicate, so it cannot express an inverse that is an intrinsic property, one a
-     * `connects` group overrides, or two pairs sharing a verb. Use `inverseEdgeFor`.
-     *
-     * @deprecated
-     * @param {Object} query
-     * @param {string} query.edge - The predicate
-     * @param {string} query.schemaVersion
-     * @returns {string|null}
-     */
-    inverseEdge: (({ edge, schemaVersion }) => (
-        versionTemplates[schemaVersion].inverseEdges[edge] || null
-    )),
-    /**
      * Where the reverse of one edge is written on its target.
      *
      * Answers with the edge rather than a name, so an inverse that is an intrinsic property, or one a
@@ -309,6 +365,98 @@ const omcTemplate = {
     // the thing described, so excluding them would be wrong here. Use it to keep encoding drift
     // out of a data-level comparison. Returns a fresh array so callers may mutate it freely.
     recordKeys: (() => (['schemaVersion', 'entityType'])),
+    /**
+     * Serve a different edge table for one schema version.
+     *
+     * The artifact is what `omc-util/edge-build` produces — the same shape as the bundled
+     * `edgeTable.json` — so a client holding a live edge publication can try it without a release.
+     * Only edge facts change: every other template field is the bundled one. Registered types the
+     * artifact has no rows for get an empty table, as when bundled; types it has rows for that are
+     * not registered are reported rather than served, since nothing else is known about them.
+     *
+     * @param {Object} params
+     * @param {string} params.schemaVersion
+     * @param {EdgeTableArtifact} params.artifact
+     * @param {string} [params.source='installed'] - A label for where it came from, for display
+     * @returns {{rows: number, unregistered: string[]}}
+     * @throws {Error} For an unknown schema version or a malformed artifact; the current table stays
+     */
+    setEdgeTable: (({ schemaVersion, artifact, source = 'installed' }) => {
+        const bundled = bundledTemplates[schemaVersion];
+        if (!bundled?.entityTemplate) throw new Error(`No templates for schema version ${schemaVersion}.`);
+        assertArtifact(artifact);
+
+        const registered = Object.keys(bundled.entityTemplate).filter((key) => isCapitalized(key));
+        const entityTemplate = { ...bundled.entityTemplate, inverseEdges: artifact.inverseEdges };
+        let rows = 0;
+        registered.forEach((entityType) => {
+            const partitions = artifact.table[entityType] ?? {};
+            const edgeTable = Object.fromEntries(PARTITIONS.map((part) => [part, partitions[part] ?? {}]));
+            rows += PARTITIONS.reduce((n, part) => n + Object.keys(edgeTable[part]).length, 0);
+            entityTemplate[entityType] = { ...bundled.entityTemplate[entityType], edgeTable };
+        });
+
+        versionTemplates[schemaVersion] = { ...bundled, entityTemplate, inverseEdges: artifact.inverseEdges };
+        installedSources[schemaVersion] = { label: source, generated: artifact.generated ?? null };
+        changed();
+        return { rows, unregistered: Object.keys(artifact.table).filter((type) => !registered.includes(type)) };
+    }),
+    /**
+     * Serve the bundled edge table again. A no-op when nothing is installed.
+     *
+     * @param {Object} params
+     * @param {string} params.schemaVersion
+     */
+    resetEdgeTable: (({ schemaVersion }) => {
+        if (!installedSources[schemaVersion]) return;
+        versionTemplates[schemaVersion] = bundledTemplates[schemaVersion];
+        delete installedSources[schemaVersion];
+        changed();
+    }),
+    /**
+     * Which edge table a schema version is serving.
+     *
+     * Without a schema version it answers for whichever version has a table installed — null when
+     * every version serves its bundled one — so a UI can say "these are not the released edges"
+     * without knowing which version a preview targeted.
+     *
+     * @param {Object} [params]
+     * @param {string} [params.schemaVersion]
+     * @returns {EdgeTableSource|null}
+     */
+    edgeTableSource: (({ schemaVersion } = {}) => {
+        if (schemaVersion === undefined) {
+            const [installedVersion, installed] = Object.entries(installedSources)[0] ?? [];
+            return installed ? { kind: 'installed', schemaVersion: installedVersion, ...installed } : null;
+        }
+        if (!bundledTemplates[schemaVersion]) return null;
+        const installed = installedSources[schemaVersion];
+        if (installed) return { kind: 'installed', schemaVersion, ...installed };
+        return {
+            kind: 'bundled',
+            schemaVersion,
+            label: 'bundled',
+            generated: bundledTemplates[schemaVersion].edgeTableGenerated ?? null,
+        };
+    }),
+    /**
+     * Observe the served templates: `listener` runs whenever an edge table is installed or reset.
+     * A plain observer, so a UI adapts it to its own framework (React:
+     * `useSyncExternalStore(subscribe, getVersion)`).
+     *
+     * @param {function(): void} listener
+     * @returns {function(): void} Unsubscribe; safe to call more than once
+     */
+    subscribe: ((listener) => {
+        listeners.add(listener);
+        return () => listeners.delete(listener);
+    }),
+    /**
+     * A counter that changes whenever the served templates do.
+     *
+     * @returns {number}
+     */
+    getVersion: (() => templateVersion),
 };
 
 export { omcTemplate };

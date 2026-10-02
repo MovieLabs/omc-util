@@ -1,0 +1,6194 @@
+{
+  "generated": {
+    "by": "omc-util edge-build",
+    "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
+    "publication": {
+      "format": "omc-edges",
+      "version": 1,
+      "viewId": "view:entity-structure",
+      "edges": 135,
+      "rows": 194,
+      "verbs": 41,
+      "properties": 128
+    },
+    "schema": {
+      "$id": "https://movielabs.com/omc/json/schema/v3.0",
+      "fingerprint": "c7c09b1600d57c6c"
+    },
+    "rows": 183,
+    "rdfNamed": 166
+  },
+  "table": {
+    "CreativeWork": {
+      "intrinsic": {
+        "ProductionCompany": {
+          "predicate": "ProductionCompany",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "ProductionCompany",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "ProductionCompany"
+          ],
+          "containerSegments": [],
+          "relativePath": "ProductionCompany",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CreativeWork"
+          },
+          "omcPredicate": "omc:hasProductionCompany",
+          "rdfProperties": []
+        },
+        "creativeWorkProperties.Series": {
+          "predicate": "series",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "creativeWorkProperties.Series",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "creativeWorkProperties",
+            "Series"
+          ],
+          "containerSegments": [
+            "creativeWorkProperties"
+          ],
+          "relativePath": "creativeWorkProperties.Series",
+          "inverseEdge": {
+            "predicate": "related",
+            "path": "edges.related.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "related",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "related"
+            ],
+            "relativePath": "related.CreativeWork"
+          },
+          "omcPredicate": "omc:hasSeries",
+          "rdfProperties": []
+        },
+        "creativeWorkProperties.Season": {
+          "predicate": "season",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "creativeWorkProperties.Season",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "creativeWorkProperties",
+            "Season"
+          ],
+          "containerSegments": [
+            "creativeWorkProperties"
+          ],
+          "relativePath": "creativeWorkProperties.Season",
+          "inverseEdge": {
+            "predicate": "related",
+            "path": "edges.related.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "related",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "related"
+            ],
+            "relativePath": "related.CreativeWork"
+          },
+          "omcPredicate": "omc:hasSeason",
+          "rdfProperties": []
+        },
+        "creativeWorkProperties.Episode": {
+          "predicate": "episode",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "creativeWorkProperties.Episode",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "creativeWorkProperties",
+            "Episode"
+          ],
+          "containerSegments": [
+            "creativeWorkProperties"
+          ],
+          "relativePath": "creativeWorkProperties.Episode",
+          "inverseEdge": {
+            "predicate": "related",
+            "path": "edges.related.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "related",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "related"
+            ],
+            "relativePath": "related.CreativeWork"
+          },
+          "omcPredicate": "omc:hasEpisode",
+          "rdfProperties": []
+        }
+      },
+      "edges": {
+        "edges.has.Asset": {
+          "predicate": "has",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.has.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Asset",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CreativeWork"
+          },
+          "omcPredicate": "omc:hasScript",
+          "rdfProperties": [
+            "omc:hasScript"
+          ]
+        },
+        "edges.has.NarrativeScene": {
+          "predicate": "has",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.has.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CreativeWork"
+          },
+          "omcPredicate": "omc:hasNarrativeScene",
+          "rdfProperties": [
+            "omc:hasNarrativeScene"
+          ]
+        },
+        "edges.contributor.Participant": {
+          "predicate": "contributor",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "edges.contributor.Participant",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "contributor",
+            "Participant"
+          ],
+          "containerSegments": [
+            "edges",
+            "contributor"
+          ],
+          "relativePath": "contributor.Participant",
+          "inverseEdge": {
+            "predicate": "contributesTo",
+            "path": "edges.contributesTo.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "contributesTo",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "contributesTo"
+            ],
+            "relativePath": "contributesTo.CreativeWork"
+          },
+          "omcPredicate": "omc:contributorParticipant",
+          "rdfProperties": [
+            "omc:contributorParticipant"
+          ]
+        },
+        "edges.related.CreativeWork": {
+          "predicate": "related",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "edges.related.CreativeWork",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "related",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "edges",
+            "related"
+          ],
+          "relativePath": "related.CreativeWork",
+          "inverseEdge": {
+            "predicate": "related",
+            "path": "edges.related.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "related",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "related"
+            ],
+            "relativePath": "related.CreativeWork"
+          },
+          "omcPredicate": "omc:relatedCreativeWork",
+          "rdfProperties": [
+            "omc:relatedCreativeWork"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Asset": {
+      "intrinsic": {
+        "AssetStructure": {
+          "predicate": "has",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "AssetStructure",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "AssetStructure"
+          ],
+          "containerSegments": [],
+          "relativePath": "AssetStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasAssetStructure",
+          "rdfProperties": [
+            "omc:hasAssetStructure"
+          ]
+        },
+        "versionInfo.Revision": {
+          "predicate": "hasRevision",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.Revision",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Revision"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Revision",
+          "inverseEdge": {
+            "predicate": "RevisionOf",
+            "path": "versionInfo.RevisionOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "RevisionOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.RevisionOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasRevision",
+          "rdfProperties": [
+            "omc:hasRevision"
+          ]
+        },
+        "versionInfo.RevisionOf": {
+          "predicate": "isRevisionOf",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.RevisionOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "RevisionOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.RevisionOf",
+          "inverseEdge": {
+            "predicate": "Revision",
+            "path": "versionInfo.Revision",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Revision"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Revision"
+          },
+          "omcPredicate": "omc:isRevisionOf",
+          "rdfProperties": [
+            "omc:isRevisionOf"
+          ]
+        },
+        "versionInfo.Derivation": {
+          "predicate": "hasDerivation",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.Derivation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Derivation"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Derivation",
+          "inverseEdge": {
+            "predicate": "DerivationOf",
+            "path": "versionInfo.DerivationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "DerivationOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.DerivationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasDerivation",
+          "rdfProperties": [
+            "omc:hasDerivation"
+          ]
+        },
+        "versionInfo.DerivationOf": {
+          "predicate": "isDerivationOf",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.DerivationOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "DerivationOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.DerivationOf",
+          "inverseEdge": {
+            "predicate": "Derivation",
+            "path": "versionInfo.Derivation",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Derivation"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Derivation"
+          },
+          "omcPredicate": "omc:isDerivationOf",
+          "rdfProperties": [
+            "omc:isDerivationOf"
+          ]
+        },
+        "versionInfo.Representation": {
+          "predicate": "hasRepresentation",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.Representation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Representation"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Representation",
+          "inverseEdge": {
+            "predicate": "RepresentationOf",
+            "path": "versionInfo.RepresentationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "RepresentationOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.RepresentationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasRepresentation",
+          "rdfProperties": [
+            "omc:hasRepresentation"
+          ]
+        },
+        "versionInfo.RepresentationOf": {
+          "predicate": "isRepresentationOf",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.RepresentationOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "RepresentationOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.RepresentationOf",
+          "inverseEdge": {
+            "predicate": "Representation",
+            "path": "versionInfo.Representation",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Representation"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Representation"
+          },
+          "omcPredicate": "omc:isRepresentationOf",
+          "rdfProperties": [
+            "omc:isRepresentationOf"
+          ]
+        },
+        "versionInfo.Alternative": {
+          "predicate": "isAlternativeOf",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.Alternative",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Alternative"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Alternative",
+          "inverseEdge": {
+            "predicate": "Alternative",
+            "path": "versionInfo.Alternative",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Alternative"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Alternative"
+          },
+          "omcPredicate": "omc:isAlternativeOf",
+          "rdfProperties": [
+            "omc:isAlternativeOf"
+          ]
+        },
+        "versionInfo.Variant": {
+          "predicate": "hasVariant",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.Variant",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Variant"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Variant",
+          "inverseEdge": {
+            "predicate": "VariantOf",
+            "path": "versionInfo.VariantOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "VariantOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.VariantOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasVariant",
+          "rdfProperties": [
+            "omc:hasVariant"
+          ]
+        },
+        "versionInfo.VariantOf": {
+          "predicate": "isVariantOf",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "versionInfo.VariantOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "VariantOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.VariantOf",
+          "inverseEdge": {
+            "predicate": "Variant",
+            "path": "versionInfo.Variant",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Variant"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Variant"
+          },
+          "omcPredicate": "omc:isVariantOf",
+          "rdfProperties": [
+            "omc:isVariantOf"
+          ]
+        }
+      },
+      "edges": {
+        "edges.has.Participant": {
+          "predicate": "has",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "edges.has.Participant",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Participant"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Participant",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Asset"
+          },
+          "omcPredicate": "omc:hasParticipant",
+          "rdfProperties": [
+            "omc:hasParticipant"
+          ]
+        },
+        "edges.has.Slate": {
+          "predicate": "has",
+          "allowed": [
+            "Slate"
+          ],
+          "path": "edges.has.Slate",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Slate"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Slate",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Asset"
+          },
+          "omcPredicate": "omc:hasSlate",
+          "rdfProperties": [
+            "omc:hasSlate"
+          ]
+        },
+        "edges.has.Provenance": {
+          "predicate": "has",
+          "allowed": [
+            "Provenance"
+          ],
+          "path": "edges.has.Provenance",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Provenance"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Provenance",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Asset"
+          },
+          "omcPredicate": "omc:hasProvenance",
+          "rdfProperties": [
+            "omc:hasProvenance"
+          ]
+        },
+        "edges.for.NarrativeScene": {
+          "predicate": "for",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.for.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Asset"
+          },
+          "omcPredicate": "omc:forNarrativeScene",
+          "rdfProperties": [
+            "omc:forNarrativeScene"
+          ]
+        },
+        "edges.for.CapturePoint": {
+          "predicate": "for",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "edges.for.CapturePoint",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CapturePoint"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CapturePoint",
+          "inverseEdge": {
+            "predicate": "Capture",
+            "path": "Capture",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Capture"
+            ],
+            "containerSegments": [],
+            "relativePath": "Capture"
+          },
+          "omcPredicate": "omc:forCapturePoint",
+          "rdfProperties": [
+            "omc:forCapturePoint"
+          ]
+        },
+        "edges.for.CaptureDevice": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureDevice"
+          ],
+          "path": "edges.for.CaptureDevice",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureDevice"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureDevice",
+          "inverseEdge": {
+            "predicate": "Configuration",
+            "path": "Configuration",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Configuration"
+            ],
+            "containerSegments": [],
+            "relativePath": "Configuration"
+          },
+          "omcPredicate": "omc:forCaptureDevice",
+          "rdfProperties": [
+            "omc:forCaptureDevice"
+          ]
+        },
+        "edges.usedIn.ProductionScene": {
+          "predicate": "usedIn",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.usedIn.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.ProductionScene",
+          "inverseEdge": {
+            "predicate": "uses",
+            "path": "edges.uses.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "uses",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "uses"
+            ],
+            "relativePath": "uses.Asset"
+          },
+          "omcPredicate": "omc:usedInProductionScene",
+          "rdfProperties": [
+            "omc:usedInProductionScene"
+          ]
+        },
+        "edges.usedIn.ProductionLocation": {
+          "predicate": "usedIn",
+          "allowed": [
+            "ProductionLocation"
+          ],
+          "path": "edges.usedIn.ProductionLocation",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "ProductionLocation"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.ProductionLocation",
+          "inverseEdge": {
+            "predicate": "uses",
+            "path": "edges.uses.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "uses",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "uses"
+            ],
+            "relativePath": "uses.Asset"
+          },
+          "omcPredicate": "omc:usedInProductionLocation",
+          "rdfProperties": [
+            "omc:usedInProductionLocation"
+          ]
+        },
+        "edges.productOf.Composition": {
+          "predicate": "productOf",
+          "allowed": [
+            "Composition"
+          ],
+          "path": "edges.productOf.Composition",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "productOf",
+            "Composition"
+          ],
+          "containerSegments": [
+            "edges",
+            "productOf"
+          ],
+          "relativePath": "productOf.Composition",
+          "inverseEdge": {
+            "predicate": "Product",
+            "path": "Product",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Product"
+            ],
+            "containerSegments": [],
+            "relativePath": "Product"
+          },
+          "omcPredicate": "omc:productOfComposition",
+          "rdfProperties": [
+            "omc:productOfComposition"
+          ]
+        },
+        "edges.memberOf.AssetStructure": {
+          "predicate": "memberOf",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "edges.memberOf.AssetStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "memberOf",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "memberOf"
+          ],
+          "relativePath": "memberOf.AssetStructure",
+          "inverseEdge": {
+            "predicate": "Member",
+            "path": "assetStructureProperties.assetGroup.Member",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "assetStructureProperties",
+              "assetGroup",
+              "Member"
+            ],
+            "containerSegments": [
+              "assetStructureProperties",
+              "assetGroup"
+            ],
+            "relativePath": "assetStructureProperties.assetGroup.Member"
+          },
+          "omcPredicate": "omc:memberOf",
+          "rdfProperties": [
+            "omc:memberOf"
+          ]
+        },
+        "edges.usedBy.Realization": {
+          "predicate": "usedBy",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedBy.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedBy",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedBy"
+          ],
+          "relativePath": "usedBy.Realization",
+          "inverseEdge": {
+            "predicate": "RealizedBy",
+            "path": "RealizedBy",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizedBy"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizedBy"
+          },
+          "omcPredicate": "omc:usedByRealization",
+          "rdfProperties": [
+            "omc:usedByRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeScene": {
+      "intrinsic": {},
+      "edges": {
+        "edges.has.Asset": {
+          "predicate": "has",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.has.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Asset",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.NarrativeScene"
+          },
+          "omcPredicate": "omc:hasScript",
+          "rdfProperties": [
+            "omc:hasScript"
+          ]
+        },
+        "edges.has.ProductionScene": {
+          "predicate": "has",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.has.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.ProductionScene",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.NarrativeScene"
+          },
+          "omcPredicate": "omc:hasProductionScene",
+          "rdfProperties": [
+            "omc:hasProductionScene"
+          ]
+        },
+        "edges.for.CreativeWork": {
+          "predicate": "for",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "edges.for.CreativeWork",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CreativeWork",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.NarrativeScene"
+          },
+          "omcPredicate": "omc:forCreativeWork",
+          "rdfProperties": [
+            "omc:forCreativeWork"
+          ]
+        },
+        "edges.features.Character": {
+          "predicate": "features",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.features.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.Character",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresCharacter",
+          "rdfProperties": [
+            "omc:featuresCharacter"
+          ]
+        },
+        "edges.features.Effect": {
+          "predicate": "features",
+          "allowed": [
+            "Effect"
+          ],
+          "path": "edges.features.Effect",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "Effect"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.Effect",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresEffect",
+          "rdfProperties": [
+            "omc:featuresEffect"
+          ]
+        },
+        "edges.features.NarrativeAudio": {
+          "predicate": "features",
+          "allowed": [
+            "NarrativeAudio"
+          ],
+          "path": "edges.features.NarrativeAudio",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "NarrativeAudio"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.NarrativeAudio",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresNarrativeAudio",
+          "rdfProperties": [
+            "omc:featuresNarrativeAudio"
+          ]
+        },
+        "edges.features.NarrativeLocation": {
+          "predicate": "features",
+          "allowed": [
+            "NarrativeLocation"
+          ],
+          "path": "edges.features.NarrativeLocation",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "NarrativeLocation"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.NarrativeLocation",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresNarrativeLocation",
+          "rdfProperties": [
+            "omc:featuresNarrativeLocation"
+          ]
+        },
+        "edges.features.NarrativeObject": {
+          "predicate": "features",
+          "allowed": [
+            "NarrativeObject"
+          ],
+          "path": "edges.features.NarrativeObject",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "NarrativeObject"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.NarrativeObject",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresNarrativeObject",
+          "rdfProperties": [
+            "omc:featuresNarrativeObject"
+          ]
+        },
+        "edges.features.NarrativeStyling": {
+          "predicate": "features",
+          "allowed": [
+            "NarrativeStyling"
+          ],
+          "path": "edges.features.NarrativeStyling",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "NarrativeStyling"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.NarrativeStyling",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresNarrativeStyling",
+          "rdfProperties": [
+            "omc:featuresNarrativeStyling"
+          ]
+        },
+        "edges.features.NarrativeWardrobe": {
+          "predicate": "features",
+          "allowed": [
+            "NarrativeWardrobe"
+          ],
+          "path": "edges.features.NarrativeWardrobe",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "NarrativeWardrobe"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.NarrativeWardrobe",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresNarrativeWardrobe",
+          "rdfProperties": [
+            "omc:featuresNarrativeWardrobe"
+          ]
+        },
+        "edges.features.SpecialAction": {
+          "predicate": "features",
+          "allowed": [
+            "SpecialAction"
+          ],
+          "path": "edges.features.SpecialAction",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "features",
+            "SpecialAction"
+          ],
+          "containerSegments": [
+            "edges",
+            "features"
+          ],
+          "relativePath": "features.SpecialAction",
+          "inverseEdge": {
+            "predicate": "featuresIn",
+            "path": "edges.featuresIn.NarrativeScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "featuresIn",
+              "NarrativeScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "featuresIn"
+            ],
+            "relativePath": "featuresIn.NarrativeScene"
+          },
+          "omcPredicate": "omc:featuresSpecialAction",
+          "rdfProperties": [
+            "omc:featuresSpecialAction"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "ProductionScene": {
+      "intrinsic": {},
+      "edges": {
+        "edges.has.Slate": {
+          "predicate": "has",
+          "allowed": [
+            "Slate"
+          ],
+          "path": "edges.has.Slate",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Slate"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Slate",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.ProductionScene"
+          },
+          "omcPredicate": "omc:hasSlate",
+          "rdfProperties": [
+            "omc:hasSlate"
+          ]
+        },
+        "edges.for.NarrativeScene": {
+          "predicate": "for",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.for.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.ProductionScene"
+          },
+          "omcPredicate": "omc:forNarrativeScene",
+          "rdfProperties": [
+            "omc:forNarrativeScene"
+          ]
+        },
+        "edges.for.CaptureEvent": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureEvent"
+          ],
+          "path": "edges.for.CaptureEvent",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureEvent"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureEvent",
+          "inverseEdge": {
+            "predicate": "ProductionScene",
+            "path": "ProductionScene",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "ProductionScene"
+            ],
+            "containerSegments": [],
+            "relativePath": "ProductionScene"
+          },
+          "omcPredicate": "omc:forCaptureEvent",
+          "rdfProperties": [
+            "omc:forCaptureEvent"
+          ]
+        },
+        "edges.for.CapturePoint": {
+          "predicate": "for",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "edges.for.CapturePoint",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CapturePoint"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CapturePoint",
+          "inverseEdge": {
+            "predicate": "ProductionScene",
+            "path": "ProductionScene",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "ProductionScene"
+            ],
+            "containerSegments": [],
+            "relativePath": "ProductionScene"
+          },
+          "omcPredicate": "omc:forCapturePoint",
+          "rdfProperties": [
+            "omc:forCapturePoint"
+          ]
+        },
+        "edges.uses.Asset": {
+          "predicate": "uses",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.uses.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "uses",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "uses"
+          ],
+          "relativePath": "uses.Asset",
+          "inverseEdge": {
+            "predicate": "usedIn",
+            "path": "edges.usedIn.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedIn",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedIn"
+            ],
+            "relativePath": "usedIn.ProductionScene"
+          },
+          "omcPredicate": "omc:usesAsset",
+          "rdfProperties": [
+            "omc:usesAsset"
+          ]
+        },
+        "edges.uses.ProductionLocation": {
+          "predicate": "uses",
+          "allowed": [
+            "ProductionLocation"
+          ],
+          "path": "edges.uses.ProductionLocation",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "uses",
+            "ProductionLocation"
+          ],
+          "containerSegments": [
+            "edges",
+            "uses"
+          ],
+          "relativePath": "uses.ProductionLocation",
+          "inverseEdge": {
+            "predicate": "usedIn",
+            "path": "edges.usedIn.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedIn",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedIn"
+            ],
+            "relativePath": "usedIn.ProductionScene"
+          },
+          "omcPredicate": "omc:usesProductionLocation",
+          "rdfProperties": [
+            "omc:usesProductionLocation"
+          ]
+        },
+        "edges.uses.Realization": {
+          "predicate": "uses",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.uses.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "uses",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "uses"
+          ],
+          "relativePath": "uses.Realization",
+          "inverseEdge": {
+            "predicate": "usedIn",
+            "path": "edges.usedIn.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedIn",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedIn"
+            ],
+            "relativePath": "usedIn.ProductionScene"
+          },
+          "omcPredicate": "omc:usesRealization",
+          "rdfProperties": [
+            "omc:usesRealization"
+          ]
+        },
+        "edges.related.ProductionScene": {
+          "predicate": "related",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.related.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "related",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "related"
+          ],
+          "relativePath": "related.ProductionScene",
+          "inverseEdge": {
+            "predicate": "related",
+            "path": "edges.related.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "related",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "related"
+            ],
+            "relativePath": "related.ProductionScene"
+          },
+          "omcPredicate": "omc:relatedProductionScene",
+          "rdfProperties": [
+            "omc:relatedProductionScene"
+          ]
+        },
+        "edges.refines.ProductionScene": {
+          "predicate": "refines",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.refines.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "refines",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "refines"
+          ],
+          "relativePath": "refines.ProductionScene",
+          "inverseEdge": {
+            "predicate": "refinedBy",
+            "path": "edges.refinedBy.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "refinedBy",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "refinedBy"
+            ],
+            "relativePath": "refinedBy.ProductionScene"
+          },
+          "omcPredicate": "omc:refines",
+          "rdfProperties": [
+            "omc:refines"
+          ]
+        },
+        "edges.refinedBy.ProductionScene": {
+          "predicate": "refinedBy",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.refinedBy.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "refinedBy",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "refinedBy"
+          ],
+          "relativePath": "refinedBy.ProductionScene",
+          "inverseEdge": {
+            "predicate": "refines",
+            "path": "edges.refines.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "refines",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "refines"
+            ],
+            "relativePath": "refines.ProductionScene"
+          },
+          "omcPredicate": "omc:refinedBy",
+          "rdfProperties": [
+            "omc:refinedBy"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Slate": {
+      "intrinsic": {
+        "Director": {
+          "predicate": "Director",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "Director",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Director"
+          ],
+          "containerSegments": [],
+          "relativePath": "Director",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Slate",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Slate"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Slate"
+          },
+          "omcPredicate": "omc:hasDirector",
+          "rdfProperties": []
+        },
+        "CreativeWork": {
+          "predicate": "creativeWork",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "CreativeWork",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CreativeWork"
+          ],
+          "containerSegments": [],
+          "relativePath": "CreativeWork",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "has",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "has"
+            ],
+            "containerSegments": [],
+            "relativePath": "has"
+          },
+          "omcPredicate": "omc:hasCreativeWork",
+          "rdfProperties": [
+            "omc:hasCreativeWork"
+          ]
+        }
+      },
+      "edges": {
+        "edges.has.Infrastructure": {
+          "predicate": "has",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "edges.has.Infrastructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Infrastructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Infrastructure",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Slate",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Slate"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Slate"
+          },
+          "omcPredicate": "omc:hasInfrastructure",
+          "rdfProperties": [
+            "omc:hasInfrastructure"
+          ]
+        },
+        "edges.has.Participant": {
+          "predicate": "has",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "edges.has.Participant",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Participant"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Participant",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Slate",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Slate"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Slate"
+          },
+          "omcPredicate": "omcT:aSlateHas.Participant",
+          "rdfProperties": [
+            "omc:hasDirector",
+            "omc:hasParticipant"
+          ]
+        },
+        "edges.for.Asset": {
+          "predicate": "for",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.for.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.Asset",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Slate",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Slate"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Slate"
+          },
+          "omcPredicate": "omc:forAsset",
+          "rdfProperties": [
+            "omc:forAsset"
+          ]
+        },
+        "edges.for.ProductionScene": {
+          "predicate": "for",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.for.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.ProductionScene",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Slate",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Slate"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Slate"
+          },
+          "omcPredicate": "omc:forProductionScene",
+          "rdfProperties": [
+            "omc:forProductionScene"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Infrastructure": {
+      "intrinsic": {
+        "Member": {
+          "predicate": "member",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "Member",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Member"
+          ],
+          "containerSegments": [],
+          "relativePath": "Member",
+          "inverseEdge": {
+            "predicate": "memberOf",
+            "path": "edges.memberOf.Infrastructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "memberOf",
+              "Infrastructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "memberOf"
+            ],
+            "relativePath": "memberOf.Infrastructure"
+          },
+          "omcPredicate": "omc:member",
+          "rdfProperties": [
+            "omc:member"
+          ]
+        }
+      },
+      "edges": {
+        "edges.has.SpecialAction": {
+          "predicate": "has",
+          "allowed": [
+            "SpecialAction"
+          ],
+          "path": "edges.has.SpecialAction",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "SpecialAction"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.SpecialAction",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Infrastructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Infrastructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Infrastructure"
+          },
+          "omcPredicate": "omc:hasSpecialAction",
+          "rdfProperties": [
+            "omc:hasSpecialAction"
+          ]
+        },
+        "edges.for.AssetStructure": {
+          "predicate": "for",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "edges.for.AssetStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.AssetStructure",
+          "inverseEdge": {
+            "predicate": "Carrier",
+            "path": "assetStructureProperties.Carrier",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "assetStructureProperties",
+              "Carrier"
+            ],
+            "containerSegments": [
+              "assetStructureProperties"
+            ],
+            "relativePath": "assetStructureProperties.Carrier",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:forAssetStructure",
+          "rdfProperties": [
+            "omc:forAssetStructure"
+          ]
+        },
+        "edges.for.CaptureDevice": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureDevice"
+          ],
+          "path": "edges.for.CaptureDevice",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureDevice"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureDevice",
+          "inverseEdge": {
+            "predicate": "Infrastructure",
+            "path": "Infrastructure",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Infrastructure"
+            ],
+            "containerSegments": [],
+            "relativePath": "Infrastructure"
+          },
+          "omcPredicate": "omc:forCaptureDevice",
+          "rdfProperties": [
+            "omc:forCaptureDevice"
+          ]
+        },
+        "edges.memberOf.Infrastructure": {
+          "predicate": "memberOf",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "edges.memberOf.Infrastructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "memberOf",
+            "Infrastructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "memberOf"
+          ],
+          "relativePath": "memberOf.Infrastructure",
+          "inverseEdge": {
+            "predicate": "Member",
+            "path": "Member",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Member"
+            ],
+            "containerSegments": [],
+            "relativePath": "Member"
+          },
+          "omcPredicate": "omc:memberOf",
+          "rdfProperties": [
+            "omc:memberOf"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "AssetStructure": {
+      "intrinsic": {
+        "assetStructureProperties.Carrier": {
+          "predicate": "has",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "assetStructureProperties.Carrier",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "assetStructureProperties",
+            "Carrier"
+          ],
+          "containerSegments": [
+            "assetStructureProperties"
+          ],
+          "relativePath": "assetStructureProperties.Carrier",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.AssetStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "AssetStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.AssetStructure"
+          },
+          "omcPredicate": "omc:hasCarrier",
+          "rdfProperties": [
+            "omc:hasCarrier"
+          ]
+        },
+        "assetStructureProperties.assetGroup.Member": {
+          "predicate": "member",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "assetStructureProperties.assetGroup.Member",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "assetStructureProperties",
+            "assetGroup",
+            "Member"
+          ],
+          "containerSegments": [
+            "assetStructureProperties",
+            "assetGroup"
+          ],
+          "relativePath": "assetStructureProperties.assetGroup.Member",
+          "inverseEdge": {
+            "predicate": "memberOf",
+            "path": "edges.memberOf.AssetStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "memberOf",
+              "AssetStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "memberOf"
+            ],
+            "relativePath": "memberOf.AssetStructure"
+          },
+          "omcPredicate": "omc:member",
+          "rdfProperties": [
+            "omc:member"
+          ]
+        },
+        "versionInfo.Revision": {
+          "predicate": "hasRevision",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.Revision",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Revision"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Revision",
+          "inverseEdge": {
+            "predicate": "RevisionOf",
+            "path": "versionInfo.RevisionOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "RevisionOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.RevisionOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasRevision",
+          "rdfProperties": [
+            "omc:hasRevision"
+          ]
+        },
+        "versionInfo.RevisionOf": {
+          "predicate": "isRevisionOf",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.RevisionOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "RevisionOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.RevisionOf",
+          "inverseEdge": {
+            "predicate": "Revision",
+            "path": "versionInfo.Revision",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Revision"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Revision"
+          },
+          "omcPredicate": "omc:isRevisionOf",
+          "rdfProperties": [
+            "omc:isRevisionOf"
+          ]
+        },
+        "versionInfo.Derivation": {
+          "predicate": "hasDerivation",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.Derivation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Derivation"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Derivation",
+          "inverseEdge": {
+            "predicate": "DerivationOf",
+            "path": "versionInfo.DerivationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "DerivationOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.DerivationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasDerivation",
+          "rdfProperties": [
+            "omc:hasDerivation"
+          ]
+        },
+        "versionInfo.DerivationOf": {
+          "predicate": "isDerivationOf",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.DerivationOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "DerivationOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.DerivationOf",
+          "inverseEdge": {
+            "predicate": "Derivation",
+            "path": "versionInfo.Derivation",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Derivation"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Derivation"
+          },
+          "omcPredicate": "omc:isDerivationOf",
+          "rdfProperties": [
+            "omc:isDerivationOf"
+          ]
+        },
+        "versionInfo.Representation": {
+          "predicate": "hasRepresentation",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.Representation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "Representation"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.Representation",
+          "inverseEdge": {
+            "predicate": "RepresentationOf",
+            "path": "versionInfo.RepresentationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "RepresentationOf"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.RepresentationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:hasRepresentation",
+          "rdfProperties": [
+            "omc:hasRepresentation"
+          ]
+        },
+        "versionInfo.RepresentationOf": {
+          "predicate": "isRepresentationOf",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "versionInfo.RepresentationOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "versionInfo",
+            "RepresentationOf"
+          ],
+          "containerSegments": [
+            "versionInfo"
+          ],
+          "relativePath": "versionInfo.RepresentationOf",
+          "inverseEdge": {
+            "predicate": "Representation",
+            "path": "versionInfo.Representation",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "versionInfo",
+              "Representation"
+            ],
+            "containerSegments": [
+              "versionInfo"
+            ],
+            "relativePath": "versionInfo.Representation"
+          },
+          "omcPredicate": "omc:isRepresentationOf",
+          "rdfProperties": [
+            "omc:isRepresentationOf"
+          ]
+        }
+      },
+      "edges": {
+        "edges.has.Provenance": {
+          "predicate": "has",
+          "allowed": [
+            "Provenance"
+          ],
+          "path": "edges.has.Provenance",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Provenance"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Provenance",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.AssetStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "AssetStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.AssetStructure"
+          },
+          "omcPredicate": "omc:hasProvenance",
+          "rdfProperties": [
+            "omc:hasProvenance"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Participant": {
+      "intrinsic": {
+        "ParticipantStructure": {
+          "predicate": "has",
+          "allowed": [
+            "ParticipantStructure"
+          ],
+          "path": "ParticipantStructure",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "ParticipantStructure"
+          ],
+          "containerSegments": [],
+          "relativePath": "ParticipantStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasParticipantStructure",
+          "rdfProperties": [
+            "omc:hasParticipantStructure"
+          ]
+        },
+        "participantFunction.Role": {
+          "predicate": "has",
+          "allowed": [
+            "Role"
+          ],
+          "path": "participantFunction.Role",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "participantFunction",
+            "Role"
+          ],
+          "containerSegments": [
+            "participantFunction"
+          ],
+          "relativePath": "participantFunction.Role",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasRole",
+          "rdfProperties": [
+            "omc:hasRole"
+          ]
+        }
+      },
+      "edges": {
+        "edges.for.Asset": {
+          "predicate": "for",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.for.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.Asset",
+          "inverseEdge": null,
+          "omcPredicate": "omc:forAsset",
+          "rdfProperties": [
+            "omc:forAsset"
+          ]
+        },
+        "edges.for.CreativeWork": {
+          "predicate": "for",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "edges.for.CreativeWork",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CreativeWork",
+          "inverseEdge": {
+            "predicate": "ProductionCompany",
+            "path": "ProductionCompany",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "ProductionCompany"
+            ],
+            "containerSegments": [],
+            "relativePath": "ProductionCompany"
+          },
+          "omcPredicate": "omc:forCreativeWork",
+          "rdfProperties": [
+            "omc:forCreativeWork"
+          ]
+        },
+        "edges.for.Slate": {
+          "predicate": "for",
+          "allowed": [
+            "Slate"
+          ],
+          "path": "edges.for.Slate",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "Slate"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.Slate",
+          "inverseEdge": {
+            "predicate": "Director",
+            "path": "Director",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Director"
+            ],
+            "containerSegments": [],
+            "relativePath": "Director"
+          },
+          "omcPredicate": "omc:forSlate",
+          "rdfProperties": [
+            "omc:forSlate"
+          ]
+        },
+        "edges.contributesTo.CreativeWork": {
+          "predicate": "contributesTo",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "edges.contributesTo.CreativeWork",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "contributesTo",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "edges",
+            "contributesTo"
+          ],
+          "relativePath": "contributesTo.CreativeWork",
+          "inverseEdge": {
+            "predicate": "contributor",
+            "path": "edges.contributor.Participant",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "contributor",
+              "Participant"
+            ],
+            "containerSegments": [
+              "edges",
+              "contributor"
+            ],
+            "relativePath": "contributor.Participant"
+          },
+          "omcPredicate": "omc:contributesToCreativeWork",
+          "rdfProperties": [
+            "omc:contributesToCreativeWork"
+          ]
+        },
+        "edges.memberOf.ParticipantStructure": {
+          "predicate": "memberOf",
+          "allowed": [
+            "ParticipantStructure"
+          ],
+          "path": "edges.memberOf.ParticipantStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "memberOf",
+            "ParticipantStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "memberOf"
+          ],
+          "relativePath": "memberOf.ParticipantStructure",
+          "inverseEdge": {
+            "predicate": "Member",
+            "path": "participantStructureProperties.participantGroup.Member",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "participantStructureProperties",
+              "participantGroup",
+              "Member"
+            ],
+            "containerSegments": [
+              "participantStructureProperties",
+              "participantGroup"
+            ],
+            "relativePath": "participantStructureProperties.participantGroup.Member"
+          },
+          "omcPredicate": "omc:memberOf",
+          "rdfProperties": [
+            "omc:memberOf"
+          ]
+        },
+        "edges.usedBy.Realization": {
+          "predicate": "usedBy",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedBy.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedBy",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedBy"
+          ],
+          "relativePath": "usedBy.Realization",
+          "inverseEdge": {
+            "predicate": "RealizedBy",
+            "path": "RealizedBy",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizedBy"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizedBy"
+          },
+          "omcPredicate": "omc:usedByRealization",
+          "rdfProperties": [
+            "omc:usedByRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Task": {
+      "intrinsic": {
+        "TaskStructure": {
+          "predicate": "has",
+          "allowed": [
+            "TaskStructure"
+          ],
+          "path": "TaskStructure",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "TaskStructure"
+          ],
+          "containerSegments": [],
+          "relativePath": "TaskStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasTaskStructure",
+          "rdfProperties": [
+            "omc:hasTaskStructure"
+          ]
+        }
+      },
+      "edges": {
+        "edges.informs.Task": {
+          "predicate": "informs",
+          "allowed": [
+            "Task"
+          ],
+          "path": "edges.informs.Task",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "informs",
+            "Task"
+          ],
+          "containerSegments": [
+            "edges",
+            "informs"
+          ],
+          "relativePath": "informs.Task",
+          "inverseEdge": {
+            "predicate": "informedBy",
+            "path": "edges.informedBy.Task",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "informedBy",
+              "Task"
+            ],
+            "containerSegments": [
+              "edges",
+              "informedBy"
+            ],
+            "relativePath": "informedBy.Task"
+          },
+          "omcPredicate": "omc:informsTask",
+          "rdfProperties": [
+            "omc:informsTask"
+          ]
+        },
+        "edges.informedBy.Task": {
+          "predicate": "informedBy",
+          "allowed": [
+            "Task"
+          ],
+          "path": "edges.informedBy.Task",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "informedBy",
+            "Task"
+          ],
+          "containerSegments": [
+            "edges",
+            "informedBy"
+          ],
+          "relativePath": "informedBy.Task",
+          "inverseEdge": {
+            "predicate": "informs",
+            "path": "edges.informs.Task",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "informs",
+              "Task"
+            ],
+            "containerSegments": [
+              "edges",
+              "informs"
+            ],
+            "relativePath": "informs.Task"
+          },
+          "omcPredicate": "omc:informedByTask",
+          "rdfProperties": [
+            "omc:informedByTask"
+          ]
+        },
+        "edges.memberOf.TaskStructure": {
+          "predicate": "memberOf",
+          "allowed": [
+            "TaskStructure"
+          ],
+          "path": "edges.memberOf.TaskStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "memberOf",
+            "TaskStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "memberOf"
+          ],
+          "relativePath": "memberOf.TaskStructure",
+          "inverseEdge": {
+            "predicate": "Member",
+            "path": "taskStructureProperties.taskGroup.Member",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "taskStructureProperties",
+              "taskGroup",
+              "Member"
+            ],
+            "containerSegments": [
+              "taskStructureProperties",
+              "taskGroup"
+            ],
+            "relativePath": "taskStructureProperties.taskGroup.Member"
+          },
+          "omcPredicate": "omc:memberOf",
+          "rdfProperties": [
+            "omc:memberOf"
+          ]
+        },
+        "edges.usedBy.Realization": {
+          "predicate": "usedBy",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedBy.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedBy",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedBy"
+          ],
+          "relativePath": "usedBy.Realization",
+          "inverseEdge": {
+            "predicate": "RealizedBy",
+            "path": "RealizedBy",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizedBy"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizedBy"
+          },
+          "omcPredicate": "omc:usedByRealization",
+          "rdfProperties": [
+            "omc:usedByRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeLocation": {
+      "intrinsic": {
+        "Location": {
+          "predicate": "has",
+          "allowed": [
+            "Location"
+          ],
+          "path": "Location",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Location"
+          ],
+          "containerSegments": [],
+          "relativePath": "Location",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasLocation",
+          "rdfProperties": [
+            "omc:hasLocation"
+          ]
+        }
+      },
+      "edges": {
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.NarrativeLocation",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "NarrativeLocation"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.NarrativeLocation"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aNarrativeLocationUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "ProductionLocation": {
+      "intrinsic": {
+        "Location": {
+          "predicate": "has",
+          "allowed": [
+            "Location"
+          ],
+          "path": "Location",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Location"
+          ],
+          "containerSegments": [],
+          "relativePath": "Location",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasLocation",
+          "rdfProperties": [
+            "omc:hasLocation"
+          ]
+        }
+      },
+      "edges": {
+        "edges.usedIn.ProductionScene": {
+          "predicate": "usedIn",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.usedIn.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.ProductionScene",
+          "inverseEdge": {
+            "predicate": "uses",
+            "path": "edges.uses.ProductionLocation",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "uses",
+              "ProductionLocation"
+            ],
+            "containerSegments": [
+              "edges",
+              "uses"
+            ],
+            "relativePath": "uses.ProductionLocation"
+          },
+          "omcPredicate": "omc:usedInProductionScene",
+          "rdfProperties": [
+            "omc:usedInProductionScene"
+          ]
+        },
+        "edges.refines.ProductionLocation": {
+          "predicate": "refines",
+          "allowed": [
+            "ProductionLocation"
+          ],
+          "path": "edges.refines.ProductionLocation",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "refines",
+            "ProductionLocation"
+          ],
+          "containerSegments": [
+            "edges",
+            "refines"
+          ],
+          "relativePath": "refines.ProductionLocation",
+          "inverseEdge": {
+            "predicate": "refinedBy",
+            "path": "edges.refinedBy.ProductionLocation",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "refinedBy",
+              "ProductionLocation"
+            ],
+            "containerSegments": [
+              "edges",
+              "refinedBy"
+            ],
+            "relativePath": "refinedBy.ProductionLocation"
+          },
+          "omcPredicate": "omc:refines",
+          "rdfProperties": [
+            "omc:refines"
+          ]
+        },
+        "edges.refinedBy.ProductionLocation": {
+          "predicate": "refinedBy",
+          "allowed": [
+            "ProductionLocation"
+          ],
+          "path": "edges.refinedBy.ProductionLocation",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "refinedBy",
+            "ProductionLocation"
+          ],
+          "containerSegments": [
+            "edges",
+            "refinedBy"
+          ],
+          "relativePath": "refinedBy.ProductionLocation",
+          "inverseEdge": {
+            "predicate": "refines",
+            "path": "edges.refines.ProductionLocation",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "refines",
+              "ProductionLocation"
+            ],
+            "containerSegments": [
+              "edges",
+              "refines"
+            ],
+            "relativePath": "refines.ProductionLocation"
+          },
+          "omcPredicate": "omc:refinedBy",
+          "rdfProperties": [
+            "omc:refinedBy"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "ParticipantStructure": {
+      "intrinsic": {
+        "Location": {
+          "predicate": "has",
+          "allowed": [
+            "Location"
+          ],
+          "path": "Location",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Location"
+          ],
+          "containerSegments": [],
+          "relativePath": "Location",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.ParticipantStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "ParticipantStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.ParticipantStructure"
+          },
+          "omcPredicate": "omc:hasLocation",
+          "rdfProperties": [
+            "omc:hasLocation"
+          ]
+        },
+        "participantStructureProperties.participantGroup.Member": {
+          "predicate": "member",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "participantStructureProperties.participantGroup.Member",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "participantStructureProperties",
+            "participantGroup",
+            "Member"
+          ],
+          "containerSegments": [
+            "participantStructureProperties",
+            "participantGroup"
+          ],
+          "relativePath": "participantStructureProperties.participantGroup.Member",
+          "inverseEdge": {
+            "predicate": "memberOf",
+            "path": "edges.memberOf.ParticipantStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "memberOf",
+              "ParticipantStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "memberOf"
+            ],
+            "relativePath": "memberOf.ParticipantStructure"
+          },
+          "omcPredicate": "omc:member",
+          "rdfProperties": [
+            "omc:member"
+          ]
+        }
+      },
+      "edges": {},
+      "cxtEdges": {}
+    },
+    "CaptureEvent": {
+      "intrinsic": {
+        "CapturePoint": {
+          "predicate": "has",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "CapturePoint",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CapturePoint"
+          ],
+          "containerSegments": [],
+          "relativePath": "CapturePoint",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CaptureEvent",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CaptureEvent"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CaptureEvent"
+          },
+          "omcPredicate": "omc:hasCapturePoint",
+          "rdfProperties": [
+            "omc:hasCapturePoint"
+          ]
+        },
+        "ProductionScene": {
+          "predicate": "has",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "ProductionScene",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "ProductionScene"
+          ],
+          "containerSegments": [],
+          "relativePath": "ProductionScene",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CaptureEvent",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CaptureEvent"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CaptureEvent"
+          },
+          "omcPredicate": "omc:hasProductionScene",
+          "rdfProperties": [
+            "omc:hasProductionScene"
+          ]
+        },
+        "CaptureDetails": {
+          "predicate": "has",
+          "allowed": [
+            "Collection"
+          ],
+          "path": "CaptureDetails",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CaptureDetails"
+          ],
+          "containerSegments": [],
+          "relativePath": "CaptureDetails",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CaptureEvent",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CaptureEvent"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CaptureEvent"
+          },
+          "omcPredicate": "omcT:aCaptureEventHas.Collection",
+          "rdfProperties": []
+        }
+      },
+      "edges": {},
+      "cxtEdges": {}
+    },
+    "CapturePoint": {
+      "intrinsic": {
+        "CaptureDevice": {
+          "predicate": "has",
+          "allowed": [
+            "CaptureDevice"
+          ],
+          "path": "CaptureDevice",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CaptureDevice"
+          ],
+          "containerSegments": [],
+          "relativePath": "CaptureDevice",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CapturePoint",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CapturePoint"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CapturePoint"
+          },
+          "omcPredicate": "omc:hasCaptureDevice",
+          "rdfProperties": [
+            "omc:hasCaptureDevice"
+          ]
+        },
+        "ProductionScene": {
+          "predicate": "has",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "ProductionScene",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "ProductionScene"
+          ],
+          "containerSegments": [],
+          "relativePath": "ProductionScene",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CapturePoint",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CapturePoint"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CapturePoint"
+          },
+          "omcPredicate": "omc:hasProductionScene",
+          "rdfProperties": [
+            "omc:hasProductionScene"
+          ]
+        },
+        "CaptureDetails": {
+          "predicate": "has",
+          "allowed": [
+            "Collection"
+          ],
+          "path": "CaptureDetails",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CaptureDetails"
+          ],
+          "containerSegments": [],
+          "relativePath": "CaptureDetails",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CapturePoint",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CapturePoint"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CapturePoint"
+          },
+          "omcPredicate": "omcT:aCapturePointHas.Collection",
+          "rdfProperties": []
+        },
+        "Capture": {
+          "predicate": "has",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "Capture",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Capture"
+          ],
+          "containerSegments": [],
+          "relativePath": "Capture",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CapturePoint",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CapturePoint"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CapturePoint"
+          },
+          "omcPredicate": "omc:hasCapture",
+          "rdfProperties": [
+            "omc:hasCapture"
+          ]
+        }
+      },
+      "edges": {
+        "edges.for.CaptureEvent": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureEvent"
+          ],
+          "path": "edges.for.CaptureEvent",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureEvent"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureEvent",
+          "inverseEdge": {
+            "predicate": "CapturePoint",
+            "path": "CapturePoint",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "CapturePoint"
+            ],
+            "containerSegments": [],
+            "relativePath": "CapturePoint"
+          },
+          "omcPredicate": "omc:forCaptureEvent",
+          "rdfProperties": [
+            "omc:forCaptureEvent"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "CaptureDevice": {
+      "intrinsic": {
+        "Infrastructure": {
+          "predicate": "has",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "Infrastructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Infrastructure"
+          ],
+          "containerSegments": [],
+          "relativePath": "Infrastructure",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CaptureDevice",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CaptureDevice"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CaptureDevice"
+          },
+          "omcPredicate": "omc:hasInfrastructure",
+          "rdfProperties": [
+            "omc:hasInfrastructure"
+          ]
+        },
+        "Configuration": {
+          "predicate": "has",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "Configuration",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Configuration"
+          ],
+          "containerSegments": [],
+          "relativePath": "Configuration",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CaptureDevice",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CaptureDevice"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CaptureDevice"
+          },
+          "omcPredicate": "omc:hasConfiguration",
+          "rdfProperties": [
+            "omc:hasConfiguration"
+          ]
+        }
+      },
+      "edges": {
+        "edges.for.CapturePoint": {
+          "predicate": "for",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "edges.for.CapturePoint",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CapturePoint"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CapturePoint",
+          "inverseEdge": {
+            "predicate": "CaptureDevice",
+            "path": "CaptureDevice",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "CaptureDevice"
+            ],
+            "containerSegments": [],
+            "relativePath": "CaptureDevice"
+          },
+          "omcPredicate": "omc:forCapturePoint",
+          "rdfProperties": [
+            "omc:forCapturePoint"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Location": {
+      "intrinsic": {},
+      "edges": {
+        "edges.for.ParticipantStructure": {
+          "predicate": "for",
+          "allowed": [
+            "ParticipantStructure"
+          ],
+          "path": "edges.for.ParticipantStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "ParticipantStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.ParticipantStructure",
+          "inverseEdge": {
+            "predicate": "Location",
+            "path": "Location",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Location"
+            ],
+            "containerSegments": [],
+            "relativePath": "Location"
+          },
+          "omcPredicate": "omc:forParticipantStructure",
+          "rdfProperties": [
+            "omc:forParticipantStructure"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Provenance": {
+      "intrinsic": {
+        "CreatedBy": {
+          "predicate": "createdBy",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "CreatedBy",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "CreatedBy"
+          ],
+          "containerSegments": [],
+          "relativePath": "CreatedBy",
+          "inverseEdge": null,
+          "omcPredicate": "omc:createdByParticipant",
+          "rdfProperties": [
+            "omc:createdByParticipant"
+          ]
+        },
+        "Role": {
+          "predicate": "role",
+          "allowed": [
+            "Role"
+          ],
+          "path": "Role",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Role"
+          ],
+          "containerSegments": [],
+          "relativePath": "Role",
+          "inverseEdge": null,
+          "omcPredicate": "omc:roleRole",
+          "rdfProperties": [
+            "omc:roleRole"
+          ]
+        }
+      },
+      "edges": {
+        "edges.for.Asset": {
+          "predicate": "for",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.for.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.Asset",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Provenance",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Provenance"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Provenance"
+          },
+          "omcPredicate": "omc:forAsset",
+          "rdfProperties": [
+            "omc:forAsset"
+          ]
+        },
+        "edges.for.AssetStructure": {
+          "predicate": "for",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "edges.for.AssetStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.AssetStructure",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Provenance",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Provenance"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Provenance"
+          },
+          "omcPredicate": "omc:forAssetStructure",
+          "rdfProperties": [
+            "omc:forAssetStructure"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Collection": {
+      "intrinsic": {
+        "includes.Asset": {
+          "predicate": "includes",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "includes.Asset",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Asset"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Asset",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesAsset",
+          "rdfProperties": [
+            "omc:includesAsset"
+          ]
+        },
+        "includes.AssetStructure": {
+          "predicate": "includes",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "includes.AssetStructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.AssetStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesAssetStructure",
+          "rdfProperties": [
+            "omc:includesAssetStructure"
+          ]
+        },
+        "includes.Character": {
+          "predicate": "includes",
+          "allowed": [
+            "Character"
+          ],
+          "path": "includes.Character",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Character"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Character",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCharacter",
+          "rdfProperties": [
+            "omc:includesCharacter"
+          ]
+        },
+        "includes.Collection": {
+          "predicate": "includes",
+          "allowed": [
+            "Collection"
+          ],
+          "path": "includes.Collection",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Collection"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Collection",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCollection",
+          "rdfProperties": [
+            "omc:includesCollection"
+          ]
+        },
+        "includes.Composition": {
+          "predicate": "includes",
+          "allowed": [
+            "Composition"
+          ],
+          "path": "includes.Composition",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Composition"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Composition",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesComposition",
+          "rdfProperties": [
+            "omc:includesComposition"
+          ]
+        },
+        "includes.CreativeWork": {
+          "predicate": "includes",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "includes.CreativeWork",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.CreativeWork",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCreativeWork",
+          "rdfProperties": [
+            "omc:includesCreativeWork"
+          ]
+        },
+        "includes.Effect": {
+          "predicate": "includes",
+          "allowed": [
+            "Effect"
+          ],
+          "path": "includes.Effect",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Effect"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Effect",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesEffect",
+          "rdfProperties": [
+            "omc:includesEffect"
+          ]
+        },
+        "includes.Infrastructure": {
+          "predicate": "includes",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "includes.Infrastructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Infrastructure"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Infrastructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesInfrastructure",
+          "rdfProperties": [
+            "omc:includesInfrastructure"
+          ]
+        },
+        "includes.Location": {
+          "predicate": "includes",
+          "allowed": [
+            "Location"
+          ],
+          "path": "includes.Location",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Location"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Location",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesLocation",
+          "rdfProperties": [
+            "omc:includesLocation"
+          ]
+        },
+        "includes.NarrativeAudio": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeAudio"
+          ],
+          "path": "includes.NarrativeAudio",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeAudio"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeAudio",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeAudio",
+          "rdfProperties": [
+            "omc:includesNarrativeAudio"
+          ]
+        },
+        "includes.NarrativeLocation": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeLocation"
+          ],
+          "path": "includes.NarrativeLocation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeLocation"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeLocation",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeLocation",
+          "rdfProperties": [
+            "omc:includesNarrativeLocation"
+          ]
+        },
+        "includes.NarrativeObject": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeObject"
+          ],
+          "path": "includes.NarrativeObject",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeObject"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeObject",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeObject",
+          "rdfProperties": [
+            "omc:includesNarrativeObject"
+          ]
+        },
+        "includes.NarrativeScene": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "includes.NarrativeScene",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeScene",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeScene",
+          "rdfProperties": [
+            "omc:includesNarrativeScene"
+          ]
+        },
+        "includes.NarrativeStyling": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeStyling"
+          ],
+          "path": "includes.NarrativeStyling",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeStyling"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeStyling",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeStyling",
+          "rdfProperties": [
+            "omc:includesNarrativeStyling"
+          ]
+        },
+        "includes.NarrativeWardrobe": {
+          "predicate": "includes",
+          "allowed": [
+            "NarrativeWardrobe"
+          ],
+          "path": "includes.NarrativeWardrobe",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "NarrativeWardrobe"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.NarrativeWardrobe",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesNarrativeWardrobe",
+          "rdfProperties": [
+            "omc:includesNarrativeWardrobe"
+          ]
+        },
+        "includes.Participant": {
+          "predicate": "includes",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "includes.Participant",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Participant"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Participant",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesParticipant",
+          "rdfProperties": [
+            "omc:includesParticipant"
+          ]
+        },
+        "includes.ProductionLocation": {
+          "predicate": "includes",
+          "allowed": [
+            "ProductionLocation"
+          ],
+          "path": "includes.ProductionLocation",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "ProductionLocation"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.ProductionLocation",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesProductionLocation",
+          "rdfProperties": [
+            "omc:includesProductionLocation"
+          ]
+        },
+        "includes.ProductionScene": {
+          "predicate": "includes",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "includes.ProductionScene",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.ProductionScene",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesProductionScene",
+          "rdfProperties": [
+            "omc:includesProductionScene"
+          ]
+        },
+        "includes.Slate": {
+          "predicate": "includes",
+          "allowed": [
+            "Slate"
+          ],
+          "path": "includes.Slate",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Slate"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Slate",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesSlate",
+          "rdfProperties": [
+            "omc:includesSlate"
+          ]
+        },
+        "includes.SpecialAction": {
+          "predicate": "includes",
+          "allowed": [
+            "SpecialAction"
+          ],
+          "path": "includes.SpecialAction",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "SpecialAction"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.SpecialAction",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesSpecialAction",
+          "rdfProperties": [
+            "omc:includesSpecialAction"
+          ]
+        },
+        "includes.Context": {
+          "predicate": "includes",
+          "allowed": [
+            "Context"
+          ],
+          "path": "includes.Context",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Context"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Context",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesContext",
+          "rdfProperties": [
+            "omc:includesContext"
+          ]
+        },
+        "includes.CapturePoint": {
+          "predicate": "includes",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "includes.CapturePoint",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "CapturePoint"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.CapturePoint",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCapturePoint",
+          "rdfProperties": [
+            "omc:includesCapturePoint"
+          ]
+        },
+        "includes.CaptureEvent": {
+          "predicate": "includes",
+          "allowed": [
+            "CaptureEvent"
+          ],
+          "path": "includes.CaptureEvent",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "CaptureEvent"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.CaptureEvent",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCaptureEvent",
+          "rdfProperties": [
+            "omc:includesCaptureEvent"
+          ]
+        },
+        "includes.Realization": {
+          "predicate": "includes",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "includes.Realization",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Realization"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Realization",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesRealization",
+          "rdfProperties": [
+            "omc:includesRealization"
+          ]
+        },
+        "includes.ParticipantStructure": {
+          "predicate": "includes",
+          "allowed": [
+            "ParticipantStructure"
+          ],
+          "path": "includes.ParticipantStructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "ParticipantStructure"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.ParticipantStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesParticipantStructure",
+          "rdfProperties": [
+            "omc:includesParticipantStructure"
+          ]
+        },
+        "includes.Role": {
+          "predicate": "includes",
+          "allowed": [
+            "Role"
+          ],
+          "path": "includes.Role",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Role"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Role",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesRole",
+          "rdfProperties": [
+            "omc:includesRole"
+          ]
+        },
+        "includes.Task": {
+          "predicate": "includes",
+          "allowed": [
+            "Task"
+          ],
+          "path": "includes.Task",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Task"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Task",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesTask",
+          "rdfProperties": [
+            "omc:includesTask"
+          ]
+        },
+        "includes.TaskStructure": {
+          "predicate": "includes",
+          "allowed": [
+            "TaskStructure"
+          ],
+          "path": "includes.TaskStructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "TaskStructure"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.TaskStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesTaskStructure",
+          "rdfProperties": [
+            "omc:includesTaskStructure"
+          ]
+        },
+        "includes.CaptureDevice": {
+          "predicate": "includes",
+          "allowed": [
+            "CaptureDevice"
+          ],
+          "path": "includes.CaptureDevice",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "CaptureDevice"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.CaptureDevice",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesCaptureDevice",
+          "rdfProperties": [
+            "omc:includesCaptureDevice"
+          ]
+        },
+        "software.ConfigurationFile": {
+          "predicate": "configurationFile",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "software.ConfigurationFile",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "software",
+            "ConfigurationFile"
+          ],
+          "containerSegments": [
+            "software"
+          ],
+          "relativePath": "software.ConfigurationFile",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasConfigurationFile",
+          "rdfProperties": [
+            "omc:hasConfigurationFile"
+          ]
+        }
+      },
+      "edges": {
+        "edges.for.CaptureEvent": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureEvent"
+          ],
+          "path": "edges.for.CaptureEvent",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureEvent"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureEvent",
+          "inverseEdge": {
+            "predicate": "CaptureDetails",
+            "path": "CaptureDetails",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "CaptureDetails"
+            ],
+            "containerSegments": [],
+            "relativePath": "CaptureDetails"
+          },
+          "omcPredicate": "omcT:aCollectionFor.CaptureEvent",
+          "rdfProperties": []
+        },
+        "edges.for.CapturePoint": {
+          "predicate": "for",
+          "allowed": [
+            "CapturePoint"
+          ],
+          "path": "edges.for.CapturePoint",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CapturePoint"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CapturePoint",
+          "inverseEdge": {
+            "predicate": "CaptureDetails",
+            "path": "CaptureDetails",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "CaptureDetails"
+            ],
+            "containerSegments": [],
+            "relativePath": "CaptureDetails"
+          },
+          "omcPredicate": "omcT:aCollectionFor.CapturePoint",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Character": {
+      "intrinsic": {},
+      "edges": {
+        "edges.needs.Effect": {
+          "predicate": "needs",
+          "allowed": [
+            "Effect"
+          ],
+          "path": "edges.needs.Effect",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "Effect"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.Effect",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsEffect",
+          "rdfProperties": [
+            "omc:needsEffect"
+          ]
+        },
+        "edges.needs.NarrativeAudio": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeAudio"
+          ],
+          "path": "edges.needs.NarrativeAudio",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeAudio"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeAudio",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsNarrativeAudio",
+          "rdfProperties": [
+            "omc:needsNarrativeAudio"
+          ]
+        },
+        "edges.needs.NarrativeObject": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeObject"
+          ],
+          "path": "edges.needs.NarrativeObject",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeObject"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeObject",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsNarrativeObject",
+          "rdfProperties": [
+            "omc:needsNarrativeObject"
+          ]
+        },
+        "edges.needs.NarrativeStyling": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeStyling"
+          ],
+          "path": "edges.needs.NarrativeStyling",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeStyling"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeStyling",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsNarrativeStyling",
+          "rdfProperties": [
+            "omc:needsNarrativeStyling"
+          ]
+        },
+        "edges.needs.NarrativeWardrobe": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeWardrobe"
+          ],
+          "path": "edges.needs.NarrativeWardrobe",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeWardrobe"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeWardrobe",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsNarrativeWardrobe",
+          "rdfProperties": [
+            "omc:needsNarrativeWardrobe"
+          ]
+        },
+        "edges.needs.SpecialAction": {
+          "predicate": "needs",
+          "allowed": [
+            "SpecialAction"
+          ],
+          "path": "edges.needs.SpecialAction",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "SpecialAction"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.SpecialAction",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Character"
+          },
+          "omcPredicate": "omc:needsSpecialAction",
+          "rdfProperties": [
+            "omc:needsSpecialAction"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.Character",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "Character"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.Character"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aCharacterUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeObject": {
+      "intrinsic": {},
+      "edges": {
+        "edges.needs.NarrativeAudio": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeAudio"
+          ],
+          "path": "edges.needs.NarrativeAudio",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeAudio"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeAudio",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.NarrativeObject",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "NarrativeObject"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.NarrativeObject"
+          },
+          "omcPredicate": "omcT:aNarrativeObjectNeeds.NarrativeAudio",
+          "rdfProperties": []
+        },
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeObject",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeObject"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeObject"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.NarrativeObject",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "NarrativeObject"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.NarrativeObject"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aNarrativeObjectUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Effect": {
+      "intrinsic": {},
+      "edges": {
+        "edges.needs.NarrativeAudio": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeAudio"
+          ],
+          "path": "edges.needs.NarrativeAudio",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeAudio"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeAudio",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Effect",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Effect"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Effect"
+          },
+          "omcPredicate": "omc:needsNarrativeAudio",
+          "rdfProperties": [
+            "omc:needsNarrativeAudio"
+          ]
+        },
+        "edges.needs.NarrativeStyling": {
+          "predicate": "needs",
+          "allowed": [
+            "NarrativeStyling"
+          ],
+          "path": "edges.needs.NarrativeStyling",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "needs",
+            "NarrativeStyling"
+          ],
+          "containerSegments": [
+            "edges",
+            "needs"
+          ],
+          "relativePath": "needs.NarrativeStyling",
+          "inverseEdge": {
+            "predicate": "neededBy",
+            "path": "edges.neededBy.Effect",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "neededBy",
+              "Effect"
+            ],
+            "containerSegments": [
+              "edges",
+              "neededBy"
+            ],
+            "relativePath": "neededBy.Effect"
+          },
+          "omcPredicate": "omc:needsNarrativeStyling",
+          "rdfProperties": [
+            "omc:needsNarrativeStyling"
+          ]
+        },
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.Effect",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "Effect"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.Effect"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.Effect",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "Effect"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.Effect"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeWardrobe": {
+      "intrinsic": {},
+      "edges": {
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeWardrobe",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeWardrobe"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeWardrobe"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.NarrativeWardrobe",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "NarrativeWardrobe"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.NarrativeWardrobe"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aNarrativeWardrobeUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "SpecialAction": {
+      "intrinsic": {},
+      "edges": {
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.SpecialAction",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "SpecialAction"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.SpecialAction"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.SpecialAction",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "SpecialAction"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.SpecialAction"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeAudio": {
+      "intrinsic": {},
+      "edges": {
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeAudio",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeAudio"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeAudio"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.neededBy.NarrativeObject": {
+          "predicate": "neededBy",
+          "allowed": [
+            "NarrativeObject"
+          ],
+          "path": "edges.neededBy.NarrativeObject",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "NarrativeObject"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.NarrativeObject",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeAudio",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeAudio"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeAudio"
+          },
+          "omcPredicate": "omcT:aNarrativeAudioNeededBy.NarrativeObject",
+          "rdfProperties": []
+        },
+        "edges.neededBy.Effect": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Effect"
+          ],
+          "path": "edges.neededBy.Effect",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Effect"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Effect",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeAudio",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeAudio"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeAudio"
+          },
+          "omcPredicate": "omc:neededByEffect",
+          "rdfProperties": [
+            "omc:neededByEffect"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.NarrativeAudio",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "NarrativeAudio"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.NarrativeAudio"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aNarrativeAudioUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "NarrativeStyling": {
+      "intrinsic": {},
+      "edges": {
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeStyling",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeStyling"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeStyling"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.neededBy.Effect": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Effect"
+          ],
+          "path": "edges.neededBy.Effect",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Effect"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Effect",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.NarrativeStyling",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "NarrativeStyling"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.NarrativeStyling"
+          },
+          "omcPredicate": "omc:neededByEffect",
+          "rdfProperties": [
+            "omc:neededByEffect"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.NarrativeStyling",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "NarrativeStyling"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.NarrativeStyling"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omcT:aNarrativeStylingUsedIn.Realization",
+          "rdfProperties": []
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Realization": {
+      "intrinsic": {
+        "RealizedBy": {
+          "predicate": "realizedBy",
+          "allowed": [
+            "Asset",
+            "Composition",
+            "Participant",
+            "Task"
+          ],
+          "path": "RealizedBy",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "RealizedBy"
+          ],
+          "containerSegments": [],
+          "relativePath": "RealizedBy",
+          "inverseEdge": {
+            "predicate": "usedBy",
+            "path": "edges.usedBy.Realization",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedBy",
+              "Realization"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedBy"
+            ],
+            "relativePath": "usedBy.Realization"
+          },
+          "omcPredicate": "omc:realizedBy",
+          "rdfProperties": [
+            "omc:realizedBy"
+          ]
+        },
+        "RealizationOf": {
+          "predicate": "realizationOf",
+          "allowed": [
+            "Effect",
+            "SpecialAction",
+            "NarrativeObject",
+            "NarrativeWardrobe",
+            "NarrativeStyling",
+            "NarrativeLocation",
+            "NarrativeAudio",
+            "Character"
+          ],
+          "path": "RealizationOf",
+          "type": "array",
+          "maxItems": 1,
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "RealizationOf"
+          ],
+          "containerSegments": [],
+          "relativePath": "RealizationOf",
+          "inverseEdge": {
+            "predicate": "usedIn",
+            "path": "edges.usedIn.Realization",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedIn",
+              "Realization"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedIn"
+            ],
+            "relativePath": "usedIn.Realization"
+          },
+          "omcPredicate": "omc:realizationOf",
+          "rdfProperties": [
+            "omc:realizationOf"
+          ]
+        }
+      },
+      "edges": {
+        "edges.usedIn.ProductionScene": {
+          "predicate": "usedIn",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.usedIn.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.ProductionScene",
+          "inverseEdge": {
+            "predicate": "uses",
+            "path": "edges.uses.Realization",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "uses",
+              "Realization"
+            ],
+            "containerSegments": [
+              "edges",
+              "uses"
+            ],
+            "relativePath": "uses.Realization"
+          },
+          "omcPredicate": "omc:usedInProductionScene",
+          "rdfProperties": [
+            "omc:usedInProductionScene"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "Composition": {
+      "intrinsic": {
+        "Product": {
+          "predicate": "product",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "Product",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Product"
+          ],
+          "containerSegments": [],
+          "relativePath": "Product",
+          "inverseEdge": {
+            "predicate": "productOf",
+            "path": "edges.productOf.Composition",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "productOf",
+              "Composition"
+            ],
+            "containerSegments": [
+              "edges",
+              "productOf"
+            ],
+            "relativePath": "productOf.Composition"
+          },
+          "omcPredicate": "omc:productAsset",
+          "rdfProperties": [
+            "omc:productAsset"
+          ]
+        },
+        "includes.Asset": {
+          "predicate": "includes",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "includes.Asset",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Asset"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Asset",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesAsset",
+          "rdfProperties": [
+            "omc:includesAsset"
+          ]
+        },
+        "includes.AssetStructure": {
+          "predicate": "includes",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "includes.AssetStructure",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.AssetStructure",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesAssetStructure",
+          "rdfProperties": [
+            "omc:includesAssetStructure"
+          ]
+        },
+        "includes.Composition": {
+          "predicate": "includes",
+          "allowed": [
+            "Composition"
+          ],
+          "path": "includes.Composition",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Composition"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Composition",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesComposition",
+          "rdfProperties": [
+            "omc:includesComposition"
+          ]
+        },
+        "software.ConfigurationFile": {
+          "predicate": "configurationFile",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "software.ConfigurationFile",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "software",
+            "ConfigurationFile"
+          ],
+          "containerSegments": [
+            "software"
+          ],
+          "relativePath": "software.ConfigurationFile",
+          "inverseEdge": null,
+          "omcPredicate": "omc:hasConfigurationFile",
+          "rdfProperties": [
+            "omc:hasConfigurationFile"
+          ]
+        },
+        "StartHere": {
+          "predicate": "startHere",
+          "allowed": [
+            "Asset",
+            "AssetStructure"
+          ],
+          "path": "StartHere",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "StartHere"
+          ],
+          "containerSegments": [],
+          "relativePath": "StartHere",
+          "inverseEdge": null,
+          "omcPredicate": "omc:startHere",
+          "rdfProperties": [
+            "omc:startHere"
+          ]
+        }
+      },
+      "edges": {
+        "edges.usedBy.Realization": {
+          "predicate": "usedBy",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedBy.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedBy",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedBy"
+          ],
+          "relativePath": "usedBy.Realization",
+          "inverseEdge": {
+            "predicate": "RealizedBy",
+            "path": "RealizedBy",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizedBy"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizedBy"
+          },
+          "omcPredicate": "omc:usedByRealization",
+          "rdfProperties": [
+            "omc:usedByRealization"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "TaskStructure": {
+      "intrinsic": {
+        "taskStructureProperties.taskGroup.Member": {
+          "predicate": "member",
+          "allowed": [
+            "Task"
+          ],
+          "path": "taskStructureProperties.taskGroup.Member",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "taskStructureProperties",
+            "taskGroup",
+            "Member"
+          ],
+          "containerSegments": [
+            "taskStructureProperties",
+            "taskGroup"
+          ],
+          "relativePath": "taskStructureProperties.taskGroup.Member",
+          "inverseEdge": {
+            "predicate": "memberOf",
+            "path": "edges.memberOf.TaskStructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "memberOf",
+              "TaskStructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "memberOf"
+            ],
+            "relativePath": "memberOf.TaskStructure"
+          },
+          "omcPredicate": "omc:member",
+          "rdfProperties": [
+            "omc:member"
+          ]
+        }
+      },
+      "edges": {},
+      "cxtEdges": {}
+    }
+  },
+  "inverseEdges": {
+    "has": "for",
+    "for": "has",
+    "ProductionCompany": "for",
+    "Director": "for",
+    "needs": "neededBy",
+    "neededBy": "needs",
+    "features": "featuresIn",
+    "featuresIn": "features",
+    "uses": "usedIn",
+    "usedIn": "realizationOf",
+    "contributesTo": "contributor",
+    "contributor": "contributesTo",
+    "informs": "informedBy",
+    "informedBy": "informs",
+    "related": "related",
+    "productOf": "product",
+    "product": "productOf",
+    "memberOf": "member",
+    "member": "memberOf",
+    "creativeWork": "has",
+    "series": "related",
+    "season": "related",
+    "episode": "related",
+    "usedBy": "realizedBy",
+    "realizedBy": "usedBy",
+    "realizationOf": "usedIn",
+    "hasRevision": "isRevisionOf",
+    "isRevisionOf": "hasRevision",
+    "hasDerivation": "isDerivationOf",
+    "isDerivationOf": "hasDerivation",
+    "hasRepresentation": "isRepresentationOf",
+    "isRepresentationOf": "hasRepresentation",
+    "isAlternativeOf": "isAlternativeOf",
+    "hasVariant": "isVariantOf",
+    "isVariantOf": "hasVariant",
+    "refines": "refinedBy",
+    "refinedBy": "refines"
+  }
+}

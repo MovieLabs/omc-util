@@ -1,0 +1,22 @@
+# Known findings edgeInverse.js should not fail on. Not a statement that any of them is correct.
+#
+# Every line is outstanding work with the condition that closes it. Nothing here is permanent: a
+# finding that stops occurring is reported as stale and must be deleted, and the file is expected
+# to empty. If you cannot write a closing condition for an entry, it does not belong here.
+
+# INVERSE-UNDECLARED — the schema does not declare the reverse (verb, range) pair. The shared
+# edges block is `additionalProperties: true`, so the reverse edge still validates; the cost is
+# that the schema has no record of the relationship running that way.
+#   Closed by: declaring the pair under core.properties.edges in the authored schema, the way
+#   refines/refinedBy on ProductionScene and ProductionLocation were closed.
+INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
+INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
+INVERSE-UNDECLARED for.Infrastructure (the reverse of Infrastructure has)
+INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
+INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
+INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
+
+# NOT-INVOLUTIVE — a predicate's inverse does not invert back to it. Here that is the
+# uses/usedBy/usedIn triangle, where usedIn's inverse is realizationOf rather than uses.
+#   Closed by: a decision on whether those three are two pairs or one, in the documents first.
+NOT-INVOLUTIVE uses -> usedIn -> realizationOf

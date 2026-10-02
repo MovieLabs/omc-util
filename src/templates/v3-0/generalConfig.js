@@ -61,7 +61,7 @@ export const generalConfig = {
         },
     },
     Character: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'chr',
         mergeKey: ['characterName.scriptName'],
         presentation: {
@@ -105,7 +105,7 @@ export const generalConfig = {
         },
     },
     Effect: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'eff',
         mergeKey: ['effectName.scriptName'],
         presentation: {
@@ -119,7 +119,7 @@ export const generalConfig = {
         },
     },
     NarrativeAudio: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'naud',
         mergeKey: ['narrativeAudioName.scriptName'],
         presentation: {
@@ -134,7 +134,7 @@ export const generalConfig = {
         },
     },
     NarrativeLocation: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'nloc',
         mergeKey: ['narrativeLocationName.scriptName'],
         presentation: {
@@ -149,7 +149,7 @@ export const generalConfig = {
         },
     },
     NarrativeObject: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'nobj',
         mergeKey: ['narrativeObjectName.scriptName'],
         presentation: {
@@ -163,7 +163,7 @@ export const generalConfig = {
         },
     },
     NarrativeScene: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'nscn',
         mergeKey: ['sceneNumber'],
         presentation: {
@@ -182,7 +182,7 @@ export const generalConfig = {
         },
     },
     NarrativeStyling: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'nsty',
         mergeKey: ['narrativeStylingName.scriptName'],
         presentation: {
@@ -196,7 +196,7 @@ export const generalConfig = {
         },
     },
     NarrativeWardrobe: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'nwar',
         mergeKey: ['narrativeWardrobeName.scriptName'],
         presentation: {
@@ -211,7 +211,7 @@ export const generalConfig = {
         },
     },
     ProductionScene: {
-        group: 'Media Creation Context',
+        group: 'Production',
         idPrefix: 'pscn',
         mergeKey: ['sceneNumber'],
         presentation: {
@@ -230,7 +230,7 @@ export const generalConfig = {
         },
     },
     ProductionLocation: {
-        group: 'Media Creation Context',
+        group: 'Production',
         idPrefix: 'ploc',
         mergeKey: ['productionLocationName.fullName'],
         presentation: {
@@ -278,6 +278,24 @@ export const generalConfig = {
             ],
         },
     },
+    CaptureDevice: {
+        group: 'Production',
+        idPrefix: 'cpdv',
+        mergeKey: [],
+        presentation: {
+            header: {
+                backgroundColor: '#A9DFBF',
+                fontColor: '#000',
+                entityLabel: 'Capture Device',
+                entityLabelSuffix: () => '',
+                // icon: CaptureDeviceIcon,
+            },
+            propRows: [
+                'label',
+                (e) => ({ fullName: e.captureDeviceName?.fullName || 'N/A' }),
+            ],
+        },
+    },
     Realization: {
         group: 'Media Creation Context',
         idPrefix: 'rel',
@@ -294,7 +312,7 @@ export const generalConfig = {
         },
     },
     Slate: {
-        group: 'Media Creation Context',
+        group: 'Production',
         idPrefix: 'slt',
         mergeKey: ['slateName.fullName'],
         presentation: {
@@ -312,7 +330,7 @@ export const generalConfig = {
         },
     },
     SpecialAction: {
-        group: 'Media Creation Context',
+        group: 'Narrative',
         idPrefix: 'sact',
         mergeKey: ['specialActionName.fullName'],
         presentation: {

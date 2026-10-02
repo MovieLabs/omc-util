@@ -109,6 +109,48 @@ export type EdgeTemplate = {
      */
     rdfProperties: string[];
 };
+/**
+ * A built edge table: what `omc-util/edge-build` produces, what `v3-0/edgeTable.json` holds, and
+ * what `omcTemplate.setEdgeTable` installs.
+ */
+export type EdgeTableArtifact = {
+    /**
+     * - Provenance: the publication's `generated` block, the schema
+     * fingerprint, row counts
+     */
+    generated: any | null;
+    /**
+     * - Per-entity edge tables
+     */
+    table: any;
+    /**
+     * - The flat predicate → inverse map
+     */
+    inverseEdges: {
+        [x: string]: string;
+    };
+};
+/**
+ * Which edge table a schema version is serving.
+ */
+export type EdgeTableSource = {
+    /**
+     * - `installed` after `setEdgeTable`, until `resetEdgeTable`
+     */
+    kind: "bundled" | "installed";
+    /**
+     * - The schema version it serves
+     */
+    schemaVersion: string;
+    /**
+     * - `'bundled'`, or the `source` named when it was installed
+     */
+    label: string;
+    /**
+     * - The artifact's `generated` block
+     */
+    generated: any | null;
+};
 export type GraphQlTemplate = {
     /**
      * - The properties that can be queried
@@ -264,6 +306,41 @@ export type OmcTemplate = {
     metaKeys: (arg0: {
         schemaVersion: string;
     } | undefined) => string[];
+    /**
+     *   Serve a different edge table for a schema version, until `resetEdgeTable` or the process ends.
+     *   Throws on a malformed artifact and leaves the current table in place.
+     */
+    setEdgeTable: (arg0: {
+        schemaVersion: string;
+        artifact: EdgeTableArtifact;
+        source: string;
+    }) => {
+        rows: number;
+        unregistered: string[];
+    };
+    /**
+     * - Serve the bundled edge table again.
+     */
+    resetEdgeTable: (arg0: {
+        schemaVersion: string;
+    }) => void;
+    /**
+     * - Which edge
+     * table a schema version is serving. Null for an unknown schema version. Without a schema version,
+     * the installed table of whichever version has one, or null when all serve their bundled table.
+     */
+    edgeTableSource: (arg0: {
+        schemaVersion: string;
+    } | undefined) => (EdgeTableSource | null);
+    /**
+     * - Call `listener` whenever an
+     * edge table is installed or reset. Returns an unsubscribe.
+     */
+    subscribe: (arg0: () => void) => () => void;
+    /**
+     * - A counter that changes whenever the served templates do.
+     */
+    getVersion: () => number;
     /**
      * - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
      */

@@ -876,6 +876,37 @@
               "title": "Entity Type",
               "const": "AssetStructure"
             },
+            "assetStructureType": {
+              "type": "string",
+              "title": "Asset Structure Type",
+              "description": "A canonical description of the the assets form.",
+              "default": "assetStructure",
+              "x-controlledValues": [
+                "digital",
+                "digital.image",
+                "digital.movingImage",
+                "digital.imageSeries",
+                "digital.audio",
+                "digital.audiovisual",
+                "digital.document",
+                "digital.structuredDocument",
+                "digital.data",
+                "digital.geometry",
+                "digital.volume",
+                "digital.pointCloud",
+                "analog",
+                "analog.audio",
+                "analog.audiovisual",
+                "analog.movingImage",
+                "physical",
+                "physical.image",
+                "physical.document",
+                "physical.structuredDocument",
+                "physical.imageSeries",
+                "procedural",
+                "assetGroup"
+              ]
+            },
             "assetStructureName": {
               "title": "Asset Structure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
@@ -975,37 +1006,6 @@
               "description": "A particular form, variant, or representation of an Asset that differs in some way from its source Asset.",
               "unevaluatedProperties": false
             },
-            "assetStructureType": {
-              "type": "string",
-              "title": "Asset Structure Type",
-              "description": "A canonical description of the the assets form.",
-              "default": "assetStructure",
-              "x-controlledValues": [
-                "digital",
-                "digital.image",
-                "digital.movingImage",
-                "digital.imageSeries",
-                "digital.audio",
-                "digital.audiovisual",
-                "digital.document",
-                "digital.structuredDocument",
-                "digital.data",
-                "digital.geometry",
-                "digital.volume",
-                "digital.pointCloud",
-                "analog",
-                "analog.audio",
-                "analog.audiovisual",
-                "analog.movingImage",
-                "physical",
-                "physical.image",
-                "physical.document",
-                "physical.structuredDocument",
-                "physical.imageSeries",
-                "procedural",
-                "assetGroup"
-              ]
-            },
             "assetStructureProperties": {
               "type": [
                 "object",
@@ -1055,10 +1055,7 @@
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
-          "required": [
-            "entityType",
-            "assetStructureType"
-          ],
+          "required": ["entityType"],
           "description": "Describes the form of an Asset along with the attributes specific to that asset’s form.",
           "$defs": {
             "assetGroup": {
@@ -1256,37 +1253,24 @@
               "title": "Entity Type",
               "const": "Infrastructure"
             },
+            "infrastructureType": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": "infrastructure",
+              "x-controlledValues": [
+                "carrier",
+                "camera",
+                "cameraRig",
+                "lens",
+                "recorder",
+                "microphone"
+              ]
+            },
             "infrastructureName": {
               "title": "Infrastructure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
-            },
-            "infrastructureFunction": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "title": "Infrastructure Function",
-              "properties": {
-                "infrastructureFunctionType": {
-                  "type": "string",
-                  "default": "infrastructureFunction",
-                  "x-controlledValues": ["infrastructureFunction"],
-                  "title": "Infrastructure Function Type",
-                  "description": "The use or purpose of an Infrastructure within the production process."
-                },
-                "infrastructureFunctionProperties": {
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "title": "Infrastructure Function Properties",
-                  "description": "A set of properties that describe the infrastructure's functional use",
-                  "additionalProperties": true
-                }
-              },
-              "additionalProperties": false,
-              "description": "Describes the use or purpose of an Infrastructure within the production process",
-              "required": ["infrastructureFunctionType"]
             },
             "Member": {
               "type": [
@@ -2432,6 +2416,45 @@
               ]
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
+            "CaptureDetails": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Details",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Utility/properties/Collection"}
+                ]
+              }
+            },
+            "CapturePoint": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Point",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CapturePoint"}
+                ]
+              }
+            },
+            "ProductionScene": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Production Scene",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
+                ]
+              }
+            },
             "startDate": {
               "type": [
                 "string",
@@ -2464,6 +2487,108 @@
               "anyOf": [
                 {"$ref": "#/$defs/Utility/properties/basicName"}
               ]
+            },
+            "ProductionScene": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Production Scene",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
+                ]
+              }
+            },
+            "Capture": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"}
+                ]
+              }
+            },
+            "CaptureDevice": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Device",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CaptureDevice"}
+                ]
+              }
+            },
+            "CaptureDetails": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Details",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Utility/properties/Collection"}
+                ]
+              }
+            },
+            "edges": {"$ref": "#/$defs/core/properties/edges"}
+          },
+          "required": ["entityType"],
+          "unevaluatedProperties": false
+        },
+        "CaptureDevice": {
+          "type": ["object"],
+          "title": "Capture Device",
+          "allOf": [
+            {"$ref": "#/$defs/core/properties/baseEntity"}
+          ],
+          "properties": {
+            "entityType": {
+              "title": "Entity Type",
+              "const": "CaptureDevice"
+            },
+            "captureDeviceName": {
+              "title": "Capture Point Name",
+              "anyOf": [
+                {"$ref": "#/$defs/Utility/properties/basicName"}
+              ]
+            },
+            "Infrastructure": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Infrastructure",
+              "description": "The set of Infrastructure that make up this Capture Device.",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
+                ]
+              }
+            },
+            "Configuration": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Infrastructure",
+              "description": "The set of Infrastructure that make up this Capture Device.",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Asset/properties/Asset"}
+                ]
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2872,7 +2997,15 @@
               "default": "collection",
               "title": "Collection Type",
               "description": "The type, or sub-class, of this specific Collection.",
-              "x-controlledValues": ["collection"]
+              "x-controlledValues": [
+                "collection",
+                "captureDetails",
+                "partition.reel",
+                "partition.part",
+                "partition.act",
+                "productionPlanning.shootPlanning",
+                "productionPlanning.shootDayPlanning"
+              ]
             },
             "collectionName": {
               "title": "Collection Name",
@@ -4509,6 +4642,14 @@
               "title": "Capture Point",
               "items": {"$ref": "#/$defs/Production/properties/CapturePoint"}
             },
+            "CaptureDevice": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Device",
+              "items": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
+            },
             "Slate": {
               "type": [
                 "array",
@@ -4832,6 +4973,19 @@
                 ]
               }
             },
+            "CaptureDevice": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture Device",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CaptureDevice"}
+                ]
+              }
+            },
             "Slate": {
               "type": [
                 "array",
@@ -5003,6 +5157,7 @@
                     "ProductionScene",
                     "CaptureEvent",
                     "CapturePoint",
+                    "CaptureDevice",
                     "Slate",
                     "SpecialAction",
                     "Participant",
@@ -5178,6 +5333,16 @@
                 "required": ["entityType"]
               },
               "then": {"$ref": "#/$defs/Production/properties/CaptureEvent"}
+            },
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "entityType": {"const": "CaptureDevice"}
+                },
+                "required": ["entityType"]
+              },
+              "then": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
             },
             {
               "if": {
