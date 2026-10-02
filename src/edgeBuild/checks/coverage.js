@@ -13,6 +13,10 @@
  * new range, validates silently. Those are reported as undeclared rather than wrong: the Edge
  * Editor is where the modelling happens, and the schema is what needs catching up.
  *
+ * The publication is checked the other way too: an RDF property that lands on no row publishes a
+ * relationship the OMC-JSON side does not carry. Some are RDF-only and right to be there, and a
+ * join that quietly matched nothing looks identical, so they are reported rather than assumed.
+ *
  * @module edgeBuild/checks/coverage
  * @ignore
  */
@@ -46,6 +50,7 @@ export const severity = {
     'MAXITEMS': 'blocking',
     'VERB-UNDECLARED': 'warning',
     'PAIR-UNDECLARED': 'warning',
+    'RDF-UNMATCHED': 'warning',
 };
 
 /**
@@ -167,7 +172,7 @@ function schemaRelationships(schema) {
  * @param {{table: Object, schema: Object}} subject
  * @returns {{findings: Object<string, string[]>, summary: string[], report: string[]}}
  */
-export function run({ table, schema }) {
+export function run({ table, schema, rdfUnmatched = [] }) {
     const declared = schemaRelationships(schema);
     const { verbs: schemaVerbs, pairs: schemaPairs } = schemaEdgeDeclarations(schema);
 
@@ -186,6 +191,7 @@ export function run({ table, schema }) {
         'MAXITEMS': [],
         'VERB-UNDECLARED': [],
         'PAIR-UNDECLARED': [],
+        'RDF-UNMATCHED': [...rdfUnmatched].sort(),
     };
     let matched = 0;
 

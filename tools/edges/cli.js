@@ -94,6 +94,7 @@ async function main() {
         inverseEdges: built.artifact.inverseEdges,
         definitions: built.definitions,
         collisions: built.collisions,
+        rdfUnmatched: built.rdfUnmatched,
         schema: schema.schema,
     };
     let failing = 0;

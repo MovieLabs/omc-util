@@ -4,7 +4,7 @@
  * @param {{table: Object, schema: Object}} subject
  * @returns {{findings: Object<string, string[]>, summary: string[], report: string[]}}
  */
-export function run({ table, schema }: {
+export function run({ table, schema, rdfUnmatched }: {
     table: any;
     schema: any;
 }): {
@@ -37,5 +37,6 @@ export const severity: {
     MAXITEMS: string;
     'VERB-UNDECLARED': string;
     'PAIR-UNDECLARED': string;
+    'RDF-UNMATCHED': string;
 };
 //# sourceMappingURL=coverage.d.ts.map

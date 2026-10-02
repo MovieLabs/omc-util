@@ -93,6 +93,7 @@ export function buildEdgeArtifact(document, { schema = schemav30, label = 'the d
         definitions: built.definitions,
         rows: built.rows,
         rdfNamed: built.rdfNamed,
+        rdfUnmatched: built.rdfUnmatched,
     };
 }
 

@@ -17,7 +17,7 @@
       "fingerprint": "c7c09b1600d57c6c"
     },
     "rows": 183,
-    "rdfNamed": 166
+    "rdfNamed": 173
   },
   "table": {
     "CreativeWork": {
@@ -183,7 +183,8 @@
           "narrowedRanges": [
             {
               "range": "Asset",
-              "qualifier": "Script",
+              "as": "Script",
+              "kind": "qualifier",
               "via": "hasAssetFunction",
               "property": "omc:hasScript"
             }
@@ -1025,7 +1026,23 @@
           },
           "omcPredicate": "omc:usedByRealization",
           "rdfProperties": [
+            "omc:usedByDepiction",
+            "omc:usedByPortrayal",
             "omc:usedByRealization"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Realization",
+              "as": "Depiction",
+              "kind": "class",
+              "property": "omc:usedByDepiction"
+            },
+            {
+              "range": "Realization",
+              "as": "Portrayal",
+              "kind": "class",
+              "property": "omc:usedByPortrayal"
+            }
           ]
         }
       },
@@ -1074,7 +1091,8 @@
           "narrowedRanges": [
             {
               "range": "Asset",
-              "qualifier": "Script",
+              "as": "Script",
+              "kind": "qualifier",
               "via": "hasAssetFunction",
               "property": "omc:hasScript"
             }
@@ -2775,7 +2793,16 @@
           },
           "omcPredicate": "omc:usedByRealization",
           "rdfProperties": [
+            "omc:usedByPortrayal",
             "omc:usedByRealization"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Realization",
+              "as": "Portrayal",
+              "kind": "class",
+              "property": "omc:usedByPortrayal"
+            }
           ]
         }
       },
@@ -3366,8 +3393,18 @@
             ],
             "relativePath": "for.CaptureEvent"
           },
-          "omcPredicate": "omcT:aCaptureEventHas.Collection",
-          "rdfProperties": []
+          "omcPredicate": "omc:hasCaptureDetails",
+          "rdfProperties": [
+            "omc:hasCaptureDetails"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Collection",
+              "as": "CaptureDetails",
+              "kind": "class",
+              "property": "omc:hasCaptureDetails"
+            }
+          ]
         }
       },
       "edges": {},
@@ -3469,8 +3506,18 @@
             ],
             "relativePath": "for.CapturePoint"
           },
-          "omcPredicate": "omcT:aCapturePointHas.Collection",
-          "rdfProperties": []
+          "omcPredicate": "omc:hasCaptureDetails",
+          "rdfProperties": [
+            "omc:hasCaptureDetails"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Collection",
+              "as": "CaptureDetails",
+              "kind": "class",
+              "property": "omc:hasCaptureDetails"
+            }
+          ]
         },
         "Capture": {
           "predicate": "has",
@@ -3507,7 +3554,8 @@
           "narrowedRanges": [
             {
               "range": "Asset",
-              "qualifier": "Capture",
+              "as": "Capture",
+              "kind": "qualifier",
               "via": "hasAssetFunction",
               "property": "omc:hasCapture"
             }
@@ -4511,8 +4559,10 @@
             "containerSegments": [],
             "relativePath": "CaptureDetails"
           },
-          "omcPredicate": "omcT:aCollectionFor.CaptureEvent",
-          "rdfProperties": []
+          "omcPredicate": "omc:forCaptureEvent",
+          "rdfProperties": [
+            "omc:forCaptureEvent"
+          ]
         },
         "edges.for.CapturePoint": {
           "predicate": "for",
@@ -4542,8 +4592,10 @@
             "containerSegments": [],
             "relativePath": "CaptureDetails"
           },
-          "omcPredicate": "omcT:aCollectionFor.CapturePoint",
-          "rdfProperties": []
+          "omcPredicate": "omc:forCapturePoint",
+          "rdfProperties": [
+            "omc:forCapturePoint"
+          ]
         }
       },
       "cxtEdges": {}
@@ -4846,8 +4898,18 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aCharacterUsedIn.Realization",
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInPortrayal",
+          "rdfProperties": [
+            "omc:usedInPortrayal"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Realization",
+              "as": "Portrayal",
+              "kind": "class",
+              "property": "omc:usedInPortrayal"
+            }
+          ]
         }
       },
       "cxtEdges": {}
@@ -4888,8 +4950,10 @@
             ],
             "relativePath": "neededBy.NarrativeObject"
           },
-          "omcPredicate": "omcT:aNarrativeObjectNeeds.NarrativeAudio",
-          "rdfProperties": []
+          "omcPredicate": "omc:needsNarrativeAudio",
+          "rdfProperties": [
+            "omc:needsNarrativeAudio"
+          ]
         },
         "edges.neededBy.Character": {
           "predicate": "neededBy",
@@ -5499,7 +5563,24 @@
             "relativePath": "needs.NarrativeAudio"
           },
           "omcPredicate": "omcT:aNarrativeAudioNeededBy.NarrativeObject",
-          "rdfProperties": []
+          "rdfProperties": [
+            "omc:neededByNarrativeProp",
+            "omc:neededByNarrativeVehicle"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "NarrativeObject",
+              "as": "NarrativeProp",
+              "kind": "class",
+              "property": "omc:neededByNarrativeProp"
+            },
+            {
+              "range": "NarrativeObject",
+              "as": "NarrativeVehicle",
+              "kind": "class",
+              "property": "omc:neededByNarrativeVehicle"
+            }
+          ]
         },
         "edges.neededBy.Effect": {
           "predicate": "neededBy",
@@ -6061,7 +6142,16 @@
           },
           "omcPredicate": "omc:usedByRealization",
           "rdfProperties": [
+            "omc:usedByPortrayal",
             "omc:usedByRealization"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Realization",
+              "as": "Portrayal",
+              "kind": "class",
+              "property": "omc:usedByPortrayal"
+            }
           ]
         }
       },
