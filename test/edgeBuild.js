@@ -4,7 +4,8 @@
  *
  * Two halves of one promise. The bundled `v3-0/edgeTable.json` must be what `buildEdgeArtifact`
  * produces from the document it was last built from (`tools/edges/input/omc-edges.json`); a hand
- * edit, or a generator change nobody rebuilt for, shows up here. And `omcTemplate.setEdgeTable`, the
+ * edit, a generator change nobody rebuilt for, or a table written by a different omc-util's builder
+ * shows up here, the last of those by name. And `omcTemplate.setEdgeTable`, the
  * seam a client uses to try a live publication, must change only edge facts, reach every accessor
  * that reads them, refuse a malformed table without disturbing the current one, and reset to a
  * table indistinguishable from the bundled one.
@@ -14,6 +15,7 @@
 
 import { readFileSync } from 'node:fs';
 
+import manifest from '../package.json' with { type: 'json' };
 import { buildEdgeArtifact } from '../src/edgeBuild/index.js';
 import { edgeCreate } from '../src/omc/omcEdges.js';
 import { omcTemplate } from '../src/templates/index.js';
@@ -65,6 +67,14 @@ console.log('=== the bundled table is the build of its input ===');
 const document = readJson('../tools/edges/input/omc-edges.json');
 const bundled = readJson('../src/templates/v3-0/edgeTable.json');
 const { artifact, findings } = buildEdgeArtifact(document);
+// Asked first, because it is the likeliest reason the equality below fails and the only one the
+// equality cannot state: the builder ships inside omc-util and is also published as
+// `omc-util/edge-build`, so a repo that writes this table from its own installed copy writes it
+// with that copy's builder, which need not be the one shipping it.
+check('the bundled table was built by this omc-util',
+    bundled.generated?.builder?.version === manifest.version,
+    `built by ${bundled.generated?.builder?.version ?? 'an omc-util that did not say'}, `
+    + `shipping in ${manifest.version} — rebuild with: npm run edges:build`);
 check('edgeTable.json equals buildEdgeArtifact(tools/edges/input/omc-edges.json)',
     json(JSON.parse(json(artifact))) === json(bundled),
     'rebuild with: npm run edges:build');

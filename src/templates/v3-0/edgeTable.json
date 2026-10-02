@@ -2,6 +2,10 @@
   "generated": {
     "by": "omc-util edge-build",
     "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
+    "builder": {
+      "name": "omc-util",
+      "version": "1.10.0"
+    },
     "publication": {
       "format": "omc-edges",
       "version": 1,

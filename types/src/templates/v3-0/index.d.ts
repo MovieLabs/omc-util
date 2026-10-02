@@ -2,6 +2,10 @@
 export const edgeTableGenerated: {
     by: string;
     note: string;
+    builder: {
+        name: string;
+        version: string;
+    };
     publication: {
         format: string;
         version: number;

@@ -14,6 +14,7 @@
  * @memberof OmcUtil
  */
 
+import manifest from '../../package.json' with { type: 'json' };
 import schemav30 from '../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 
 import { edgeTableFrom, rowKeys } from './assemble.js';
@@ -75,6 +76,10 @@ export function buildEdgeArtifact(document, { schema = schemav30, label = 'the d
         generated: {
             by: 'omc-util edge-build',
             note: 'Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.',
+            // Which omc-util built it. The builder ships inside omc-util and is published as
+            // `omc-util/edge-build`, so a repo holding its own copy builds with that copy's
+            // version — which need not be the version the table ends up shipping in.
+            builder: { name: manifest.name, version: manifest.version },
             publication: document?.generated ?? null,
             // The table's maxItems were read from this schema; omc-util compares it with the schema
             // it bundles, so the two are delivered together.
