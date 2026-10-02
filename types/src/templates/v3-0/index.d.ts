@@ -10,6 +10,7 @@ export const edgeTableGenerated: {
         rows: number;
         verbs: number;
         properties: number;
+        classes: number;
     };
     schema: {
         $id: string;

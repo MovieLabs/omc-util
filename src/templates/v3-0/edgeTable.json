@@ -9,7 +9,8 @@
       "edges": 135,
       "rows": 194,
       "verbs": 41,
-      "properties": 128
+      "properties": 128,
+      "classes": 137
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",

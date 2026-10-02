@@ -6,12 +6,1484 @@
     "edges": 135,
     "rows": 194,
     "verbs": 41,
-    "properties": 128
+    "properties": 128,
+    "classes": 137
   },
   "namespace": {
     "prefix": "omc",
     "base": "https://movielabs.com/omc/rdf/schema/v3.0#"
   },
+  "classes": [
+    {
+      "id": "omc:Act",
+      "name": "Act",
+      "label": "Act",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Partition"
+      ]
+    },
+    {
+      "id": "omc:Address",
+      "name": "Address",
+      "label": "Address",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:Aerial",
+      "name": "Aerial",
+      "label": "Aerial",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:AnalogAudio",
+      "name": "AnalogAudio",
+      "label": "Analog Audio",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AnalogObject"
+      ]
+    },
+    {
+      "id": "omc:AnalogAudiovisual",
+      "name": "AnalogAudiovisual",
+      "label": "Analog Audiovisual",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AnalogObject"
+      ]
+    },
+    {
+      "id": "omc:AnalogMovingImage",
+      "name": "AnalogMovingImage",
+      "label": "Analog Moving Image",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AnalogObject"
+      ]
+    },
+    {
+      "id": "omc:AnalogObject",
+      "name": "AnalogObject",
+      "label": "Analog Object",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AssetStructure"
+      ]
+    },
+    {
+      "id": "omc:Asset",
+      "name": "Asset",
+      "label": "Asset",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Asset",
+      "supers": []
+    },
+    {
+      "id": "omc:AssetFunction",
+      "name": "AssetFunction",
+      "label": "Asset Function",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:AssetFunctionProperties",
+      "name": "AssetFunctionProperties",
+      "label": "Asset Function Properties",
+      "role": "grouping",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:AssetGroup",
+      "name": "AssetGroup",
+      "label": "Asset Group",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AssetStructure"
+      ]
+    },
+    {
+      "id": "omc:AssetStructure",
+      "name": "AssetStructure",
+      "label": "Asset Structure",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": []
+    },
+    {
+      "id": "omc:AssetStructureProperties",
+      "name": "AssetStructureProperties",
+      "label": "Asset Structure Properties",
+      "role": "grouping",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:AudioChannelName",
+      "name": "AudioChannelName",
+      "label": "Audio Channel Name",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetFunctionProperties"
+      ]
+    },
+    {
+      "id": "omc:AudioComposition",
+      "name": "AudioComposition",
+      "label": "Audio Composition",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:Composition"
+      ]
+    },
+    {
+      "id": "omc:AudioContent",
+      "name": "AudioContent",
+      "label": "Audio Content",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetFunctionProperties"
+      ]
+    },
+    {
+      "id": "omc:BoundingBox",
+      "name": "BoundingBox",
+      "label": "Bounding Box",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetStructureProperties"
+      ]
+    },
+    {
+      "id": "omc:Camera",
+      "name": "Camera",
+      "label": "Camera",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": [
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:CameraRig",
+      "name": "CameraRig",
+      "label": "Camera Rig",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": [
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:CaptureDetails",
+      "name": "CaptureDetails",
+      "label": "Capture Details",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Collection"
+      ]
+    },
+    {
+      "id": "omc:CaptureDevice",
+      "name": "CaptureDevice",
+      "label": "Capture Device",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CaptureDevice",
+      "supers": [
+        "omc:ProductionEntity"
+      ]
+    },
+    {
+      "id": "omc:CaptureEvent",
+      "name": "CaptureEvent",
+      "label": "Capture Event",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CaptureEvent",
+      "supers": [
+        "omc:ProductionEntity"
+      ]
+    },
+    {
+      "id": "omc:CapturePoint",
+      "name": "CapturePoint",
+      "label": "Capture Point",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CapturePoint",
+      "supers": [
+        "omc:ProductionEntity"
+      ]
+    },
+    {
+      "id": "omc:Carrier",
+      "name": "Carrier",
+      "label": "Carrier",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": null,
+      "supers": [
+        "omc:DigitalObject",
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:CGAssembly",
+      "name": "CGAssembly",
+      "label": "CG Assembly",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:Composition"
+      ]
+    },
+    {
+      "id": "omc:Character",
+      "name": "Character",
+      "label": "Character",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Character",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:PortrayableNarrative"
+      ]
+    },
+    {
+      "id": "omc:Choreography",
+      "name": "Choreography",
+      "label": "Choreography",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:Collection",
+      "name": "Collection",
+      "label": "Collection",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": []
+    },
+    {
+      "id": "omc:CompositeMaterial",
+      "name": "CompositeMaterial",
+      "label": "Composite Material",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:Composition"
+      ]
+    },
+    {
+      "id": "omc:Composition",
+      "name": "Composition",
+      "label": "Composition",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": []
+    },
+    {
+      "id": "omc:Concept",
+      "name": "Concept",
+      "label": "Concept",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Realization",
+      "supers": [
+        "omc:Realization"
+      ]
+    },
+    {
+      "id": "omc:Context",
+      "name": "Context",
+      "label": "Context",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Context",
+      "supers": []
+    },
+    {
+      "id": "omc:CoordinateOrientation",
+      "name": "CoordinateOrientation",
+      "label": "Coordinate Orientation",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetStructureProperties"
+      ]
+    },
+    {
+      "id": "omc:Coordinates",
+      "name": "Coordinates",
+      "label": "Coordinates",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:CreativeWork",
+      "name": "CreativeWork",
+      "label": "Creative Work",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CreativeWork",
+      "supers": []
+    },
+    {
+      "id": "omc:CreativeWorkCategory",
+      "name": "CreativeWorkCategory",
+      "label": "Creative Work Category",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:CustomData",
+      "name": "CustomData",
+      "label": "Custom Data",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:Department",
+      "name": "Department",
+      "label": "Department",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": [
+        "omc:ParticipantStructure"
+      ]
+    },
+    {
+      "id": "omc:DepictableNarrative",
+      "name": "DepictableNarrative",
+      "label": "Depictable Narrative",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": [
+        "omc:RealizableNarrative"
+      ]
+    },
+    {
+      "id": "omc:Depiction",
+      "name": "Depiction",
+      "label": "Depiction",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Realization",
+      "supers": [
+        "omc:Realization"
+      ]
+    },
+    {
+      "id": "omc:DigitalAudio",
+      "name": "DigitalAudio",
+      "label": "Digital Audio",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalAudiovisual",
+      "name": "DigitalAudiovisual",
+      "label": "Digital Audiovisual",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalData",
+      "name": "DigitalData",
+      "label": "Digital Data",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalDocument",
+      "name": "DigitalDocument",
+      "label": "Digital Document",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalImage",
+      "name": "DigitalImage",
+      "label": "Digital Image",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalImageSeries",
+      "name": "DigitalImageSeries",
+      "label": "Digital Image Series",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalMovingImage",
+      "name": "DigitalMovingImage",
+      "label": "Digital Moving Image",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:DigitalObject",
+      "name": "DigitalObject",
+      "label": "Digital Object",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AssetStructure"
+      ]
+    },
+    {
+      "id": "omc:DigitalStructuredDocument",
+      "name": "DigitalStructuredDocument",
+      "label": "Digital Structured Document",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:Effect",
+      "name": "Effect",
+      "label": "Effect",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Effect",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:RealizableNarrative"
+      ]
+    },
+    {
+      "id": "omc:Entity",
+      "name": "Entity",
+      "label": "Entity",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:EntityName",
+      "name": "EntityName",
+      "label": "Entity Name",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:Episode",
+      "name": "Episode",
+      "label": "Episode",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CreativeWork",
+      "supers": [
+        "omc:CreativeWork"
+      ]
+    },
+    {
+      "id": "omc:Extra",
+      "name": "Extra",
+      "label": "Extra",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Character",
+      "supers": [
+        "omc:Character"
+      ]
+    },
+    {
+      "id": "omc:Fight",
+      "name": "Fight",
+      "label": "Fight",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:FileDetails",
+      "name": "FileDetails",
+      "label": "File Details",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetStructureProperties"
+      ]
+    },
+    {
+      "id": "omc:Geometry",
+      "name": "Geometry",
+      "label": "Geometry",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:GeometryAssembly",
+      "name": "GeometryAssembly",
+      "label": "Geometry Assembly",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:Composition"
+      ]
+    },
+    {
+      "id": "omc:GeometryType",
+      "name": "GeometryType",
+      "label": "Geometry Type",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetStructureProperties"
+      ]
+    },
+    {
+      "id": "omc:Identifier",
+      "name": "Identifier",
+      "label": "Identifier",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:Infrastructure",
+      "name": "Infrastructure",
+      "label": "Infrastructure",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": []
+    },
+    {
+      "id": "omc:Lens",
+      "name": "Lens",
+      "label": "Lens",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": [
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:Location",
+      "name": "Location",
+      "label": "Location",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Location",
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:Marine",
+      "name": "Marine",
+      "label": "Marine",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:MediaCreationContext",
+      "name": "MediaCreationContext",
+      "label": "Media Creation Context",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Context",
+      "supers": [
+        "omc:Context"
+      ]
+    },
+    {
+      "id": "omc:Microphone",
+      "name": "Microphone",
+      "label": "Microphone",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": [
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:MotionCapture",
+      "name": "MotionCapture",
+      "label": "Motion Capture",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:NarrativeAudio",
+      "name": "NarrativeAudio",
+      "label": "Narrative Audio",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeAudio",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:NarrativeContext",
+      "name": "NarrativeContext",
+      "label": "Narrative Context",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Context",
+      "supers": [
+        "omc:Context"
+      ]
+    },
+    {
+      "id": "omc:NarrativeEntity",
+      "name": "NarrativeEntity",
+      "label": "Narrative Entity",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:NarrativeGreenery",
+      "name": "NarrativeGreenery",
+      "label": "Narrative Greenery",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeObject",
+      "supers": [
+        "omc:NarrativeObject"
+      ]
+    },
+    {
+      "id": "omc:NarrativeHair",
+      "name": "NarrativeHair",
+      "label": "Narrative Hair",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeStyling",
+      "supers": [
+        "omc:NarrativeStyling"
+      ]
+    },
+    {
+      "id": "omc:NarrativeLocation",
+      "name": "NarrativeLocation",
+      "label": "Narrative Location",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeLocation",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:NarrativeMakeup",
+      "name": "NarrativeMakeup",
+      "label": "Narrative Makeup",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeStyling",
+      "supers": [
+        "omc:NarrativeStyling"
+      ]
+    },
+    {
+      "id": "omc:NarrativeMusic",
+      "name": "NarrativeMusic",
+      "label": "Narrative Music",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeAudio",
+      "supers": [
+        "omc:NarrativeAudio"
+      ]
+    },
+    {
+      "id": "omc:NarrativeObject",
+      "name": "NarrativeObject",
+      "label": "Narrative Object",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeObject",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:NarrativeProp",
+      "name": "NarrativeProp",
+      "label": "Narrative Prop",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeObject",
+      "supers": [
+        "omc:NarrativeObject"
+      ]
+    },
+    {
+      "id": "omc:NarrativeProsthetics",
+      "name": "NarrativeProsthetics",
+      "label": "Narrative Prosthetics",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeStyling",
+      "supers": [
+        "omc:NarrativeStyling"
+      ]
+    },
+    {
+      "id": "omc:NarrativeScene",
+      "name": "NarrativeScene",
+      "label": "Narrative Scene",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeScene",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:RealizableNarrative"
+      ]
+    },
+    {
+      "id": "omc:NarrativeSetDressing",
+      "name": "NarrativeSetDressing",
+      "label": "Narrative Set Dressing",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeObject",
+      "supers": [
+        "omc:NarrativeObject"
+      ]
+    },
+    {
+      "id": "omc:NarrativeSoundEffect",
+      "name": "NarrativeSoundEffect",
+      "label": "Narrative Sound Effect",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeAudio",
+      "supers": [
+        "omc:NarrativeAudio"
+      ]
+    },
+    {
+      "id": "omc:NarrativeStyling",
+      "name": "NarrativeStyling",
+      "label": "Narrative Styling",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeStyling",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:NarrativeVehicle",
+      "name": "NarrativeVehicle",
+      "label": "Narrative Vehicle",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeObject",
+      "supers": [
+        "omc:NarrativeObject"
+      ]
+    },
+    {
+      "id": "omc:NarrativeWardrobe",
+      "name": "NarrativeWardrobe",
+      "label": "Narrative Wardrobe",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "NarrativeWardrobe",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:Organization",
+      "name": "Organization",
+      "label": "Organization",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": [
+        "omc:ParticipantStructure"
+      ]
+    },
+    {
+      "id": "omc:Part",
+      "name": "Part",
+      "label": "Part",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Partition"
+      ]
+    },
+    {
+      "id": "omc:Participant",
+      "name": "Participant",
+      "label": "Participant",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Participant",
+      "supers": []
+    },
+    {
+      "id": "omc:ParticipantGroup",
+      "name": "ParticipantGroup",
+      "label": "Participant Group",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": [
+        "omc:ParticipantStructure"
+      ]
+    },
+    {
+      "id": "omc:ParticipantStructure",
+      "name": "ParticipantStructure",
+      "label": "Participant Structure",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": []
+    },
+    {
+      "id": "omc:Partition",
+      "name": "Partition",
+      "label": "Partition",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Collection"
+      ]
+    },
+    {
+      "id": "omc:Person",
+      "name": "Person",
+      "label": "Person",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": [
+        "omc:ParticipantStructure"
+      ]
+    },
+    {
+      "id": "omc:PhysicalDocument",
+      "name": "PhysicalDocument",
+      "label": "Physical Document",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:PhysicalObject"
+      ]
+    },
+    {
+      "id": "omc:PhysicalImage",
+      "name": "PhysicalImage",
+      "label": "Physical Image",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:PhysicalObject"
+      ]
+    },
+    {
+      "id": "omc:PhysicalImageSeries",
+      "name": "PhysicalImageSeries",
+      "label": "Physical Image Series",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:PhysicalObject"
+      ]
+    },
+    {
+      "id": "omc:PhysicalObject",
+      "name": "PhysicalObject",
+      "label": "Physical Object",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AssetStructure"
+      ]
+    },
+    {
+      "id": "omc:PhysicalStructuredDocument",
+      "name": "PhysicalStructuredDocument",
+      "label": "Physical Structured Document",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:PhysicalObject"
+      ]
+    },
+    {
+      "id": "omc:PointCloud",
+      "name": "PointCloud",
+      "label": "Point Cloud",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    },
+    {
+      "id": "omc:PortrayableNarrative",
+      "name": "PortrayableNarrative",
+      "label": "Portrayable Narrative",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": [
+        "omc:DepictableNarrative"
+      ]
+    },
+    {
+      "id": "omc:Portrayal",
+      "name": "Portrayal",
+      "label": "Portrayal",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Realization",
+      "supers": [
+        "omc:Depiction"
+      ]
+    },
+    {
+      "id": "omc:PreMix",
+      "name": "PreMix",
+      "label": "preMix",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:AudioComposition"
+      ]
+    },
+    {
+      "id": "omc:ProceduralObject",
+      "name": "ProceduralObject",
+      "label": "Procedural Object",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:AssetStructure"
+      ]
+    },
+    {
+      "id": "omc:ProductionContext",
+      "name": "ProductionContext",
+      "label": "Production Context",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Context",
+      "supers": [
+        "omc:Context"
+      ]
+    },
+    {
+      "id": "omc:ProductionEntity",
+      "name": "ProductionEntity",
+      "label": "Production Entity",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:ProductionLocation",
+      "name": "ProductionLocation",
+      "label": "Production Location",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ProductionLocation",
+      "supers": [
+        "omc:ProductionEntity"
+      ]
+    },
+    {
+      "id": "omc:ProductionPlanning",
+      "name": "ProductionPlanning",
+      "label": "Production Planning",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Collection"
+      ]
+    },
+    {
+      "id": "omc:ProductionScene",
+      "name": "ProductionScene",
+      "label": "Production Scene",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ProductionScene",
+      "supers": [
+        "omc:ProductionEntity"
+      ]
+    },
+    {
+      "id": "omc:Provenance",
+      "name": "Provenance",
+      "label": "Provenance",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Provenance",
+      "supers": []
+    },
+    {
+      "id": "omc:RealizableNarrative",
+      "name": "RealizableNarrative",
+      "label": "Realizable Narrative",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:Realization",
+      "name": "Realization",
+      "label": "Realization",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Realization",
+      "supers": []
+    },
+    {
+      "id": "omc:Recorder",
+      "name": "Recorder",
+      "label": "Recorder",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Infrastructure",
+      "supers": [
+        "omc:Infrastructure"
+      ]
+    },
+    {
+      "id": "omc:Reel",
+      "name": "Reel",
+      "label": "Reel",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:Partition"
+      ]
+    },
+    {
+      "id": "omc:Role",
+      "name": "Role",
+      "label": "Role",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Role",
+      "supers": []
+    },
+    {
+      "id": "omc:Season",
+      "name": "Season",
+      "label": "Season",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CreativeWork",
+      "supers": [
+        "omc:CreativeWork"
+      ]
+    },
+    {
+      "id": "omc:Sequence",
+      "name": "Sequence",
+      "label": "Sequence",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:Composition"
+      ]
+    },
+    {
+      "id": "omc:Series",
+      "name": "Series",
+      "label": "Series",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "CreativeWork",
+      "supers": [
+        "omc:CreativeWork"
+      ]
+    },
+    {
+      "id": "omc:Service",
+      "name": "Service",
+      "label": "Service",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ParticipantStructure",
+      "supers": [
+        "omc:ParticipantStructure"
+      ]
+    },
+    {
+      "id": "omc:ShootDayContext",
+      "name": "ShootDayContext",
+      "label": "Shoot Day Context",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Context",
+      "supers": [
+        "omc:Context"
+      ]
+    },
+    {
+      "id": "omc:ShootDayPlanning",
+      "name": "ShootDayPlanning",
+      "label": "Shoot Day Planning",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:ProductionPlanning"
+      ]
+    },
+    {
+      "id": "omc:ShootingLocation",
+      "name": "ShootingLocation",
+      "label": "Shooting Location",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ProductionLocation",
+      "supers": [
+        "omc:ProductionLocation"
+      ]
+    },
+    {
+      "id": "omc:ShootingSet",
+      "name": "ShootingSet",
+      "label": "Shooting Set",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "ProductionLocation",
+      "supers": [
+        "omc:ProductionLocation"
+      ]
+    },
+    {
+      "id": "omc:ShootPlanning",
+      "name": "ShootPlanning",
+      "label": "Shoot Planning",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Collection",
+      "supers": [
+        "omc:ProductionPlanning"
+      ]
+    },
+    {
+      "id": "omc:Slate",
+      "name": "Slate",
+      "label": "Slate",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Slate",
+      "supers": []
+    },
+    {
+      "id": "omc:Software",
+      "name": "Software",
+      "label": "Software",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:SoundEditorialUnit",
+      "name": "SoundEditorialUnit",
+      "label": "Sound Editorial Unit",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:AudioComposition"
+      ]
+    },
+    {
+      "id": "omc:Soundfield",
+      "name": "Soundfield",
+      "label": "Soundfield",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:AssetFunctionProperties"
+      ]
+    },
+    {
+      "id": "omc:SpecialAction",
+      "name": "SpecialAction",
+      "label": "Special Action",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:NarrativeEntity",
+        "omc:RealizableNarrative"
+      ]
+    },
+    {
+      "id": "omc:SpecialEffect",
+      "name": "SpecialEffect",
+      "label": "Special Effect",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Effect",
+      "supers": [
+        "omc:Effect"
+      ]
+    },
+    {
+      "id": "omc:STEM",
+      "name": "STEM",
+      "label": "STEM",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Composition",
+      "supers": [
+        "omc:AudioComposition"
+      ]
+    },
+    {
+      "id": "omc:Stunt",
+      "name": "Stunt",
+      "label": "Stunt",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "SpecialAction",
+      "supers": [
+        "omc:SpecialAction"
+      ]
+    },
+    {
+      "id": "omc:Tag",
+      "name": "Tag",
+      "label": "Tag",
+      "role": "record",
+      "joinable": false,
+      "jsonType": null,
+      "supers": [
+        "omc:Utility"
+      ]
+    },
+    {
+      "id": "omc:Task",
+      "name": "Task",
+      "label": "Task",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Task",
+      "supers": []
+    },
+    {
+      "id": "omc:TaskGroup",
+      "name": "TaskGroup",
+      "label": "Task Group",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "TaskStructure",
+      "supers": [
+        "omc:TaskStructure"
+      ]
+    },
+    {
+      "id": "omc:TaskStructure",
+      "name": "TaskStructure",
+      "label": "Task Structure",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": "TaskStructure",
+      "supers": []
+    },
+    {
+      "id": "omc:Utility",
+      "name": "Utility",
+      "label": "Utility",
+      "role": "grouping",
+      "joinable": false,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:VersionInfo",
+      "name": "VersionInfo",
+      "label": "Version Info",
+      "role": "abstract",
+      "joinable": true,
+      "jsonType": null,
+      "supers": []
+    },
+    {
+      "id": "omc:VisualEffect",
+      "name": "VisualEffect",
+      "label": "Visual Effect",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Effect",
+      "supers": [
+        "omc:Effect"
+      ]
+    },
+    {
+      "id": "omc:Volume",
+      "name": "Volume",
+      "label": "Volume",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "AssetStructure",
+      "supers": [
+        "omc:DigitalObject"
+      ]
+    }
+  ],
   "json": {
     "edgeDefinitions": {
       "has": {
