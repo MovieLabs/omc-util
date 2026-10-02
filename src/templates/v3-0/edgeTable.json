@@ -178,6 +178,14 @@
           "omcPredicate": "omc:hasScript",
           "rdfProperties": [
             "omc:hasScript"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Asset",
+              "qualifier": "Script",
+              "via": "hasAssetFunction",
+              "property": "omc:hasScript"
+            }
           ]
         },
         "edges.has.NarrativeScene": {
@@ -1061,6 +1069,14 @@
           "omcPredicate": "omc:hasScript",
           "rdfProperties": [
             "omc:hasScript"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Asset",
+              "qualifier": "Script",
+              "via": "hasAssetFunction",
+              "property": "omc:hasScript"
+            }
           ]
         },
         "edges.has.ProductionScene": {

@@ -5,6 +5,9 @@
  * name where the row has exactly one. The `omcT:` template survives only where the RDF model names
  * nothing, and an empty `rdfProperties` is what says so.
  *
+ * A row whose properties narrow a range also gains `narrowedRanges`. It is left off the rest rather
+ * than written empty, because two rows of the table carry one and 181 would carry nothing.
+ *
  * @param {Object} document - The published edge document
  * @param {object} schema - The OMC v3.0 JSON Schema, for `maxItems`
  * @param {string} [where] - What to call the document in an error

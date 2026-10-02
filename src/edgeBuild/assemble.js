@@ -40,11 +40,36 @@ const rdfPropertyIndex = ((document) => {
 });
 
 /**
+ * The narrowings a row's RDF properties state, for the ranges that row admits.
+ *
+ * A narrowing is a qualifier rather than a subclass: `omc:hasScript` ranges over `omc:Asset` and
+ * states beside it that the Asset's `hasAssetFunction` is `Script`, which is how an end reads as
+ * `Asset (Script)`. It asserts rather than restricts — an Asset reached this way is a Script — so
+ * it names the end without narrowing what the edge accepts.
+ *
+ * @param {string[]} properties - The row's RDF property ids
+ * @param {Map<string, Object>} byId - Every published property, by id
+ * @param {string[]} allowed - The ranges the row admits
+ * @returns {Array<{range: string, qualifier: string, via: string, property: string}>}
+ */
+const narrowingsFor = ((properties, byId, allowed) => properties
+    .flatMap((id) => (byId.get(id)?.rangeOf ?? []).map((one) => ({
+        range: bare(one.class),
+        qualifier: bare(one.function?.class),
+        via: bare(one.function?.path),
+        property: id,
+    })))
+    .filter((one) => one.qualifier && allowed.includes(one.range)));
+
+/**
  * Build the table and the flat inverse map from a published document.
  *
  * Each row gains `rdfProperties`, the RDF model's own names for it, and `omcPredicate` becomes that
  * name where the row has exactly one. The `omcT:` template survives only where the RDF model names
  * nothing, and an empty `rdfProperties` is what says so.
+ *
+ * A row whose properties narrow a range also gains `narrowedRanges`. It is left off the rest rather
+ * than written empty, because two rows of the table carry one and 181 would carry nothing.
  *
  * @param {Object} document - The published edge document
  * @param {object} schema - The OMC v3.0 JSON Schema, for `maxItems`
@@ -56,6 +81,7 @@ export function edgeTableFrom(document, schema, where = 'the document') {
     const definitions = definitionsFrom(document, where);
     const { table, collisions } = buildEdgeTable(definitions, buildMaxItemsIndex(schema));
     const rdfIndex = rdfPropertyIndex(document);
+    const propertyById = new Map((document?.rdf?.properties ?? []).map((property) => [property.id, property]));
     let rows = 0;
     let rdfNamed = 0;
 
@@ -69,6 +95,9 @@ export function edgeTableFrom(document, schema, where = 'the document') {
                 entry.rdfProperties = properties;
                 if (properties.length) rdfNamed += 1;
                 if (properties.length === 1) [entry.omcPredicate] = properties;
+
+                const narrowed = narrowingsFor(properties, propertyById, entry.allowed ?? []);
+                if (narrowed.length) entry.narrowedRanges = narrowed;
             });
         });
     });
