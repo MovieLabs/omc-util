@@ -3503,6 +3503,14 @@
           "omcPredicate": "omc:hasCapture",
           "rdfProperties": [
             "omc:hasCapture"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Asset",
+              "qualifier": "Capture",
+              "via": "hasAssetFunction",
+              "property": "omc:hasCapture"
+            }
           ]
         }
       },

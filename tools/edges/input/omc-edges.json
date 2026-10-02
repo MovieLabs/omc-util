@@ -3415,7 +3415,16 @@
         "ranges": [
           "omc:Asset"
         ],
-        "inverseOf": []
+        "inverseOf": [],
+        "rangeOf": [
+          {
+            "class": "omc:Asset",
+            "function": {
+              "path": "omc:hasAssetFunction",
+              "class": "omc:Capture"
+            }
+          }
+        ]
       },
       {
         "id": "omc:hasCaptureDetails",
