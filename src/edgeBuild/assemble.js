@@ -27,8 +27,7 @@ const jsonTypeIndex = ((document) => new Map((document?.classes ?? [])
     .map((entry) => [bare(entry.id ?? entry.name), entry.jsonType ?? null])));
 
 /**
- * The publication's RDF properties, keyed `verb|domain|range`: how a built row finds its RDF name
- * instead of falling back to the generated `omcT:` template.
+ * The publication's RDF properties, keyed `verb|domain|range`: how a built row finds its RDF name.
  *
  * **An end names an RDF class; a row is keyed by the entityType that class projects to.** They are
  * the same word for the thirty classes that are their own entityType, and a different one for every
@@ -106,8 +105,8 @@ const narrowingsFor = ((properties, byId, allowed, jsonTypes) => properties
  * Build the table and the flat inverse map from a published document.
  *
  * Each row gains `rdfProperties`, the RDF model's own names for it, and `omcPredicate` becomes that
- * name where the row has exactly one. The `omcT:` template survives only where the RDF model names
- * nothing, and an empty `rdfProperties` is what says so.
+ * name where the row has exactly one. Where the model names none, `omcPredicate` keeps what the
+ * predicate's own `rdf` states — null for a tentative one — and an empty `rdfProperties` says so.
  *
  * A row whose properties call a range something narrower also gains `narrowedRanges`. It is left
  * off the rest rather than written empty, because few rows carry one and the rest would carry an
