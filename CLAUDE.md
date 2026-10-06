@@ -21,8 +21,9 @@ Currently **v1.4.0**. Plain `.js` ESM throughout — there are **no `.mjs` files
 `git+https://github.com/MovieLabs/omc-util.git#semver:^1.4.0`, and work against a local checkout
 with `npm link`, which never touches their manifest.
 
-This library is intended to be published publicly, and is consumed by Labkoat-Portal, Labkoat-fMam,
-Labkoat-API and Data-Pipeline. **Treat every change as additive** unless you have checked each one.
+This library is intended to be published publicly, and is consumed by Labkoat-Portal, Labkoat-fMam
+and Labkoat-API (whose `pipelines/` resolve its copy). **Treat every change as additive** unless
+you have checked each one.
 
 ---
 
