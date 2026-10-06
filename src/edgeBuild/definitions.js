@@ -13,19 +13,16 @@
  * @ignore
  */
 
-const VOWELS = /^[AEIOU]/;
-const article = (word) => (VOWELS.test(word) ? 'an' : 'a');
 const cap = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
 /**
- * The tentative ("omcT") name, e.g. `omcT:aNarrativeSceneFeatures.Character`. A row falls back to
- * it only where the publication's `rdf` projection names no property.
+ * A tentative predicate has no RDF name: nobody has authored one. Null, never a generated name —
+ * a generated name reads as a real property to anything that shows it, and the RDF model names
+ * nothing of the kind.
  *
- * @param {{domain: string, predicate: string, range: string}} params
- * @returns {string}
+ * @returns {null}
  */
-export const tentativeRdf = ({ domain, predicate, range }) =>
-    `omcT:${article(domain)}${domain}${cap(predicate)}.${range}`;
+export const tentativeRdf = () => null;
 
 /**
  * The name for an intrinsic "has-a" property, e.g. `omc:hasProvenance`.

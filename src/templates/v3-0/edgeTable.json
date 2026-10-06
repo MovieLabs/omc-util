@@ -1973,7 +1973,7 @@
             ],
             "relativePath": "for.Slate"
           },
-          "omcPredicate": "omcT:aSlateHas.Participant",
+          "omcPredicate": null,
           "rdfProperties": [
             "omc:hasDirector",
             "omc:hasParticipant"
@@ -3077,7 +3077,7 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aNarrativeLocationUsedIn.Realization",
+          "omcPredicate": null,
           "rdfProperties": []
         }
       },
@@ -5064,7 +5064,7 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aNarrativeObjectUsedIn.Realization",
+          "omcPredicate": null,
           "rdfProperties": []
         }
       },
@@ -5370,7 +5370,7 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aNarrativeWardrobeUsedIn.Realization",
+          "omcPredicate": null,
           "rdfProperties": []
         }
       },
@@ -5566,7 +5566,7 @@
             ],
             "relativePath": "needs.NarrativeAudio"
           },
-          "omcPredicate": "omcT:aNarrativeAudioNeededBy.NarrativeObject",
+          "omcPredicate": null,
           "rdfProperties": [
             "omc:neededByNarrativeProp",
             "omc:neededByNarrativeVehicle"
@@ -5691,7 +5691,7 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aNarrativeAudioUsedIn.Realization",
+          "omcPredicate": null,
           "rdfProperties": []
         }
       },
@@ -5843,7 +5843,7 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": "omcT:aNarrativeStylingUsedIn.Realization",
+          "omcPredicate": null,
           "rdfProperties": []
         }
       },
