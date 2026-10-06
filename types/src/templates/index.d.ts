@@ -98,14 +98,14 @@ export type EdgeTemplate = {
     inverseEdge: InverseEdge | null;
     /**
      * - The formal predicate for this edge, from the RDF model: the
-     * published property name where the model names exactly one, otherwise the generated
-     * `omcT:` template.
+     * published property name where the model names exactly one; otherwise the name the publication
+     * states for the predicate (an intrinsic property's `omc:has…`, or a constant). **Null** where
+     * neither names one — a predicate whose RDF is still tentative has no name, and none is invented.
      */
-    omcPredicate: string;
+    omcPredicate: string | null;
     /**
      * - Every RDF property the model names for this row, one per
-     * allowed range it covers. Empty where the model names none, which is also what says
-     * `omcPredicate` fell back to the generated `omcT:` template.
+     * allowed range it covers. Empty where the model names none.
      */
     rdfProperties: string[];
 };
