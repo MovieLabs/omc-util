@@ -4,7 +4,7 @@
     "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
     "builder": {
       "name": "omc-util",
-      "version": "1.10.0"
+      "version": "1.11.0"
     },
     "publication": {
       "format": "omc-edges",
