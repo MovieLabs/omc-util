@@ -410,7 +410,7 @@ export const generalConfig = {
             },
             propRows: [
                 'label',
-                (e) => ({ functionType: e.infrastructureFunction?.infrastructureFunctionType || 'N/A' }),
+                (e) => ({ infrastructureType: e.infrastructureType || 'N/A' }),
             ],
         },
     },
