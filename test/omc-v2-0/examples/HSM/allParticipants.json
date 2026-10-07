@@ -446,7 +446,7 @@
       }
     ],
     "name": "Labkoat Service API",
-    "description": "Labkoat Media API service application (Okta)",
+    "description": "Labkoat Media API service application",
     "ParticipantSC": {
       "schemaVersion": "https://movielabs.com/omc/json/schema/v2.0",
       "entityType": "Service",
@@ -454,14 +454,10 @@
         {
           "identifierScope": "labkoat",
           "identifierValue": "ptsc/Rv6EMSnVKiMR6aGUVM0EV"
-        },
-        {
-          "identifierScope": "okta",
-          "identifierValue": "0oa55vfp9wLx8dxIF697"
         }
       ],
       "name": "Labkoat Service API",
-      "description": "Labkoat Media API service application (Okta)"
+      "description": "Labkoat Media API service application"
     },
     "participantFC": {
       "functionalType": null,
