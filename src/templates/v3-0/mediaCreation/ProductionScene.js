@@ -16,12 +16,11 @@ export default {
             productionSceneName: basicName.graphQl.properties,
             sceneHeader: null,
             sceneDescriptor: null,
-            sceneNumber: null,
         },
         filter: {
             ...baseEntity.graphQl.properties,
             productionSceneName: basicName.graphQl.filter,
-            sceneNumber: ['string'],
+            sceneDescriptor: ['string'],
         },
         inlineFragment: null,
     },

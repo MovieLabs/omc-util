@@ -18,7 +18,7 @@
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
-      "fingerprint": "c7c09b1600d57c6c"
+      "fingerprint": "26108ec60bfb1398"
     },
     "rows": 183,
     "rdfNamed": 173

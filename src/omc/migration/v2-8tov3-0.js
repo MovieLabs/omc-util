@@ -818,6 +818,8 @@ export default {
         const {
             name = false,
             sceneName = false,
+            sceneNumber = null,
+            sceneDescriptor = false,
             ...rest
         } = cxtUpdate;
 
@@ -825,6 +827,7 @@ export default {
             ...rest,
             schemaVersion,
             label: name || labelDefault,
+            sceneDescriptor: sceneDescriptor || sceneNumber,
             ...(sceneName !== false && { productionSceneName: sceneName }),
         };
     },

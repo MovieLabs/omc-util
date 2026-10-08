@@ -213,7 +213,7 @@ export const generalConfig = {
     ProductionScene: {
         group: 'Production',
         idPrefix: 'pscn',
-        mergeKey: ['sceneNumber'],
+        mergeKey: ['sceneDescriptor'],
         presentation: {
             header: {
                 backgroundColor: '#7DCEA0',
@@ -225,7 +225,7 @@ export const generalConfig = {
             propRows: [
                 'label',
                 (e) => ({ fullName: e.productionSceneName?.fullName || 'N/A' }),
-                (e) => ({ sceneNumber: e.sceneNumber || 'N/A' }),
+                (e) => ({ sceneDescriptor: e.sceneDescriptor || 'N/A' }),
             ],
         },
     },
