@@ -227,6 +227,7 @@ declare namespace _default {
         productionSceneName: any;
         schemaVersion: string;
         label: string;
+        sceneDescriptor: any;
         identifier?: OmcIdentifier[];
         entityType?: OmcEntityType;
         description: string | null;
