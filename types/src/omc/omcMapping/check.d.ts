@@ -5,7 +5,9 @@
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Schema version comes from here
  * @returns {{valid: boolean, schemaVersion: string, checked: Object,
- *   problems: Array<OmcMapping.MappingNote>}} The outcome
+ *   problems: Array<OmcMapping.MappingNote>, warnings: Array<OmcMapping.MappingNote>}} The outcome.
+ *   `valid` reflects `problems` only; a warning, such as a fixed value outside a property's
+ *   controlled values, never stops a save or a run
  */
 export function check({ mapping, options }: {
     mapping: Array<OmcMapping.EntityMapping>;
@@ -15,6 +17,7 @@ export function check({ mapping, options }: {
     schemaVersion: string;
     checked: any;
     problems: Array<OmcMapping.MappingNote>;
+    warnings: Array<OmcMapping.MappingNote>;
 };
 /**
  * Check a mapping against the columns it will actually be given.

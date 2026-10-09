@@ -81,11 +81,14 @@ function resolveEdgePath(edgeTable, schemaVersion, path) {
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Schema version comes from here
  * @returns {{valid: boolean, schemaVersion: string, checked: Object,
- *   problems: Array<OmcMapping.MappingNote>}} The outcome
+ *   problems: Array<OmcMapping.MappingNote>, warnings: Array<OmcMapping.MappingNote>}} The outcome.
+ *   `valid` reflects `problems` only; a warning, such as a fixed value outside a property's
+ *   controlled values, never stops a save or a run
  */
 export function check({ mapping, options = {} }) {
     const { schemaVersion } = resolveOptions(options);
     const problems = [];
+    const warnings = [];
     const known = new Set(omcTemplate.allEntityTypes({ schemaVersion }) ?? []);
     const seenTypes = new Set();
     let properties = 0;
@@ -158,13 +161,21 @@ export function check({ mapping, options = {} }) {
             }
             const spec = entry.properties?.[path];
             const fixed = spec && typeof spec === 'object' ? spec.const : undefined;
-            if (fixed !== undefined && Array.isArray(node.$controlledValues)
-                && !node.$controlledValues.includes(fixed)) {
+            if (fixed !== undefined && Array.isArray(node.$enum) && !node.$enum.includes(fixed)) {
                 problems.push({
                     kind: 'valueNotAllowed',
                     where,
                     detail: `"${fixed}" is not an allowed value for ${path}; the schema permits `
-                        + `${node.$controlledValues.join(', ')}`,
+                        + `${node.$enum.join(', ')}`,
+                });
+            } else if (fixed !== undefined && Array.isArray(node.$controlledValues)
+                && !node.$controlledValues.includes(fixed)) {
+                warnings.push({
+                    kind: 'valueNotSuggested',
+                    where,
+                    detail: `"${fixed}" is not one of the controlled values for ${path} `
+                        + `(${node.$controlledValues.join(', ')}); it is accepted, but check it is not a `
+                        + 'misspelling of one',
                 });
             }
         }
@@ -228,6 +239,7 @@ export function check({ mapping, options = {} }) {
         schemaVersion,
         checked: { entityTypes: [...seenTypes], properties, edges },
         problems,
+        warnings,
     };
 }
 

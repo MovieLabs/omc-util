@@ -339,10 +339,26 @@ ok(problems([
     { entityType: 'Asset', key: 'k' }, { entityType: 'Asset', key: 'k' },
 ]).includes('duplicateEntityType'),
 'check rejects two entities of the same type in one template');
+const offList = omcMapping.check({
+    mapping: [{ entityType: 'AssetStructure', key: 'k', properties: { assetStructureType: { const: 'nope' } } }],
+    options: OPTIONS,
+});
+ok(offList.valid && offList.warnings.map((w) => w.kind).includes('valueNotSuggested'),
+    'check accepts a const outside a controlled value list, with a warning');
 ok(problems([{
-    entityType: 'AssetStructure', key: 'k', properties: { assetStructureType: { const: 'nope' } },
+    entityType: 'AssetStructure',
+    key: 'k',
+    properties: { 'assetStructureProperties.coordinateOrientation.handedness': { const: 'middle' } },
 }]).includes('valueNotAllowed'),
-'check rejects a const outside a controlled value list');
+'check rejects a const outside an enum');
+ok(omcMapping.check({
+    mapping: [{
+        entityType: 'AssetStructure',
+        key: 'k',
+        properties: { 'assetStructureProperties.coordinateOrientation.handedness': { const: 'left' } },
+    }],
+    options: OPTIONS,
+}).valid, 'check accepts a const inside an enum');
 ok(problems([
     { entityType: 'Asset', key: 'k', edges: [{ to: 'AssetStructure', via: 'k', inverse: true }] },
     { entityType: 'AssetStructure', key: 'k', edges: [{ to: 'Asset', via: 'k', inverse: true }] },

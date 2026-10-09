@@ -102,6 +102,24 @@
  */
 
 /**
+ * One input field of an entity type: a single value, or a list of values, at a data path.
+ *
+ * @memberof OmcUtil
+ * @typedef {Object} FieldEntry
+ * @property {string} path - Dotted path from the entity's root, with no array indices
+ * @property {string[]} segments - `path` split on `.`
+ * @property {string} label - The property's own name, the last segment
+ * @property {string} type - Scalar type of the value: 'string', 'number', 'integer', 'boolean' or 'object'
+ * @property {boolean} isArray - The value is a list of values. For `purpose: 'filter'`, whether the filter takes a list
+ * @property {Array<{path: string, maxItems: (number|undefined)}>} within - The arrays of objects the value sits inside, outermost first. Each element of one holds its own copy of the value
+ * @property {string[]} [enum] - The only values the schema accepts
+ * @property {string[]} [suggestions] - The schema's controlled values: preferred, but any value is accepted
+ * @property {*} [default] - The schema's default
+ * @property {number} [maxItems] - Cap on a list of values (edit only)
+ * @property {boolean} [required] - Required by the schema within its parent
+ */
+
+/**
  * Parameters passed in to request template details
  *
  * @memberof OmcUtil
@@ -157,7 +175,13 @@
  * @memberof OmcUtil
  * @typedef {Object} OmcTemplate
  * @property {function(TemplateQuery): (EdgeTable|null)} edgeTable - Where this entityType may store references, per partition. Null when the schema version or entityType is unknown — a type the schema no longer declares answers null rather than throwing.
- * @property {function(TemplateQuery): (object|null)} shape - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
+ * @property {function(TemplateQuery): (object|null)} shape - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required`, `$controlledValues` (suggested values; any value is accepted) and `$enum` (the only values accepted) inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
+ * @property {function({schemaVersion: string, entityType: OmcEntityType, purpose: ('edit'|'filter')=}): Array<FieldEntry>} fields
+ *   The entity's input fields as a flat list, read from its shape. `purpose: 'edit'` (the default)
+ *   lists every data value, leaving out relationships, entityType and schemaVersion.
+ *   `purpose: 'filter'` lists only the paths its graphQl query accepts a filter on, with `isArray`
+ *   saying whether the filter takes a list. Empty for an unknown schema version or entityType.
+ * @property {function(): string[]} versions - The schema versions this library serves templates for, oldest first.
  * @property {function(TemplateQuery): Presentation|null} presentation - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
  * @property {function(string, string=): string} versionLabel - The human-readable label for a schema version URL, e.g. 'v3.0'. Second argument is the fallback returned when there is no version (default 'unknown').
  * @property {function({key: string}): boolean} isRelationshipKey - True when `key` names an entity reference (a relationship) rather than a data property.
@@ -192,6 +216,7 @@ import schemav26 from '../omc/validation/schema/OMC-JSON-v2.6.schema.json' with 
 import schemav28 from '../omc/validation/schema/OMC-JSON-v2.8.schema.json' with { type: 'json' };
 import schemav30 from '../omc/validation/schema/OMC-JSON-v3.0.schema.json' with { type: 'json' };
 
+import deriveFields from './fields.js';
 import { deriveForVersion, referenceShape } from './schemaDerive.js';
 import * as omc2 from './v2-8/index.js';
 import * as omc3 from './v3-0/index.js';
@@ -279,6 +304,16 @@ const omcTemplate = {
         }
         return versionTemplates[schemaVersion]?.entityTemplate?.[entityType]?.template || null;
     }),
+    fields: (({ schemaVersion, entityType, purpose = 'edit' }) => {
+        if (!versionTemplates[schemaVersion]) return [];
+        return deriveFields({
+            shape: omcTemplate.shape({ schemaVersion, entityType }),
+            filter: versionTemplates[schemaVersion].entityTemplate?.[entityType]?.graphQl?.filter ?? null,
+            purpose,
+            recordKeys: omcTemplate.recordKeys({ schemaVersion }),
+        });
+    }),
+    versions: (() => Object.keys(versionTemplates)),
     versionLabel: ((schemaVersion, fallback = 'unknown') => (
         schemaVersion ? String(schemaVersion).split('/').pop() : fallback
     )),

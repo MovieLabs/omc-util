@@ -166,6 +166,58 @@ export type GraphQlTemplate = {
     inlineFragment: any | null;
 };
 /**
+ * One input field of an entity type: a single value, or a list of values, at a data path.
+ */
+export type FieldEntry = {
+    /**
+     * - Dotted path from the entity's root, with no array indices
+     */
+    path: string;
+    /**
+     * - `path` split on `.`
+     */
+    segments: string[];
+    /**
+     * - The property's own name, the last segment
+     */
+    label: string;
+    /**
+     * - Scalar type of the value: 'string', 'number', 'integer', 'boolean' or 'object'
+     */
+    type: string;
+    /**
+     * - The value is a list of values. For `purpose: 'filter'`, whether the filter takes a list
+     */
+    isArray: boolean;
+    /**
+     * - The arrays of objects the value sits inside, outermost first. Each element of one holds its own copy of the value
+     */
+    within: Array<{
+        path: string;
+        maxItems: (number | undefined);
+    }>;
+    /**
+     * - The only values the schema accepts
+     */
+    enum?: string[];
+    /**
+     * - The schema's controlled values: preferred, but any value is accepted
+     */
+    suggestions?: string[];
+    /**
+     * - The schema's default
+     */
+    default?: any;
+    /**
+     * - Cap on a list of values (edit only)
+     */
+    maxItems?: number;
+    /**
+     * - Required by the schema within its parent
+     */
+    required?: boolean;
+};
+/**
  * Parameters passed in to request template details
  */
 export type TemplateQuery = {
@@ -240,9 +292,24 @@ export type OmcTemplate = {
      */
     edgeTable: (arg0: TemplateQuery) => (EdgeTable | null);
     /**
-     * - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required` and `$controlledValues` inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
+     * - The entity's data shape derived from the JSON Schema (v2.8+), carrying `$type`, `$maxItems`, `$default`, `$required`, `$controlledValues` (suggested values; any value is accepted) and `$enum` (the only values accepted) inline per property; edges (see edgeTable) and instanceInfo are excluded. Falls back to the hand-authored template for legacy versions; null when the entityType is unknown.
      */
     shape: (arg0: TemplateQuery) => (object | null);
+    /**
+     *   The entity's input fields as a flat list, read from its shape. `purpose: 'edit'` (the default)
+     *   lists every data value, leaving out relationships, entityType and schemaVersion.
+     *   `purpose: 'filter'` lists only the paths its graphQl query accepts a filter on, with `isArray`
+     *   saying whether the filter takes a list. Empty for an unknown schema version or entityType.
+     */
+    fields: (arg0: {
+        schemaVersion: string;
+        entityType: OmcEntityType;
+        purpose: ("edit" | "filter");
+    }) => Array<FieldEntry>;
+    /**
+     * - The schema versions this library serves templates for, oldest first.
+     */
+    versions: () => string[];
     /**
      * - Returns the presentation details for an entityType, or null if the schema version or entityType is unknown.
      */

@@ -70,6 +70,7 @@ const signature = (node) => {
     if (typeof node.$maxItems === 'number') sig += ` (max ${node.$maxItems})`;
     if (node.$default !== undefined) sig += ` =${JSON.stringify(node.$default)}`;
     if (Array.isArray(node.$controlledValues)) sig += ` cv{${node.$controlledValues.join('|')}}`;
+    if (Array.isArray(node.$enum)) sig += ` enum{${node.$enum.join('|')}}`;
     if (node.$required) sig += ' [required]';
     return sig;
 };

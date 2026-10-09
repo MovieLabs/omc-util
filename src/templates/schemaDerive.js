@@ -257,8 +257,17 @@ const controlledValues = ((node) => (
 ));
 
 /**
+ * The values a node's `enum` restricts it to, as a `{ $enum }` fragment to spread onto a shape
+ * (empty when absent). Unlike `$controlledValues`, which suggest, these are the only values the
+ * schema accepts. A single-value enum is a fixed value, emitted as `$default` instead.
+ */
+const enumValues = ((node) => (
+    Array.isArray(node.enum) && node.enum.length > 1 ? { $enum: [...node.enum] } : {}
+));
+
+/**
  * Derive an entity shape template (`{ $type, $items, $maxItems, $default, $required,
- * $controlledValues }`) from a schema node, in the same convention the hand-authored
+ * $controlledValues, $enum }`) from a schema node, in the same convention the hand-authored
  * templates use: scalars are
  * `{ $type: 'string' }`, arrays `{ $type: 'array', $items? }`, objects a plain map of
  * children, and a relationship array (whose `items` is an `anyOf` of reference/target)
@@ -356,7 +365,7 @@ function deriveShape(root, node, depth, seenRefs) {
     if (t) {
         const shape = { $type: t };
         if (node.default !== undefined) shape.$default = node.default;
-        return { ...shape, ...controlledValues(node) };
+        return { ...shape, ...controlledValues(node), ...enumValues(node) };
     }
 
     return null;

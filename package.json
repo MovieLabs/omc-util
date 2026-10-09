@@ -85,12 +85,13 @@
     "derive:dump": "node test/omc-v3-0/deriveDump.js",
     "docs": "node build-docs.js",
     "build:types": "tsc && node postbuild-types.js",
-    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity && npm run test:validate && npm run test:mapping && npm run test:derive && npm run test:registry && npm run test:edgebuild",
+    "release:check": "npm run build:types && npm run test:mergerefs && npm run test:mergechanges && npm run test:cleanentity && npm run test:validate && npm run test:mapping && npm run test:fields && npm run test:derive && npm run test:registry && npm run test:edgebuild",
     "test:mapping": "node test/omcMapping.js",
     "test:registry": "node test/omc-v3-0/registryParity.js",
     "test:edgebuild": "node test/edgeBuild.js",
     "edges:check": "node tools/edges/cli.js check",
-    "edges:build": "node tools/edges/cli.js build"
+    "edges:build": "node tools/edges/cli.js build",
+    "test:fields": "node test/fields.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",
