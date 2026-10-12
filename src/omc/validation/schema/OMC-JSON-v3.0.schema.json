@@ -1834,7 +1834,8 @@
                   {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
                   {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"},
                   {"$ref": "#/$defs/MediaCreationContext/properties/Effect"},
-                  {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"}
+                  {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"},
+                  {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeScene"}
                 ]
               }
             },
@@ -5994,14 +5995,26 @@
                     ]
                   }
                 },
-                "Context": {
+                "Effect": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Effect"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "NarrativeObject": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6082,18 +6095,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Context": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6334,6 +6335,18 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Realization": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }

@@ -11,8 +11,6 @@
 #   refines/refinedBy on ProductionScene and ProductionLocation were closed.
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
-INVERSE-UNDECLARED neededBy.Effect (the reverse of Effect needs)
-INVERSE-UNDECLARED neededBy.NarrativeObject (the reverse of NarrativeObject needs)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
 
 # NOT-INVOLUTIVE — a predicate's inverse does not invert back to it. Here that is the

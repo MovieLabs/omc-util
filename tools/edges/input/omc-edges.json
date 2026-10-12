@@ -1518,8 +1518,7 @@
               "NarrativeScene"
             ],
             "range": [
-              "Asset",
-              "ProductionScene"
+              "Asset"
             ],
             "placement": "edges"
           },
@@ -1722,16 +1721,6 @@
           },
           {
             "domain": [
-              "ProductionScene"
-            ],
-            "range": [
-              "NarrativeScene",
-              "CaptureEvent",
-              "CapturePoint"
-            ]
-          },
-          {
-            "domain": [
               "Infrastructure"
             ],
             "range": [
@@ -1766,6 +1755,7 @@
           },
           {
             "domain": [
+              "ProductionScene",
               "Collection"
             ],
             "range": [
@@ -1980,7 +1970,7 @@
       "usedIn": {
         "predicate": "usedIn",
         "inverse": "realizationOf",
-        "rdf": "tentative",
+        "rdf": "const:omc:usedInRealization",
         "connects": [
           {
             "domain": [
@@ -2011,7 +2001,8 @@
               "NarrativeStyling",
               "NarrativeLocation",
               "NarrativeAudio",
-              "Character"
+              "Character",
+              "NarrativeScene"
             ],
             "range": [
               "Realization"
@@ -2453,7 +2444,7 @@
         "placement": "property",
         "path": "RealizationOf",
         "inverse": "usedIn",
-        "rdf": "intrinsic",
+        "rdf": "const:omc:realizationOf",
         "connects": [
           {
             "domain": [
@@ -2467,7 +2458,8 @@
               "NarrativeStyling",
               "NarrativeLocation",
               "NarrativeAudio",
-              "Character"
+              "Character",
+              "NarrativeScene"
             ]
           }
         ]
@@ -3338,8 +3330,7 @@
           "omc:for"
         ],
         "domains": [
-          "omc:Asset",
-          "omc:ProductionScene"
+          "omc:Asset"
         ],
         "ranges": [
           "omc:NarrativeScene"
@@ -3652,8 +3643,7 @@
         ],
         "domains": [
           "omc:CaptureEvent",
-          "omc:CapturePoint",
-          "omc:NarrativeScene"
+          "omc:CapturePoint"
         ],
         "ranges": [
           "omc:ProductionScene"
@@ -4578,6 +4568,12 @@
         ],
         "ranges": [
           "omc:Effect",
+          "omc:NarrativeAudio",
+          "omc:NarrativeLocation",
+          "omc:NarrativeObject",
+          "omc:NarrativeScene",
+          "omc:NarrativeStyling",
+          "omc:NarrativeWardrobe",
           "omc:SpecialAction"
         ],
         "inverseOf": [
@@ -4877,6 +4873,12 @@
         ],
         "domains": [
           "omc:Effect",
+          "omc:NarrativeAudio",
+          "omc:NarrativeLocation",
+          "omc:NarrativeObject",
+          "omc:NarrativeScene",
+          "omc:NarrativeStyling",
+          "omc:NarrativeWardrobe",
           "omc:SpecialAction"
         ],
         "ranges": [

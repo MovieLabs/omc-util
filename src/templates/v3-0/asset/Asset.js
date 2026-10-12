@@ -17,7 +17,6 @@ export default {
             AssetStructure: null,
             assetFunction: {
                 assetFunctionType: null,
-                category: null,
                 assetFunctionProperties: null,
             },
         },

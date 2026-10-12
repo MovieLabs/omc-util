@@ -4,7 +4,7 @@
     "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
     "builder": {
       "name": "omc-util",
-      "version": "1.13.0"
+      "version": "1.14.0"
     },
     "publication": {
       "format": "omc-edges",
@@ -18,10 +18,10 @@
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
-      "fingerprint": "26108ec60bfb1398"
+      "fingerprint": "4ab7e0bac3cacbaf"
     },
-    "rows": 183,
-    "rdfNamed": 173
+    "rows": 182,
+    "rdfNamed": 177
   },
   "table": {
     "CreativeWork": {
@@ -1102,44 +1102,6 @@
             }
           ]
         },
-        "edges.has.ProductionScene": {
-          "predicate": "has",
-          "allowed": [
-            "ProductionScene"
-          ],
-          "path": "edges.has.ProductionScene",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "has",
-            "ProductionScene"
-          ],
-          "containerSegments": [
-            "edges",
-            "has"
-          ],
-          "relativePath": "has.ProductionScene",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.NarrativeScene",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "NarrativeScene"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.NarrativeScene"
-          },
-          "omcPredicate": "omc:hasProductionScene",
-          "rdfProperties": [
-            "omc:hasProductionScene"
-          ]
-        },
         "edges.for.CreativeWork": {
           "predicate": "for",
           "allowed": [
@@ -1481,6 +1443,40 @@
           "rdfProperties": [
             "omc:featuresSpecialAction"
           ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -1524,44 +1520,6 @@
           "omcPredicate": "omc:hasSlate",
           "rdfProperties": [
             "omc:hasSlate"
-          ]
-        },
-        "edges.for.NarrativeScene": {
-          "predicate": "for",
-          "allowed": [
-            "NarrativeScene"
-          ],
-          "path": "edges.for.NarrativeScene",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "for",
-            "NarrativeScene"
-          ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.NarrativeScene",
-          "inverseEdge": {
-            "predicate": "has",
-            "path": "edges.has.ProductionScene",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "has",
-              "ProductionScene"
-            ],
-            "containerSegments": [
-              "edges",
-              "has"
-            ],
-            "relativePath": "has.ProductionScene"
-          },
-          "omcPredicate": "omc:forNarrativeScene",
-          "rdfProperties": [
-            "omc:forNarrativeScene"
           ]
         },
         "edges.for.CaptureEvent": {
@@ -3077,8 +3035,10 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": null,
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -5064,8 +5024,10 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": null,
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -5370,8 +5332,10 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": null,
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -5691,8 +5655,10 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": null,
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -5843,8 +5809,10 @@
             "relativePath": "RealizationOf",
             "maxItems": 1
           },
-          "omcPredicate": null,
-          "rdfProperties": []
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
+          ]
         }
       },
       "cxtEdges": {}
@@ -5897,7 +5865,8 @@
             "NarrativeStyling",
             "NarrativeLocation",
             "NarrativeAudio",
-            "Character"
+            "Character",
+            "NarrativeScene"
           ],
           "path": "RealizationOf",
           "type": "array",
