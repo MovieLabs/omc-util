@@ -25,7 +25,6 @@ export default {
             assetName: basicName.graphQl.filter,
             assetFunction: {
                 assetFunctionType: ['string'],
-                category: ['string'],
             },
         },
         inlineFragment: {

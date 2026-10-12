@@ -81,10 +81,8 @@ declare namespace _default {
         instanceInfo: OmcInstanceInfo | null;
     };
     function Depiction(omc: any): {
-        realizationProperties: {
-            RealizationBy: any[];
-            RealizationOf: any[];
-        };
+        RealizedBy: any[];
+        RealizationOf: any[];
         realizationName: any;
         schemaVersion: string;
         entityType: string;

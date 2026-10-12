@@ -475,14 +475,9 @@ export default {
             name = false,
             depictionType = 'depiction', // Required property
             Depicts = false, // Becomes RealizationOf
-            Depicter = false, // Becomes
+            Depicter = false, // Becomes RealizedBy
             ...rest
         } = cxtUpdate;
-
-        const realizationProperties = {
-            ...(Depicts !== false && { RealizationOf: makeArray(Depicts) }),
-            ...(Depicter !== false && { RealizationBy: makeArray(Depicter) }),
-        };
 
         return {
             ...rest,
@@ -491,7 +486,8 @@ export default {
             realizationType: depictionType,
             label: name || labelDefault,
             ...(name !== false && { realizationName: migrateName(name) }),
-            realizationProperties,
+            ...(Depicts !== false && { RealizationOf: makeArray(Depicts) }),
+            ...(Depicter !== false && { RealizedBy: makeArray(Depicter) }),
         };
     },
     Effect: (omc) => {

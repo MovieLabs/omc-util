@@ -78,7 +78,7 @@ ok(filterType?.isArray === true && filterType.suggestions?.includes('audio'),
     'a filter takes isArray from the filter table and the value list from the shape');
 ok(at(filterFields, 'identifier.identifierScope')?.isArray === false, 'a scalar filter is not a list');
 ok(filterFields.length < assetFields.length, 'filter fields are the subset the query accepts');
-ok(at(filterFields, 'assetFunction.category')?.type === 'string',
+ok(at(omcTemplate.fields({ schemaVersion: V3, entityType: 'ProductionScene', purpose: 'filter' }), 'customData')?.type === 'string',
     'a filter path the shape does not know is kept, typed from the filter template');
 ok(!at(omcTemplate.fields({ schemaVersion: V3, entityType: 'CaptureEvent', purpose: 'filter' }), 'entityType'),
     'entityType and schemaVersion are not filters');
