@@ -19,6 +19,18 @@ export default {
                 assetFunctionType: null,
                 assetFunctionProperties: null,
             },
+            versionInfo: {
+                versionNumber: null,
+                Revision: null,
+                RevisionOf: null,
+                Derivation: null,
+                DerivationOf: null,
+                Representation: null,
+                RepresentationOf: null,
+                Alternative: null,
+                Variant: null,
+                VariantOf: null,
+            },
         },
         filter: {
             ...baseEntity.graphQl.filter,

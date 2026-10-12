@@ -14,6 +14,10 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             capturePointName: basicName.graphQl.properties,
+            CaptureDevice: null,
+            ProductionScene: null,
+            CaptureDetails: null,
+            Capture: null,
         },
         filter: {
             ...baseEntity.graphQl.properties,

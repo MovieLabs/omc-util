@@ -18,7 +18,6 @@ export default {
                 taskFunctionType: null,
                 taskFunctionProperties: null,
             },
-            Member: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

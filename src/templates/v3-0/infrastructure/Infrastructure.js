@@ -18,6 +18,7 @@ export default {
                 infrastructureFunctionType: null,
                 infrastructureFunctionProperties: null,
             },
+            Member: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

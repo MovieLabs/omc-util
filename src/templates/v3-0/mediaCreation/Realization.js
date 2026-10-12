@@ -21,14 +21,20 @@ export default {
             realizationProperties: null,
             RealizationOf: {
                 Character: null,
+                Effect: null,
+                NarrativeAudio: null,
                 NarrativeLocation: null,
                 NarrativeObject: null,
+                NarrativeScene: null,
                 NarrativeStyling: null,
                 NarrativeWardrobe: null,
+                SpecialAction: null,
             },
             RealizedBy: {
-                Participant: null,
                 Asset: null,
+                Composition: null,
+                Participant: null,
+                Task: null,
             },
         },
         filter: {
@@ -39,15 +45,20 @@ export default {
         inlineFragment: {
             RealizationOf: {
                 Character: '...on',
+                Effect: '...on',
+                NarrativeAudio: '...on',
                 NarrativeLocation: '...on',
                 NarrativeObject: '...on',
+                NarrativeScene: '...on',
                 NarrativeStyling: '...on',
                 NarrativeWardrobe: '...on',
+                SpecialAction: '...on',
             },
             RealizedBy: {
-                Participant: '...on',
                 Asset: '...on',
                 Composition: '...on',
+                Participant: '...on',
+                Task: '...on',
             },
         },
     },

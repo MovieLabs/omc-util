@@ -14,6 +14,8 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             captureDeviceName: basicName.graphQl.properties,
+            Infrastructure: null,
+            Configuration: null,
         },
         filter: {
             ...baseEntity.graphQl.properties,

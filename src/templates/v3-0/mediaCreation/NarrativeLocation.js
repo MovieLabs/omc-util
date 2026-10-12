@@ -16,6 +16,7 @@ export default {
             narrativeLocationType: null,
             narrativeLocationName: scriptName.graphQl.properties,
             narrativeLocationProperties: null,
+            Location: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,

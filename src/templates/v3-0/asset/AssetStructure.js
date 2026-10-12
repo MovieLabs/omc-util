@@ -18,7 +18,15 @@ export default {
             assetStructureProperties: null,
             isAnalog: null,
             software: software.graphQl.properties,
-            Carrier: null,
+            versionInfo: {
+                versionNumber: null,
+                Revision: null,
+                RevisionOf: null,
+                Derivation: null,
+                DerivationOf: null,
+                Representation: null,
+                RepresentationOf: null,
+            },
         },
         filter: {
             ...baseEntity.graphQl.filter,

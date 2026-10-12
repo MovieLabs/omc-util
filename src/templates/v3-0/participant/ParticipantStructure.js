@@ -18,6 +18,7 @@ export default {
                 fullName: null,
             },
             participantStructureProperties: null,
+            Location: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
