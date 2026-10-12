@@ -2,8 +2,8 @@
 
 Guidance for Claude Code (claude.ai/code) working in this repository.
 
-> Cross-repo context — how omc-util is shared, and the OMC knowledge this library encodes — is in
-> the parent `MovieLabs-POC/CLAUDE.md`, which loads alongside this file.
+> Cross-repo context loads from the parent `MovieLabs-POC/CLAUDE.md`, whose table names the doc to
+> read in `MovieLabs-POC/docs/`: the OMC record, omc-util sharing and releases, deployment, pipelines.
 
 ---
 
