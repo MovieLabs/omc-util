@@ -1086,6 +1086,7 @@
                   "$ref": "#/$defs/Utility/properties/software"
                 },
                 "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
+                "smpteTimecode": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/smpteTimecode"},
                 "Carrier": {
                   "title": "Carrier",
                   "maxItems": 1,
@@ -1283,6 +1284,13 @@
               ],
               "title": "Number of Points",
               "description": "The number of individual points in the Point Cloud."
+            },
+            "smpteTimecode": {
+              "type": "object",
+              "properties": {
+                "tcIn": {"$ref": "#/$defs/Utility/properties/time/properties/smpteTimecode"},
+                "tcOut": {"$ref": "#/$defs/Utility/properties/time/properties/smpteTimecode"}
+              }
             }
           },
           "unevaluatedProperties": false
@@ -3995,15 +4003,46 @@
               "examples": ["P2Y12M3D"],
               "description": "Should be formatted to comply with ISO 8601"
             },
-            "timecode": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "SMPTE Timecode",
-              "pattern": "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d):([0-2]\\d)$",
-              "examples": ["00:03:43:12"],
-              "description": "SMPTE Timecode in the format HH:MM:SS:FF. \nAssumes the frame rate is 23.98, 24, 25, 29.97 NDF, or 30"
+            "smpteTimecode": {
+              "type": "object",
+              "properties": {
+                "timecode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "SMPTE Timecode",
+                  "pattern": "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d):([0-2]\\d)$",
+                  "examples": ["00:03:43:12"],
+                  "description": "SMPTE Timecode in the format HH:MM:SS:FF. \nAssumes the frame rate is 23.98, 24, 25, 29.97 NDF, or 30"
+                },
+                "rate": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "numerator": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "denominator": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "dropFrame": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
             }
           }
         },
