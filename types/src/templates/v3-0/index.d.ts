@@ -22,6 +22,7 @@ export const edgeTableGenerated: {
     };
     rows: number;
     rdfNamed: number;
+    spreadRows: number;
 };
 /**
  * The inverse map, as published. Typed as a map rather than inferred from the JSON, so the

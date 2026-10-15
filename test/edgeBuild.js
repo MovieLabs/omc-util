@@ -95,8 +95,10 @@ check('bundled source before any install', omcTemplate.edgeTableSource({ schemaV
 check('edgeTableSource() with no version is null while nothing is installed', omcTemplate.edgeTableSource() === null);
 check('bundled can relate Character to NarrativeScene', !!characterToScene());
 
-// Character reaches NarrativeScene through more than one predicate, so the edit removes every row.
+// Character reaches NarrativeScene through more than one predicate, so the edit removes every row,
+// and every spread edge, which would otherwise join the two through the pairings it states.
 const edited = JSON.parse(json(bundled));
+delete edited.spreadEdges;
 Object.entries(edited.table.Character.edges).forEach(([path, entry]) => {
     if (entry.allowed?.includes('NarrativeScene')) delete edited.table.Character.edges[path];
 });
@@ -205,7 +207,12 @@ console.log('=== spread edges: stated once, expanded when loaded ===');
     check('the inverse map carries the spread predicates',
         withSpread.inverseEdges.informs === 'informedBy' && withSpread.inverseEdges.informedBy === 'informs');
     check('the RDF property a spread names is not reported unmatched', !built.rdfUnmatched.includes('omc:informs'));
-    check('a table without spreads carries no spreadEdges key', !Object.hasOwn(artifact, 'spreadEdges'));
+    const plain = JSON.parse(json(document));
+    Object.entries(plain.json.edgeDefinitions).forEach(([predicate, definition]) => {
+        definition.connects = (definition.connects || []).filter((group) => !group.spread);
+        if (!definition.connects.length) delete plain.json.edgeDefinitions[predicate];
+    });
+    check('a table without spreads carries no spreadEdges key', !Object.hasOwn(buildEdgeArtifact(plain).artifact, 'spreadEdges'));
 
     omcTemplate.setEdgeTable({ schemaVersion: V3, artifact: withSpread, source: 'spread' });
     const row = omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Asset' }).edges['edges.informs.Task'];
@@ -231,8 +238,8 @@ console.log('=== spread edges: stated once, expanded when loaded ===');
     check('a spreadEdges that is not an object is refused',
         throws(() => omcTemplate.setEdgeTable({ schemaVersion: V3, artifact: { ...withSpread, spreadEdges: [] } })));
     omcTemplate.resetEdgeTable({ schemaVersion: V3 });
-    check('reset leaves no spread row behind',
-        !omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Asset' }).edges['edges.informs.Task']);
+    check('reset leaves no installed spread row behind: Asset reads as bundled',
+        json(omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Asset' })) === json(JSON.parse(before).Asset.table));
 }
 
 const heard = notified;
