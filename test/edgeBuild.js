@@ -17,7 +17,7 @@ import { readFileSync } from 'node:fs';
 
 import manifest from '../package.json' with { type: 'json' };
 import { buildEdgeArtifact } from '../src/edgeBuild/index.js';
-import { edgeCreate } from '../src/omc/omcEdges.js';
+import { edgeCreate, edgeValid } from '../src/omc/omcEdges.js';
 import { omcTemplate } from '../src/templates/index.js';
 
 const V3 = 'https://movielabs.com/omc/json/schema/v3.0';
@@ -168,6 +168,71 @@ console.log('=== the live path: an edited publication, built and installed ===')
     check('an edge removed in the publication is refused once installed', !characterToScene());
     omcTemplate.resetEdgeTable({ schemaVersion: V3 });
     check('and offered again after reset', !!characterToScene());
+}
+
+console.log('=== spread edges: stated once, expanded when loaded ===');
+{
+    // informs/informedBy between three types, self-loops included, and one spread group added to an
+    // existing predicate where a concrete row already holds the path it would expand to.
+    const SPREAD = ['Asset', 'Task', 'Character'];
+    const spread = JSON.parse(json(document));
+    const defs = spread.json.edgeDefinitions;
+    defs.informs = {
+        predicate: 'informs', inverse: 'informedBy', rdf: 'const:omc:informs',
+        connects: [{ domain: SPREAD, range: SPREAD, spread: true }],
+    };
+    defs.informedBy = {
+        predicate: 'informedBy', inverse: 'informs', rdf: 'const:omc:informedBy',
+        connects: [{ domain: SPREAD, range: SPREAD, spread: true }],
+    };
+    defs.has.connects.push({ domain: ['CreativeWork'], range: ['Asset'], spread: true });
+    spread.rdf.properties.push({
+        id: 'omc:informs', verbs: ['omc:informs'], domains: SPREAD.map((type) => `omc:${type}`), ranges: SPREAD.map((type) => `omc:${type}`),
+    });
+    const built = buildEdgeArtifact(spread);
+    const { artifact: withSpread } = built;
+
+    check('spread groups are carried as definitions, not rows',
+        json(Object.keys(withSpread.spreadEdges).sort()) === json(['has', 'informedBy', 'informs'])
+        && !withSpread.table.Asset.edges['edges.informs.Task']);
+    check('a definition mixing both keeps only its spread group in spreadEdges',
+        withSpread.spreadEdges.has.connects.length === 1 && withSpread.spreadEdges.has.connects[0].spread === true);
+    check('its concrete groups are still built into rows',
+        json(withSpread.table.CreativeWork.edges['edges.has.Asset']) === json(artifact.table.CreativeWork.edges['edges.has.Asset']));
+    check('spreadEdges keep their rdf token as published', withSpread.spreadEdges.informs.rdf === 'const:omc:informs');
+    check('generated counts the rows the spreads state', withSpread.generated.spreadRows === 9 + 9 + 1,
+        `got ${withSpread.generated.spreadRows}`);
+    check('the inverse map carries the spread predicates',
+        withSpread.inverseEdges.informs === 'informedBy' && withSpread.inverseEdges.informedBy === 'informs');
+    check('the RDF property a spread names is not reported unmatched', !built.rdfUnmatched.includes('omc:informs'));
+    check('a table without spreads carries no spreadEdges key', !Object.hasOwn(artifact, 'spreadEdges'));
+
+    omcTemplate.setEdgeTable({ schemaVersion: V3, artifact: withSpread, source: 'spread' });
+    const row = omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Asset' }).edges['edges.informs.Task'];
+    check('installed, a spread pairing reads as an ordinary row',
+        row?.predicate === 'informs' && json(row.allowed) === json(['Task'])
+        && row.bucket === 'edges' && json(row.pathSegments) === json(['edges', 'informs', 'Task']));
+    check('its inverse is the reverse spread, on the target',
+        row?.inverseEdge?.path === 'edges.informedBy.Asset' && row.inverseEdge.predicate === 'informedBy');
+    check('its RDF name is the property the spread names',
+        row?.omcPredicate === 'omc:informs' && json(row.rdfProperties) === json(['omc:informs']));
+    check('a self-loop is a pairing like any other',
+        !!omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Task' }).edges['edges.informs.Task']);
+    check('the reverse is expanded on the range',
+        !!omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Character' }).edges['edges.informedBy.Asset']);
+    check('a type the spread does not list gets no row',
+        !omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'NarrativeScene' }).edges['edges.informs.Asset']);
+    check('a concrete row at the same path wins over the spread',
+        json(omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'CreativeWork' }).edges['edges.has.Asset'])
+        === json(artifact.table.CreativeWork.edges['edges.has.Asset']));
+    check('edgeValid offers the spread edge between two listed types',
+        !!edgeValid({ fromEntity: entity('Asset', 'ast-1'), toEntity: entity('Character', 'chr-1') })?.['edges.informs.Character']);
+    check('the installed artifact itself is not mutated by expansion', !withSpread.table.Asset.edges['edges.informs.Task']);
+    check('a spreadEdges that is not an object is refused',
+        throws(() => omcTemplate.setEdgeTable({ schemaVersion: V3, artifact: { ...withSpread, spreadEdges: [] } })));
+    omcTemplate.resetEdgeTable({ schemaVersion: V3 });
+    check('reset leaves no spread row behind',
+        !omcTemplate.edgeTable({ schemaVersion: V3, entityType: 'Asset' }).edges['edges.informs.Task']);
 }
 
 const heard = notified;

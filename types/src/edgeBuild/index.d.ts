@@ -74,7 +74,8 @@ import * as coverage from './checks/coverage.js';
 import * as inverse from './checks/inverse.js';
 import { definitionsFrom } from './definitions.js';
 import { edgeTableFrom } from './assemble.js';
+import { expandSpread } from './spread.js';
 import { rowKeys } from './assemble.js';
 import { schemaFingerprint } from './fingerprint.js';
-export { definitionsFrom, edgeTableFrom, rowKeys, schemaFingerprint };
+export { definitionsFrom, edgeTableFrom, expandSpread, rowKeys, schemaFingerprint };
 //# sourceMappingURL=index.d.ts.map

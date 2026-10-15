@@ -9,14 +9,19 @@
  * off the rest rather than written empty, because few rows carry one and the rest would carry an
  * empty array.
  *
+ * Spread groups are not built into rows. They come back as `spreadEdges`, definitions with their
+ * `rdf` tokens as published, for `expandSpread` to expand when the table is loaded. They still
+ * answer an inverse lookup, so a row whose reverse is spread finds it.
+ *
  * @param {Object} document - The published edge document
  * @param {object} schema - The OMC v3.0 JSON Schema, for `maxItems`
  * @param {string} [where] - What to call the document in an error
- * @returns {{table: Object, inverseEdges: Object<string, string>, definitions: Object,
- *   collisions: string[], rows: number, rdfNamed: number, rdfUnmatched: string[]}}
+ * @returns {{table: Object, spreadEdges: Object, inverseEdges: Object<string, string>,
+ *   definitions: Object, collisions: string[], rows: number, rdfNamed: number, rdfUnmatched: string[]}}
  */
 export function edgeTableFrom(document: any, schema: object, where?: string): {
     table: any;
+    spreadEdges: any;
     inverseEdges: {
         [x: string]: string;
     };

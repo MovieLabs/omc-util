@@ -129,6 +129,13 @@ export type EdgeTableArtifact = {
     inverseEdges: {
         [x: string]: string;
     };
+    /**
+     * - Edge definitions relating every domain they list
+     * to every range, expanded into `table` rows when the artifact is loaded
+     */
+    spreadEdges?: {
+        [x: string]: any;
+    };
 };
 /**
  * Which edge table a schema version is serving.
