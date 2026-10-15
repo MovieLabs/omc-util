@@ -4,14 +4,14 @@
     "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
     "builder": {
       "name": "omc-util",
-      "version": "1.20.0"
+      "version": "1.21.0"
     },
     "publication": {
       "format": "omc-edges",
       "version": 1,
       "viewId": "view:entity-structure",
       "edges": 136,
-      "rows": 1651,
+      "rows": 247,
       "verbs": 41,
       "properties": 129,
       "classes": 137
@@ -22,7 +22,7 @@
     },
     "rows": 181,
     "rdfNamed": 176,
-    "spreadRows": 1458
+    "spreadRows": 54
   },
   "table": {
     "CreativeWork": {
@@ -6169,33 +6169,7 @@
       "connects": [
         {
           "domain": [
-            "Asset",
-            "Infrastructure",
-            "CreativeWork",
-            "NarrativeObject",
-            "NarrativeStyling",
-            "NarrativeAudio",
-            "Character",
-            "NarrativeLocation",
-            "Location",
-            "NarrativeWardrobe",
-            "Effect",
-            "SpecialAction",
-            "NarrativeScene",
-            "CapturePoint",
-            "CaptureEvent",
-            "CaptureDevice",
-            "ProductionScene",
-            "ProductionLocation",
-            "Realization",
-            "Slate",
-            "Participant",
-            "Role",
-            "Task",
-            "Context",
-            "Composition",
-            "Collection",
-            "Provenance"
+            "Asset"
           ],
           "range": [
             "Asset",
@@ -6233,7 +6207,7 @@
     "informedBy": {
       "predicate": "informedBy",
       "inverse": "informs",
-      "rdf": "const:omc:informedByEntity",
+      "rdf": "const:omc:informedByAsset",
       "connects": [
         {
           "domain": [
@@ -6266,33 +6240,7 @@
             "Provenance"
           ],
           "range": [
-            "Asset",
-            "Infrastructure",
-            "CreativeWork",
-            "NarrativeObject",
-            "NarrativeStyling",
-            "NarrativeAudio",
-            "Character",
-            "NarrativeLocation",
-            "Location",
-            "NarrativeWardrobe",
-            "Effect",
-            "SpecialAction",
-            "NarrativeScene",
-            "CapturePoint",
-            "CaptureEvent",
-            "CaptureDevice",
-            "ProductionScene",
-            "ProductionLocation",
-            "Realization",
-            "Slate",
-            "Participant",
-            "Role",
-            "Task",
-            "Context",
-            "Composition",
-            "Collection",
-            "Provenance"
+            "Asset"
           ],
           "spread": true
         }
