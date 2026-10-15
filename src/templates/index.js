@@ -360,6 +360,28 @@ const omcTemplate = {
     graphQl: (({ schemaVersion, entityType }) => (
         versionTemplates[schemaVersion].entityTemplate[entityType]?.graphQl || null
     )),
+    /**
+     * The `edges` an entity type exposes over GraphQL, as a query template asking for each one as a
+     * reference: `{ predicate: { EntityType: null } }`, or null when it has none.
+     *
+     * Reads the bundled table, not the served one. fMam builds its SDL from the bundled table, so an
+     * edge only an installed table has would make the whole query invalid.
+     *
+     * @ignore
+     * @param {Object} query
+     * @param {string} query.schemaVersion
+     * @param {OmcEntityType} query.entityType
+     * @returns {Object<string, Object<string, null>>|null}
+     */
+    graphQlEdges: (({ schemaVersion, entityType }) => {
+        const edges = bundledTemplates[schemaVersion]?.entityTemplate?.[entityType]?.edgeTable?.edges;
+        if (!edges || !Object.keys(edges).length) return null;
+        return Object.values(edges).reduce((acc, { predicate, allowed }) => {
+            acc[predicate] = { ...acc[predicate] };
+            allowed.forEach((subjectType) => { acc[predicate][subjectType] = null; });
+            return acc;
+        }, {});
+    }),
     graphQlEntities: (({ schemaVersion }) => (
         Object.keys(versionTemplates[schemaVersion].entityTemplate).filter((e) => isCapitalized(e))
             .filter((eType) => Object.hasOwn(versionTemplates[schemaVersion].entityTemplate[eType], 'graphQl'))

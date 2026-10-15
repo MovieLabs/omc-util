@@ -57,6 +57,13 @@ const getEntityType = ((obj, key, schemaVersion, fragment) => {
     return entityType;
 });
 
+// An expanded entity's properties plus a reference for each of its edges, so the entity arrives with
+// every relationship it holds, inverse edges included, not only the ones the query names.
+const withEdges = ((properties, entityType, schemaVersion) => {
+    const edges = omcTemplate.graphQlEdges({ entityType, schemaVersion });
+    return edges ? { ...properties, edges } : properties;
+});
+
 /**
  * Creates a JS object that fully expands all the properties to be used in final graphQl query
  * @ignore
@@ -73,8 +80,11 @@ function buildTemplate(query = {}, template = {}, inlineFragment, schemaVersion)
     return Object.keys(fullTemplate).reduce((obj, key) => {
         // If the key is not capitalized then this is just a regular property
         if (!isCapitalized(key)) {
+            // Recurse with the template's own value where it has one, so a query naming part of an
+            // object (one edge under `edges`) adds to the template's keys rather than replacing them.
+            const nextTemplate = isPlainObject(template[key]) ? template[key] : fullTemplate[key];
             const templateKeyValue = isPlainObject(fullTemplate[key])
-                ? buildTemplate(query[key], fullTemplate[key], fragment[key], schemaVersion) // Recurse to next level of the property value
+                ? buildTemplate(query[key], nextTemplate, fragment[key], schemaVersion) // Recurse to next level of the property value
                 : query[key] || null; // Use a query filter if there is one, or set to null
             return { ...obj, [key]: templateKeyValue }; // Return the updated template
         }
@@ -97,7 +107,7 @@ function buildTemplate(query = {}, template = {}, inlineFragment, schemaVersion)
             ? nextEntity.inlineFragment
             : fragment[key] || null; // Use an existing matching fragment if there is one
 
-        const nextTemplate = entityType ? nextEntity.properties : fullTemplate[key];
+        const nextTemplate = entityType ? withEdges(nextEntity.properties, entityType, schemaVersion) : fullTemplate[key];
         const templateKeyValue = buildTemplate(query[key], nextTemplate, nextInlineFragment, schemaVersion);
 
         // If this is a defined entity then a baseEntity fragment can be used if there are no filter on the properties
@@ -186,10 +196,11 @@ export default function queryBuilder({
     // const entityTemplate = omcTemplate.graphql({ entityType, schemaVersion });
     // const queryTemplate = entityTemplate?.[entityType].properties;
     // const queryFragment = entityTemplate?.[entityType].inlineFragment;
-    const { properties: queryTemplate, inlineFragment: queryFragment } = omcTemplate.graphQl({
+    const { properties, inlineFragment: queryFragment } = omcTemplate.graphQl({
         entityType,
         schemaVersion,
     });
+    const queryTemplate = withEdges(properties, entityType, schemaVersion);
     const queryBase = filterVariables(queryTemplate, variables);
     const mainQuery = buildTemplate({ ...queryBase, ...template }, queryTemplate, queryFragment, schemaVersion);
 

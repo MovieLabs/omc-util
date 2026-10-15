@@ -4,9 +4,5 @@
 # `#` comments are ignored. An entry here says the difference is intended, so write down why
 # beside it.
 
-# The v3.0 schema holds an AssetStructure's `software` inside assetStructureProperties. The
-# template still asks for it at the top level, where fMam serves it for records migrated from v2.8.
-UNKNOWN AssetStructure software.ConfigurationFile
-
 # Provenance.Origin is a schema property the edge table does not carry as an edge.
 UNKNOWN Provenance Origin

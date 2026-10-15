@@ -84,7 +84,7 @@ type OmcStore = {
     internalId(omcEntity: OmcEntity, options?: object): string | null;
     getInternalId(storeId: string): OmcEntity | null;
     get(omcId: OmcIdentifier, options?: object): OmcEntity | null;
-    set(omc: OmcJson): any | null;
+    set(omc: OmcJson, options?: { keep?: Array<OmcEntity | OmcIdentifier | Array<OmcIdentifier>> }): Array<OmcEntity> | null;
     remove(omc: OmcEntity, options?: object): any;
     removeWithEdges(omc: OmcEntity): any;
     replace(omc: OmcJson): any | null;

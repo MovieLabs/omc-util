@@ -50,7 +50,8 @@ export function getIntrinsicKeys(omcEntity: OmcEntity): Array<string>;
  * Recurses through an omcEntity and returns a flattened map of all the intrinsic properties
  * that have valid references
  *
- * intrinsic props that are singletons will be coerced into an array
+ * intrinsic props that are singletons will be coerced into an array, and the references to one
+ * entity type are combined across every edge that holds them (`needs.Effect` and `informs.Effect`)
  *
  * @memberof module:omcEdges
  * @function getIntrinsicProps

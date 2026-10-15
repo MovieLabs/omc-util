@@ -18,7 +18,7 @@
  * @module omcEdges
  */
 
-import { isCapitalized, isPlainObject } from '../mlHelpers/util.js';
+import { isCapitalized, isPlainObject, makeArray } from '../mlHelpers/util.js';
 import { omcTemplate } from '../templates/index.js';
 
 import { idNormalize, hasMatching } from './omcIdentifier.js';
@@ -156,11 +156,17 @@ export function getIntrinsicKeys(omcEntity) {
     return Object.keys(omcEntity).filter((k) => k[0].toLowerCase() !== k[0]); // Intrinsic properties are upper case
 }
 
+/** Combine two `{ EntityType: references[] }` maps, joining the lists a type has in both. */
+const concatProps = ((a, b) => Object.keys(b).reduce((acc, key) => (
+    { ...acc, [key]: [...(acc[key] || []), ...b[key]] }
+), a));
+
 /**
  * Recurses through an omcEntity and returns a flattened map of all the intrinsic properties
  * that have valid references
  *
- * intrinsic props that are singletons will be coerced into an array
+ * intrinsic props that are singletons will be coerced into an array, and the references to one
+ * entity type are combined across every edge that holds them (`needs.Effect` and `informs.Effect`)
  *
  * @memberof module:omcEdges
  * @function getIntrinsicProps
@@ -171,8 +177,8 @@ export function getIntrinsicKeys(omcEntity) {
 export function getIntrinsicProps(omcEntity) {
     return Object.keys(omcEntity || {}).reduce((acc, key) => {
         if (!omcEntity[key]) return acc; // Ignore null and empty arrays
-        if (isCapitalized(key)) return { ...acc, ...{ [key]: Array.isArray(omcEntity[key]) ? omcEntity[key] : [omcEntity[key]] } };
-        if (key !== 'customData' && isPlainObject(omcEntity[key])) return { ...acc, ...getIntrinsicProps(omcEntity[key]) };
+        if (isCapitalized(key)) return concatProps(acc, { [key]: makeArray(omcEntity[key]) });
+        if (key !== 'customData' && isPlainObject(omcEntity[key])) return concatProps(acc, getIntrinsicProps(omcEntity[key]));
         return acc;
     }, {});
 }
