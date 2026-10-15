@@ -22,6 +22,7 @@ import * as coverage from './checks/coverage.js';
 import * as inverse from './checks/inverse.js';
 import { definitionsFrom } from './definitions.js';
 import { schemaFingerprint } from './fingerprint.js';
+import { expandSpread, spreadRowCount } from './spread.js';
 
 /**
  * What `buildEdgeArtifact` returns.
@@ -65,6 +66,7 @@ export const checks = { coverage, inverse };
  */
 export function buildEdgeArtifact(document, { schema = schemav30, label = 'the document', check = true } = {}) {
     const built = edgeTableFrom(document, schema, label);
+    const hasSpread = Object.keys(built.spreadEdges).length > 0;
     const findings = {};
     if (check) {
         Object.entries(checks).forEach(([key, module]) => {
@@ -86,9 +88,11 @@ export function buildEdgeArtifact(document, { schema = schemav30, label = 'the d
             schema: { $id: schema?.$id ?? null, fingerprint: schemaFingerprint(schema) },
             rows: built.rows,
             rdfNamed: built.rdfNamed,
+            ...(hasSpread ? { spreadRows: spreadRowCount(built.spreadEdges) } : {}),
         },
         table: built.table,
         inverseEdges: built.inverseEdges,
+        ...(hasSpread ? { spreadEdges: built.spreadEdges } : {}),
     };
 
     return {
@@ -103,7 +107,7 @@ export function buildEdgeArtifact(document, { schema = schemav30, label = 'the d
 }
 
 export {
-    definitionsFrom, edgeTableFrom, rowKeys, schemaFingerprint,
+    definitionsFrom, edgeTableFrom, expandSpread, rowKeys, schemaFingerprint,
 };
 
 export default { buildEdgeArtifact, checks, schemaFingerprint };

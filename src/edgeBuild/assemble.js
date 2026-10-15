@@ -12,7 +12,9 @@
 import { buildMaxItemsIndex } from '../templates/schemaFacts.js';
 
 import { buildEdgeTable } from './buildEdgeTable.js';
-import { definitionsFrom, inverseMapFrom } from './definitions.js';
+import {
+    definitionsFrom, definitionsOf, inverseMapFrom, spreadOnly, withoutSpread,
+} from './definitions.js';
 
 /** A term as the index keys it: without the `omc:` prefix. `omc:usedIn` and `usedIn` are one key. */
 const bare = (term) => String(term).replace(/^omc:/, '');
@@ -112,15 +114,20 @@ const narrowingsFor = ((properties, byId, allowed, jsonTypes) => properties
  * off the rest rather than written empty, because few rows carry one and the rest would carry an
  * empty array.
  *
+ * Spread groups are not built into rows. They come back as `spreadEdges`, definitions with their
+ * `rdf` tokens as published, for `expandSpread` to expand when the table is loaded. They still
+ * answer an inverse lookup, so a row whose reverse is spread finds it.
+ *
  * @param {Object} document - The published edge document
  * @param {object} schema - The OMC v3.0 JSON Schema, for `maxItems`
  * @param {string} [where] - What to call the document in an error
- * @returns {{table: Object, inverseEdges: Object<string, string>, definitions: Object,
- *   collisions: string[], rows: number, rdfNamed: number, rdfUnmatched: string[]}}
+ * @returns {{table: Object, spreadEdges: Object, inverseEdges: Object<string, string>,
+ *   definitions: Object, collisions: string[], rows: number, rdfNamed: number, rdfUnmatched: string[]}}
  */
 export function edgeTableFrom(document, schema, where = 'the document') {
     const definitions = definitionsFrom(document, where);
-    const { table, collisions } = buildEdgeTable(definitions, buildMaxItemsIndex(schema));
+    const { table, collisions } = buildEdgeTable(withoutSpread(definitions), buildMaxItemsIndex(schema), definitions);
+    const spreadEdges = spreadOnly(definitionsOf(document));
     const jsonTypes = jsonTypeIndex(document);
     const rdfIndex = rdfPropertyIndex(document, jsonTypes);
     const propertyById = new Map((document?.rdf?.properties ?? []).map((property) => [property.id, property]));
@@ -148,11 +155,16 @@ export function edgeTableFrom(document, schema, where = 'the document') {
 
     // A property no row claimed publishes a relationship the OMC-JSON side does not carry. Some are
     // RDF-only and correct; a join that quietly found nothing looks exactly the same, so both are
-    // reported rather than neither.
+    // reported rather than neither. A spread edge has no rows here, so its definition claims the
+    // property it names.
+    Object.values(spreadEdges).forEach(({ rdf }) => {
+        if (String(rdf).startsWith('const:')) claimed.add(String(rdf).slice('const:'.length));
+    });
     const rdfUnmatched = [...propertyById.keys()].filter((id) => !claimed.has(id));
 
     return {
         table,
+        spreadEdges,
         inverseEdges: inverseMapFrom(definitions),
         definitions,
         collisions,

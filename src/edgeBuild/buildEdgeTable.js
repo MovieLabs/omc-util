@@ -128,10 +128,12 @@ const computePath = (placement, pred, range, group, def) => {
 /**
  * @param {Object} edgeDefinitions - Definitions as `definitionsFrom` returns them
  * @param {Map<string, number>} maxItemsIndex - From `buildMaxItemsIndex(schema)`
+ * @param {Object} [inverseDefinitions] - Where each row's inverse is looked up, when that is a wider
+ *   set than the rows are built from; defaults to `edgeDefinitions`
  * @returns {{ table: Object, collisions: Array<string> }} The per-entity edge table, and any two
  *   definitions that claimed one storage path
  */
-export function buildEdgeTable(edgeDefinitions, maxItemsIndex) {
+export function buildEdgeTable(edgeDefinitions, maxItemsIndex, inverseDefinitions = edgeDefinitions) {
     const table = {};
     const collisions = [];
 
@@ -161,7 +163,7 @@ export function buildEdgeTable(edgeDefinitions, maxItemsIndex) {
             const partition = placement === 'edges' ? 'edges' : 'intrinsic';
             const groupInverse = Object.hasOwn(group, 'inverse') ? group.inverse : def.inverse;
             const template = group.pathTemplate || def.pathTemplate;
-            const inversePath = ((domain, target) => resolveInversePath(edgeDefinitions, groupInverse, domain, target));
+            const inversePath = ((domain, target) => resolveInversePath(inverseDefinitions, groupInverse, domain, target));
 
             if (pathDependsOnRange(placement, template)) {
                 group.domain.forEach((domain) => group.range.forEach((range) => {

@@ -82,6 +82,42 @@ export function definitionsFrom(doc, where) {
 }
 
 /**
+ * A group the publication marks `spread`: one statement that every domain it lists relates to every
+ * range it lists, too many pairings to be worth writing out as rows.
+ *
+ * @param {Object} group - One entry of a definition's `connects`
+ * @returns {boolean}
+ */
+export const isSpread = ((group) => group?.spread === true);
+
+/**
+ * The definitions keeping only the groups `keep` accepts, dropping any definition left with none.
+ *
+ * @param {Object<string, object>} definitions
+ * @param {function(Object): boolean} keep
+ * @returns {Object<string, object>}
+ */
+const keepGroups = ((definitions, keep) => Object.fromEntries(Object.entries(definitions)
+    .map(([predicate, def]) => [predicate, { ...def, connects: (def.connects ?? []).filter(keep) }])
+    .filter(([, def]) => def.connects.length)));
+
+/**
+ * The definitions without their spread groups: what is built into rows ahead of time.
+ *
+ * @param {Object<string, object>} definitions
+ * @returns {Object<string, object>}
+ */
+export const withoutSpread = ((definitions) => keepGroups(definitions, (group) => !isSpread(group)));
+
+/**
+ * Only the spread groups: what the table carries as definitions and expands when it is loaded.
+ *
+ * @param {Object<string, object>} definitions
+ * @returns {Object<string, object>}
+ */
+export const spreadOnly = ((definitions) => keepGroups(definitions, isSpread));
+
+/**
  * The flat inverse map, predicate → inverse predicate: each definition's top-level `inverse`.
  *
  * This is what omc-util's deprecated `inverseEdge()` answers from, and fMam still reads it. It

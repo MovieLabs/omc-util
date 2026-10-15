@@ -19,6 +19,9 @@ export function intrinsicRdf({ predicate }: {
     predicate: string;
 }): string;
 export function definitionsOf(doc: any): any;
+export function isSpread(group: any): boolean;
+export function withoutSpread(definitions: any): any;
+export function spreadOnly(definitions: any): any;
 export function inverseMapFrom(definitions: any): {
     [x: string]: string;
 };

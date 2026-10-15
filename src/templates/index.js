@@ -80,6 +80,8 @@
  *   fingerprint, row counts
  * @property {Object.<OmcEntityType, EdgeTable>} table - Per-entity edge tables
  * @property {Object.<string, string>} inverseEdges - The flat predicate → inverse map
+ * @property {Object.<string, Object>} [spreadEdges] - Edge definitions relating every domain they list
+ *   to every range, expanded into `table` rows when the artifact is loaded
  */
 
 /**
@@ -210,6 +212,7 @@
  * @property {function({schemaVersion: string}=): string[]} recordKeys - The keys that describe the record rather than the entity's data: schemaVersion and entityType. A subset of metaKeys answering a different question — identifier, edges, customData, annotation and tag all carry information, so they are not included. Use it to keep encoding drift out of a data-level comparison.
  */
 
+import { expandSpread } from '../edgeBuild/spread.js';
 import { isCapitalized } from '../mlHelpers/util.js';
 import schemav21 from '../omc/validation/schema/OMC-JSON-v2.1.schema.json' with { type: 'json' };
 import schemav26 from '../omc/validation/schema/OMC-JSON-v2.6.schema.json' with { type: 'json' };
@@ -262,6 +265,7 @@ const assertArtifact = ((artifact) => {
     const problem = (!isMap(artifact) && 'it is not an object')
         || (!isMap(artifact.table) && 'it has no `table` object')
         || (!isMap(artifact.inverseEdges) && 'it has no `inverseEdges` object')
+        || (artifact.spreadEdges !== undefined && !isMap(artifact.spreadEdges) && '`spreadEdges` is not an object')
         || (badType && `table.${badType[0]} is not { intrinsic, edges, cxtEdges }`);
     if (problem) throw new Error(`Not an edge-table artifact: ${problem}.`);
 });
@@ -422,10 +426,11 @@ const omcTemplate = {
         assertArtifact(artifact);
 
         const registered = Object.keys(bundled.entityTemplate).filter((key) => isCapitalized(key));
+        const table = expandSpread(artifact.table, artifact.spreadEdges);
         const entityTemplate = { ...bundled.entityTemplate, inverseEdges: artifact.inverseEdges };
         let rows = 0;
         registered.forEach((entityType) => {
-            const partitions = artifact.table[entityType] ?? {};
+            const partitions = table[entityType] ?? {};
             const edgeTable = Object.fromEntries(PARTITIONS.map((part) => [part, partitions[part] ?? {}]));
             rows += PARTITIONS.reduce((n, part) => n + Object.keys(edgeTable[part]).length, 0);
             entityTemplate[entityType] = { ...bundled.entityTemplate[entityType], edgeTable };
@@ -434,7 +439,7 @@ const omcTemplate = {
         versionTemplates[schemaVersion] = { ...bundled, entityTemplate, inverseEdges: artifact.inverseEdges };
         installedSources[schemaVersion] = { label: source, generated: artifact.generated ?? null };
         changed();
-        return { rows, unregistered: Object.keys(artifact.table).filter((type) => !registered.includes(type)) };
+        return { rows, unregistered: Object.keys(table).filter((type) => !registered.includes(type)) };
     }),
     /**
      * Serve the bundled edge table again. A no-op when nothing is installed.
