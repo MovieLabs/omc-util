@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, basicName, software } from '../utility/utility.js';
+import { baseEntity, basicName } from '../utility/utility.js';
 
 const entityType = 'AssetStructure';
 const entityGeneral = generalConfig[entityType];
@@ -16,8 +16,6 @@ export default {
             assetStructureType: null,
             assetStructureName: basicName.graphQl.properties,
             assetStructureProperties: null,
-            isAnalog: null,
-            software: software.graphQl.properties,
             versionInfo: {
                 versionNumber: null,
                 Revision: null,

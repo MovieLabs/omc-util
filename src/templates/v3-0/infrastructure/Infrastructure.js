@@ -14,15 +14,13 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             infrastructureName: basicName.graphQl.properties,
-            infrastructureFunction: {
-                infrastructureFunctionType: null,
-                infrastructureFunctionProperties: null,
-            },
+            infrastructureType: null,
             Member: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
             infrastructureName: basicName.graphQl.filter,
+            infrastructureType: ['string'],
         },
         inlineFragment: {},
     },
