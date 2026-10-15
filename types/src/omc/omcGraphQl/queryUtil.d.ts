@@ -1,15 +1,18 @@
 /**
  * Strip the graphQl wrapper from a graphQl response and return the OmcJson
  *
+ * A response the server rejected carries `errors` and no `data`; that answers null, and the reason is
+ * in the response's `errors`.
+ *
  * @function stripGraphQl
  * @memberof module:omcGraphQl
  * @param {Object} graphQlResponse - The response from a graphQl query
- * @param {OmcJson} graphQlResponse.data - Valid OMC-JSON
- * @returns {OmcJson} The OmcJson in the graphQl query response
+ * @param {OmcJson} [graphQlResponse.data] - Valid OMC-JSON
+ * @returns {OmcJson|null} The OmcJson in the graphQl query response, or null when it holds no data
  */
 export function stripGraphQl(graphQlResponse: {
-    data: OmcJson;
-}): OmcJson;
+    data?: OmcJson;
+}): OmcJson | null;
 /**
  * For a given entityType returns the set of properties that can be filtered using a variable in graphQl query
  * The keys are the property name with the primitive type as the value
