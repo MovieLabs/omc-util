@@ -44,10 +44,12 @@ try {
     check('the Sequence becomes a Composition', sequence?.entityType === 'Composition', `got ${sequence?.entityType}`);
     check('its compositionType is sequence', sequence?.compositionType === 'sequence', `got ${sequence?.compositionType}`);
     check('its name carries across', sequence?.compositionName?.fullName === 'ALE Metadata Sample'
-        && sequence?.label === 'ALE Metadata Sample');
+    && sequence?.label === 'ALE Metadata Sample');
 
     const typed = omcMigrate({ ...structuredClone(sequence), schemaVersion: v28, entityType: 'Sequence', sequenceType: 'vfx' });
     check('a sequenceType becomes the sub-type', typed?.compositionType === 'sequence.vfx', `got ${typed?.compositionType}`);
+    const image = omcMigrate({ ...structuredClone(sequence), schemaVersion: v28, entityType: 'Sequence', sequenceType: 'image' });
+    check('a sequenceType with no v3.0 sub-type is plain sequence', image?.compositionType === 'sequence', `got ${image?.compositionType}`);
 
     const task = byId(migrated, 'BIND_VFX_PULL_001');
     check(
@@ -99,6 +101,42 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
         'a member keeps its derivation',
         idValue(members[0]?.AssetStructure?.[0]?.versionInfo?.DerivationOf?.[0]) === 'ocf-65C4BD3F589F00E3',
     );
+}
+
+// ---- a group whose structure is absent or only a reference gets a new one ----
+
+{
+    const sourceGroup = byId(source, 'mvl_101_012_050');
+    const withStructure = ((assetSC) => {
+        const copy = structuredClone(sourceGroup);
+        if (assetSC) copy.AssetSC = assetSC;
+        else delete copy.AssetSC;
+        return copy;
+    });
+    const memberIds = 'mvl_101_012_050_plt-bg_001,mvl_101_012_050_plt-fg_001';
+    const referenced = { identifier: [{ identifierScope: 'labkoat', identifierValue: 'asc-elsewhere' }] };
+
+    [['only a reference', referenced], ['absent', null]].forEach(([how, assetSC]) => {
+        const group = omcMigrate(withStructure(assetSC));
+        const structure = group.AssetStructure?.[0];
+        const members = structure?.assetStructureProperties?.assetGroup?.Member ?? [];
+
+        check(`structure ${how}: the group keeps no nested Asset`, !Object.hasOwn(group, 'Asset'));
+        check(`structure ${how}: a new assetGroup structure holds the members`,
+            structure?.entityType === 'AssetStructure' && structure.assetStructureType === 'assetGroup'
+            && members.map(idValue).join() === memberIds, `got ${JSON.stringify(structure)?.slice(0, 200)}`);
+        check(`structure ${how}: its identifier is stable for the Asset`,
+            idValue(structure) === idValue(omcMigrate(withStructure(assetSC)).AssetStructure?.[0])
+            && idValue(structure) !== 'asc-elsewhere');
+        check(`structure ${how}: the group validates`,
+            omcValidate(carrierAsReference(group)) === true);
+    });
+
+    const anonymous = withStructure(referenced);
+    delete anonymous.identifier;
+    const kept = omcMigrate(anonymous);
+    check('a group with no identifier keeps its members on the Asset', Object.hasOwn(kept, 'Asset'),
+        JSON.stringify(Object.keys(kept)));
 }
 
 // ---- Carrier moves into the structure's properties ----

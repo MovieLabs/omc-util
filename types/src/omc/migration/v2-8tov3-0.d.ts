@@ -254,7 +254,7 @@ declare namespace _default {
         schemaVersion: string;
         entityType: string;
         label: string;
-        compositionType: string;
+        compositionType: any;
         identifier?: OmcIdentifier[];
         description: string | null;
         customData: OmcCustomData | null;

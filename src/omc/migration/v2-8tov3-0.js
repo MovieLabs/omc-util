@@ -6,7 +6,7 @@
 
 import { isPlainObject, makeArray } from '../../mlHelpers/util.js';
 import { edgeCreate } from '../omcEdges.js';
-import { idCreate } from '../omcIdentifier.js';
+import { idCreate, idHash } from '../omcIdentifier.js';
 import { deepMerge } from '../omcMerge.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
@@ -19,6 +19,14 @@ const edgeTargetRename = {
     ParticipantSC: 'ParticipantStructure',
     Sequence: 'Composition',
     TaskSC: 'TaskStructure',
+};
+
+// The v2.8 sequenceTypes that have a v3.0 compositionType of their own; any other is plain 'sequence'.
+const sequenceTypeMap = {
+    vfx: 'sequence.vfx',
+    editorial: 'sequence.editorial',
+    animation: 'sequence.animation',
+    color: 'sequence.color',
 };
 
 const productionLocationTypeMap = {
@@ -218,29 +226,46 @@ function migrateVersion(omcVersion) {
 }
 
 /**
- * Place a v2.8 asset group's members on its structure, which is where v3.0 holds them
- * (`assetStructureProperties.assetGroup.Member`).
+ * The v2.8 AssetSC that carries an asset group's members, which is where v3.0 holds them
+ * (`assetStructureProperties.assetGroup.Member`). It is migrated to v3.0 afterwards.
  *
- * The structure is still v2.8 when this runs and is migrated afterwards, so the members go under its
- * `structuralProperties`. A structure that is only a reference cannot carry them and is returned as
- * it is.
+ * An embedded structure takes the members. One that is absent or only a reference cannot, so a new
+ * assetGroup structure replaces it, with an identifier hashed from the group Asset's own: migrating
+ * the same Asset again gives the same structure. A replaced reference's target is left as it is.
  *
- * @param {Object} assetSC - The v2.8 AssetSC of the group
- * @param {Array|Object|null|false} members - The group's nested `Asset` value
- * @returns {Object}
+ * @param {Object|false} assetSC - The v2.8 AssetSC of the group: an entity, a reference, or absent
+ * @param {Array|Object} members - The group's nested `Asset` value
+ * @param {Array|Object} assetIdentifier - The group Asset's identifier
+ * @returns {Object|null} The structure, or null when the Asset has no identifier to seed one from
  */
-function setGroupMembers(assetSC, members) {
-    if (!members || !isPlainObject(assetSC) || !assetSC.entityType) return assetSC;
-    const structuralProperties = assetSC.structuralProperties || {};
-    return {
-        ...assetSC,
-        structuralProperties: {
-            ...structuralProperties,
-            assetGroup: {
-                ...structuralProperties.assetGroup,
-                Member: makeArray(members),
+function groupStructure(assetSC, members, assetIdentifier) {
+    if (isPlainObject(assetSC) && assetSC.entityType) {
+        const structuralProperties = assetSC.structuralProperties || {};
+        return {
+            ...assetSC,
+            structuralProperties: {
+                ...structuralProperties,
+                assetGroup: {
+                    ...structuralProperties.assetGroup,
+                    Member: makeArray(members),
+                },
             },
-        },
+        };
+    }
+
+    const seed = makeArray(assetIdentifier)[0];
+    if (!seed?.identifierValue) return null;
+    return {
+        schemaVersion: 'https://movielabs.com/omc/json/schema/v2.8',
+        entityType: 'AssetSC',
+        identifier: [idHash({
+            identifierScope: seed.identifierScope,
+            seed: seed.identifierValue,
+            entityType: 'AssetStructure',
+            prefix: true,
+        })],
+        structuralType: 'assetGroup',
+        structuralProperties: { assetGroup: { Member: makeArray(members) } },
     };
 }
 
@@ -299,7 +324,8 @@ export default {
         };
 
         const assetName = migrateName(name); // Reformat the name property
-        const AssetStructure = AssetSC ? makeArray(setGroupMembers(AssetSC, Asset)) : AssetSC; // Wrap in array
+        const structure = Asset ? groupStructure(AssetSC, Asset, rest.identifier) : AssetSC;
+        const AssetStructure = structure ? makeArray(structure) : AssetSC; // Wrap in array
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance); // Migrate provenance and make an edge
         if (Provenance) {
@@ -315,6 +341,7 @@ export default {
             label: name || labelDefault, // Label uses the existing name, or is set to N/A
             ...(assetName !== false && { assetName }),
             ...(AssetStructure !== false && { AssetStructure }),
+            ...(Asset && structure === null && { Asset }), // Members with no structure stay, and fail validation
             assetFunction,
             ...(versionInfo !== false && { versionInfo }),
             edges,
@@ -875,9 +902,9 @@ export default {
             ...(name !== false && { roleName: migrateName(name) }),
         };
     },
-    // v3.0 has no Sequence: it is a Composition whose compositionType is 'sequence', or 'sequence.vfx'
-    // and so on when the v2.8 sequenceType says which. A `version` has no v3.0 home and is left in
-    // place, so it fails validation rather than vanishing.
+    // v3.0 has no Sequence: it is a Composition whose compositionType is 'sequence', or a sub-type
+    // from sequenceTypeMap. A `version` has no v3.0 home and is left in place, so it fails validation
+    // rather than vanishing.
     Sequence: (omc) => {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 
@@ -904,7 +931,7 @@ export default {
             schemaVersion,
             entityType: 'Composition',
             label: name || labelDefault,
-            compositionType: sequenceType ? `sequence.${sequenceType}` : 'sequence',
+            compositionType: sequenceTypeMap[sequenceType] || 'sequence',
             ...(compositionName !== false && { compositionName }),
             ...(SCD !== false && { StartHere: SCD }),
             edges,
