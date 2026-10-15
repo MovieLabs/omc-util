@@ -132,5 +132,15 @@ console.log('omcEdges.getIntrinsicProps');
     check('other types are unaffected', props.Asset?.length === 1);
 }
 
+console.log('omcGraphQl.stripGraphQl');
+{
+    const character = { entityType: 'Character' };
+    check('the entities of each query are returned',
+        omcGraphQl.stripGraphQl({ data: { getCharacter: [character] } })[0] === character);
+    check('a response the server rejected answers null, not a throw',
+        omcGraphQl.stripGraphQl({ errors: [{ message: 'Cannot query field' }] }) === null);
+    check('data that is null answers null', omcGraphQl.stripGraphQl({ data: null, errors: [] }) === null);
+}
+
 console.log(failures ? `\nqueryEdges: ${failures} FAILED` : '\nqueryEdges: OK');
 if (failures) process.exit(1);

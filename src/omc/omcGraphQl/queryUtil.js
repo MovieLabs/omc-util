@@ -17,17 +17,18 @@ export const createEntitySchema = (({ entityType, schemaVersion }) => {
 /**
  * Strip the graphQl wrapper from a graphQl response and return the OmcJson
  *
+ * A response the server rejected carries `errors` and no `data`; that answers null, and the reason is
+ * in the response's `errors`.
+ *
  * @function stripGraphQl
  * @memberof module:omcGraphQl
  * @param {Object} graphQlResponse - The response from a graphQl query
- * @param {OmcJson} graphQlResponse.data - Valid OMC-JSON
- * @returns {OmcJson} The OmcJson in the graphQl query response
+ * @param {OmcJson} [graphQlResponse.data] - Valid OMC-JSON
+ * @returns {OmcJson|null} The OmcJson in the graphQl query response, or null when it holds no data
  */
 export function stripGraphQl(graphQlResponse) {
-    if (!Object.hasOwn(graphQlResponse, 'data')) {
-        console.log('Problem');
-    }
-    const { data } = graphQlResponse;
+    const data = graphQlResponse?.data;
+    if (!data) return null;
     return Object.keys(data).flatMap((key) => data[key]);
 }
 
