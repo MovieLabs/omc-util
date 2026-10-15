@@ -1,0 +1,124 @@
+/**
+ * Guard: a v2.8 pull request migrates to v3.0 without throwing or losing what it carried.
+ *
+ * `Pull_Init.json` is valid v2.8 and holds the three shapes this pins: a Sequence, which becomes a
+ * Composition; an asset group whose members are nested under `Asset`; and an AssetSC with a `Carrier`.
+ *
+ *   Usage: node test/omcMigrate.js
+ */
+
+import { readFileSync } from 'node:fs';
+
+import omcMigrate from '../src/omc/migration/omcMigrate.js';
+import omcValidate from '../src/omc/validation/omcValidate.js';
+
+const v28 = 'https://movielabs.com/omc/json/schema/v2.8';
+const v30 = 'https://movielabs.com/omc/json/schema/v3.0';
+
+let failures = 0;
+const pass = ((msg) => console.log(`  ✓ ${msg}`));
+const fail = ((msg) => {
+    failures += 1;
+    console.error(`  ✗ ${msg}`);
+});
+const check = ((label, cond, detail = '') => (cond ? pass(label) : fail(`${label}   ${detail}`)));
+
+const source = JSON.parse(readFileSync(new URL('./Pull_Init.json', import.meta.url), 'utf8'));
+const idValue = ((ent) => ent?.identifier?.[0]?.identifierValue);
+const byId = ((omc, value) => omc.find((ent) => idValue(ent) === value));
+
+check('the source is valid v2.8', omcValidate(source) === true);
+
+let migrated = [];
+try {
+    migrated = omcMigrate(structuredClone(source));
+    pass('the whole file migrates without throwing');
+} catch (e) {
+    fail(`the whole file migrates without throwing   ${e.message}`);
+}
+
+// ---- a Sequence becomes a Composition of type sequence ----
+
+{
+    const sequence = byId(migrated, 'seq-EUR_101_v03');
+    check('the Sequence becomes a Composition', sequence?.entityType === 'Composition', `got ${sequence?.entityType}`);
+    check('its compositionType is sequence', sequence?.compositionType === 'sequence', `got ${sequence?.compositionType}`);
+    check('its name carries across', sequence?.compositionName?.fullName === 'ALE Metadata Sample'
+        && sequence?.label === 'ALE Metadata Sample');
+
+    const typed = omcMigrate({ ...structuredClone(sequence), schemaVersion: v28, entityType: 'Sequence', sequenceType: 'vfx' });
+    check('a sequenceType becomes the sub-type', typed?.compositionType === 'sequence.vfx', `got ${typed?.compositionType}`);
+
+    const task = byId(migrated, 'BIND_VFX_PULL_001');
+    check(
+        'a reference to the Sequence follows it to Composition',
+        idValue(task?.edges?.for?.Composition?.[0]) === 'seq-EUR_101_v03' && !task?.edges?.for?.Sequence,
+        JSON.stringify(task?.edges?.for),
+    );
+}
+
+// ---- everything else reaches v3.0 and validates there ----
+
+// An embedded carrier is reduced to a reference first: v3.0 Infrastructure has no structure or
+// function, so a migrated one does not validate wherever it sits.
+const carrierAsReference = ((ent) => {
+    const properties = ent.AssetStructure?.[0]?.assetStructureProperties;
+    if (!properties?.Carrier) return ent;
+    const copy = structuredClone(ent);
+    copy.AssetStructure[0].assetStructureProperties.Carrier = properties.Carrier
+        .map(({ identifier }) => ({ identifier }));
+    return copy;
+});
+
+omcValidate(migrated.map(carrierAsReference), { atomic: false })
+    .forEach((res) => {
+        const what = `${res.omcEntity.entityType} ${idValue(res.omcEntity)}`;
+        check(`${what} is v3.0`, res.omcEntity.schemaVersion === v30, `got ${res.omcEntity.schemaVersion}`);
+        check(`${what} validates`, res.valid, JSON.stringify(res.error?.map?.((err) => [err.instancePath, err.keyword, err.params])));
+    });
+
+// ---- group members move onto the structure ----
+
+{
+    const group = byId(migrated, 'mvl_101_012_050');
+    const structure = group?.AssetStructure?.[0];
+    const members = structure?.assetStructureProperties?.assetGroup?.Member ?? [];
+
+    check('the group keeps no nested Asset', group && !Object.hasOwn(group, 'Asset'));
+    check(
+        'both plates are members of the structure',
+        members.map(idValue).join() === 'mvl_101_012_050_plt-bg_001,mvl_101_012_050_plt-fg_001',
+        `got ${members.map(idValue).join()}`,
+    );
+    check('the members are migrated', members.every((ent) => ent.schemaVersion === v30));
+    check(
+        'a member keeps what its Contexts carried',
+        idValue(members[0]?.edges?.has?.Slate?.[0]) === 'slate-mvl_101_012_050_plt-bg_001',
+    );
+    check(
+        'a member keeps its derivation',
+        idValue(members[0]?.AssetStructure?.[0]?.versionInfo?.DerivationOf?.[0]) === 'ocf-65C4BD3F589F00E3',
+    );
+}
+
+// ---- Carrier moves into the structure's properties ----
+
+{
+    const structure = byId(migrated, 'ocf-65C4BD3F589F00E3')?.AssetStructure?.[0];
+    const carrier = structure?.assetStructureProperties?.Carrier;
+
+    check('the structure keeps no top-level Carrier', structure && !Object.hasOwn(structure, 'Carrier'));
+    check('Carrier is an array of one', Array.isArray(carrier) && carrier.length === 1);
+    check('the carrier is migrated', carrier?.[0]?.schemaVersion === v30 && carrier?.[0]?.entityType === 'Infrastructure');
+    check('the other structural properties stay', structure?.assetStructureProperties?.fileDetails?.fileExtension === 'mxf');
+}
+
+// ---- a second pass changes nothing ----
+
+{
+    const again = omcMigrate(structuredClone(migrated));
+    check('migrating the result again is a no-op', JSON.stringify(again) === JSON.stringify(migrated));
+}
+
+console.log(failures ? `\nomcMigrate: ${failures} FAILED` : '\nomcMigrate: OK');
+if (failures) process.exit(1);

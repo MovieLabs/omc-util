@@ -40,6 +40,7 @@ export default {
                 ParticipantStructure: null,
                 ProductionLocation: null,
                 ProductionScene: null,
+                Provenance: null,
                 Realization: null,
                 Role: null,
                 Slate: null,

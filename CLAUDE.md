@@ -38,6 +38,7 @@ npm run test:mergerefs    # relationship-array merge guard
 npm run test:mergechanges # mergeChanges behaviour
 npm run test:cleanentity  # cleanEntity behaviour
 npm run test:validate     # omcValidate across the three accepted OMC shapes
+npm run test:migrate      # v2.8 → v3.0 migration of test/Pull_Init.json
 npm run test:mergekeys    # mergeKey / shape guard
 npm run test:mapping      # omcMapping engine
 npm run test:derive       # schema-derivation parity (deriveParity + deriveLinkml + mergeKeys)

@@ -7,10 +7,9 @@
  *
  * Only capitalised keys are treated as entity types, matching the convention the rest
  * of the library uses to enumerate entities (see `allEntityTypes` in ./index.js). This
- * skips `$defs/core`'s structural nodes — `rootObject` (the document envelope, whose
- * properties are the entity types themselves and would otherwise duplicate every
- * constraint under a bogus `rootObject:` key), plus `reference`, `baseEntity`,
- * `collectionObject` and `edges`.
+ * skips `$defs/core`'s structural nodes — `entityMap` (whose properties are the entity
+ * types themselves and would otherwise duplicate every constraint under a bogus
+ * `entityMap:` key), plus `rootObject`, `reference`, `baseEntity` and `edges`.
  *
  * @param {object} schema - A parsed OMC JSON Schema document
  * @returns {Map<string, number>} e.g. `'Asset:AssetStructure' => 1`

@@ -1192,6 +1192,30 @@ export const edgeTables = {
         edges: {},
         intrinsic: {},
     },
+    Sequence: {
+        cxtEdges: {},
+        edges: {},
+        intrinsic: {
+            Context: {
+                allowed: [
+                    'Context',
+                ],
+                inverse: 'ForEntity',
+                omcPredicate: null,
+                path: 'Context',
+                type: 'array',
+            },
+            SCD: {
+                allowed: [
+                    'Asset',
+                ],
+                inverse: null,
+                omcPredicate: null,
+                path: 'SCD',
+                type: 'object',
+            },
+        },
+    },
     Service: {
         cxtEdges: {},
         edges: {},

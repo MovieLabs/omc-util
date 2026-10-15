@@ -49,6 +49,8 @@ function migrateInstance(omc, toSchemaVersion) {
     }
 
     const update = migrationPattern[entityType](omc);
+    // A type with no form in the next version comes back as it went in; stepping it again would never end.
+    if (update.schemaVersion === schemaVersion) return update;
     return migrateInstance(update, toSchemaVersion); // Move to next version
     // if (toSchemaVersion === schemaVersion) return omc; // Already at the target schema version
     // return migrationPattern[entityType](omc);

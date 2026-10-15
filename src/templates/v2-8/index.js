@@ -50,6 +50,7 @@ import NarrativeStyling from './mediaCreation/NarrativeStyling.js';
 import NarrativeWardrobe from './mediaCreation/NarrativeWardrobe.js';
 import ProductionLocation from './mediaCreation/ProductionLocation.js';
 import ProductionScene from './mediaCreation/ProductionScene.js';
+import Sequence from './mediaCreation/Sequence.js';
 import Slate from './mediaCreation/Slate.js';
 import SpecialAction from './mediaCreation/SpecialAction.js';
 import Department from './participant/Department.js';
@@ -81,6 +82,7 @@ const omcTemplate = {
     NarrativeWardrobe,
     ProductionScene,
     ProductionLocation,
+    Sequence,
     Slate,
     SpecialAction,
     Participant,

@@ -271,6 +271,22 @@ export const generalConfig = {
             propRows: ['name', identifier],
         },
     },
+    Sequence: {
+        group: 'Media Creation Context',
+        idPrefix: 'seq',
+        presentation: {
+            entityColor: '#BDC3C7', // Composition's, which a Sequence becomes in v3.0
+            entityLabel: 'Sequence',
+            entityLabelSuffix: () => '',
+            header: {
+                backgroundColor: '#BDC3C7',
+                fontColor: '#000',
+                entityLabel: 'Sequence',
+                entityLabelSuffix: () => '',
+            },
+            propRows: ['name', 'sequenceType'],
+        },
+    },
     ProductionLocation: {
         group: 'Media Creation Context',
         idPrefix: 'ploc',

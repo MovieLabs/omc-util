@@ -17,6 +17,7 @@ const edgeTargetRename = {
     AssetSC: 'AssetStructure',
     InfrastructureSC: 'InfrastructureStructure',
     ParticipantSC: 'ParticipantStructure',
+    Sequence: 'Composition',
     TaskSC: 'TaskStructure',
 };
 
@@ -217,6 +218,33 @@ function migrateVersion(omcVersion) {
 }
 
 /**
+ * Place a v2.8 asset group's members on its structure, which is where v3.0 holds them
+ * (`assetStructureProperties.assetGroup.Member`).
+ *
+ * The structure is still v2.8 when this runs and is migrated afterwards, so the members go under its
+ * `structuralProperties`. A structure that is only a reference cannot carry them and is returned as
+ * it is.
+ *
+ * @param {Object} assetSC - The v2.8 AssetSC of the group
+ * @param {Array|Object|null|false} members - The group's nested `Asset` value
+ * @returns {Object}
+ */
+function setGroupMembers(assetSC, members) {
+    if (!members || !isPlainObject(assetSC) || !assetSC.entityType) return assetSC;
+    const structuralProperties = assetSC.structuralProperties || {};
+    return {
+        ...assetSC,
+        structuralProperties: {
+            ...structuralProperties,
+            assetGroup: {
+                ...structuralProperties.assetGroup,
+                Member: makeArray(members),
+            },
+        },
+    };
+}
+
+/**
  * Migrate Provenance, by creating a new entity.
  */
 
@@ -252,7 +280,7 @@ export default {
         // Properties that need to be migrated
         const {
             name = false, // Becomes assetName
-            Asset = false, // ToDo: Expand to include this in the Asset Structure
+            Asset = false, // Group members, which move onto the AssetStructure
             AssetSC = false, // Becomes AssetStructure
             assetFC = {}, // Internally restructured, this has a required property so must not be null
             version = false, // Becomes versionInfo
@@ -271,7 +299,7 @@ export default {
         };
 
         const assetName = migrateName(name); // Reformat the name property
-        const AssetStructure = AssetSC ? makeArray(AssetSC) : AssetSC; // Wrap in array
+        const AssetStructure = AssetSC ? makeArray(setGroupMembers(AssetSC, Asset)) : AssetSC; // Wrap in array
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance); // Migrate provenance and make an edge
         if (Provenance) {
@@ -301,10 +329,14 @@ export default {
             version = false, // Becomes versionInfo
             structuralType = 'assetStructure', // Becomes assetStructureType, now required
             structuralProperties = false, // assetStructureProperties
+            Carrier = false, // Moves into assetStructureProperties, singleton becomes an array
             edges = {}, // Gets a Provenance edge
             ...rest
         } = cxtUpdate;
 
+        const assetStructureProperties = Carrier === false
+            ? structuralProperties
+            : { ...structuralProperties, Carrier: Carrier ? makeArray(Carrier) : null };
         const assetStructureName = migrateName(name);
         const versionInfo = migrateVersion(version);
         const Provenance = migrateProvenance(provenance);
@@ -322,7 +354,7 @@ export default {
             entityType: 'AssetStructure',
             ...(assetStructureName !== false && { assetStructureName }),
             assetStructureType: structuralType,
-            ...(structuralProperties !== false && { assetStructureProperties: structuralProperties }),
+            ...(assetStructureProperties !== false && { assetStructureProperties }),
             ...(versionInfo !== false && { versionInfo }),
             edges,
         };
@@ -843,7 +875,41 @@ export default {
             ...(name !== false && { roleName: migrateName(name) }),
         };
     },
-    Sequence: (omc) => (omc), // Sequence is fully deprecated and will fail validation
+    // v3.0 has no Sequence: it is a Composition whose compositionType is 'sequence', or 'sequence.vfx'
+    // and so on when the v2.8 sequenceType says which. A `version` has no v3.0 home and is left in
+    // place, so it fails validation rather than vanishing.
+    Sequence: (omc) => {
+        const cxtUpdate = { ...setEdgesFromContext(omc) };
+
+        const {
+            name = false, // Becomes compositionName
+            sequenceType = false, // Becomes the compositionType sub-type
+            SCD = false, // The chronology descriptor, which becomes StartHere
+            provenance = false, // Becomes an entity
+            edges = {}, // Gets a Provenance edge
+            ...rest
+        } = cxtUpdate;
+
+        const compositionName = migrateName(name);
+        const Provenance = migrateProvenance(provenance);
+        if (Provenance) {
+            edges.has = {
+                ...edges.has,
+                Provenance,
+            };
+        }
+
+        return {
+            ...rest,
+            schemaVersion,
+            entityType: 'Composition',
+            label: name || labelDefault,
+            compositionType: sequenceType ? `sequence.${sequenceType}` : 'sequence',
+            ...(compositionName !== false && { compositionName }),
+            ...(SCD !== false && { StartHere: SCD }),
+            edges,
+        };
+    },
     Service: (omc) => {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 

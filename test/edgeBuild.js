@@ -95,8 +95,11 @@ check('bundled source before any install', omcTemplate.edgeTableSource({ schemaV
 check('edgeTableSource() with no version is null while nothing is installed', omcTemplate.edgeTableSource() === null);
 check('bundled can relate Character to NarrativeScene', !!characterToScene());
 
+// Character reaches NarrativeScene through more than one predicate, so the edit removes every row.
 const edited = JSON.parse(json(bundled));
-delete edited.table.Character.edges['edges.featuresIn.NarrativeScene'];
+Object.entries(edited.table.Character.edges).forEach(([path, entry]) => {
+    if (entry.allowed?.includes('NarrativeScene')) delete edited.table.Character.edges[path];
+});
 edited.table.NotARegisteredType = { intrinsic: {}, edges: {}, cxtEdges: {} };
 const result = omcTemplate.setEdgeTable({ schemaVersion: V3, artifact: edited, source: 'test edit' });
 
@@ -145,13 +148,18 @@ check('a second reset is a no-op', notified === 2, `heard ${notified}`);
 console.log('=== the live path: an edited publication, built and installed ===');
 {
     // What the Portal's "Try in graph" does: the publication as the Edge Editor now has it, through
-    // the same build, into the same seam. Here the edit drops NarrativeScene from featuresIn.
+    // the same build, into the same seam. Here the edit stops every predicate connecting Character
+    // to NarrativeScene, leaving the other domains of each group as they were.
     const live = JSON.parse(json(document));
-    live.json.edgeDefinitions.featuresIn.connects.forEach((group) => {
-        group.range = group.range.filter((range) => range !== 'NarrativeScene');
+    Object.values(live.json.edgeDefinitions).forEach((definition) => {
+        definition.connects = (definition.connects || []).flatMap((group) => {
+            if (!group.domain.includes('Character') || !group.range.includes('NarrativeScene')) return [group];
+            return [
+                { ...group, domain: group.domain.filter((domain) => domain !== 'Character') },
+                { ...group, domain: ['Character'], range: group.range.filter((range) => range !== 'NarrativeScene') },
+            ].filter((split) => split.domain.length && split.range.length);
+        });
     });
-    live.json.edgeDefinitions.featuresIn.connects = live.json.edgeDefinitions.featuresIn.connects
-        .filter((group) => group.range.length);
     const built = buildEdgeArtifact(live);
     omcTemplate.setEdgeTable({
         schemaVersion: built.artifact.generated.schema.$id, artifact: built.artifact, source: 'live',

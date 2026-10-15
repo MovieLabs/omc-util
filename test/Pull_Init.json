@@ -1,0 +1,805 @@
+[
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Task",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "BIND_VFX_PULL_001"
+      },
+      {
+        "identifierScope": "movielabs.workflow",
+        "identifierValue": "{{workflowId}}"
+      }
+    ],
+    "name": "BIND_VFX_PULL_001",
+    "TaskSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "TaskSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "tasksc-BIND_VFX_PULL_001"
+        }
+      ]
+    },
+    "taskFC": {
+      "functionalType": "vfx.pull",
+      "functionalProperties": {
+        "pullType": "plates",
+        "edlName": "EUR_101_v03"
+      }
+    },
+    "Context": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+        "entityType": "Context",
+        "identifier": [
+          {
+            "identifierScope": "konsol",
+            "identifierValue": "cxt-BIND_VFX_PULL_001"
+          }
+        ],
+        "contextType": "production",
+        "contributesTo": {
+          "CreativeWork": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "project-Europa"
+                }
+              ]
+            }
+          ]
+        },
+        "contributor": {
+          "Participant": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "vendor-BIND-Studio"
+                }
+              ]
+            }
+          ]
+        },
+        "for": {
+          "Sequence": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "seq-EUR_101_v03"
+                }
+              ]
+            }
+          ]
+        },
+        "uses": {
+          "Asset": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "ocf-65C4BD3F589F00E3"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "ocf-A012C003_240208EK"
+                }
+              ]
+            }
+          ]
+        },
+        "produces": {
+          "Asset": [
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "mvl_101_012_050_plt-bg_001"
+                }
+              ]
+            },
+            {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "mvl_101_012_050_plt-fg_001"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "customData": [
+      {
+        "domain": "konsol",
+        "namespace": "pull-request",
+        "value": {
+          "customer": "etc",
+          "disclaimer": "",
+          "movielabsWorkflowId": "{{workflowId}}"
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "CreativeWork",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "project-Europa"
+      }
+    ],
+    "name": "Europa"
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Organization",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "vendor-BIND-Studio"
+      }
+    ],
+    "name": "BIND Studio"
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Sequence",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "seq-EUR_101_v03"
+      }
+    ],
+    "name": "ALE Metadata Sample",
+    "description": "EDL EUR_101_v03"
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "mvl_101_012_050"
+      }
+    ],
+    "name": "mvl_101_012_050",
+    "description": "VFX shot mvl_101_012_050",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "shot-mvl_101_012_050-sc"
+        }
+      ],
+      "structuralType": "assetGroup"
+    },
+    "assetFC": {
+      "functionalType": "shot.vfx",
+      "functionalProperties": {
+        "editorialVfxId": "7030",
+        "scene": "8B"
+      }
+    },
+    "Asset": [
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+        "entityType": "Asset",
+        "identifier": [
+          {
+            "identifierScope": "konsol",
+            "identifierValue": "mvl_101_012_050_plt-bg_001"
+          }
+        ],
+        "name": "mvl_101_012_050_plt-bg_001",
+        "AssetSC": {
+          "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+          "entityType": "AssetSC",
+          "identifier": [
+            {
+              "identifierScope": "konsol",
+              "identifierValue": "plate-mvl_101_012_050_plt-bg_001-sc"
+            }
+          ],
+          "structuralType": "digital.imageSequence",
+          "structuralProperties": {
+            "fileDetails": {
+              "fileExtension": "exr"
+            }
+          },
+          "version": {
+            "name": "plate",
+            "DerivationOf": {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "ocf-65C4BD3F589F00E3"
+                }
+              ]
+            }
+          }
+        },
+        "assetFC": {
+          "functionalType": "shot.vfx",
+          "functionalProperties": {
+            "layer": "plt-bg",
+            "firstFrame": 1001,
+            "lastFrame": 1124,
+            "handles": 8,
+            "fps": 23.976,
+            "editorialTimecodeIn": "10:21:34:18",
+            "editorialTimecodeOut": "10:21:36:11",
+            "editorialDurationFrames": 124,
+            "editorialTrack": "Video 1"
+          }
+        },
+        "Context": [
+          {
+            "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+            "entityType": "Context",
+            "identifier": [
+              {
+                "identifierScope": "konsol",
+                "identifierValue": "cxt-uses-mvl_101_012_050_plt-bg_001"
+              }
+            ],
+            "contextType": "production",
+            "uses": {
+              "Asset": [
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "ocf-65C4BD3F589F00E3"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "cdl-A011C006_240208EK.cdl"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "lut-camera_lut.cube"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "lut-show_lut.cube"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+            "entityType": "Context",
+            "identifier": [
+              {
+                "identifierScope": "konsol",
+                "identifierValue": "cxt-slate-mvl_101_012_050_plt-bg_001"
+              }
+            ],
+            "contextType": "production",
+            "has": {
+              "Slate": [
+                {
+                  "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+                  "entityType": "Slate",
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "slate-mvl_101_012_050_plt-bg_001"
+                    }
+                  ],
+                  "name": "A011C006_240208EK",
+                  "slateUID": "3",
+                  "cameraLabel": "A",
+                  "cameraRoll": "A011",
+                  "recordingFPS": 23.976
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+        "entityType": "Asset",
+        "identifier": [
+          {
+            "identifierScope": "konsol",
+            "identifierValue": "mvl_101_012_050_plt-fg_001"
+          }
+        ],
+        "name": "mvl_101_012_050_plt-fg_001",
+        "AssetSC": {
+          "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+          "entityType": "AssetSC",
+          "identifier": [
+            {
+              "identifierScope": "konsol",
+              "identifierValue": "plate-mvl_101_012_050_plt-fg_001-sc"
+            }
+          ],
+          "structuralType": "digital.imageSequence",
+          "structuralProperties": {
+            "fileDetails": {
+              "fileExtension": "exr"
+            }
+          },
+          "version": {
+            "name": "plate",
+            "DerivationOf": {
+              "identifier": [
+                {
+                  "identifierScope": "konsol",
+                  "identifierValue": "ocf-A012C003_240208EK"
+                }
+              ]
+            }
+          }
+        },
+        "assetFC": {
+          "functionalType": "shot.vfx",
+          "functionalProperties": {
+            "layer": "plt-fg",
+            "firstFrame": 1001,
+            "lastFrame": 1124,
+            "handles": 8,
+            "fps": 23.976,
+            "editorialTimecodeIn": "10:21:34:18",
+            "editorialTimecodeOut": "10:21:36:11",
+            "editorialDurationFrames": 124,
+            "editorialTrack": "Video 2"
+          }
+        },
+        "Context": [
+          {
+            "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+            "entityType": "Context",
+            "identifier": [
+              {
+                "identifierScope": "konsol",
+                "identifierValue": "cxt-uses-mvl_101_012_050_plt-fg_001"
+              }
+            ],
+            "contextType": "production",
+            "uses": {
+              "Asset": [
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "ocf-A012C003_240208EK"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "cdl-A012C003_240208EK.cdl"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "lut-camera_lut.cube"
+                    }
+                  ]
+                },
+                {
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "lut-show_lut.cube"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+            "entityType": "Context",
+            "identifier": [
+              {
+                "identifierScope": "konsol",
+                "identifierValue": "cxt-slate-mvl_101_012_050_plt-fg_001"
+              }
+            ],
+            "contextType": "production",
+            "has": {
+              "Slate": [
+                {
+                  "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+                  "entityType": "Slate",
+                  "identifier": [
+                    {
+                      "identifierScope": "konsol",
+                      "identifierValue": "slate-mvl_101_012_050_plt-fg_001"
+                    }
+                  ],
+                  "name": "A012C003_240208EK",
+                  "slateUID": "1",
+                  "cameraLabel": "B",
+                  "cameraRoll": "A012",
+                  "recordingFPS": 23.976
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "ocf-65C4BD3F589F00E3"
+      }
+    ],
+    "name": "A011C006_240208EK",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "ocf-65C4BD3F589F00E3-sc"
+        }
+      ],
+      "name": "A011C006_240208EK",
+      "structuralType": "digital.movingImage",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "A011C006_240208EK.mxf",
+          "filePath": "ocn/20240208_SD002_MU/SOVEN2/A011CSBZ/Clip/A011C006_240208EK",
+          "fileExtension": "mxf"
+        }
+      },
+      "Carrier": {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+        "entityType": "Infrastructure",
+        "identifier": [
+          {
+            "identifierScope": "konsol",
+            "identifierValue": "src-store-etc-europa"
+          }
+        ],
+        "name": "s3:etc-europa",
+        "InfrastructureSC": {
+          "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+          "entityType": "InfrastructureSC",
+          "identifier": [
+            {
+              "identifierScope": "konsol",
+              "identifierValue": "src-store-etc-europa-sc"
+            }
+          ],
+          "structuralType": "storage.object",
+          "structuralProperties": {
+            "provider": "s3",
+            "bucket": "etc-europa",
+            "key": "ocn/20240208_SD002_MU/SOVEN2/A011CSBZ/Clip/A011C006_240208EK/A011C006_240208EK.mxf",
+            "region": "us-west-2",
+            "access": {
+              "method": "iam_role",
+              "role_arn": "arn:aws:iam::111111111111:role/konsol-read-example"
+            }
+          }
+        },
+        "infrastructureFC": {
+          "functionalType": "storage"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "capture.ocf",
+      "functionalProperties": {
+        "clipName": "A011C006_240208EK",
+        "cameraLabel": "A",
+        "cameraRoll": "A011",
+        "timeCodeStart": "12:42:53:08",
+        "timeCodeEnd": "12:46:22:04"
+      }
+    },
+    "customData": [
+      {
+        "domain": "konsol",
+        "namespace": "ale-metadata",
+        "value": {
+          "Tape": "A011C006_240208EK",
+          "Take": "3",
+          "Camera": "A",
+          "UniqueID": "65C4BD3F589F00E3",
+          "Cam-Codec": "SonyMXFVeniceRAW",
+          "Cam-Resolution": "8640x5760",
+          "DIT-IDT Name": "IDT.Sony.Venice_SLog3_SGamut3Cine"
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "ocf-A012C003_240208EK"
+      }
+    ],
+    "name": "A012C003_240208EK",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "ocf-A012C003_240208EK-sc"
+        }
+      ],
+      "name": "A012C003_240208EK",
+      "structuralType": "digital.movingImage",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "A012C003_240208EK.mxf",
+          "filePath": "ocn/20240208_SD002_MU/SOVEN2/A012CSBZ/Clip/A012C003_240208EK",
+          "fileExtension": "mxf"
+        }
+      },
+      "Carrier": {
+        "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+        "entityType": "Infrastructure",
+        "identifier": [
+          {
+            "identifierScope": "konsol",
+            "identifierValue": "src-store-etc-europa"
+          }
+        ],
+        "name": "s3:etc-europa",
+        "InfrastructureSC": {
+          "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+          "entityType": "InfrastructureSC",
+          "identifier": [
+            {
+              "identifierScope": "konsol",
+              "identifierValue": "src-store-etc-europa-sc"
+            }
+          ],
+          "structuralType": "storage.object",
+          "structuralProperties": {
+            "provider": "s3",
+            "bucket": "etc-europa",
+            "key": "ocn/20240208_SD002_MU/SOVEN2/A012CSBZ/Clip/A012C003_240208EK/A012C003_240208EK.mxf",
+            "region": "us-west-2",
+            "access": {
+              "method": "iam_role",
+              "role_arn": "arn:aws:iam::111111111111:role/konsol-read-example"
+            }
+          }
+        },
+        "infrastructureFC": {
+          "functionalType": "storage"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "capture.ocf",
+      "functionalProperties": {
+        "clipName": "A012C003_240208EK",
+        "cameraLabel": "B",
+        "cameraRoll": "A012",
+        "timeCodeStart": "13:05:10:02",
+        "timeCodeEnd": "13:08:40:00"
+      }
+    },
+    "customData": [
+      {
+        "domain": "konsol",
+        "namespace": "ale-metadata",
+        "value": {
+          "Tape": "A012C003_240208EK",
+          "Take": "1",
+          "Camera": "B",
+          "Cam-Codec": "SonyMXFVeniceRAW"
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "cdl-A011C006_240208EK.cdl"
+      }
+    ],
+    "name": "A011C006_240208EK.cdl",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "cdl-A011C006_240208EK.cdl-sc"
+        }
+      ],
+      "structuralType": "digital.data",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "A011C006_240208EK.cdl",
+          "fileExtension": "cdl"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "color.cdl",
+      "functionalProperties": {
+        "slope": [
+          0.98279,
+          0.98369,
+          1.00967
+        ],
+        "offset": [
+          -0.04699,
+          -0.04094,
+          -0.03229
+        ],
+        "power": [
+          1.00663,
+          0.99454,
+          0.9836
+        ],
+        "saturation": 1.0
+      }
+    }
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "cdl-A012C003_240208EK.cdl"
+      }
+    ],
+    "name": "A012C003_240208EK.cdl",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "cdl-A012C003_240208EK.cdl-sc"
+        }
+      ],
+      "structuralType": "digital.data",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "A012C003_240208EK.cdl",
+          "fileExtension": "cdl"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "color.cdl",
+      "functionalProperties": {
+        "slope": [
+          1,
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "power": [
+          1,
+          1,
+          1
+        ],
+        "saturation": 1.0
+      }
+    }
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "lut-camera_lut.cube"
+      }
+    ],
+    "name": "camera_lut.cube",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "lut-camera_lut.cube-sc"
+        }
+      ],
+      "structuralType": "digital.data",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "camera_lut.cube",
+          "fileExtension": "cube"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "color.lut",
+      "functionalProperties": {
+        "lutRole": "camera"
+      }
+    }
+  },
+  {
+    "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+    "entityType": "Asset",
+    "identifier": [
+      {
+        "identifierScope": "konsol",
+        "identifierValue": "lut-show_lut.cube"
+      }
+    ],
+    "name": "show_lut.cube",
+    "AssetSC": {
+      "schemaVersion": "https://movielabs.com/omc/json/schema/v2.8",
+      "entityType": "AssetSC",
+      "identifier": [
+        {
+          "identifierScope": "konsol",
+          "identifierValue": "lut-show_lut.cube-sc"
+        }
+      ],
+      "structuralType": "digital.data",
+      "structuralProperties": {
+        "fileDetails": {
+          "fileName": "show_lut.cube",
+          "fileExtension": "cube"
+        }
+      }
+    },
+    "assetFC": {
+      "functionalType": "color.lut",
+      "functionalProperties": {
+        "lutRole": "creative"
+      }
+    }
+  }
+]

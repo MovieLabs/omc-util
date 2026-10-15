@@ -247,7 +247,21 @@ declare namespace _default {
         tag: OmcTag | null;
         instanceInfo: OmcInstanceInfo | null;
     };
-    function Sequence(omc: any): any;
+    function Sequence(omc: any): {
+        edges: any;
+        StartHere: any;
+        compositionName: any;
+        schemaVersion: string;
+        entityType: string;
+        label: string;
+        compositionType: string;
+        identifier?: OmcIdentifier[];
+        description: string | null;
+        customData: OmcCustomData | null;
+        annotation: OmcAnnotation | null;
+        tag: OmcTag | null;
+        instanceInfo: OmcInstanceInfo | null;
+    };
     function Service(omc: any): {
         participantStructureProperties: {
             software: any;

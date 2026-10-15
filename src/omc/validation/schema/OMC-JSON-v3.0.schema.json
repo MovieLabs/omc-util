@@ -3073,8 +3073,7 @@
             },
             "includes": {
               "oneOf": [
-                {"$ref": "#/$defs/core/properties/collectionObject"},
-                {"$ref": "#/$defs/core/properties/rootEntity"},
+                {"$ref": "#/$defs/core/properties/entityMap"},
                 {
                   "type": "array",
                   "items": {"$ref": "#/$defs/core/properties/rootEntity"}
@@ -4523,253 +4522,23 @@
           "description": "An identifier that references another entity in the graph"
         },
         "rootObject": {
-          "type": ["object"],
-          "properties": {
-            "Asset": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Asset/properties/Asset"},
-              "title": "Asset"
-            },
-            "AssetStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Asset/properties/AssetStructure"},
-              "title": "Asset Structure"
-            },
-            "Infrastructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
-              "title": "Infrastructure"
-            },
-            "Character": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/Character"},
-              "title": "Character"
-            },
-            "Context": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/Context"},
-              "title": "Context"
-            },
-            "CreativeWork": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Creative Work",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"}
-            },
-            "Realization": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
-              "title": "Realization"
-            },
-            "NarrativeAudio": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Audio",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeAudio"}
-            },
-            "NarrativeLocation": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Location",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeLocation"}
-            },
-            "NarrativeObject": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Object",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeObject"}
-            },
-            "NarrativeScene": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Scene",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeScene"}
-            },
-            "NarrativeStyling": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Styling",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeStyling"}
-            },
-            "NarrativeWardrobe": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Narrative Wardrobe",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/NarrativeWardrobe"}
-            },
-            "ProductionLocation": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Production Location",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/ProductionLocation"}
-            },
-            "ProductionScene": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Production Scene",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/ProductionScene"}
-            },
-            "CaptureEvent": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Event",
-              "items": {"$ref": "#/$defs/Production/properties/CaptureEvent"}
-            },
-            "CapturePoint": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Point",
-              "items": {"$ref": "#/$defs/Production/properties/CapturePoint"}
-            },
-            "CaptureDevice": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Device",
-              "items": {"$ref": "#/$defs/Production/properties/CaptureDevice"}
-            },
-            "Slate": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Slate",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/Slate"}
-            },
-            "SpecialAction": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Special Action",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/SpecialAction"}
-            },
-            "Effect": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Effect",
-              "items": {"$ref": "#/$defs/MediaCreationContext/properties/Effect"}
-            },
-            "Participant": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/Participant"},
-              "title": "Participant"
-            },
-            "ParticipantStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/ParticipantStructure"},
-              "title": "Participant Structure"
-            },
-            "Role": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Participant/properties/Role"},
-              "title": "Role"
-            },
-            "Task": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Task/properties/Task"},
-              "title": "Task"
-            },
-            "TaskStructure": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Task/properties/TaskStructure"},
-              "title": "TaskStructure"
-            },
-            "Composition": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Utility/properties/Composition"},
-              "title": "Composition"
-            },
-            "Collection": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {"$ref": "#/$defs/Utility/properties/Collection"},
-              "title": "Collection"
-            },
-            "Location": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Location",
-              "items": {"$ref": "#/$defs/Utility/properties/Location"}
-            },
-            "Provenance": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Provenance",
-              "items": {"$ref": "#/$defs/Utility/properties/Provenance"}
+          "$ref": "#/$defs/core/properties/entityMap",
+          "title": "Root Object",
+          "description": "The document envelope: entityMap's slot for every entity type, holding entities only. A reference cannot stand at the root.",
+          "additionalProperties": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "not": {"$ref": "#/$defs/core/properties/reference"}
             }
-          },
-          "additionalProperties": false
+          }
         },
-        "collectionObject": {
+        "entityMap": {
           "type": ["object"],
+          "title": "Entity Map",
+          "description": "An object keyed by entity type, each property holding an array of entities of that type or references to them. Every instantiable entity type has a slot here.",
           "properties": {
             "Asset": {
               "type": [
@@ -5145,6 +4914,19 @@
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
                   {"$ref": "#/$defs/Utility/properties/Location"}
+                ]
+              }
+            },
+            "Provenance": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Provenance",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Utility/properties/Provenance"}
                 ]
               }
             }
@@ -6637,44 +6419,16 @@
               }
             },
             "informs": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Task": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Task/properties/Task"}
-                    ]
-                  }
-                }
-              }
+              "anyOf": [
+                {"$ref": "#/$defs/core/properties/entityMap"},
+                {"type": "null"}
+              ]
             },
             "informedBy": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Task": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/core/properties/reference"},
-                      {"$ref": "#/$defs/Task/properties/Task"}
-                    ]
-                  }
-                }
-              }
+              "anyOf": [
+                {"$ref": "#/$defs/core/properties/entityMap"},
+                {"type": "null"}
+              ]
             },
             "refines": {
               "type": [

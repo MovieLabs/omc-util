@@ -146,7 +146,7 @@ const checks = [
         // ENUM-MISSING filters schemaTypes and ENUM-ORPHAN filters the enum, so neither can fire
         // and the type is reported nowhere. A genuine abstract base belongs in the allow-list.
         category: 'SCHEMA-UNREFERENCED',
-        why: 'has an entityType discriminator in $defs but no $ref points at it — read as an abstract base, so it is not an entity; add its slot in core.rootObject (and collectionObject if it may be an edge target)',
+        why: 'has an entityType discriminator in $defs but no $ref points at it — read as an abstract base, so it is not an entity; add its slot in core.entityMap, which rootObject, Collection includes and edges.informs/informedBy all use',
         types: discriminatedTypes.filter(not(schemaTypes)),
     },
     {
@@ -157,7 +157,7 @@ const checks = [
     {
         // Also fires for a type that IS under $defs but that nothing references: listEntities
         // reads an unreferenced discriminated node as an abstract base, so a new entity still
-        // needs its slot in rootObject/collectionObject before it counts as instantiable.
+        // needs its slot in entityMap before it counts as instantiable.
         category: 'ENUM-ORPHAN',
         why: 'in the rootEntity enum but not an instantiable entity — absent from $defs, or there but referenced by nothing',
         types: enumTypes.filter(not(schemaTypes)),
@@ -268,9 +268,11 @@ const proposals = {
     'SCHEMA-UNREFERENCED': (type) => {
         const bucket = bucketOf(type) || '<Bucket>';
         return [
-            '  core.properties.rootObject.properties — add the slot that makes it an entity:',
-            `      "${type}": { "$ref": "#/$defs/${bucket}/properties/${type}" }`,
-            '  core.properties.collectionObject.properties — add the same, if it may be an edge target.',
+            '  core.properties.entityMap.properties — add the slot that makes it an entity (the root',
+            '  and every other entityMap user pick it up from there):',
+            `      "${type}": { "type": ["array", "null"], "items": { "anyOf": [`,
+            '        { "$ref": "#/$defs/core/properties/reference" },',
+            `        { "$ref": "#/$defs/${bucket}/properties/${type}" } ] } }`,
             '  Until one $ref points at it, listEntities reads it as an abstract base and no other',
             '  check can see it. If it IS an abstract base, allow-list it instead:',
             `      SCHEMA-UNREFERENCED ${type}   # abstract base, intentionally not instantiable`,

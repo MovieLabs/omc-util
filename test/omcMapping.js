@@ -116,11 +116,10 @@ const stubId = omcMapping.entityRef({
 ok(JSON.stringify(refOut.entities.Asset).includes(stubId),
     'references an entity this row did not build, seeded identically');
 
-// Slate -> Character is genuinely blocked by the v3.0 edge table. (Asset -> NarrativeScene is
-// NOT — it is `edges.for.NarrativeScene` — which is exactly why the example has to be checked
-// against the schema rather than assumed.)
+// The v3.0 edge table gives Slate no path to AssetStructure: `informs` reaches every entity type
+// except the three structures, and nothing else connects them.
 const BAD_EDGE = [
-    { entityType: 'Slate', key: 'k', edges: [{ to: 'Character', via: 'k' }] },
+    { entityType: 'Slate', key: 'k', edges: [{ to: 'AssetStructure', via: 'k' }] },
 ];
 const badOut = omcMapping.mapRow({ row: { k: 'x' }, mapping: BAD_EDGE, options: OPTIONS });
 ok(badOut.notes.some((n) => n.kind === 'edgeNotAllowed'),
