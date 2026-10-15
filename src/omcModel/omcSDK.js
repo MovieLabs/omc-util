@@ -5,7 +5,7 @@
  */
 
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.js';
-import omcCompare from '../omc/omcCompare.js';
+import { mergeEntity } from '../omc/omcMerge.js';
 import { relatedEdges, removeEdge } from '../omc/omcEdges.js';
 import omcFind from '../omc/omcFind.js';
 import * as omcIdentifier from '../omc/omcIdentifier.js';
@@ -69,21 +69,23 @@ const cache = () => {
             const storeId = storeKeys.length === 0 ? this.tempId() : storeKeys.shift();
             Object.keys(idKeys).forEach((idKey) => this.idMapping[idKey] = storeId); // Update the mapping table
 
-            if (Object.hasOwn(this.store, storeId)) { // Is there already an entity with this identifier?
-                const compare = omcCompare({ original: this.store[storeId], comparison: ent });
-                if (compare.diff) {
-                    const a = JSON.stringify(this.store[storeId]); // ToDo: Do some business logic here
-                    const b = JSON.stringify(ent);
-                    const msg = b > a ? 'New is greater (maybe swap)' : 'Existing looks best';
-                    console.log(`Same identifier, but entities not equal: ${msg}`);
-                }
-            } else {
+            if (!Object.hasOwn(this.store, storeId)) {
                 this.store[storeId] = ent; // First time seeing this, so add the entity to the deDupe object
+                return storeId;
             }
-            // What the store actually holds — which on a collision is the entity already there, not
-            // the one just offered. Returned so a caller can work with the stored copy rather than
-            // its own, which may differ from it.
-            return this.store[storeId];
+
+            // Already held: merge in what the incoming copy adds — edges, and values the stored copy
+            // lacks. The stored copy wins a disagreement, so a reload never overwrites an edit.
+            let merged = false;
+            try {
+                merged = mergeEntity(this.store[storeId], ent, { prefer: 'existing', emptyAsNull: true });
+            } catch (err) {
+                console.warn(`Not merged, the stored entity is kept: ${err.message}`);
+            }
+            if (!merged) return storeId;
+            const cleaned = omcTransform.cleanEntity(merged);
+            if (JSON.stringify(cleaned) !== JSON.stringify(this.store[storeId])) this.store[storeId] = entityModel(cleaned);
+            return storeId;
         },
         replace(ent) {
             const { identifier = [] } = ent; // Safeguard against missing identifier (should never happen)
@@ -237,25 +239,37 @@ function getVersion() {
  * ever has to ask which spelling of "empty" it is looking at.
  *
  * Returns **what the store now holds**, not what was handed in. Those differ in two ways that
- * matter: the stored copy is normalized, and on an identifier collision `add` keeps the entity
- * already there. A caller that carries its own copy onward — into change history, or a save
- * payload — would otherwise be carrying something the store disagrees with.
+ * matter: the stored copy is normalized, and on an identifier collision the incoming entity is
+ * merged into the one already there, which wins any disagreement. A caller that carries its own
+ * copy onward — into change history, or a save payload — would otherwise be carrying something
+ * the store disagrees with.
+ *
+ * `keep` names entities whose stored state is final, typically ones with changes not yet saved.
+ * They are left exactly as stored and, when absent, not added, so neither an edit nor a removal is
+ * undone by loading the entity again.
  *
  * @memberof module:omcSDK
  * @static
  * @param {OmcJson} omc
- * @returns {Array<OmcEntity>|null} The stored entities, or null for bad input
+ * @param {Object} [options]
+ * @param {Array<OmcEntity|OmcIdentifier|Array<OmcIdentifier>>} [options.keep=[]] - Entities, or
+ *   their identifiers, the incoming data must not change
+ * @returns {Array<OmcEntity>|null} The stored entities, or null for bad input. A kept entity the
+ *   store does not hold is left out.
  */
-function set(omc) {
+function set(omc, { keep = [] } = {}) {
     if (!omc) return null; // Check for bad input
+    const keptKeys = new Set(keep.flatMap((ent) => omcIdentifier.idNormalize(ent)).map(omcIdentifier.idKey));
+    const isKept = ((ent) => (ent.identifier || []).some((id) => keptKeys.has(omcIdentifier.idKey(id))));
     const normalizedOmc = (transform(omc)).unEmbed().toArray();
     // Cleaned before the model wrapper: entityModel is a shallow copy, so cleaning afterwards would
     // reach back through the shared nested values and rewrite the caller's own object.
-    const stored = normalizedOmc.omc.map((ent) => (
-        this.cache.add(entityModel(omcTransform.cleanEntity(ent)))
-    ));
+    const storeIds = normalizedOmc.omc.map((ent) => (isKept(ent)
+        ? this.cache.internalIdMapping(ent.identifier)
+        : this.cache.add(entityModel(omcTransform.cleanEntity(ent)))));
     this.notify();
-    return stored;
+    // Read back after every add: a later copy of the same entity in this call may have merged into it.
+    return storeIds.filter(Boolean).map((storeId) => this.cache.internal(storeId));
 }
 
 /**
