@@ -37,6 +37,7 @@ npm run release:check   # build:types + every gate below
 npm run test:mergerefs    # relationship-array merge guard
 npm run test:mergechanges # mergeChanges behaviour
 npm run test:cleanentity  # cleanEntity behaviour
+npm run test:idurls       # idUrls: the identifiers carrying a URL
 npm run test:validate     # omcValidate across the three accepted OMC shapes
 npm run test:migrate      # v2.8 → v3.0 migration of test/Pull_Init.json
 npm run test:mergekeys    # mergeKey / shape guard
