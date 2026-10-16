@@ -62,6 +62,33 @@ export function idOfScope(identifier, identifierScope) {
 }
 
 /**
+ * The identifiers that carry a URL resolving them, typically a link to the entity in the system its
+ * scope names. The URL is returned as written; whether it is safe to follow is the caller's to
+ * decide.
+ *
+ * @function idUrls
+ * @static
+ * @param {OmcEntity | OmcIdentifier | Array<OmcIdentifier>} identifier - An entity, or its identifiers
+ * @returns {Array<{identifierScope: string, identifierValue: string, url: string}>} One entry per
+ *   identifier with a non-blank `url`, in the entity's order; empty when there are none
+ *
+ * @example
+ * idUrls({
+ *     identifier: [
+ *         { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j' },
+ *         { identifierScope: 'imdb.com', identifierValue: 'ch0000001', url: 'https://www.imdb.com/character/ch0000001/' },
+ *     ],
+ * })
+ * // returns [{ identifierScope: 'imdb.com', identifierValue: 'ch0000001', url: 'https://www.imdb.com/character/ch0000001/' }]
+ */
+export function idUrls(identifier) {
+    if (!identifier) return [];
+    return idNormalize(identifier)
+        .filter((id) => typeof id?.url === 'string' && id.url.trim())
+        .map(({ identifierScope, identifierValue, url }) => ({ identifierScope, identifierValue, url: url.trim() }));
+}
+
+/**
  * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
  *
  * @function idCreate
