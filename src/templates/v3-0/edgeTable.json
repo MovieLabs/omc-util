@@ -4,24 +4,24 @@
     "note": "Generated — do not edit. Rebuild from the Edge Editor export: npm run edges:build.",
     "builder": {
       "name": "omc-util",
-      "version": "1.21.1"
+      "version": "1.22.0"
     },
     "publication": {
       "format": "omc-edges",
       "version": 1,
       "viewId": "view:entity-structure",
-      "edges": 136,
-      "rows": 247,
+      "edges": 137,
+      "rows": 249,
       "verbs": 41,
-      "properties": 129,
+      "properties": 130,
       "classes": 137
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
       "fingerprint": "2ea8d921b68c1248"
     },
-    "rows": 181,
-    "rdfNamed": 176,
+    "rows": 183,
+    "rdfNamed": 178,
     "spreadRows": 54
   },
   "table": {
@@ -1521,6 +1521,52 @@
           "omcPredicate": "omc:hasSlate",
           "rdfProperties": [
             "omc:hasSlate"
+          ]
+        },
+        "edges.has.Collection": {
+          "predicate": "has",
+          "allowed": [
+            "Collection"
+          ],
+          "path": "edges.has.Collection",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Collection"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Collection",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.ProductionScene",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "ProductionScene"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.ProductionScene"
+          },
+          "omcPredicate": "omc:hasProductionPlanning",
+          "rdfProperties": [
+            "omc:hasProductionPlanning"
+          ],
+          "narrowedRanges": [
+            {
+              "range": "Collection",
+              "as": "ProductionPlanning",
+              "kind": "class",
+              "property": "omc:hasProductionPlanning"
+            }
           ]
         },
         "edges.for.CaptureEvent": {
@@ -4506,6 +4552,44 @@
           "omcPredicate": "omc:forCapturePoint",
           "rdfProperties": [
             "omc:forCapturePoint"
+          ]
+        },
+        "edges.for.ProductionScene": {
+          "predicate": "for",
+          "allowed": [
+            "ProductionScene"
+          ],
+          "path": "edges.for.ProductionScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "ProductionScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.ProductionScene",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Collection",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Collection"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Collection"
+          },
+          "omcPredicate": "omc:forProductionScene",
+          "rdfProperties": [
+            "omc:forProductionScene"
           ]
         }
       },

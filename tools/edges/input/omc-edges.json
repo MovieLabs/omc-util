@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 136,
-    "rows": 247,
+    "edges": 137,
+    "rows": 249,
     "verbs": 41,
-    "properties": 129,
+    "properties": 130,
     "classes": 137
   },
   "namespace": {
@@ -1527,7 +1527,8 @@
               "ProductionScene"
             ],
             "range": [
-              "Slate"
+              "Slate",
+              "Collection"
             ],
             "placement": "edges"
           },
@@ -1755,12 +1756,21 @@
           },
           {
             "domain": [
-              "ProductionScene",
-              "Collection"
+              "ProductionScene"
             ],
             "range": [
               "CaptureEvent",
               "CapturePoint"
+            ]
+          },
+          {
+            "domain": [
+              "Collection"
+            ],
+            "range": [
+              "CaptureEvent",
+              "CapturePoint",
+              "ProductionScene"
             ]
           },
           {
@@ -3413,6 +3423,7 @@
           "omc:for"
         ],
         "domains": [
+          "omc:ProductionPlanning",
           "omc:Slate"
         ],
         "ranges": [
@@ -3687,6 +3698,20 @@
         ],
         "ranges": [
           "omc:Participant"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:hasProductionPlanning",
+        "name": "hasProductionPlanning",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:ProductionScene"
+        ],
+        "ranges": [
+          "omc:ProductionPlanning"
         ],
         "inverseOf": []
       },
