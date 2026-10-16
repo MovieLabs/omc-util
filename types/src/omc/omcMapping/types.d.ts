@@ -29,6 +29,10 @@ export type PropertySource = any;
  * relationship, as `Asset` does `Realization` (`edges.has.Realization` and
  * `edges.usedBy.Realization`). Optional, and omitting it means what it always did: the first
  * relationship admitting the target.
+ *
+ * The target is named one of two ways, and an edge carries exactly one: `to`, the `id` of an entry
+ * in this template, or `toType`, an entityType that no entry here builds — a reference to an entity
+ * another template or source provides. {@link module :omcMapping/mapRow.edgeTarget} resolves either.
  */
 export type EdgeMapping = any;
 /**

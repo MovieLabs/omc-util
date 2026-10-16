@@ -15,7 +15,7 @@
 import { omcTemplate } from '../../templates/index.js';
 
 import { resolveOptions } from './entity.js';
-import { identityColumn } from './mapRow.js';
+import { edgeTarget, identityColumn } from './mapRow.js';
 import { parseSegment } from './shapedValue.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
@@ -91,12 +91,30 @@ export function check({ mapping, options = {} }) {
     const warnings = [];
     const known = new Set(omcTemplate.allEntityTypes({ schemaVersion }) ?? []);
     const seenTypes = new Set();
+    const seenIds = new Set();
     let properties = 0;
     let edges = 0;
 
     for (const entry of mapping ?? []) {
-        const { entityType } = entry;
+        const { entityType, id } = entry;
         const where = entityType ?? '(no entityType)';
+
+        // The entry's id is what an edge names, so without one, or with one another entry has, an
+        // edge cannot say which entry it means.
+        if (typeof id !== 'string' || !id) {
+            problems.push({
+                kind: 'missingEntryId',
+                where,
+                detail: 'this entry has no id, so no edge can name it',
+            });
+        } else if (seenIds.has(id)) {
+            problems.push({
+                kind: 'duplicateEntryId',
+                where,
+                detail: `another entry already has the id "${id}"; each entry needs its own`,
+            });
+        }
+        seenIds.add(id);
 
         if (!entityType || !known.has(entityType)) {
             problems.push({
@@ -105,16 +123,6 @@ export function check({ mapping, options = {} }) {
                 detail: `${omcTemplate.versionLabel(schemaVersion)} has no entity type "${entityType}"`,
             });
             continue;
-        }
-        // A template maps several entities from one row, each of a distinct type — the type is the
-        // entity's identity, and two entries sharing one would be indistinguishable to an edge.
-        if (seenTypes.has(entityType)) {
-            problems.push({
-                kind: 'duplicateEntityType',
-                where,
-                detail: `${entityType} is mapped more than once; each entity in a template must be `
-                    + 'of a different type',
-            });
         }
         seenTypes.add(entityType);
 
@@ -183,6 +191,18 @@ export function check({ mapping, options = {} }) {
         const allEdges = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
         for (const edge of entry.edges ?? []) {
             edges += 1;
+            const target = edgeTarget(mapping, edge);
+            if (!target) {
+                problems.push({
+                    kind: 'unknownEdgeTarget',
+                    where,
+                    detail: (edge.to ?? edge.toType)
+                        ? `an edge names "${edge.to}", which is no entry in this template`
+                        : 'an edge names no target: give it the id of an entry (to) or an entityType (toType)',
+                });
+                continue;
+            }
+            const targetType = target.entityType;
             // `edgeKey` names the relationship being filled. When it is given, that relationship is
             // what has to admit the target — "some edge somewhere allows this type" would pass a
             // mapping that writes the reference into a different relationship than it names. It is
@@ -198,21 +218,39 @@ export function check({ mapping, options = {} }) {
                 continue;
             }
             const allowed = named
-                ? named.allowed?.includes(edge.to)
-                : Object.values(allEdges).some((e) => e.allowed?.includes(edge.to));
+                ? named.allowed?.includes(targetType)
+                : Object.values(allEdges).some((e) => e.allowed?.includes(targetType));
             if (!allowed) {
                 problems.push({
                     kind: 'edgeNotAllowed',
                     where,
                     detail: named
-                        ? `${entityType}.${edge.edgeKey} cannot reference ${edge.to} in `
-                            + `${omcTemplate.versionLabel(schemaVersion)}; it admits `
-                            + `${named.allowed?.join(' or ') || 'nothing'}`
-                        : `${entityType} cannot reference ${edge.to} in `
+                        ? `${entityType}.${edge.edgeKey} cannot reference ${targetType} in `
+                        + `${omcTemplate.versionLabel(schemaVersion)}; it admits `
+                        + `${named.allowed?.join(' or ') || 'nothing'}`
+                        : `${entityType} cannot reference ${targetType} in `
                             + `${omcTemplate.versionLabel(schemaVersion)}`,
                 });
             }
         }
+    }
+
+    // Two entries of one type identified by the same column build one entity, which is right when
+    // they describe it from different angles and a surprise when two entities were meant.
+    const byIdentity = new Map();
+    for (const entry of mapping ?? []) {
+        const column = identityColumn(entry);
+        if (!entry.entityType || !column) continue;
+        const key = `${entry.entityType}::${column}`;
+        if (byIdentity.has(key)) {
+            warnings.push({
+                kind: 'sameEntity',
+                where: entry.entityType,
+                detail: `two ${entry.entityType} entries are both identified by "${column}", so they build `
+                    + 'one entity between them. Identify one by a different column to build two',
+            });
+        }
+        byIdentity.set(key, true);
     }
 
     // An inverse written from both ends produces the relationship twice. Nothing at run time
@@ -220,12 +258,12 @@ export function check({ mapping, options = {} }) {
     const pairs = new Map();
     for (const entry of mapping ?? []) {
         for (const edge of entry.edges ?? []) {
-            if (!edge.inverse) continue;
-            const key = [entry.entityType, edge.to].sort().join('::');
+            if (!edge.inverse || !edgeTarget(mapping, edge)) continue;
+            const key = [entry.id, edge.to ?? `type:${edge.toType}`].sort().join('::');
             if (pairs.has(key)) {
                 problems.push({
                     kind: 'inverseDeclaredTwice',
-                    where: key.replace('::', ' <-> '),
+                    where: [entry.entityType, edgeTarget(mapping, edge).entityType].join(' <-> '),
                     detail: 'both ends declare inverse: true, so this relationship would be written '
                         + 'twice. Declare it on one side only',
                 });
@@ -237,7 +275,9 @@ export function check({ mapping, options = {} }) {
     return {
         valid: problems.length === 0,
         schemaVersion,
-        checked: { entityTypes: [...seenTypes], properties, edges },
+        checked: {
+            entries: (mapping ?? []).length, entityTypes: [...seenTypes], properties, edges,
+        },
         problems,
         warnings,
     };
@@ -284,7 +324,7 @@ export function checkColumns({ mapping, columns }) {
             (entries ?? []).forEach((n) => want(n.from, where, path));
         }
         for (const edge of entry.edges ?? []) {
-            want(edge.via, where, `the edge to ${edge.to}`);
+            want(edge.via, where, `the edge to ${edgeTarget(mapping, edge)?.entityType ?? edge.to ?? edge.toType}`);
         }
         for (const column of entry.customData?.exclude ?? []) {
             want(column, where, 'customData.exclude');

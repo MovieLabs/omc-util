@@ -53,9 +53,14 @@
  * `edges.usedBy.Realization`). Optional, and omitting it means what it always did: the first
  * relationship admitting the target.
  *
+ * The target is named one of two ways, and an edge carries exactly one: `to`, the `id` of an entry
+ * in this template, or `toType`, an entityType that no entry here builds — a reference to an entity
+ * another template or source provides. {@link module:omcMapping/mapRow.edgeTarget} resolves either.
+ *
  * @typedef {Object} EdgeMapping
  * @memberof OmcMapping
- * @property {string} to - The target entityType
+ * @property {string} [to] - The `id` of the target entry in this template
+ * @property {string} [toType] - The target entityType, when no entry in this template builds it
  * @property {string} via - Column holding the target's key value
  * @property {string} [edgeKey] - Edge-table key of the relationship this fills
  * @property {string} [split] - The column holds several keys
@@ -84,6 +89,10 @@
  *
  * @typedef {Object} EntityMapping
  * @memberof OmcMapping
+ * @property {string} id - Identifies this entry within the template, and is what an edge's `to`
+ *   names. Unique within the template. It identifies the entry, not the entity: the entity's
+ *   identifier comes from its entityType and key value, so two entries of one type keyed on the
+ *   same column build one entity, and on different columns build two
  * @property {string} entityType - The OMC entityType to build
  * @property {string} key - Column whose value seeds this entity's identifier. **Required**: it is
  *   what makes a re-run update the entity in place instead of duplicating it, and what lets

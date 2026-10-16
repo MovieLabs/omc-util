@@ -49,8 +49,10 @@
 // editor that reads `.key` directly concludes such an entity cannot be referenced and refuses a
 // relationship the engine would have built — which is exactly the kind of restated schema knowledge
 // this package exists to prevent.
+// `edgeTarget` is exported so an engine other than mapRow — a pipeline's table builder — resolves
+// an edge's target exactly as this one does.
 export {
-    mapRow, cast, splitList, identityColumn, hasSuppliedIdentifier,
+    mapRow, cast, splitList, identityColumn, hasSuppliedIdentifier, edgeTarget,
 } from './mapRow.js';
 export { createRun } from './createRun.js';
 export { check, checkColumns } from './check.js';

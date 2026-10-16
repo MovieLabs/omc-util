@@ -240,6 +240,24 @@ export function hasSuppliedIdentifier(mapping) {
 }
 
 /**
+ * What an edge points at: the entry it names with `to`, or, with `toType`, an entityType that no
+ * entry in this template builds.
+ *
+ * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
+ * @param {OmcMapping.EdgeMapping} edge - One of its edges
+ * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: string}|null)} The target entry
+ *   (null for a `toType` reference) and its entityType, or null when `to` names no entry or the
+ *   edge names neither
+ */
+export function edgeTarget(mapping, edge) {
+    if (edge?.to !== undefined && edge.to !== null) {
+        const entry = (mapping ?? []).find((m) => m.id === edge.to);
+        return entry ? { entry, entityType: entry.entityType } : null;
+    }
+    return edge?.toType ? { entry: null, entityType: edge.toType } : null;
+}
+
+/**
  * Build one entity from one row.
  *
  * @param {OmcMapping.EntityMapping} mapping - What to build
@@ -300,78 +318,86 @@ function buildEntity(mapping, row, options, notes) {
 /**
  * Create the relationships a mapping declares, once this row's entities exist.
  *
- * `via` names the column holding the target's key. Where that key belongs to an entity built from
- * this same row, the two are linked directly; where it does not, a reference stub is minted from
- * the same seed — so an edge can point at something another template, or another row, will build.
+ * `via` names the column holding the target's key. Where that key belongs to the target entry's
+ * entity built from this same row, the two are linked directly; where it does not, a reference stub
+ * is minted from the same seed — so an edge can point at something another row, another template,
+ * or (through `toType`) no entry at all will build.
  *
  * Paths, storage shape and inverses all come from the schema through `edgeCreate`, which returns
  * null for a relationship OMC does not allow rather than writing it.
  *
  * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
- * @param {Object.<string, Object>} built - This row's entities, by entityType
+ * @param {Object.<string, Object>} built - This row's entities, by entry id
  * @param {MappingRow} row - The row
  * @param {OmcMapping.MappingOptions} options - Resolved options
  * @param {Array<OmcMapping.MappingNote>} notes - Appended to in place
  */
 function applyEdges(mapping, built, row, options, notes) {
-    // entityType -> the identity value it was built under on this row, so an edge can tell "the
-    // entity I just built" from "an entity somewhere else that happens to be of that type".
-    const keyOnThisRow = new Map(mapping
-        .filter((m) => hasValue(row[identityColumn(m)]))
-        .map((m) => [m.entityType, String(row[identityColumn(m)])]));
-    // Which entity types name themselves, so a reference to one is not hashed.
-    const bySuppliedId = new Set(mapping.filter(hasSuppliedIdentifier).map((m) => m.entityType));
-
     for (const entry of mapping) {
-        if (!built[entry.entityType]) continue;
+        if (!built[entry.id]) continue;
 
         for (const edge of entry.edges ?? []) {
+            const target = edgeTarget(mapping, edge);
+            if (!target) {
+                notes.push({
+                    kind: 'unknownEdgeTarget',
+                    where: entry.entityType,
+                    detail: `an edge names "${edge.to ?? edge.toType}", which is no entry in this template; it was not written`,
+                });
+                continue;
+            }
+            const { entry: targetEntry, entityType: targetType } = target;
+            // The identity value the target entry was built under on this row, so an edge can tell
+            // "the entity this row built" from "an entity elsewhere that happens to be of that type".
+            const builtUnder = targetEntry && hasValue(row[identityColumn(targetEntry)])
+                ? String(row[identityColumn(targetEntry)])
+                : null;
             const targetKeys = edge.split
                 ? splitList(row[edge.via], edge.split)
                 : [row[edge.via]].filter(hasValue).map(String);
 
             for (const targetKey of targetKeys) {
-                const isSameRow = keyOnThisRow.get(edge.to) === targetKey && built[edge.to];
-                let target;
+                const isSameRow = builtUnder === targetKey && Boolean(built[targetEntry.id]);
+                let toEntity;
                 if (isSameRow) {
-                    target = built[edge.to];
-                } else if (bySuppliedId.has(edge.to)) {
+                    toEntity = built[targetEntry.id];
+                } else if (targetEntry && hasSuppliedIdentifier(targetEntry)) {
                     // The target names itself, so the reference is that name — hashing it would
                     // point at an entity nothing will ever build.
-                    target = {
+                    toEntity = {
                         schemaVersion: options.schemaVersion,
-                        entityType: edge.to,
+                        entityType: targetType,
                         identifier: [{
                             identifierScope: options.identifierScope,
                             identifierValue: targetKey,
                         }],
                     };
                 } else {
-                    target = entityRef({ entityType: edge.to, key: targetKey, options });
+                    toEntity = entityRef({ entityType: targetType, key: targetKey, options });
                 }
 
                 const result = edgeCreate({
-                    fromEntity: built[entry.entityType],
-                    toEntity: target,
+                    fromEntity: built[entry.id],
+                    toEntity,
                     // Which relationship, where the target type reaches the entity through more
                     // than one — `Asset` holds both `edges.has.Realization` and
                     // `edges.usedBy.Realization`. Optional: a mapping that does not say falls back
-                    // to edgeCreate's own choice, which is what every template did before.
+                    // to edgeCreate's own choice.
                     intrinsicEdge: edge.edgeKey ?? null,
                     inverse: Boolean(edge.inverse),
                 });
                 if (!result) {
                     notes.push({
                         kind: 'edgeNotAllowed',
-                        where: `${entry.entityType} -> ${edge.to}`,
+                        where: `${entry.entityType} -> ${targetType}`,
                         detail: 'the schema does not allow this relationship; it was not written',
                     });
                     continue;
                 }
-                built[entry.entityType] = result.fromEntity;
+                built[entry.id] = result.fromEntity;
                 // The inverse is only worth keeping when the target is a real entity from this
                 // row; writing it back onto a throwaway stub would lose it.
-                if (edge.inverse && isSameRow) built[edge.to] = result.toEntity;
+                if (edge.inverse && isSameRow) built[targetEntry.id] = result.toEntity;
             }
         }
     }
@@ -385,7 +411,8 @@ function applyEdges(mapping, built, row, options, notes) {
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>}} The
- *   entities by entityType, already linked to one another, and anything worth reporting
+ *   entities by entry id, already linked to one another, and anything worth reporting. Two entries
+ *   that build the same entity each hold a copy; {@link module:omcMapping/createRun} folds them
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options = {} }) {
@@ -395,7 +422,7 @@ export function mapRow({ row, mapping, options = {} }) {
 
     for (const entry of mapping) {
         const entity = buildEntity(entry, row, resolved, notes);
-        if (entity) entities[entry.entityType] = entity;
+        if (entity) entities[entry.id] = entity;
     }
 
     applyEdges(mapping, entities, row, resolved, notes);
