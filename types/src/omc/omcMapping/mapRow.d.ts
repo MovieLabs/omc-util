@@ -41,6 +41,20 @@ export function identityColumn(mapping: OmcMapping.EntityMapping): (string | nul
  */
 export function hasSuppliedIdentifier(mapping: OmcMapping.EntityMapping): boolean;
 /**
+ * What an edge points at: the entry it names with `to`, or, with `toType`, an entityType that no
+ * entry in this template builds.
+ *
+ * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
+ * @param {OmcMapping.EdgeMapping} edge - One of its edges
+ * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: string}|null)} The target entry
+ *   (null for a `toType` reference) and its entityType, or null when `to` names no entry or the
+ *   edge names neither
+ */
+export function edgeTarget(mapping: Array<OmcMapping.EntityMapping>, edge: OmcMapping.EdgeMapping): ({
+    entry: (OmcMapping.EntityMapping | null);
+    entityType: string;
+} | null);
+/**
  * Map one row to OMC entities.
  *
  * @param {Object} params
@@ -48,7 +62,8 @@ export function hasSuppliedIdentifier(mapping: OmcMapping.EntityMapping): boolea
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>}} The
- *   entities by entityType, already linked to one another, and anything worth reporting
+ *   entities by entry id, already linked to one another, and anything worth reporting. Two entries
+ *   that build the same entity each hold a copy; {@link module:omcMapping/createRun} folds them
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options }: {

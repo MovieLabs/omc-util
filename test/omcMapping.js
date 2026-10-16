@@ -4,7 +4,8 @@
  * The properties that matter most are the ones the whole feature rests on: identity is
  * deterministic (so a re-run updates rather than duplicates), array-shaped properties are written
  * as arrays (so the entity validates), relationships resolve whether or not the target was built
- * from the same row, and match keys fold rows together keeping the first value seen.
+ * from the same row, match keys fold rows together keeping the first value seen, and an entry is
+ * named by its id — so one template can build several entities of one type.
  *
  *   Usage: node test/omcMapping.js
  */
@@ -25,6 +26,7 @@ const ok = (condition, msg) => (condition ? pass(msg) : fail(msg));
 /** A template exercising every property spec form, plus an edge. */
 const MAPPING = [
     {
+        id: 'structure',
         entityType: 'AssetStructure',
         key: 'File Name',
         properties: {
@@ -35,10 +37,11 @@ const MAPPING = [
         },
     },
     {
+        id: 'asset',
         entityType: 'Asset',
         key: 'File Name',
         properties: { label: 'File Name' },
-        edges: [{ to: 'AssetStructure', via: 'File Name' }],
+        edges: [{ to: 'structure', via: 'File Name' }],
         customData: { domain: 'Frame.io', rest: true, exclude: ['Audio Sample Rate'] },
     },
 ];
@@ -56,26 +59,26 @@ console.log('\nomcMapping');
 
 const first = omcMapping.mapRow({ row: ROW, mapping: MAPPING, options: OPTIONS });
 
-ok(Object.keys(first.entities).sort().join(',') === 'Asset,AssetStructure',
-    'builds one entity per mapping entry, keyed by entityType');
+ok(Object.keys(first.entities).sort().join(',') === 'asset,structure',
+    'builds one entity per mapping entry, keyed by entry id');
 
-ok(first.entities.AssetStructure.assetStructureType === 'digital.movingImage',
+ok(first.entities.structure.assetStructureType === 'digital.movingImage',
     'writes a const as a fixed value');
 
-ok(first.entities.AssetStructure.assetStructureProperties.fileDetails.fileName === 'A039C006.mov',
+ok(first.entities.structure.assetStructureProperties.fileDetails.fileName === 'A039C006.mov',
     'writes a nested dotted path');
 
-ok(first.entities.AssetStructure.assetStructureProperties.audioSampleRate === 48000,
+ok(first.entities.structure.assetStructureProperties.audioSampleRate === 48000,
     'casts a string cell to a number');
 
-ok(first.entities.Asset.customData?.[0]?.value?.Scene === 16
-    && first.entities.Asset.customData[0].domain === 'Frame.io',
+ok(first.entities.asset.customData?.[0]?.value?.Scene === 16
+    && first.entities.asset.customData[0].domain === 'Frame.io',
 'carries unconsumed columns to customData under the declared domain');
 
-ok(first.entities.Asset.customData[0].value['Audio Sample Rate'] === undefined,
+ok(first.entities.asset.customData[0].value['Audio Sample Rate'] === undefined,
     'customData honours exclude');
 
-ok(first.entities.Asset.customData[0].value['File Name'] === undefined,
+ok(first.entities.asset.customData[0].value['File Name'] === undefined,
     'customData omits a column a property already consumed');
 
 /* --------------------------------------------------------- deterministic identity --------- */
@@ -87,47 +90,132 @@ ok(JSON.stringify(first.entities) === JSON.stringify(second.entities),
 const otherScope = omcMapping.mapRow({
     row: ROW, mapping: MAPPING, options: { ...OPTIONS, seedNamespace: 'OTHER' },
 });
-ok(otherScope.entities.Asset.identifier[0].identifierValue
-    !== first.entities.Asset.identifier[0].identifierValue,
+ok(otherScope.entities.asset.identifier[0].identifierValue
+    !== first.entities.asset.identifier[0].identifierValue,
 'seedNamespace participates in the identifier');
 
-ok(first.entities.Asset.identifier[0].identifierValue
-    !== first.entities.AssetStructure.identifier[0].identifierValue,
+ok(first.entities.asset.identifier[0].identifierValue
+    !== first.entities.structure.identifier[0].identifierValue,
 'one key mints distinct identifiers for different entity types');
+
+const renamed = omcMapping.mapRow({
+    row: ROW,
+    mapping: MAPPING.map((m) => ({
+        ...m,
+        id: `${m.id}-renamed`,
+        edges: m.edges?.map((e) => ({ ...e, to: `${e.to}-renamed` })),
+    })),
+    options: OPTIONS,
+});
+ok(renamed.entities['asset-renamed'].identifier[0].identifierValue
+    === first.entities.asset.identifier[0].identifierValue,
+'an entry id is not part of the identifier: renaming an entry does not change what it builds');
 
 /* ------------------------------------------------------------------- edges ---------------- */
 
-ok(JSON.stringify(first.entities.Asset)
-    .includes(first.entities.AssetStructure.identifier[0].identifierValue),
+ok(JSON.stringify(first.entities.asset)
+    .includes(first.entities.structure.identifier[0].identifierValue),
 'links an entity to another built from the same row');
 
 const REF_MAPPING = [{
+    id: 'asset',
     entityType: 'Asset',
     key: 'File Name',
     properties: { label: 'File Name' },
-    // AssetStructure is not built here, so this must resolve to a reference stub.
-    edges: [{ to: 'AssetStructure', via: 'Structure Key' }],
+    // No entry builds the AssetStructure, so this must resolve to a reference stub.
+    edges: [{ toType: 'AssetStructure', via: 'Structure Key' }],
 }];
 const refRow = { 'File Name': 'A039C006.mov', 'Structure Key': 'somewhere-else' };
 const refOut = omcMapping.mapRow({ row: refRow, mapping: REF_MAPPING, options: OPTIONS });
 const stubId = omcMapping.entityRef({
     entityType: 'AssetStructure', key: 'somewhere-else', options: OPTIONS,
 }).identifier[0].identifierValue;
-ok(JSON.stringify(refOut.entities.Asset).includes(stubId),
-    'references an entity this row did not build, seeded identically');
+ok(JSON.stringify(refOut.entities.asset).includes(stubId),
+    'toType references an entity no entry builds, seeded identically');
+
+const ENTRY_ELSEWHERE = [
+    {
+        id: 'asset', entityType: 'Asset', key: 'File Name', edges: [{ to: 'structure', via: 'Structure Key' }],
+    },
+    { id: 'structure', entityType: 'AssetStructure', key: 'File Name' },
+];
+const elsewhere = omcMapping.mapRow({ row: refRow, mapping: ENTRY_ELSEWHERE, options: OPTIONS });
+ok(JSON.stringify(elsewhere.entities.asset).includes(stubId)
+    && !JSON.stringify(elsewhere.entities.asset).includes(elsewhere.entities.structure.identifier[0].identifierValue),
+'an edge to an entry, by a key that entry did not build on this row, references the keyed entity instead');
+
+const dangling = omcMapping.mapRow({
+    row: refRow,
+    mapping: [{ id: 'asset', entityType: 'Asset', key: 'File Name', edges: [{ to: 'nobody', via: 'Structure Key' }] }],
+    options: OPTIONS,
+});
+ok(dangling.notes.some((n) => n.kind === 'unknownEdgeTarget') && !dangling.entities.asset.AssetStructure,
+    'an edge naming no entry is reported and not written');
 
 // The v3.0 edge table gives Slate no path to AssetStructure: `informs` reaches every entity type
 // except the three structures, and nothing else connects them.
 const BAD_EDGE = [
-    { entityType: 'Slate', key: 'k', edges: [{ to: 'AssetStructure', via: 'k' }] },
+    { id: 'slate', entityType: 'Slate', key: 'k', edges: [{ toType: 'AssetStructure', via: 'k' }] },
 ];
 const badOut = omcMapping.mapRow({ row: { k: 'x' }, mapping: BAD_EDGE, options: OPTIONS });
 ok(badOut.notes.some((n) => n.kind === 'edgeNotAllowed'),
     'reports a relationship the schema disallows rather than writing it');
 
+/* ------------------------------------------------- several entities of one type ------------ */
+
+// Each Asset has its own structure, and every Asset is a member of one group structure — two
+// AssetStructure entries, told apart by id and keyed on different columns.
+const GROUPED = [
+    {
+        id: 'asset', entityType: 'Asset', key: 'File', properties: { label: 'File' },
+        edges: [{ to: 'fileStructure', via: 'File', edgeKey: 'AssetStructure' }],
+    },
+    {
+        id: 'fileStructure', entityType: 'AssetStructure', key: 'File',
+        properties: { 'assetStructureType': { const: 'digital.movingImage' }, 'assetStructureProperties.fileDetails.fileName': 'File' },
+    },
+    {
+        id: 'group', entityType: 'AssetStructure', key: 'Group', properties: { label: 'Group' },
+        edges: [{ to: 'asset', via: 'File', edgeKey: 'assetStructureProperties.assetGroup.Member' }],
+    },
+];
+ok(omcMapping.check({ mapping: GROUPED, options: OPTIONS }).valid,
+    'check accepts two entries of one type with their own ids');
+const groupRun = omcMapping.createRun({ mapping: GROUPED, options: OPTIONS });
+for (let i = 1; i <= 10; i += 1) groupRun.add({ File: `clip${i}.mov`, Group: 'Day 1' });
+const grouped = groupRun.result();
+const structures = grouped.entities.filter((e) => e.entityType === 'AssetStructure');
+const group = structures.find((e) => e.label === 'Day 1');
+ok(grouped.counts.byType.Asset === 10 && structures.length === 11,
+    'ten rows build ten Assets, ten file structures and one group');
+ok(group?.assetStructureProperties?.assetGroup?.Member?.length === 10,
+    'the group collects all ten Assets as members');
+const firstAsset = grouped.entities.find((e) => e.label === 'clip1.mov');
+const ownStructure = structures.find((e) => e.assetStructureProperties?.fileDetails?.fileName === 'clip1.mov');
+const assetRefs = JSON.stringify(firstAsset.AssetStructure);
+ok(assetRefs.includes(ownStructure.identifier[0].identifierValue)
+    && !assetRefs.includes(group.identifier[0].identifierValue),
+'each Asset points at its own structure, not the group');
+
+// Two entries of one type identified by one column describe one entity: they fold into it.
+const SAME = [
+    { id: 'a1', entityType: 'Asset', key: 'File', properties: { label: 'File' } },
+    { id: 'a2', entityType: 'Asset', key: 'File', properties: { description: 'Note' } },
+];
+const sameCheck = omcMapping.check({ mapping: SAME, options: OPTIONS });
+ok(sameCheck.valid && sameCheck.warnings.some((w) => w.kind === 'sameEntity'),
+    'two entries of one type on one identity column pass, with a warning that they build one entity');
+const sameRun = omcMapping.createRun({ mapping: SAME, options: OPTIONS });
+sameRun.add({ File: 'x.mov', Note: 'from the second entry' });
+const sameOut = sameRun.result();
+ok(sameOut.entities.length === 1 && sameOut.entities[0].label === 'x.mov'
+    && sameOut.entities[0].description === 'from the second entry',
+'and the run folds them into one entity carrying both entries\' properties');
+
 /* ---------------------------------------------------------------- array paths ------------- */
 
 const ARRAY_MAPPING = [{
+    id: 'asset',
     entityType: 'Asset',
     key: 'File Name',
     properties: {
@@ -137,13 +225,14 @@ const ARRAY_MAPPING = [{
     },
 }];
 const arr = omcMapping.mapRow({ row: ROW, mapping: ARRAY_MAPPING, options: OPTIONS });
-const annotation = arr.entities.Asset.annotation;
+const annotation = arr.entities.asset.annotation;
 ok(Array.isArray(annotation) && annotation.length === 1,
     'an array-of-object property is written as an array with one element');
 ok(annotation?.[0]?.title === '16K' && annotation?.[0]?.text === 'A039C006.mov',
     'sibling sub-paths merge into the same array element');
 
 const INDEXED = [{
+    id: 'asset',
     entityType: 'Asset',
     key: 'File Name',
     properties: {
@@ -153,8 +242,8 @@ const INDEXED = [{
     },
 }];
 const indexed = omcMapping.mapRow({ row: ROW, mapping: INDEXED, options: OPTIONS });
-ok(indexed.entities.Asset.annotation?.[0]?.title === '16K'
-    && indexed.entities.Asset.annotation?.[1]?.title === 'A039C006.mov',
+ok(indexed.entities.asset.annotation?.[0]?.title === '16K'
+    && indexed.entities.asset.annotation?.[1]?.title === 'A039C006.mov',
 'explicit array indices target their own elements');
 
 // Worth pinning down, because it surprises: an index whose earlier siblings were never filled
@@ -163,19 +252,21 @@ ok(indexed.entities.Asset.annotation?.[0]?.title === '16K'
 const sparse = omcMapping.mapRow({
     row: ROW,
     mapping: [{
+        id: 'asset',
         entityType: 'Asset',
         key: 'File Name',
         properties: { 'label': 'File Name', 'annotation[1].title': 'Slate' },
     }],
     options: OPTIONS,
 });
-ok(sparse.entities.Asset.annotation.length === 1
-    && sparse.entities.Asset.annotation[0].title === '16K',
+ok(sparse.entities.asset.annotation.length === 1
+    && sparse.entities.asset.annotation[0].title === '16K',
 'an index with nothing before it collapses rather than leaving an empty element');
 
 /* -------------------------------------------------------------- the match-key fold -------- */
 
 const SCENE_MAPPING = [{
+    id: 'scene',
     entityType: 'ProductionScene',
     key: 'Scene',
     properties: { label: 'Scene', description: 'Description' },
@@ -211,6 +302,7 @@ ok(Object.keys(noKey.entities).length === 0
 /* ------------------------------------------- a source that already names itself ------------ */
 
 const SUPPLIED = [{
+    id: 'asset',
     entityType: 'Asset',
     // No `key`: mapping the source's own id says which column names the thing, which is the only
     // question a key asks.
@@ -218,13 +310,13 @@ const SUPPLIED = [{
 }];
 const suppliedRow = { 'File Name': 'A039C006.mov', 'Frame ID': 'file-a-123' };
 const supplied = omcMapping.mapRow({ row: suppliedRow, mapping: SUPPLIED, options: OPTIONS });
-const suppliedId = supplied.entities.Asset.identifier[0];
+const suppliedId = supplied.entities.asset.identifier[0];
 
 ok(suppliedId.identifierValue === 'file-a-123',
     'a mapped identifierValue is used verbatim rather than hashed');
 ok(suppliedId.identifierScope === OPTIONS.identifierScope,
     'and the run\'s scope fills in, so the identifier is not left scopeless');
-ok(supplied.entities.Asset.identifier.length === 1,
+ok(supplied.entities.asset.identifier.length === 1,
     'the supplied identifier replaces the hash rather than sitting beside it');
 ok(omcMapping.check({ mapping: SUPPLIED, options: OPTIONS }).valid,
     'check accepts a mapped identifierValue in place of a key column');
@@ -233,20 +325,23 @@ ok(omcMapping.check({ mapping: SUPPLIED, options: OPTIONS }).valid,
 const REF_TO_SUPPLIED = [
     ...SUPPLIED,
     {
+        id: 'structure',
         entityType: 'AssetStructure',
         key: 'File Name',
         properties: { assetStructureType: { const: 'digital.movingImage' } },
-        edges: [{ to: 'Asset', via: 'Frame ID' }],
+        edges: [{ to: 'asset', via: 'Frame ID' }],
     },
 ];
 const linked = omcMapping.mapRow({ row: suppliedRow, mapping: REF_TO_SUPPLIED, options: OPTIONS });
-ok(JSON.stringify(linked.entities.AssetStructure).includes('file-a-123'),
+ok(JSON.stringify(linked.entities.structure).includes('file-a-123'),
     'a reference to a self-naming entity uses that name, not a hash of it');
 
 /* ------------------------------------------------------ a key that is not unique ----------- */
 
 const dupRun = omcMapping.createRun({
-    mapping: [{ entityType: 'Asset', key: 'File Name', properties: { label: 'File Name', description: 'Note' } }],
+    mapping: [{
+        id: 'asset', entityType: 'Asset', key: 'File Name', properties: { label: 'File Name', description: 'Note' },
+    }],
     options: OPTIONS,
 });
 dupRun.add({ 'File Name': 'dup.mov', 'Note': 'first' });
@@ -268,6 +363,7 @@ ok(dup.notes.some((n) => n.kind === 'keyNotUnique' && n.where === 'Asset'),
 const dims = omcMapping.mapRow({
     row: { k: 'x', W: '1920px', H: '1080px' },
     mapping: [{
+        id: 'structure',
         entityType: 'AssetStructure',
         key: 'k',
         properties: {
@@ -277,7 +373,7 @@ const dims = omcMapping.mapRow({
         },
     }],
     options: OPTIONS,
-}).entities.AssetStructure;
+}).entities.structure;
 ok(dims.assetStructureProperties.dimensions.width === '1920px'
     && dims.assetStructureProperties.dimensions.height === '1080px',
 'a measurement typed as a format union is mappable, not an empty object');
@@ -288,6 +384,7 @@ ok(dims.assetStructureProperties.dimensions.width === '1920px'
 // relationships — so dropping a foreign identifier into an edge slot was reported as a property
 // the entity does not have, even though the runtime built it correctly.
 const EDGE_ID = [{
+    id: 'asset',
     entityType: 'Asset',
     key: 'File Name',
     properties: {
@@ -304,20 +401,20 @@ const edgeOut = omcMapping.mapRow({
     mapping: EDGE_ID,
     options: OPTIONS,
 });
-ok(edgeOut.entities.Asset.edges.has.Slate[0].identifier[0].identifierValue === 'slate-16K',
+ok(edgeOut.entities.asset.edges.has.Slate[0].identifier[0].identifierValue === 'slate-16K',
     'and builds the reference, without building the entity referenced');
 
 // The slot itself is a relationship, not a value — mapping a column straight onto it is a mistake
 // worth naming rather than letting it write a string where a reference belongs.
 const bareSlot = omcMapping.check({
-    mapping: [{ entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate': 'c' } }],
+    mapping: [{ id: 'asset', entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate': 'c' } }],
     options: OPTIONS,
 });
 ok(!bareSlot.valid && /relationship to Slate/.test(bareSlot.problems[0].detail),
     'mapping a column onto the relationship itself is refused, and says what to do instead');
 
 ok(!omcMapping.check({
-    mapping: [{ entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate[0].nonsense': 'c' } }],
+    mapping: [{ id: 'asset', entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate[0].nonsense': 'c' } }],
     options: OPTIONS,
 }).valid, 'but an arbitrary property inside a reference is still rejected');
 
@@ -328,23 +425,39 @@ ok(omcMapping.check({ mapping: MAPPING, options: OPTIONS }).valid,
 
 const problems = (m) => omcMapping.check({ mapping: m, options: OPTIONS }).problems.map((p) => p.kind);
 
-ok(problems([{ entityType: 'Nonsense', key: 'k' }]).includes('unknownEntityType'),
+ok(problems([{ id: 'x', entityType: 'Nonsense', key: 'k' }]).includes('unknownEntityType'),
     'check rejects an unknown entity type');
-ok(problems([{ entityType: 'Asset', key: 'k', properties: { nope: 'c' } }]).includes('unknownProperty'),
+ok(problems([{ id: 'x', entityType: 'Asset', key: 'k', properties: { nope: 'c' } }]).includes('unknownProperty'),
     'check rejects a property the schema does not have');
-ok(problems([{ entityType: 'Asset', properties: { label: 'c' } }]).includes('missingKey'),
+ok(problems([{ id: 'x', entityType: 'Asset', properties: { label: 'c' } }]).includes('missingKey'),
     'check requires a key column');
+ok(problems([{ entityType: 'Asset', key: 'k' }]).includes('missingEntryId'),
+    'check requires every entry to have an id');
 ok(problems([
-    { entityType: 'Asset', key: 'k' }, { entityType: 'Asset', key: 'k' },
-]).includes('duplicateEntityType'),
-'check rejects two entities of the same type in one template');
+    { id: 'same', entityType: 'Asset', key: 'k' }, { id: 'same', entityType: 'Slate', key: 'k' },
+]).includes('duplicateEntryId'),
+'check rejects two entries sharing an id');
+ok(problems([
+    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ to: 'missing', via: 'k' }] },
+]).includes('unknownEdgeTarget'),
+'check rejects an edge naming no entry');
+ok(problems([
+    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ via: 'k' }] },
+]).includes('unknownEdgeTarget'),
+'check rejects an edge naming no target at all');
+ok(!problems([
+    { id: 'a', entityType: 'Asset', key: 'k' }, { id: 'b', entityType: 'Asset', key: 'j' },
+]).length, 'check accepts two entries of one type');
 const offList = omcMapping.check({
-    mapping: [{ entityType: 'AssetStructure', key: 'k', properties: { assetStructureType: { const: 'nope' } } }],
+    mapping: [{
+        id: 'x', entityType: 'AssetStructure', key: 'k', properties: { assetStructureType: { const: 'nope' } },
+    }],
     options: OPTIONS,
 });
 ok(offList.valid && offList.warnings.map((w) => w.kind).includes('valueNotSuggested'),
     'check accepts a const outside a controlled value list, with a warning');
 ok(problems([{
+    id: 'x',
     entityType: 'AssetStructure',
     key: 'k',
     properties: { 'assetStructureProperties.coordinateOrientation.handedness': { const: 'middle' } },
@@ -352,6 +465,7 @@ ok(problems([{
 'check rejects a const outside an enum');
 ok(omcMapping.check({
     mapping: [{
+        id: 'x',
         entityType: 'AssetStructure',
         key: 'k',
         properties: { 'assetStructureProperties.coordinateOrientation.handedness': { const: 'left' } },
@@ -359,10 +473,14 @@ ok(omcMapping.check({
     options: OPTIONS,
 }).valid, 'check accepts a const inside an enum');
 ok(problems([
-    { entityType: 'Asset', key: 'k', edges: [{ to: 'AssetStructure', via: 'k', inverse: true }] },
-    { entityType: 'AssetStructure', key: 'k', edges: [{ to: 'Asset', via: 'k', inverse: true }] },
+    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ to: 's', via: 'k', inverse: true }] },
+    { id: 's', entityType: 'AssetStructure', key: 'k', edges: [{ to: 'a', via: 'k', inverse: true }] },
 ]).includes('inverseDeclaredTwice'),
 'check catches an inverse declared from both ends');
+ok(problems([
+    { id: 'slate', entityType: 'Slate', key: 'k', edges: [{ toType: 'AssetStructure', via: 'k' }] },
+]).includes('edgeNotAllowed'),
+'check validates a toType reference against the schema like any other edge');
 
 /* --------------------------------------------------------------- checkColumns ------------- */
 
