@@ -75,6 +75,21 @@ export function getContextProps(omcEntity: any): {};
  */
 export function removeEdge(omcEntity: OmcEntity, identifier: OmcEntity | OmcIdentifier): OmcEntity;
 /**
+ * Point every reference to one entity at another identifier instead, wherever the entity keeps
+ * references — for when an entity's identifier is replaced, so nothing is left pointing at the old
+ * one. A reference that already carries the new identifier loses the old one without gaining a
+ * second copy.
+ *
+ * @memberof module:omcEdges
+ * @function replaceReference
+ * @static
+ * @param {OmcEntity} omcEntity - The entity whose references are rewritten
+ * @param {OmcEntity | OmcIdentifier | Array<OmcIdentifier>} from - The identifier being replaced
+ * @param {OmcEntity | OmcIdentifier | Array<OmcIdentifier>} to - What replaces it
+ * @returns {OmcEntity} A new entity, or the same object when nothing referred to `from`
+ */
+export function replaceReference(omcEntity: OmcEntity, from: OmcEntity | OmcIdentifier | Array<OmcIdentifier>, to: OmcEntity | OmcIdentifier | Array<OmcIdentifier>): OmcEntity;
+/**
  * Tests if an edge between two entityTypes is valid as per OMC and returns that edge or null
  * @function edgeValid
  * @param {Object} params

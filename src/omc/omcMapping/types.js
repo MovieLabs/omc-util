@@ -64,8 +64,8 @@
  * @property {string} via - Column holding the target's key value
  * @property {string} [edgeKey] - Edge-table key of the relationship this fills
  * @property {string} [split] - The column holds several keys
- * @property {boolean} [inverse] - Also write the reciprocal edge. Declare on **one** side of a
- *   pair only, or the relationship is written twice
+ * @property {boolean} [inverse=true] - Also write the reciprocal edge onto the target, when the run
+ *   builds it. `false` writes the forward edge alone
  */
 
 /**

@@ -472,11 +472,32 @@ ok(omcMapping.check({
     }],
     options: OPTIONS,
 }).valid, 'check accepts a const inside an enum');
-ok(problems([
-    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ to: 's', via: 'k', inverse: true }] },
-    { id: 's', entityType: 'AssetStructure', key: 'k', edges: [{ to: 'a', via: 'k', inverse: true }] },
-]).includes('inverseDeclaredTwice'),
-'check catches an inverse declared from both ends');
+{
+    // A slate row names its scene by a column the scene is not keyed on, so the scene is built by
+    // another row and the slate's edge reaches a stub. The run writes the inverse onto the scene.
+    const mapping = (inverse) => [
+        { id: 'scene', entityType: 'ProductionScene', key: 'scene' },
+        {
+            id: 'slate', entityType: 'Slate', key: 'slate', edges: [{ to: 'scene', via: 'sceneRef', ...(inverse === false && { inverse }) }],
+        },
+    ];
+    const built = (inverse) => {
+        const run = omcMapping.createRun({ mapping: mapping(inverse), options: OPTIONS });
+        run.add({ scene: '1-1' });
+        run.add({ slate: 's1', sceneRef: '1-1' });
+        const { entities } = run.result();
+        return {
+            scene: entities.find((e) => e.entityType === 'ProductionScene'),
+            slate: entities.find((e) => e.entityType === 'Slate'),
+        };
+    };
+    const refersTo = (from, to) => JSON.stringify(from.edges ?? {}).includes(to.identifier[0].identifierValue);
+    const { scene, slate } = built();
+    ok(refersTo(slate, scene), 'the forward edge reaches an entity another row built');
+    ok(refersTo(scene, slate), 'the inverse is written onto it by default');
+    const off = built(false);
+    ok(!refersTo(off.scene, off.slate), 'inverse: false writes the forward edge alone');
+}
 ok(problems([
     { id: 'slate', entityType: 'Slate', key: 'k', edges: [{ toType: 'AssetStructure', via: 'k' }] },
 ]).includes('edgeNotAllowed'),

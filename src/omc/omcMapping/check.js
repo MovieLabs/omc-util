@@ -253,25 +253,6 @@ export function check({ mapping, options = {} }) {
         byIdentity.set(key, true);
     }
 
-    // An inverse written from both ends produces the relationship twice. Nothing at run time
-    // notices, so it has to be caught here.
-    const pairs = new Map();
-    for (const entry of mapping ?? []) {
-        for (const edge of entry.edges ?? []) {
-            if (!edge.inverse || !edgeTarget(mapping, edge)) continue;
-            const key = [entry.id, edge.to ?? `type:${edge.toType}`].sort().join('::');
-            if (pairs.has(key)) {
-                problems.push({
-                    kind: 'inverseDeclaredTwice',
-                    where: [entry.entityType, edgeTarget(mapping, edge).entityType].join(' <-> '),
-                    detail: 'both ends declare inverse: true, so this relationship would be written '
-                        + 'twice. Declare it on one side only',
-                });
-            }
-            pairs.set(key, true);
-        }
-    }
-
     return {
         valid: problems.length === 0,
         schemaVersion,

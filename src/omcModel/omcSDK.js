@@ -139,6 +139,18 @@ const cache = () => {
             });
             return storeHistory;
         },
+        reidentify(original, ent) {
+            const storeId = this.internalIdMapping(original);
+            if (!storeId) return this.replace(ent);
+            Object.keys(this.mapStoreKeys(original.identifier || [])).forEach((key) => {
+                if (this.idMapping[key] === storeId) delete this.idMapping[key];
+            });
+            Object.keys(this.mapStoreKeys(ent.identifier || [])).forEach((key) => {
+                this.idMapping[key] = storeId;
+            });
+            this.store[storeId] = ent;
+            return ent;
+        },
         internalIdMapping(identifier) {
             // Normalize the identifier value, in case of it being full identifier, array of id's or single id
             if (!identifier) return null;
@@ -319,6 +331,24 @@ function remove(omc, options = {}) {
 }
 
 /**
+ * Replace an entity with a version carrying different identifiers, keeping its internal id, so
+ * whatever holds that id still finds it. The identifiers the original had and the new version
+ * lacks no longer resolve to it.
+ *
+ * @function reidentify
+ * @memberof module:omcSDK
+ * @param {OmcEntity} original - The entity as the model holds it
+ * @param {OmcEntity} updated - The same entity under its new identifiers
+ * @returns {OmcEntity|null} The stored entity
+ */
+function reidentify(original, updated) {
+    if (!original || !updated) return null;
+    const stored = this.cache.reidentify(original, entityModel(omcTransform.cleanEntity(updated)));
+    this.notify();
+    return stored;
+}
+
+/**
  * Remove OMC entities that exist in the internal cache
  * @function removeWithEdges
  * @memberof module:omcSDK
@@ -407,6 +437,7 @@ export default function omcSDK() {
         set,
         remove,
         removeWithEdges,
+        reidentify,
         replace,
         reset,
         exportModel,

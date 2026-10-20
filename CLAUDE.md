@@ -121,7 +121,7 @@ until then.
 | `omcTemplate` | `src/templates/index.js` | **The schema oracle.** Everything a consumer must ask rather than derive — see below |
 | `omcCompare` | `src/omc/omcCompare.js` | Deep-diff two entities → `{$create, $remove, $update}` |
 | `omcMerge` | `src/omc/omcMerge.js` | `deepMerge`, `mergeEntity`, `mergeChanges` — merging, and "does this carry new information?" |
-| `omcEdges` | `src/omc/omcEdges.js` | `edgeCreate`, `edgeValid`, `removeEdge`, and the base/intrinsic/context key splits |
+| `omcEdges` | `src/omc/omcEdges.js` | `edgeCreate`, `edgeValid`, `removeEdge`, `replaceReference`, and the base/intrinsic/context key splits |
 | `omcFind` | `src/omc/omcFind.js` | Filter entities by nested criteria |
 | `omcIdentifier` | `src/omc/omcIdentifier.js` | `idMint`, `idKey`, `idMerge`, `idCombinedForm`, … |
 | `omcTransform` | `src/omc/omcTransform.js` | `toArray`, `toObject`, `unEmbed`, `deDuplicate`, `cleanEntity` |
