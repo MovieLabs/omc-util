@@ -50,6 +50,12 @@ console.log('queryBuilder');
     omcTemplate.resetEdgeTable({ schemaVersion });
     check('an installed edge table does not change what is asked for', installed === q);
 
+    const filtered = build({ entityType: 'CapturePoint', template: { Capture: { label: 'x' } } });
+    check('a filtered slot named differently from its type is asked as that type',
+        /Capture \{ schemaVersion identifier[^]*entityType[^]*label \(label: "x"\)[^]*assetName/.test(filtered));
+    const deep = build({ entityType: 'Asset', template: { versionInfo: { Revision: { label: 'x' } } } });
+    check('so is one inside a property', /Revision \{ schemaVersion identifier[^]*entityType[^]*assetName/.test(deep));
+
     const legacy = build({ entityType: 'Character', schemaVersion: 'https://movielabs.com/omc/json/schema/v2.8' });
     check('a version with no edges bucket asks for none', !legacy.includes('edges {'));
 }
