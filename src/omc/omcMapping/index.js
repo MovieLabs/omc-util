@@ -37,7 +37,7 @@
  *
  * Everything. Which properties exist and where an array element goes ({@link omcTemplate.shape}),
  * whether a relationship is allowed and where it is stored ({@link omcEdges.edgeCreate}), how an
- * identifier is formed ({@link omcIdentifier.idHash}). A mapping names paths; it never restates a
+ * identifier is formed ({@link omcIdentifier.idMint}). A mapping names paths; it never restates a
  * schema fact. Add a property to OMC and it becomes mappable with no change here.
  *
  * @module omcMapping

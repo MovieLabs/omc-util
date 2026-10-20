@@ -6,7 +6,7 @@
 
 import { isPlainObject, makeArray } from '../../mlHelpers/util.js';
 import { edgeCreate } from '../omcEdges.js';
-import { idCreate, idHash } from '../omcIdentifier.js';
+import { idMint } from '../omcIdentifier.js';
 import { deepMerge } from '../omcMerge.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
@@ -258,11 +258,10 @@ function groupStructure(assetSC, members, assetIdentifier) {
     return {
         schemaVersion: 'https://movielabs.com/omc/json/schema/v2.8',
         entityType: 'AssetSC',
-        identifier: [idHash({
+        identifier: [idMint({
             identifierScope: seed.identifierScope,
-            seed: seed.identifierValue,
+            value: seed.identifierValue,
             entityType: 'AssetStructure',
-            prefix: true,
         })],
         structuralType: 'assetGroup',
         structuralProperties: { assetGroup: { Member: makeArray(members) } },
@@ -277,7 +276,7 @@ function migrateProvenance(provenance) {
     if (!provenance) return null;
 
     // Create an identifier, as Provenance is now an entity
-    const provId = idCreate({ identifierScope: 'com.movielabs', entityType: 'Provenance' });
+    const provId = idMint({ identifierScope: 'com.movielabs', entityType: 'Provenance' });
     const createdBy = migrateShape(provenance, 'CreatedBy');
     const origin = migrateShape(provenance, 'Origin');
     const role = migrateShape(provenance, 'Role');

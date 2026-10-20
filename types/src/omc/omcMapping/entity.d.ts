@@ -1,18 +1,15 @@
 /**
- * Build the seed an identifier is hashed from.
+ * Build the value an identifier is hashed from: the namespace and the key.
  *
- * `entityType` is part of the seed, which is what lets one key mint several entities: a row keyed
- * on a file name can yield an Asset and an AssetStructure with distinct identifiers that reference
- * each other.
+ * The entityType is not part of it. One key can still mint several entities — a row keyed on a
+ * file name yields an Asset and an AssetStructure — because each type's prefix tells them apart.
  *
  * @param {Object} params
- * @param {string} params.entityType - The OMC entityType
  * @param {string} params.key - The value identifying the entity within its namespace
  * @param {(string|null)} [params.seedNamespace] - Namespace, keeping projects from colliding
  * @returns {string} The seed
  */
-export function seedFor({ entityType, key, seedNamespace }: {
-    entityType: string;
+export function seedFor({ key, seedNamespace }: {
     key: string;
     seedNamespace?: (string | null);
 }): string;
