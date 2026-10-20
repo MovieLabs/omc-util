@@ -22,17 +22,18 @@ export function splitList(value: any, delimiter: string): Array<string>;
  */
 export function cast(value: any, as: string): any;
 /**
- * The column that identifies this entity — either the nominated key, or the column feeding a
- * mapped `identifierValue`.
+ * What identifies this entity — either the nominated key, or the source feeding a mapped
+ * `identifierValue`.
  *
- * Mapping the source's own id **is** nominating a key: it says "this column names the thing", which
- * is the only question `key` asks. Requiring both would mean stating it twice, and hashing over a
- * name the source already gave would make the entity unreachable by that name.
+ * Mapping the source's own id **is** nominating a key: it says "this names the thing", which is the
+ * only question `key` asks. Requiring both would mean stating it twice, and hashing over a name the
+ * source already gave would make the entity unreachable by that name.
  *
  * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
- * @returns {(string|null)} The column, or null when the mapping has neither
+ * @returns {(OmcMapping.ValueSource|null)} The column or template, or null when the mapping has
+ *   neither
  */
-export function identityColumn(mapping: OmcMapping.EntityMapping): (string | null);
+export function identitySource(mapping: OmcMapping.EntityMapping): (OmcMapping.ValueSource | null);
 /**
  * Does this entity take its identifier from the source rather than a hash?
  *
@@ -78,5 +79,6 @@ export function mapRow({ row, mapping, options }: {
     notes: Array<OmcMapping.MappingNote>;
     inverses: Array<any>;
 };
+export function specSource(spec: OmcMapping.PropertyMapping): (OmcMapping.ValueSource | null);
 export default mapRow;
 //# sourceMappingURL=mapRow.d.ts.map

@@ -10,6 +10,14 @@ export type MappingRow = {
     [x: string]: string | number | boolean;
 };
 /**
+ * Where a value is read from a row: a column heading, or a template — fixed text with columns in
+ * braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}` write a literal brace. A
+ * template whose columns are not all filled on a row gives no value there.
+ */
+export type ValueSource = (string | {
+    template: string;
+});
+/**
  * Where a property's value comes from.
  *
  * A bare string is shorthand for `{ from: <column> }`.
@@ -19,8 +27,8 @@ export type PropertySource = any;
 /**
  * A relationship to another entity built from the same row.
  *
- * `via` names the column holding the **target's key** — "use this match key to create an id in
- * this edge". Because both entities seed their identifiers from a row value the same way, the
+ * `via` names where the row holds the **target's key** — "use this match key to create an id in
+ * this edge" — and so is the same column or template that identifies the target. Because both entities seed their identifiers from a row value the same way, the
  * reference resolves whether or not the target was built in this row.
  *
  * `edgeKey` names **which** relationship, using the edge table's own key for it —
