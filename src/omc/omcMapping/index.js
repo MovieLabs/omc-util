@@ -52,7 +52,7 @@
 // `edgeTarget` is exported so an engine other than mapRow — a pipeline's table builder — resolves
 // an edge's target exactly as this one does.
 export {
-    mapRow, cast, splitList, identitySource, hasSuppliedIdentifier, edgeTarget,
+    mapRow, cast, splitList, identitySource, specSource, hasSuppliedIdentifier, edgeTarget,
 } from './mapRow.js';
 // How a key, an edge's `via` or a property reads a column or template, for an engine other than
 // mapRow and for an editor listing the columns a template uses.
