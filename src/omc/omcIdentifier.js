@@ -6,10 +6,7 @@
  * `hasMatching` are how it is asked. The rule the rest of the library leans on is that no two
  * entities in a model may share an identifier.
  *
- * There are three ways to mint one, and the difference matters: `idCreate` generates a random
- * value, `idFromValue` wraps a value the caller already holds, and `idHash` hashes a seed so the
- * same source row always yields the same identifier — which is what lets a re-import update rather
- * than duplicate, and lets an edge point at an entity a later pass will build.
+ * `idMint` mints one: random, hashed from a value, or a value used as given.
  *
  * @module omcIdentifier
  */
@@ -89,121 +86,50 @@ export function idUrls(identifier) {
 }
 
 /**
- * Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
+ * Mint an OMC identifier. The one minter: what varies is where the value comes from.
  *
- * @function idCreate
+ * - **No `value`**: a random value.
+ * - **`value`, `hash` true (the default)**: the value hashed (cyrb53, base-36), so the same value
+ *   always yields the same identifier. Re-imports update rather than duplicate, and an edge can
+ *   point at an entity a later pass builds.
+ * - **`value`, `hash` false**: the value used as given, so it can be read back off the identifier
+ *   (a content hash, a source system's own id).
+ *
+ * The entityType's prefix is added after the value whenever `entityType` is given, and never
+ * otherwise. Every entity type has its own prefix, so two types minted from one value stay
+ * distinct without the type being hashed in.
+ *
+ * @function idMint
  * @static
  * @param {Object} params
  * @param {string} params.identifierScope - The scope of the identifier
- * @param {string | null} [params.prefix] - Optional prefix for the identifier value
- * @param {string | null} [params.entityType] - Uses a predefined prefix for the entityType [takes priority]
- * @returns {OmcIdentifier} An OMC identifier with the specified scope and new unique value
- *
- * @example
- * idCreate({ identifierScope: 'movielabs.com', entityType: 'Character' })
- * // returns {
- * //     identifierScope: 'movielabs.com',
- * //     identifierValue': 'chr-Yhq5EZz4zdQxgOt'
- * // }
- *
- */
-export function idCreate({
-    identifierScope,
-    prefix = null,
-    entityType = null,
-    schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
-}) {
-    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
-    return {
-        identifierScope: identifierScope || 'example.com',
-        identifierValue: p ? `${p}-${idCharSet()}` : `${idCharSet()}`,
-    };
-}
-
-/**
- * Build an OMC identifier around a value the caller already holds, applying the entityType's
- * prefix. Use this when identity is derived from something external and must stay readable in
- * the identifierValue — a content hash, a vendor's asset id, a filesystem key. Unlike
- * {@link idHash} the value is used verbatim, so it can still be read back off the identifier;
- * unlike {@link idCreate} nothing is generated.
- *
- * Two entityTypes given the same value stay distinct through their prefixes (e.g. an Asset and
- * its AssetStructure sharing one file hash become `ast-<value>` and `asts-<value>`), so a pair
- * built this way does not collide.
- *
- * @function idFromValue
- * @static
- * @param {Object} params
- * @param {string} params.identifierScope - The scope of the identifier
- * @param {string} params.value - The value used verbatim as the identifierValue body
- * @param {boolean} [params.prefix] - Use the entityType's predefined prefix on the value
- * @param {string | null} [params.entityType] - Entity type, for the prefix
+ * @param {string} [params.value] - What the identifier is minted from; random when absent
+ * @param {boolean} [params.hash=true] - Hash `value` rather than use it as given
+ * @param {string | null} [params.entityType] - Adds this type's prefix
  * @param {string} [params.schemaVersion] - Schema version for the prefix lookup
- * @returns {OmcIdentifier} An OMC identifier wrapping the supplied value
- * @throws {Error} When no value is supplied — minting an identifier around a missing value
- *   would silently produce a colliding, meaningless identity
+ * @returns {OmcIdentifier}
  *
  * @example
- * idFromValue({
- *     identifierScope: 'movielabs.com',
- *     value: '9e107d9d372bb6826bd81d3542a419d6',
- *     entityType: 'Asset',
- *     prefix: true,
- * })
- * // returns {
- * //     identifierScope: 'movielabs.com',
- * //     identifierValue: 'ast-9e107d9d372bb6826bd81d3542a419d6'
- * // }
- */
-export function idFromValue({
-    identifierScope,
-    value,
-    prefix = false,
-    entityType = null,
-    schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
-}) {
-    if (value === null || value === undefined || `${value}` === '') {
-        throw new Error('idFromValue: a value is required');
-    }
-    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
-    return {
-        identifierScope: identifierScope || 'example.com',
-        identifierValue: p ? `${p}-${value}` : `${value}`,
-    };
-}
-
-/**
- * Create a stable, deterministic OMC identifier by hashing a seed value. The same seed always
- * produces the same identifierValue, so entities sharing a seed (e.g. a spreadsheet merge key)
- * de-duplicate and re-imports are idempotent. The entityType is folded into the hash so two
- * different types with the same seed stay distinct.
- *
- * @function idHash
- * @static
- * @param {Object} params
- * @param {string} params.identifierScope - The scope of the identifier
- * @param {string} params.seed - The value hashed into a stable identifierValue
- * @param {boolean} [params.prefix] - Use the entityType's predefined prefix on the value
- * @param {string | null} [params.entityType] - Entity type, for the prefix and the hash seed
- * @param {string} [params.schemaVersion] - Schema version for the prefix lookup
- * @returns {OmcIdentifier} An OMC identifier whose value is stable for the given seed
- *
- * @example
- * idHash({ identifierScope: 'movielabs.com', seed: '2a', entityType: 'ProductionScene' })
+ * idMint({ identifierScope: 'movielabs.com', value: 'wwdoat|1-1', entityType: 'ProductionScene' })
  * // returns { identifierScope: 'movielabs.com', identifierValue: 'pscn-<stable hash>' }
+ *
+ * idMint({ identifierScope: 'movielabs.com', value: '9e107d9d372bb6826bd81d3542a419d6', hash: false, entityType: 'Asset' })
+ * // returns { identifierScope: 'movielabs.com', identifierValue: 'ast-9e107d9d372bb6826bd81d3542a419d6' }
  */
-export function idHash({
+export function idMint({
     identifierScope,
-    seed,
-    prefix = false,
+    value = undefined,
+    hash = true,
     entityType = null,
     schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0',
 }) {
-    const p = prefix ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
-    const value = hashId(`${entityType || ''}:${seed}`);
+    const given = value !== null && value !== undefined && `${value}` !== '';
+    let body = idCharSet();
+    if (given) body = hash ? hashId(`${value}`) : `${value}`;
+    const prefix = entityType ? omcTemplate.idPrefix({ entityType, schemaVersion }) : null;
     return {
         identifierScope: identifierScope || 'example.com',
-        identifierValue: p ? `${p}-${value}` : value,
+        identifierValue: prefix ? `${prefix}-${body}` : body,
     };
 }
 

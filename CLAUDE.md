@@ -123,7 +123,7 @@ until then.
 | `omcMerge` | `src/omc/omcMerge.js` | `deepMerge`, `mergeEntity`, `mergeChanges` — merging, and "does this carry new information?" |
 | `omcEdges` | `src/omc/omcEdges.js` | `edgeCreate`, `edgeValid`, `removeEdge`, and the base/intrinsic/context key splits |
 | `omcFind` | `src/omc/omcFind.js` | Filter entities by nested criteria |
-| `omcIdentifier` | `src/omc/omcIdentifier.js` | `idCreate`, `idHash`, `idFromValue`, `idKey`, `idMerge`, `idCombinedForm`, … |
+| `omcIdentifier` | `src/omc/omcIdentifier.js` | `idMint`, `idKey`, `idMerge`, `idCombinedForm`, … |
 | `omcTransform` | `src/omc/omcTransform.js` | `toArray`, `toObject`, `unEmbed`, `deDuplicate`, `cleanEntity` |
 | `omcMapping` | `src/omc/omcMapping/` | Source rows → OMC through a declarative template |
 | `omcMigrate` | `src/omc/migration/omcMigrate.js` | Migrate entities across schema versions |

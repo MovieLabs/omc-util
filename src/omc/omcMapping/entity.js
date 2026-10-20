@@ -11,7 +11,7 @@
  */
 
 import { omcTemplate } from '../../templates/index.js';
-import { idHash } from '../omcIdentifier.js';
+import { idMint } from '../omcIdentifier.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
@@ -38,20 +38,18 @@ export const DEFAULT_OPTIONS = {
 export const resolveOptions = (options = {}) => ({ ...DEFAULT_OPTIONS, ...options });
 
 /**
- * Build the seed an identifier is hashed from.
+ * Build the value an identifier is hashed from: the namespace and the key.
  *
- * `entityType` is part of the seed, which is what lets one key mint several entities: a row keyed
- * on a file name can yield an Asset and an AssetStructure with distinct identifiers that reference
- * each other.
+ * The entityType is not part of it. One key can still mint several entities — a row keyed on a
+ * file name yields an Asset and an AssetStructure — because each type's prefix tells them apart.
  *
  * @param {Object} params
- * @param {string} params.entityType - The OMC entityType
  * @param {string} params.key - The value identifying the entity within its namespace
  * @param {(string|null)} [params.seedNamespace] - Namespace, keeping projects from colliding
  * @returns {string} The seed
  */
-export function seedFor({ entityType, key, seedNamespace }) {
-    return [seedNamespace, entityType, key].filter(Boolean).join('|');
+export function seedFor({ key, seedNamespace }) {
+    return [seedNamespace, key].filter(Boolean).join('|');
 }
 
 /**
@@ -190,11 +188,10 @@ export function createEntity({
     return {
         schemaVersion,
         entityType,
-        identifier: [supplied ?? idHash({
+        identifier: [supplied ?? idMint({
             identifierScope,
-            seed: seedFor({ entityType, key, seedNamespace }),
+            value: seedFor({ key, seedNamespace }),
             entityType,
-            prefix: true,
             schemaVersion,
         })],
         ...requiredDefaults(entityType, schemaVersion, properties),
@@ -219,11 +216,10 @@ export function entityRef({ entityType, key, options = {} }) {
     return {
         schemaVersion,
         entityType,
-        identifier: [idHash({
+        identifier: [idMint({
             identifierScope,
-            seed: seedFor({ entityType, key, seedNamespace }),
+            value: seedFor({ key, seedNamespace }),
             entityType,
-            prefix: true,
             schemaVersion,
         })],
     };

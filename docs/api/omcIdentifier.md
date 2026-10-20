@@ -8,17 +8,13 @@ so identity is a set-intersection question rather than an equality one — `idIs
 `hasMatching` are how it is asked. The rule the rest of the library leans on is that no two
 entities in a model may share an identifier.
 
-There are three ways to mint one, and the difference matters: `idCreate` generates a random
-value, `idFromValue` wraps a value the caller already holds, and `idHash` hashes a seed so the
-same source row always yields the same identifier — which is what lets a re-import update rather
-than duplicate, and lets an edge point at an entity a later pass will build.
+`idMint` mints one: random, hashed from a value, or a value used as given.
 
 
 * [omcIdentifier](#module_omcIdentifier)
     * [.idOfScope(identifier, identifierScope)](#module_omcIdentifier.idOfScope) ⇒ <code>OmcIdentifier</code> \| <code>null</code>
-    * [.idCreate(params)](#module_omcIdentifier.idCreate) ⇒ <code>OmcIdentifier</code>
-    * [.idFromValue(params)](#module_omcIdentifier.idFromValue) ⇒ <code>OmcIdentifier</code>
-    * [.idHash(params)](#module_omcIdentifier.idHash) ⇒ <code>OmcIdentifier</code>
+    * [.idUrls(identifier)](#module_omcIdentifier.idUrls) ⇒ <code>Array.&lt;{identifierScope: string, identifierValue: string, url: string}&gt;</code>
+    * [.idMint(params)](#module_omcIdentifier.idMint) ⇒ <code>OmcIdentifier</code>
     * [.idKey(identifier)](#module_omcIdentifier.idKey) ⇒ <code>string</code>
     * [.idCombinedForm(identifier, separator)](#module_omcIdentifier.idCombinedForm) ⇒ <code>string</code>
     * [.idIsDuplicate(targetId, sourceId)](#module_omcIdentifier.idIsDuplicate) ⇒ <code>boolean</code>
@@ -57,102 +53,68 @@ idOfScope(
 
 * * *
 
-<a name="module_omcIdentifier.idCreate"></a>
+<a name="module_omcIdentifier.idUrls"></a>
 
-## omcIdentifier.idCreate(params) ⇒ <code>OmcIdentifier</code>
-Create a new OMC identifier with the requested scope and unique identifierValue with an optional prefix
+## omcIdentifier.idUrls(identifier) ⇒ <code>Array.&lt;{identifierScope: string, identifierValue: string, url: string}&gt;</code>
+The identifiers that carry a URL resolving them, typically a link to the entity in the system its
+scope names. The URL is returned as written; whether it is safe to follow is the caller's to
+decide.
 
 **Kind**: static method of [<code>omcIdentifier</code>](#module_omcIdentifier)  
-**Returns**: <code>OmcIdentifier</code> - An OMC identifier with the specified scope and new unique value  
+**Returns**: <code>Array.&lt;{identifierScope: string, identifierValue: string, url: string}&gt;</code> - One entry per
+  identifier with a non-blank `url`, in the entity's order; empty when there are none  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| params | <code>Object</code> |  |
-| params.identifierScope | <code>string</code> | The scope of the identifier |
-| [params.prefix] | <code>string</code> \| <code>null</code> | Optional prefix for the identifier value |
-| [params.entityType] | <code>string</code> \| <code>null</code> | Uses a predefined prefix for the entityType [takes priority] |
+| identifier | <code>OmcEntity</code> \| <code>OmcIdentifier</code> \| <code>Array.&lt;OmcIdentifier&gt;</code> | An entity, or its identifiers |
 
 **Example**  
 ```js
-idCreate({ identifierScope: 'movielabs.com', entityType: 'Character' })
-// returns {
-//     identifierScope: 'movielabs.com',
-//     identifierValue': 'chr-Yhq5EZz4zdQxgOt'
-// }
-```
-
-* * *
-
-<a name="module_omcIdentifier.idFromValue"></a>
-
-## omcIdentifier.idFromValue(params) ⇒ <code>OmcIdentifier</code>
-Build an OMC identifier around a value the caller already holds, applying the entityType's
-prefix. Use this when identity is derived from something external and must stay readable in
-the identifierValue — a content hash, a vendor's asset id, a filesystem key. Unlike
-[idHash](idHash) the value is used verbatim, so it can still be read back off the identifier;
-unlike [idCreate](idCreate) nothing is generated.
-
-Two entityTypes given the same value stay distinct through their prefixes (e.g. an Asset and
-its AssetStructure sharing one file hash become `ast-<value>` and `asts-<value>`), so a pair
-built this way does not collide.
-
-**Kind**: static method of [<code>omcIdentifier</code>](#module_omcIdentifier)  
-**Returns**: <code>OmcIdentifier</code> - An OMC identifier wrapping the supplied value  
-**Throws**:
-
-- <code>Error</code> When no value is supplied — minting an identifier around a missing value
-  would silently produce a colliding, meaningless identity
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| params | <code>Object</code> |  |
-| params.identifierScope | <code>string</code> | The scope of the identifier |
-| params.value | <code>string</code> | The value used verbatim as the identifierValue body |
-| [params.prefix] | <code>boolean</code> | Use the entityType's predefined prefix on the value |
-| [params.entityType] | <code>string</code> \| <code>null</code> | Entity type, for the prefix |
-| [params.schemaVersion] | <code>string</code> | Schema version for the prefix lookup |
-
-**Example**  
-```js
-idFromValue({
-    identifierScope: 'movielabs.com',
-    value: '9e107d9d372bb6826bd81d3542a419d6',
-    entityType: 'Asset',
-    prefix: true,
+idUrls({
+    identifier: [
+        { identifierScope: 'labkoat.com', identifierValue: 'chr-bSvGGMtq55TRL8j' },
+        { identifierScope: 'imdb.com', identifierValue: 'ch0000001', url: 'https://www.imdb.com/character/ch0000001/' },
+    ],
 })
-// returns {
-//     identifierScope: 'movielabs.com',
-//     identifierValue: 'ast-9e107d9d372bb6826bd81d3542a419d6'
-// }
+// returns [{ identifierScope: 'imdb.com', identifierValue: 'ch0000001', url: 'https://www.imdb.com/character/ch0000001/' }]
 ```
 
 * * *
 
-<a name="module_omcIdentifier.idHash"></a>
+<a name="module_omcIdentifier.idMint"></a>
 
-## omcIdentifier.idHash(params) ⇒ <code>OmcIdentifier</code>
-Create a stable, deterministic OMC identifier by hashing a seed value. The same seed always
-produces the same identifierValue, so entities sharing a seed (e.g. a spreadsheet merge key)
-de-duplicate and re-imports are idempotent. The entityType is folded into the hash so two
-different types with the same seed stay distinct.
+## omcIdentifier.idMint(params) ⇒ <code>OmcIdentifier</code>
+Mint an OMC identifier. The one minter: what varies is where the value comes from.
+
+- **No `value`**: a random value.
+- **`value`, `hash` true (the default)**: the value hashed (cyrb53, base-36), so the same value
+  always yields the same identifier. Re-imports update rather than duplicate, and an edge can
+  point at an entity a later pass builds.
+- **`value`, `hash` false**: the value used as given, so it can be read back off the identifier
+  (a content hash, a source system's own id).
+
+The entityType's prefix is added after the value whenever `entityType` is given, and never
+otherwise. Every entity type has its own prefix, so two types minted from one value stay
+distinct without the type being hashed in.
 
 **Kind**: static method of [<code>omcIdentifier</code>](#module_omcIdentifier)  
-**Returns**: <code>OmcIdentifier</code> - An OMC identifier whose value is stable for the given seed  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| params | <code>Object</code> |  |
-| params.identifierScope | <code>string</code> | The scope of the identifier |
-| params.seed | <code>string</code> | The value hashed into a stable identifierValue |
-| [params.prefix] | <code>boolean</code> | Use the entityType's predefined prefix on the value |
-| [params.entityType] | <code>string</code> \| <code>null</code> | Entity type, for the prefix and the hash seed |
-| [params.schemaVersion] | <code>string</code> | Schema version for the prefix lookup |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| params | <code>Object</code> |  |  |
+| params.identifierScope | <code>string</code> |  | The scope of the identifier |
+| [params.value] | <code>string</code> |  | What the identifier is minted from; random when absent |
+| [params.hash] | <code>boolean</code> | <code>true</code> | Hash `value` rather than use it as given |
+| [params.entityType] | <code>string</code> \| <code>null</code> |  | Adds this type's prefix |
+| [params.schemaVersion] | <code>string</code> |  | Schema version for the prefix lookup |
 
 **Example**  
 ```js
-idHash({ identifierScope: 'movielabs.com', seed: '2a', entityType: 'ProductionScene' })
+idMint({ identifierScope: 'movielabs.com', value: 'wwdoat|1-1', entityType: 'ProductionScene' })
 // returns { identifierScope: 'movielabs.com', identifierValue: 'pscn-<stable hash>' }
+
+idMint({ identifierScope: 'movielabs.com', value: '9e107d9d372bb6826bd81d3542a419d6', hash: false, entityType: 'Asset' })
+// returns { identifierScope: 'movielabs.com', identifierValue: 'ast-9e107d9d372bb6826bd81d3542a419d6' }
 ```
 
 * * *

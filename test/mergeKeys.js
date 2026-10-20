@@ -68,6 +68,16 @@ VERSIONS.forEach((schemaVersion) => {
     pass(`${label}: ${checked} mergeKey path(s) checked`);
 });
 
+// Every v3.0 entity type has a merge key: it is what a load from fMam is checked against for
+// duplicates. v2.8 has none. The Capture types are still being modelled and have none yet.
+const NO_KEY_YET = new Set(['CaptureEvent', 'CapturePoint', 'CaptureDevice']);
+const V3 = 'https://movielabs.com/omc/json/schema/v3.0';
+console.log('=== every v3.0 entity type has a mergeKey ===');
+const missing = omcTemplate.allEntityTypes({ schemaVersion: V3 })
+    .filter((entityType) => !NO_KEY_YET.has(entityType) && !omcTemplate.mergeKey({ entityType, schemaVersion: V3 }).length);
+if (missing.length) fail(`v3.0: no mergeKey for ${missing.join(', ')}`);
+else pass('v3.0: every entity type has one');
+
 if (failures) {
     console.error(`\nmergeKeys: ${failures} problem(s)`);
     process.exit(1);
