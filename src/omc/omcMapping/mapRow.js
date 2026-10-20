@@ -13,12 +13,19 @@ import { edgeCreate } from '../omcEdges.js';
 
 import { createEntity, entityRef, resolveOptions } from './entity.js';
 import { hasValue, typeAtPath, writeShaped } from './shapedValue.js';
+import { sourceLabel, sourceValue } from './source.js';
 
-/** The column a property spec reads, or null when it is a fixed value. */
-const specColumn = (spec) => {
+/**
+ * Where a property spec reads from: its column, or its template.
+ *
+ * @param {OmcMapping.PropertyMapping} spec
+ * @returns {(OmcMapping.ValueSource|null)} Null for a fixed value
+ */
+export const specSource = (spec) => {
     if (typeof spec === 'string') return spec;
-    if (spec && typeof spec === 'object' && spec.from !== undefined) return spec.from;
-    return null;
+    if (spec?.const !== undefined) return null;
+    if (spec?.template !== undefined) return { template: spec.template };
+    return spec?.from ?? null;
 };
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
@@ -103,15 +110,14 @@ function promote(value, type) {
  */
 function resolveProperty(spec, row) {
     const source = typeof spec === 'string' ? { from: spec } : spec;
-    const {
-        from, as, split, when,
-    } = source;
+    const { as, split, when } = source;
 
     // A fixed value is a decision the mapping makes, not something the source said.
     if (source.const !== undefined) return { value: source.const, withheld: null };
 
-    const raw = row[from];
-    if (!hasValue(raw)) return { value: null, withheld: null };
+    const read = specSource(source);
+    const raw = sourceValue(row, read);
+    if (raw === null) return { value: null, withheld: null };
 
     let value = raw;
     if (split) {
@@ -119,7 +125,7 @@ function resolveProperty(spec, row) {
         if (when === 'single' && members.length !== 1) {
             return {
                 value: null,
-                withheld: `"${from}" holds ${members.length} values (${members.join(', ')}); `
+                withheld: `${sourceLabel(read)} holds ${members.length} values (${members.join(', ')}); `
                     + 'no single value applies',
             };
         }
@@ -209,21 +215,22 @@ function identifierValuePath(mapping) {
 }
 
 /**
- * The column that identifies this entity — either the nominated key, or the column feeding a
- * mapped `identifierValue`.
+ * What identifies this entity — either the nominated key, or the source feeding a mapped
+ * `identifierValue`.
  *
- * Mapping the source's own id **is** nominating a key: it says "this column names the thing", which
- * is the only question `key` asks. Requiring both would mean stating it twice, and hashing over a
- * name the source already gave would make the entity unreachable by that name.
+ * Mapping the source's own id **is** nominating a key: it says "this names the thing", which is the
+ * only question `key` asks. Requiring both would mean stating it twice, and hashing over a name the
+ * source already gave would make the entity unreachable by that name.
  *
  * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
- * @returns {(string|null)} The column, or null when the mapping has neither
+ * @returns {(OmcMapping.ValueSource|null)} The column or template, or null when the mapping has
+ *   neither
  */
-export function identityColumn(mapping) {
+export function identitySource(mapping) {
     const path = identifierValuePath(mapping);
     if (path) {
-        const column = specColumn(mapping.properties[path]);
-        if (column) return column;
+        const source = specSource(mapping.properties[path]);
+        if (source) return source;
     }
     return mapping.key ?? null;
 }
@@ -236,7 +243,7 @@ export function identityColumn(mapping) {
  */
 export function hasSuppliedIdentifier(mapping) {
     const path = identifierValuePath(mapping);
-    return Boolean(path && specColumn(mapping.properties[path]));
+    return Boolean(path && specSource(mapping.properties[path]));
 }
 
 /**
@@ -267,16 +274,17 @@ export function edgeTarget(mapping, edge) {
  * @returns {(Object|null)} The entity, or null when the row has no key value for it
  */
 function buildEntity(mapping, row, options, notes) {
-    const { entityType, key } = mapping;
-    // An entity whose identifier the source supplies needs no key column: the identity comes from
-    // the row itself. `identityColumn` resolves whichever of the two applies.
-    const identity = identityColumn(mapping);
-    const keyValue = row[identity];
-    if (!hasValue(keyValue)) {
+    const { entityType } = mapping;
+    // An entity whose identifier the source supplies needs no key: the identity comes from the row
+    // itself. `identitySource` resolves whichever of the two applies.
+    const identity = identitySource(mapping);
+    const keyValue = sourceValue(row, identity);
+    if (keyValue === null) {
         notes.push({
             kind: 'noKeyValue',
             where: entityType,
-            detail: `column "${identity ?? key}" is empty on this row, so no ${entityType} was built`,
+            detail: `${identity ? `${sourceLabel(identity)} is empty on this row` : 'it has no key'}, `
+                + `so no ${entityType} was built`,
         });
         return null;
     }
@@ -318,7 +326,7 @@ function buildEntity(mapping, row, options, notes) {
 /**
  * Create the relationships a mapping declares, once this row's entities exist.
  *
- * `via` names the column holding the target's key. Where that key belongs to the target entry's
+ * `via` names where the row holds the target's key. Where that key belongs to the target entry's
  * entity built from this same row, the two are linked directly; where it does not, a reference stub
  * is minted from the same seed — so an edge can point at something another row, another template,
  * or (through `toType`) no entry at all will build.
@@ -353,15 +361,13 @@ function applyEdges(mapping, built, row, options, notes, inverses) {
             const { entry: targetEntry, entityType: targetType } = target;
             // The identity value the target entry was built under on this row, so an edge can tell
             // "the entity this row built" from "an entity elsewhere that happens to be of that type".
-            const builtUnder = targetEntry && hasValue(row[identityColumn(targetEntry)])
-                ? String(row[identityColumn(targetEntry)])
-                : null;
+            const builtUnder = targetEntry ? sourceValue(row, identitySource(targetEntry)) : null;
             const targetKeys = edge.split
-                ? splitList(row[edge.via], edge.split)
-                : [row[edge.via]].filter(hasValue).map(String);
+                ? splitList(sourceValue(row, edge.via), edge.split)
+                : [sourceValue(row, edge.via)].filter(hasValue).map(String);
 
             for (const targetKey of targetKeys) {
-                const isSameRow = builtUnder === targetKey && Boolean(built[targetEntry.id]);
+                const isSameRow = builtUnder !== null && String(builtUnder) === targetKey && Boolean(built[targetEntry.id]);
                 let toEntity;
                 if (isSameRow) {
                     toEntity = built[targetEntry.id];

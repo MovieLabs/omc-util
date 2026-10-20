@@ -43,7 +43,7 @@
  * @module omcMapping
  */
 
-// `identityColumn` and `hasSuppliedIdentifier` are exported because a consumer has to be able to
+// `identitySource` and `hasSuppliedIdentifier` are exported because a consumer has to be able to
 // ask **what identifies this entity**, and the answer is not simply `mapping.key`: an entity that
 // maps a column onto `identifier[0].identifierValue` names itself, and needs no key at all. An
 // editor that reads `.key` directly concludes such an entity cannot be referenced and refuses a
@@ -52,14 +52,17 @@
 // `edgeTarget` is exported so an engine other than mapRow — a pipeline's table builder — resolves
 // an edge's target exactly as this one does.
 export {
-    mapRow, cast, splitList, identityColumn, hasSuppliedIdentifier, edgeTarget,
+    mapRow, cast, splitList, identitySource, hasSuppliedIdentifier, edgeTarget,
 } from './mapRow.js';
+// How a key, an edge's `via` or a property reads a column or template, for an engine other than
+// mapRow and for an editor listing the columns a template uses.
+export { sourceValue, sourceColumns } from './source.js';
 export { createRun } from './createRun.js';
 export { check, checkColumns } from './check.js';
 export {
     createEntity, entityRef, seedFor, resolveOptions, DEFAULT_OPTIONS,
 } from './entity.js';
-// `typeAtPath` is exported for the same reason as `identityColumn`: a consumer holding text — a CSV
+// `typeAtPath` is exported for the same reason as `identitySource`: a consumer holding text — a CSV
 // reader, a form — must be able to ask what type OMC declares at a path rather than inferring one
 // from the characters. Inferring is how slate `16E-1` becomes 1.6 and `12-1` becomes a date.
 export {

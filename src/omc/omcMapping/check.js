@@ -15,8 +15,9 @@
 import { omcTemplate } from '../../templates/index.js';
 
 import { resolveOptions } from './entity.js';
-import { edgeTarget, identityColumn } from './mapRow.js';
+import { edgeTarget, identitySource, specSource } from './mapRow.js';
 import { parseSegment } from './shapedValue.js';
+import { sourceColumns, sourceLabel } from './source.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
@@ -126,13 +127,13 @@ export function check({ mapping, options = {} }) {
         }
         seenTypes.add(entityType);
 
-        // Mapping the source's own id counts as nominating a key: it already says which column
-        // names the thing, and the identifier is taken verbatim rather than hashed.
-        if (!identityColumn(entry)) {
+        // Mapping the source's own id counts as nominating a key: it already says what names the
+        // thing, and the identifier is taken verbatim rather than hashed.
+        if (!identitySource(entry)) {
             problems.push({
                 kind: 'missingKey',
                 where,
-                detail: 'no key column, so this entity has nothing to identify it by and a re-run '
+                detail: 'no key, so this entity has nothing to identify it by and a re-run '
                     + 'would duplicate rather than update it. Nominate a key, or map the source\'s '
                     + 'own id onto identifierValue',
             });
@@ -235,19 +236,19 @@ export function check({ mapping, options = {} }) {
         }
     }
 
-    // Two entries of one type identified by the same column build one entity, which is right when
-    // they describe it from different angles and a surprise when two entities were meant.
+    // Two entries of one type identified the same way build one entity, which is right when they
+    // describe it from different angles and a surprise when two entities were meant.
     const byIdentity = new Map();
     for (const entry of mapping ?? []) {
-        const column = identityColumn(entry);
-        if (!entry.entityType || !column) continue;
-        const key = `${entry.entityType}::${column}`;
+        const identity = identitySource(entry);
+        if (!entry.entityType || !identity) continue;
+        const key = `${entry.entityType}::${sourceLabel(identity)}`;
         if (byIdentity.has(key)) {
             warnings.push({
                 kind: 'sameEntity',
                 where: entry.entityType,
-                detail: `two ${entry.entityType} entries are both identified by "${column}", so they build `
-                    + 'one entity between them. Identify one by a different column to build two',
+                detail: `two ${entry.entityType} entries are both identified by ${sourceLabel(identity)}, so `
+                    + 'they build one entity between them. Identify one differently to build two',
             });
         }
         byIdentity.set(key, true);
@@ -296,16 +297,16 @@ export function checkColumns({ mapping, columns }) {
         const where = entry.entityType ?? '(no entityType)';
         // Only when it is the identity — an entity naming itself through identifierValue has no
         // separate key column to check.
-        if (entry.key) want(entry.key, where, 'the key');
+        sourceColumns(entry.key).forEach((column) => want(column, where, 'the key'));
         for (const [path, spec] of Object.entries(entry.properties ?? {})) {
-            const source = typeof spec === 'string' ? { from: spec } : spec;
-            if (source.const === undefined) want(source.from, where, path);
+            sourceColumns(specSource(spec)).forEach((column) => want(column, where, path));
         }
         for (const [path, entries] of Object.entries(entry.notes ?? {})) {
             (entries ?? []).forEach((n) => want(n.from, where, path));
         }
         for (const edge of entry.edges ?? []) {
-            want(edge.via, where, `the edge to ${edgeTarget(mapping, edge)?.entityType ?? edge.to ?? edge.toType}`);
+            const what = `the edge to ${edgeTarget(mapping, edge)?.entityType ?? edge.to ?? edge.toType}`;
+            sourceColumns(edge.via).forEach((column) => want(column, where, what));
         }
         for (const column of entry.customData?.exclude ?? []) {
             want(column, where, 'customData.exclude');

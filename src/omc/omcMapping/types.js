@@ -18,6 +18,15 @@
  */
 
 /**
+ * Where a value is read from a row: a column heading, or a template — fixed text with columns in
+ * braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}` write a literal brace. A
+ * template whose columns are not all filled on a row gives no value there.
+ *
+ * @typedef {(string|{template: string})} ValueSource
+ * @memberof OmcMapping
+ */
+
+/**
  * Where a property's value comes from.
  *
  * A bare string is shorthand for `{ from: <column> }`.
@@ -30,8 +39,10 @@
  * @typedef {Object} PropertySource
  * @memberof OmcMapping
  * @property {string} [from] - Column to read
- * @property {*} [const] - A fixed value, written on every row. Takes precedence over `from`,
- *   because it is a decision the mapping makes rather than something the source said
+ * @property {string} [template] - Text to write, with columns in braces (see
+ *   {@link OmcMapping.ValueSource}). Takes precedence over `from`
+ * @property {*} [const] - A fixed value, written on every row. Takes precedence over `template` and
+ *   `from`, because it is a decision the mapping makes rather than something the source said
  * @property {('number'|'string'|'boolean'|'datetime')} [as] - Cast the value
  * @property {string} [split] - Delimiter; the cell holds a list. Members are trimmed,
  *   de-duplicated and sorted, so a source writing the same set in two orders yields one result
@@ -42,8 +53,8 @@
 /**
  * A relationship to another entity built from the same row.
  *
- * `via` names the column holding the **target's key** — "use this match key to create an id in
- * this edge". Because both entities seed their identifiers from a row value the same way, the
+ * `via` names where the row holds the **target's key** — "use this match key to create an id in
+ * this edge" — and so is the same column or template that identifies the target. Because both entities seed their identifiers from a row value the same way, the
  * reference resolves whether or not the target was built in this row.
  *
  * `edgeKey` names **which** relationship, using the edge table's own key for it —
@@ -61,7 +72,7 @@
  * @memberof OmcMapping
  * @property {string} [to] - The `id` of the target entry in this template
  * @property {string} [toType] - The target entityType, when no entry in this template builds it
- * @property {string} via - Column holding the target's key value
+ * @property {OmcMapping.ValueSource} via - Where the row holds the target's key value
  * @property {string} [edgeKey] - Edge-table key of the relationship this fills
  * @property {string} [split] - The column holds several keys
  * @property {boolean} [inverse=true] - Also write the reciprocal edge onto the target, when the run
@@ -94,7 +105,8 @@
  *   identifier comes from its entityType and key value, so two entries of one type keyed on the
  *   same column build one entity, and on different columns build two
  * @property {string} entityType - The OMC entityType to build
- * @property {string} key - Column whose value seeds this entity's identifier. **Required**: it is
+ * @property {OmcMapping.ValueSource} key - The column or template whose value seeds this entity's
+ *   identifier. **Required**: it is
  *   what makes a re-run update the entity in place instead of duplicating it, and what lets
  *   another entity reference it through {@link OmcMapping.EdgeMapping}`.via`
  * @property {Object.<string, OmcMapping.PropertyMapping>} [properties] - OMC property path to

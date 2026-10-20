@@ -512,6 +512,46 @@ const short = omcMapping.checkColumns({ mapping: MAPPING, columns: ['File Name']
 ok(!short.valid && short.missing.includes('Audio Sample Rate'),
     'checkColumns names the columns a mapping expects but the data lacks');
 
+/* ------------------------------------------------------------------ templates ------------- */
+
+{
+    const take = { template: 'scene-{Scene}-slate-{Slate}' };
+    const mapping = [
+        { id: 'structure', entityType: 'AssetStructure', key: take, properties: { label: { template: '{{{Slate}}} of {Scene}' } } },
+        { id: 'asset', entityType: 'Asset', key: 'File Name', edges: [{ to: 'structure', via: take }] },
+    ];
+    const templated = omcMapping.mapRow({ row: ROW, mapping, options: OPTIONS });
+    const { structure, asset } = templated.entities;
+    ok(structure?.label === '{16K} of 16', 'a templated property fills its columns, and {{ }} write braces');
+
+    const byColumn = omcMapping.mapRow({
+        row: { ...ROW, k: 'scene-16-slate-16K' },
+        mapping: [{ id: 'structure', entityType: 'AssetStructure', key: 'k' }],
+        options: OPTIONS,
+    }).entities.structure;
+    ok(JSON.stringify(structure.identifier) === JSON.stringify(byColumn.identifier),
+        'a templated key seeds the identifier its text would as a column');
+    ok(JSON.stringify(asset.AssetStructure?.[0]?.identifier) === JSON.stringify(structure.identifier),
+        'an edge whose via is the target\'s key template references the entity it built');
+
+    const gap = omcMapping.mapRow({ row: { ...ROW, Slate: '' }, mapping, options: OPTIONS });
+    ok(!gap.entities.structure && gap.notes.some((n) => n.kind === 'noKeyValue' && n.detail.includes('template')),
+        'a templated key with an empty column builds nothing, and says which template');
+    ok(!gap.entities.asset?.AssetStructure, 'nor does an edge through it reference anything');
+
+    const noLabel = omcMapping.mapRow({
+        row: { ...ROW, Scene: '' },
+        mapping: [{ id: 'asset', entityType: 'Asset', key: 'File Name', properties: { label: { template: 'Scene {Scene}' } } }],
+        options: OPTIONS,
+    }).entities.asset;
+    ok(noLabel && noLabel.label === undefined, 'a templated property with an empty column is not written');
+
+    const templateCols = omcMapping.checkColumns({ mapping, columns: ['File Name', 'Scene'] });
+    ok(!templateCols.valid && templateCols.missing.includes('Slate'), 'checkColumns names a column a template uses but the data lacks');
+    ok(omcMapping.check({ mapping, options: OPTIONS }).valid, 'a templated key counts as a key');
+    ok(JSON.stringify(omcMapping.sourceColumns(take)) === '["Scene","Slate"]', 'sourceColumns lists a template\'s columns');
+}
+
 /* ------------------------------------------------------------------------------------------ */
 
 console.log();
