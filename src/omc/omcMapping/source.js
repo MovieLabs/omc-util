@@ -57,3 +57,16 @@ export function sourceValue(row, source) {
 export function sourceLabel(source) {
     return typeof source === 'string' ? `column "${source}"` : `template "${source?.template}"`;
 }
+
+/**
+ * Do two sources read the same thing?
+ *
+ * @param {(OmcMapping.ValueSource|null|undefined)} a
+ * @param {(OmcMapping.ValueSource|null|undefined)} b
+ * @returns {boolean}
+ */
+export function sameSource(a, b) {
+    if (!a || !b) return false;
+    if (typeof a === 'string' || typeof b === 'string') return a === b;
+    return a.template === b.template;
+}

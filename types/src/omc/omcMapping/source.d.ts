@@ -21,4 +21,12 @@ export function sourceValue(row: MappingRow, source: (OmcMapping.ValueSource | n
  * @returns {string}
  */
 export function sourceLabel(source: OmcMapping.ValueSource): string;
+/**
+ * Do two sources read the same thing?
+ *
+ * @param {(OmcMapping.ValueSource|null|undefined)} a
+ * @param {(OmcMapping.ValueSource|null|undefined)} b
+ * @returns {boolean}
+ */
+export function sameSource(a: (OmcMapping.ValueSource | null | undefined), b: (OmcMapping.ValueSource | null | undefined)): boolean;
 //# sourceMappingURL=source.d.ts.map
