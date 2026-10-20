@@ -61,9 +61,10 @@ export function edgeTarget(mapping: Array<OmcMapping.EntityMapping>, edge: OmcMa
  * @param {MappingRow} params.row - One row, keyed by column heading
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
- * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>}} The
- *   entities by entry id, already linked to one another, and anything worth reporting. Two entries
- *   that build the same entity each hold a copy; {@link module:omcMapping/createRun} folds them
+ * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>, inverses: Array<Object>}}
+ *   The entities by entry id, already linked to one another, anything worth reporting, and the
+ *   inverses whose target another row builds. Two entries that build the same entity each hold a
+ *   copy; {@link module:omcMapping/createRun} folds them and writes those inverses
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options }: {
@@ -75,6 +76,7 @@ export function mapRow({ row, mapping, options }: {
         [x: string]: any;
     };
     notes: Array<OmcMapping.MappingNote>;
+    inverses: Array<any>;
 };
 export default mapRow;
 //# sourceMappingURL=mapRow.d.ts.map

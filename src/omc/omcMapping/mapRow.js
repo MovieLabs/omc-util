@@ -324,15 +324,19 @@ function buildEntity(mapping, row, options, notes) {
  * or (through `toType`) no entry at all will build.
  *
  * Paths, storage shape and inverses all come from the schema through `edgeCreate`, which returns
- * null for a relationship OMC does not allow rather than writing it.
+ * null for a relationship OMC does not allow rather than writing it. The inverse is written unless
+ * the edge says `inverse: false`: onto the target directly when this row built it, and otherwise
+ * handed back in `inverses` for the run to write onto the entity another row builds.
  *
  * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
  * @param {Object.<string, Object>} built - This row's entities, by entry id
  * @param {MappingRow} row - The row
  * @param {OmcMapping.MappingOptions} options - Resolved options
  * @param {Array<OmcMapping.MappingNote>} notes - Appended to in place
+ * @param {Array<Object>} inverses - Appended to in place: `{ target, source, path }`, an inverse
+ *   whose target this row did not build
  */
-function applyEdges(mapping, built, row, options, notes) {
+function applyEdges(mapping, built, row, options, notes, inverses) {
     for (const entry of mapping) {
         if (!built[entry.id]) continue;
 
@@ -384,7 +388,7 @@ function applyEdges(mapping, built, row, options, notes) {
                     // `edges.usedBy.Realization`. Optional: a mapping that does not say falls back
                     // to edgeCreate's own choice.
                     intrinsicEdge: edge.edgeKey ?? null,
-                    inverse: Boolean(edge.inverse),
+                    inverse: edge.inverse !== false,
                 });
                 if (!result) {
                     notes.push({
@@ -395,9 +399,18 @@ function applyEdges(mapping, built, row, options, notes) {
                     continue;
                 }
                 built[entry.id] = result.fromEntity;
-                // The inverse is only worth keeping when the target is a real entity from this
-                // row; writing it back onto a throwaway stub would lose it.
-                if (edge.inverse && isSameRow) built[targetEntry.id] = result.toEntity;
+                if (!result.toEdgePath) continue;
+                if (isSameRow) {
+                    built[targetEntry.id] = result.toEntity;
+                } else {
+                    // The target is a stub here; the run writes the inverse onto the real one.
+                    const { entityType, schemaVersion, identifier } = result.fromEntity;
+                    inverses.push({
+                        target: toEntity.identifier,
+                        source: { entityType, schemaVersion, identifier },
+                        path: result.toEdgePath,
+                    });
+                }
             }
         }
     }
@@ -410,24 +423,26 @@ function applyEdges(mapping, built, row, options, notes) {
  * @param {MappingRow} params.row - One row, keyed by column heading
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
- * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>}} The
- *   entities by entry id, already linked to one another, and anything worth reporting. Two entries
- *   that build the same entity each hold a copy; {@link module:omcMapping/createRun} folds them
+ * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>, inverses: Array<Object>}}
+ *   The entities by entry id, already linked to one another, anything worth reporting, and the
+ *   inverses whose target another row builds. Two entries that build the same entity each hold a
+ *   copy; {@link module:omcMapping/createRun} folds them and writes those inverses
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options = {} }) {
     const resolved = resolveOptions(options);
     const notes = [];
     const entities = {};
+    const inverses = [];
 
     for (const entry of mapping) {
         const entity = buildEntity(entry, row, resolved, notes);
         if (entity) entities[entry.id] = entity;
     }
 
-    applyEdges(mapping, entities, row, resolved, notes);
+    applyEdges(mapping, entities, row, resolved, notes, inverses);
 
-    return { entities, notes };
+    return { entities, notes, inverses };
 }
 
 export default mapRow;

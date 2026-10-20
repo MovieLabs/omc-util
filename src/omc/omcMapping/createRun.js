@@ -8,9 +8,13 @@
  * The caller still feeds rows one at a time and still never hands over a table — this holds the
  * accumulator, not the data source.
  *
+ * It also writes the inverses a row could not: an edge to an entity another row builds is written
+ * back onto that entity once the run has it.
+ *
  * @module omcMapping/createRun
  */
 
+import { edgeCreate } from '../omcEdges.js';
 import { mergeEntity } from '../omcMerge.js';
 
 import { resolveOptions } from './entity.js';
@@ -37,6 +41,7 @@ export function createRun({ mapping, options = {} }) {
     // may share a key, and the identifier already folds the type in.
     const byIdentifier = new Map();
     const notes = [];
+    const inverses = [];
     let rowCount = 0;
     // How many rows folded into an already-seen entity, and an example or two per type. A fold is
     // intended where the key deliberately repeats — a scene across forty take rows — but it is
@@ -53,6 +58,7 @@ export function createRun({ mapping, options = {} }) {
         rowCount += 1;
         const outcome = mapRow({ row, mapping, options: resolved });
         notes.push(...outcome.notes);
+        inverses.push(...outcome.inverses);
 
         for (const entity of Object.values(outcome.entities)) {
             const id = entity.identifier?.[0]?.identifierValue;
@@ -93,6 +99,24 @@ export function createRun({ mapping, options = {} }) {
      * @returns {{entities: Array<Object>, notes: Array<OmcMapping.MappingNote>, counts: Object}}
      */
     const result = () => {
+        // Inverses whose target the run built; one to an entity it did not build has nowhere to go.
+        for (const { target, source, path } of inverses) {
+            const id = target?.[0]?.identifierValue;
+            const held = id && byIdentifier.get(id);
+            if (!held) continue;
+            const written = edgeCreate({ fromEntity: held, toEntity: source, intrinsicEdge: path });
+            if (written) {
+                byIdentifier.set(id, written.fromEntity);
+            } else {
+                notes.push({
+                    kind: 'inverseNotWritten',
+                    where: `${held.entityType} ${path}`,
+                    detail: 'the reciprocal edge does not fit (the slot is full or not allowed); the forward edge stands',
+                });
+            }
+        }
+        inverses.length = 0;
+
         const entities = [...byIdentifier.values()];
         const byType = {};
         for (const e of entities) byType[e.entityType] = (byType[e.entityType] ?? 0) + 1;

@@ -21,7 +21,7 @@
 import { isCapitalized, isPlainObject, makeArray } from '../mlHelpers/util.js';
 import { omcTemplate } from '../templates/index.js';
 
-import { idNormalize, hasMatching } from './omcIdentifier.js';
+import { idKey, idNormalize, hasMatching } from './omcIdentifier.js';
 
 const baseKeys = [
     'schemaVersion',
@@ -211,6 +211,48 @@ export function removeEdge(omcEntity, identifier) {
             ? { ...acc, ...{ [key]: removeEdge(omcEntity[key], removeIdentifier) } }
             : { ...acc, ...{ [key]: omcEntity[key] } };
     }, {});
+}
+
+/**
+ * Point every reference to one entity at another identifier instead, wherever the entity keeps
+ * references — for when an entity's identifier is replaced, so nothing is left pointing at the old
+ * one. A reference that already carries the new identifier loses the old one without gaining a
+ * second copy.
+ *
+ * @memberof module:omcEdges
+ * @function replaceReference
+ * @static
+ * @param {OmcEntity} omcEntity - The entity whose references are rewritten
+ * @param {OmcEntity | OmcIdentifier | Array<OmcIdentifier>} from - The identifier being replaced
+ * @param {OmcEntity | OmcIdentifier | Array<OmcIdentifier>} to - What replaces it
+ * @returns {OmcEntity} A new entity, or the same object when nothing referred to `from`
+ */
+export function replaceReference(omcEntity, from, to) {
+    const fromKeys = new Set(idNormalize(from).map(idKey));
+    const toIds = idNormalize(to);
+    const toKeys = new Set(toIds.map(idKey));
+    let changed = false;
+
+    const swap = ((reference) => {
+        if (!isPlainObject(reference) || !reference.identifier) return reference;
+        const ids = makeArray(reference.identifier);
+        if (!ids.some((id) => fromKeys.has(idKey(id)))) return reference;
+        changed = true;
+        const kept = ids.filter((id) => !fromKeys.has(idKey(id)));
+        const identifier = kept.some((id) => toKeys.has(idKey(id))) ? kept : [...kept, ...toIds];
+        return { ...reference, identifier };
+    });
+
+    // The same walk as removeEdge: references sit under capitalised keys, at any depth.
+    const walk = ((obj) => Object.keys(obj || {}).reduce((acc, key) => {
+        const value = obj[key];
+        if (isCapitalized(key)) acc[key] = Array.isArray(value) ? value.map(swap) : swap(value);
+        else acc[key] = (key !== 'customData' && isPlainObject(value)) ? walk(value) : value;
+        return acc;
+    }, {}));
+
+    const next = walk(omcEntity);
+    return changed ? next : omcEntity;
 }
 
 /**
