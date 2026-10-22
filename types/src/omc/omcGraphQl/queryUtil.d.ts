@@ -50,6 +50,7 @@ export function entityQueries({ schemaVersion }: {
     entityType: string;
     variables: Array<typeof queryVariables>;
 }>;
+export function slotType(owner: any, path: any, schemaVersion: any): any;
 export function createEntitySchema({ entityType, schemaVersion }: {
     entityType: any;
     schemaVersion: any;

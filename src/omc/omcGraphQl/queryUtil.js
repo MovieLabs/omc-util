@@ -7,6 +7,22 @@
 import { isPlainObject } from '../../mlHelpers/util.js';
 import { omcTemplate } from '../../templates/index.js';
 
+/**
+ * The one entity type an intrinsic slot of `owner` at `path` holds, or null when it holds several or
+ * is not a slot.
+ *
+ * @ignore
+ * @param {string|null} owner - The entity type holding the slot
+ * @param {string[]} path - The slot's path within it
+ * @param {string} schemaVersion
+ * @returns {string|null}
+ */
+export const slotType = ((owner, path, schemaVersion) => {
+    if (!owner) return null;
+    const allowed = omcTemplate.edgeTable({ entityType: owner, schemaVersion })?.intrinsic?.[path.join('.')]?.allowed;
+    return allowed?.length === 1 ? allowed[0] : null;
+});
+
 // Create an entity object for the given entityType including the base entity properties
 export const createEntitySchema = (({ entityType, schemaVersion }) => {
     const { properties } = omcTemplate.graphQl({ entityType, schemaVersion });

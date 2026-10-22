@@ -7,6 +7,8 @@
 import { isCapitalized, isPlainObject } from '../../mlHelpers/util.js';
 import { omcTemplate } from '../../templates/index.js';
 
+import { slotType } from './queryUtil.js';
+
 // import { graphqlSnippets } from './graphQlSnippets.js';
 
 // Checks if a set of keys all have null values
@@ -43,14 +45,6 @@ const filterVariables = ((entity, vars = {}) => {
             : (Object.hasOwn(vars, key) && vars[key]) ? vars[key] : null; // Replace if variable key exists and valid
         return { ...obj, [key]: replacement };
     }, {});
-});
-
-// The one entity type an intrinsic slot of `owner` at `path` holds, or null when it holds several or
-// is not a slot.
-const slotType = ((owner, path, schemaVersion) => {
-    if (!owner) return null;
-    const allowed = omcTemplate.edgeTable({ entityType: owner, schemaVersion })?.intrinsic?.[path.join('.')]?.allowed;
-    return allowed?.length === 1 ? allowed[0] : null;
 });
 
 // The entity type an expanded key asks for: the type a string value names, the type a slot named
