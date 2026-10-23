@@ -9,20 +9,23 @@
  */
 
 /**
- * One row of source data — a plain object keyed by column heading.
+ * One row of source data — a plain object keyed by column heading, and by input name for the OMC
+ * entities it carries (one, or an array).
  *
- * This is the only shape omcMapping accepts. It knows nothing of files, sheets, workbooks or
- * tables: whoever holds the bytes parses them and feeds rows in.
+ * This is the only shape omcMapping accepts. It knows nothing of files, sheets, workbooks, tables or
+ * queries: whoever holds the data turns it into rows and feeds them in.
  *
- * @typedef {Object.<string, (string|number|boolean|null)>} MappingRow
+ * @typedef {Object.<string, (string|number|boolean|null|Object|Array<Object>)>} MappingRow
  */
 
 /**
  * Where a value is read from a row: a column heading, or a template — fixed text with columns in
  * braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}` write a literal brace. A
- * template whose columns are not all filled on a row gives no value there.
+ * template whose columns are not all filled on a row gives no value there. Or an input path,
+ * `{ input: 'video', path: 'assetFC.functionalType' }`: the value at that path in each entity the row
+ * carries under the input's name, an array when there are several.
  *
- * @typedef {(string|{template: string})} ValueSource
+ * @typedef {(string|{template: string}|{input: string, path: string})} ValueSource
  * @memberof OmcMapping
  */
 
@@ -41,6 +44,9 @@
  * @property {string} [from] - Column to read
  * @property {string} [template] - Text to write, with columns in braces (see
  *   {@link OmcMapping.ValueSource}). Takes precedence over `from`
+ * @property {string} [input] - Input to read, with `path`. A property holding one value refuses
+ *   several: the row builds nothing
+ * @property {string} [path] - Dotted path in each of the input's entities
  * @property {*} [const] - A fixed value, written on every row. Takes precedence over `template` and
  *   `from`, because it is a decision the mapping makes rather than something the source said
  * @property {('number'|'string'|'boolean'|'datetime')} [as] - Cast the value
@@ -64,15 +70,20 @@
  * `edges.usedBy.Realization`). Optional, and omitting it means what it always did: the first
  * relationship admitting the target.
  *
- * The target is named one of two ways, and an edge carries exactly one: `to`, the `id` of an entry
- * in this template, or `toType`, an entityType that no entry here builds — a reference to an entity
- * another template or source provides. {@link module:omcMapping/mapRow.edgeTarget} resolves either.
+ * The target is named one of three ways: `to`, the `id` of an entry in this template; `toType`, an
+ * entityType that no entry here builds — a reference to an entity another template or source
+ * provides; or `input`, the existing entities the row carries under that name, referenced as they
+ * are and never built. More input entities than the relationship holds refuse the row.
+ * {@link module:omcMapping/mapRow.edgeTarget} resolves any of them.
  *
  * @typedef {Object} EdgeMapping
  * @memberof OmcMapping
  * @property {string} [to] - The `id` of the target entry in this template
  * @property {string} [toType] - The target entityType, when no entry in this template builds it
- * @property {OmcMapping.ValueSource} via - Where the row holds the target's key value
+ * @property {string} [input] - The input whose entities are the targets; `toType` then only
+ *   declares their type for {@link module:omcMapping/check}
+ * @property {OmcMapping.ValueSource} [via] - Where the row holds the target's key value; not used
+ *   with `input`
  * @property {string} [edgeKey] - Edge-table key of the relationship this fills
  * @property {string} [split] - The column holds several keys
  * @property {boolean} [inverse=true] - Also write the reciprocal edge onto the target, when the run

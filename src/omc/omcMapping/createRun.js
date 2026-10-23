@@ -15,6 +15,7 @@
  */
 
 import { edgeCreate } from '../omcEdges.js';
+import { idKey } from '../omcIdentifier.js';
 import { mergeEntity } from '../omcMerge.js';
 
 import { resolveOptions } from './entity.js';
@@ -96,14 +97,25 @@ export function createRun({ mapping, options = {} }) {
     /**
      * Everything the run produced.
      *
-     * @returns {{entities: Array<Object>, notes: Array<OmcMapping.MappingNote>, counts: Object}}
+     * @returns {{entities: Array<Object>, notes: Array<OmcMapping.MappingNote>, counts: Object,
+     *   inverses: Array<{target: Array<Object>, source: Object, path: string}>}} `inverses` are the
+     *   reciprocal edges whose target the run did not build — an input entity, or one another
+     *   template provides — for the caller to write onto it: `path` on the entity identified by
+     *   `target`, referencing `source`
      */
     const result = () => {
-        // Inverses whose target the run built; one to an entity it did not build has nowhere to go.
-        for (const { target, source, path } of inverses) {
+        // Inverses whose target the run built are written here; the rest go back to the caller, once
+        // each however many rows produced them.
+        const unwritten = new Map();
+        for (const inverse of inverses) {
+            const { target, source, path } = inverse;
             const id = target?.[0]?.identifierValue;
             const held = id && byIdentifier.get(id);
-            if (!held) continue;
+            if (!held) {
+                const ids = ((list) => (list ?? []).map(idKey).sort().join('|'));
+                unwritten.set(`${ids(target)}>${ids(source.identifier)}>${path}`, inverse);
+                continue;
+            }
             const written = edgeCreate({ fromEntity: held, toEntity: source, intrinsicEdge: path });
             if (written) {
                 byIdentifier.set(id, written.fromEntity);
@@ -139,6 +151,7 @@ export function createRun({ mapping, options = {} }) {
         return {
             entities,
             notes,
+            inverses: [...unwritten.values()],
             counts: {
                 rows: rowCount,
                 entities: entities.length,

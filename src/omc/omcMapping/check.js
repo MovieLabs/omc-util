@@ -17,7 +17,7 @@ import { omcTemplate } from '../../templates/index.js';
 import { resolveOptions } from './entity.js';
 import { edgeTarget, identitySource, specSource } from './mapRow.js';
 import { parseSegment } from './shapedValue.js';
-import { sourceColumns, sourceLabel } from './source.js';
+import { sourceColumns, sourceInputs, sourceLabel } from './source.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
@@ -139,6 +139,16 @@ export function check({ mapping, options = {} }) {
             });
         }
 
+        // An input source reads a path in an entity; with none it reaches the entity, not a value.
+        const sources = [
+            ['the key', entry.key],
+            ...Object.entries(entry.properties ?? {}).map(([path, spec]) => [path, specSource(spec)]),
+            ...(entry.edges ?? []).map((edge) => ['an edge\'s via', edge.via]),
+        ];
+        sources.filter(([, source]) => sourceInputs(source).length && !source.path).forEach(([what, source]) => {
+            problems.push({ kind: 'inputWithoutPath', where, detail: `${what} reads input "${source.input}" with no path` });
+        });
+
         const shape = omcTemplate.shape({ entityType, schemaVersion });
         const edgeTable = omcTemplate.edgeTable({ entityType, schemaVersion }) ?? {};
 
@@ -192,6 +202,14 @@ export function check({ mapping, options = {} }) {
         const allEdges = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
         for (const edge of entry.edges ?? []) {
             edges += 1;
+            if (typeof edge.input === 'string' && (edge.to !== undefined || edge.via !== undefined)) {
+                problems.push({
+                    kind: 'ambiguousEdge',
+                    where,
+                    detail: `an edge names input "${edge.input}" and also a to or via; an input edge targets the input's entities, so give it neither`,
+                });
+                continue;
+            }
             const target = edgeTarget(mapping, edge);
             if (!target) {
                 problems.push({
@@ -199,7 +217,7 @@ export function check({ mapping, options = {} }) {
                     where,
                     detail: (edge.to ?? edge.toType)
                         ? `an edge names "${edge.to}", which is no entry in this template`
-                        : 'an edge names no target: give it the id of an entry (to) or an entityType (toType)',
+                        : 'an edge names no target: give it the id of an entry (to), an entityType (toType) or an input',
                 });
                 continue;
             }
@@ -215,6 +233,15 @@ export function check({ mapping, options = {} }) {
                     where,
                     detail: `${entityType} has no relationship "${edge.edgeKey}" in `
                         + `${omcTemplate.versionLabel(schemaVersion)}`,
+                });
+                continue;
+            }
+            // An input edge without a toType takes whatever type the row's entities are.
+            if (!targetType) {
+                warnings.push({
+                    kind: 'uncheckedEdge',
+                    where,
+                    detail: `the edge to input "${edge.input}" declares no toType, so whether it fits is known only when a row is mapped`,
                 });
                 continue;
             }
@@ -310,6 +337,42 @@ export function checkColumns({ mapping, columns }) {
         }
         for (const column of entry.customData?.exclude ?? []) {
             want(column, where, 'customData.exclude');
+        }
+    }
+
+    return { valid: problems.length === 0, problems, missing: [...missing] };
+}
+
+/**
+ * Check a mapping against the inputs it will actually be given: every input a source or an edge
+ * names must be one of them.
+ *
+ * @param {Object} params
+ * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
+ * @param {Array<string>} params.inputs - The input names available
+ * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>, missing: Array<string>}}
+ *   The outcome, and every input named but absent
+ */
+export function checkInputs({ mapping, inputs }) {
+    const have = new Set(inputs ?? []);
+    const problems = [];
+    const missing = new Set();
+
+    const want = (input, where, what) => {
+        if (!input || have.has(input)) return;
+        missing.add(input);
+        problems.push({ kind: 'unknownInput', where, detail: `${what} names input "${input}", which is not given` });
+    };
+
+    for (const entry of mapping ?? []) {
+        const where = entry.entityType ?? '(no entityType)';
+        sourceInputs(entry.key).forEach((input) => want(input, where, 'the key'));
+        for (const [path, spec] of Object.entries(entry.properties ?? {})) {
+            sourceInputs(specSource(spec)).forEach((input) => want(input, where, path));
+        }
+        for (const edge of entry.edges ?? []) {
+            want(edge.input, where, 'an edge');
+            sourceInputs(edge.via).forEach((input) => want(input, where, 'an edge'));
         }
     }
 
