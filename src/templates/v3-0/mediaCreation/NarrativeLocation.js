@@ -20,7 +20,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeLocationType: 'string',
+            narrativeLocationType: ['string'],
             narrativeLocationName: scriptName.graphQl.filter,
         },
         inlineFragment: null,

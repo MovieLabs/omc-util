@@ -19,7 +19,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeStylingType: 'string',
+            narrativeStylingType: ['string'],
             narrativeStylingName: basicName.graphQl.filter,
         },
         inlineFragment: null,

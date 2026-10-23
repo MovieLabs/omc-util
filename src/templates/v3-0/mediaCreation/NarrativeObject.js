@@ -21,7 +21,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            narrativeObjectType: 'string',
+            narrativeObjectType: ['string'],
             narrativeObjectName: scriptName.graphQl.filter,
         },
         inlineFragment: null,

@@ -39,7 +39,7 @@ export default {
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            realizationType: 'string',
+            realizationType: ['string'],
             realizationName: basicName.graphQl.filter,
         },
         inlineFragment: {

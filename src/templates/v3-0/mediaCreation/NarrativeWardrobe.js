@@ -20,7 +20,7 @@ export default {
         filter: {
             ...baseEntity.graphQl.filter,
             narrativeWardrobeName: basicName.graphQl.filter,
-            narrativeWardrobeType: 'string',
+            narrativeWardrobeType: ['string'],
         },
         inlineFragment: null,
     },
