@@ -658,10 +658,23 @@ console.log('\ninputs: new entities from existing ones');
     ok(reverseFull.notes.some((n) => n.kind === 'edgeFull') && !reverseFull.entities.a?.versionInfo?.Derivation,
         'an input entity whose own reverse slot is full is not referenced, and that is reported');
 
+    const byTake = omcMapping.mapRow({
+        row: { ...row, take: existing('CapturePoint', 'cp-1', { identifier: [{ identifierScope: 'z.other', identifierValue: 'x' }, { identifierScope: 'movielabs.com', identifierValue: 'cp-1' }] }) },
+        mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take' } }],
+        options: OPTIONS,
+    }).entities.a;
+    const byScope = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take', path: 'identifier.identifierValue' } }], options: OPTIONS,
+    }).entities.a;
+    ok(byTake && JSON.stringify(byTake.identifier) !== JSON.stringify(byScope.identifier)
+        && JSON.stringify(byTake.identifier) === JSON.stringify(omcMapping.mapRow({
+            row, mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take' } }], options: OPTIONS,
+        }).entities.a.identifier),
+    'a key reading an input itself is its entity\'s identity in the run\'s scope, whatever other identifiers it has');
     const objectKey = omcMapping.mapRow({
-        row, mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take', path: '' } }], options: OPTIONS,
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take', path: 'identifier' } }], options: OPTIONS,
     });
-    ok(!objectKey.entities.a && objectKey.notes.some((n) => n.kind === 'notAValue'), 'a key that reaches an entity, not a value, builds nothing');
+    ok(!objectKey.entities.a && objectKey.notes.some((n) => n.kind === 'notAValue'), 'a key path that reaches an object, not a value, builds nothing');
 
     const single = omcMapping.mapRow({
         row: { ...row, Name: 'n1', take: [existing('CapturePoint', 'cp-1', { label: '1-1' }), existing('CapturePoint', 'cp-1b', { label: '1-2' })] },
@@ -680,7 +693,7 @@ console.log('\ninputs: new entities from existing ones');
     ok(repeated.result().inverses.length === 1, 'an inverse produced by several rows comes back once');
 
     const flagged = omcMapping.check({
-        mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take' }, edges: [{ input: 'video', to: 'a' }, { input: 'audio' }] }],
+        mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take' }, properties: { label: { input: 'take' } }, edges: [{ input: 'video', to: 'a' }, { input: 'audio' }] }],
         options: OPTIONS,
     });
     ok(['inputWithoutPath', 'ambiguousEdge'].every((k) => flagged.problems.some((p) => p.kind === k))

@@ -15,7 +15,8 @@ export type MappingRow = {
  * braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}` write a literal brace. A
  * template whose columns are not all filled on a row gives no value there. Or an input path,
  * `{ input: 'video', path: 'assetFC.functionalType' }`: the value at that path in each entity the row
- * carries under the input's name, an array when there are several.
+ * carries under the input's name, an array when there are several. A key or `via` may read an input
+ * with no path: its entities' identities, each the identifier in the run's scope or else the lowest.
  */
 export type ValueSource = (string | {
     template: string;
