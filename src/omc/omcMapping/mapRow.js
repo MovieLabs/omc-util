@@ -152,7 +152,12 @@ function resolveProperty(spec, row) {
     if (raw === null) return { value: null, withheld: null };
 
     let value = raw;
-    if (Array.isArray(value)) return { value: as ? value.map((v) => cast(v, as)) : value, withheld: null };
+    if (Array.isArray(value)) {
+        if (when === 'single') {
+            return { value: null, withheld: `${sourceLabel(read)} gives ${value.length} values; no single value applies` };
+        }
+        return { value: as ? value.map((v) => cast(v, as)) : value, withheld: null };
+    }
     if (split) {
         const members = splitList(value, split);
         if (when === 'single' && members.length !== 1) {
@@ -292,19 +297,21 @@ export function hasSuppliedIdentifier(mapping) {
  *   names no target
  */
 export function edgeTarget(mapping, edge) {
+    if (typeof edge?.input === 'string') return { entry: null, entityType: edge.toType ?? null };
     if (edge?.to !== undefined && edge.to !== null) {
         const entry = (mapping ?? []).find((m) => m.id === edge.to);
         return entry ? { entry, entityType: entry.entityType } : null;
     }
-    if (typeof edge?.input === 'string') return { entry: null, entityType: edge.toType ?? null };
     return edge?.toType ? { entry: null, entityType: edge.toType } : null;
 }
 
 /**
  * Reference the entities the row carries under an edge's `input` from the entity one entry built.
  *
- * Several entities into a relationship that holds fewer is reported and blocks the row. The inverse
- * goes into `inverses`, since an input entity is never one the run builds.
+ * Capacity is checked against the input entity as it is, on both sides. More entities than the
+ * relationship holds is `severalValues` and blocks the row; a reference already there is skipped; a
+ * slot already full is reported and that reference not written. The inverse goes into `inverses`,
+ * since an input entity is never one the run builds.
  *
  * @param {Object.<string, Object>} built - This row's entities, by entry id
  * @param {OmcMapping.EntityMapping} entry
@@ -323,22 +330,29 @@ function applyInputEdge(built, entry, edge, row, options, notes, inverses) {
             entityType: target.entityType,
             identifier: target.identifier,
         };
+        const where = `${entry.entityType} -> ${target.entityType}`;
         const params = {
-            fromEntity: built[entry.id], toEntity, intrinsicEdge: edge.edgeKey ?? null, inverse: false,
+            fromEntity: built[entry.id], intrinsicEdge: edge.edgeKey ?? null, inverse: edge.inverse !== false,
         };
-        const refused = edgeRefusal(params);
+        const refused = edgeRefusal({ ...params, toEntity: target });
         if (refused?.reason === 'full') {
-            notes.push(severalValues(`${entry.entityType} -> ${target.entityType}`, `input "${edge.input}" `
-            + `gives ${targets.length} entities, more than the relationship holds`));
-            return;
-        }
-        const result = refused ? null : edgeCreate({ ...params, inverse: edge.inverse !== false });
-        if (!result) {
+            if (refused.holdsTarget) continue;
+            if (refused.side === 'source' && targets.length > refused.maxItems) {
+                notes.push(severalValues(where, `input "${edge.input}" gives ${targets.length} entities, and `
+                + `${refused.path} holds ${refused.maxItems}`));
+                return;
+            }
             notes.push({
-                kind: 'edgeNotAllowed',
-                where: `${entry.entityType} -> ${target.entityType}`,
-                detail: 'the schema does not allow this relationship; it was not written',
+                kind: 'edgeFull',
+                where,
+                detail: `${refused.entityType} ${refused.path} already holds ${refused.held} of ${refused.maxItems}; `
+                    + 'this reference was not written',
             });
+            continue;
+        }
+        const result = refused ? null : edgeCreate({ ...params, toEntity });
+        if (!result) {
+            notes.push({ kind: 'edgeNotAllowed', where, detail: 'the schema does not allow this relationship; it was not written' });
             continue;
         }
         built[entry.id] = result.fromEntity;
@@ -373,6 +387,14 @@ function buildEntity(mapping, row, options, notes) {
         });
         return null;
     }
+    if (keyValue !== null && typeof keyValue === 'object' && !Array.isArray(keyValue)) {
+        notes.push({
+            kind: 'notAValue',
+            where: entityType,
+            detail: `${sourceLabel(identity)} reaches an object, not a value; no ${entityType} was built`,
+        });
+        return null;
+    }
     if (Array.isArray(keyValue)) {
         notes.push(severalValues(entityType, `${sourceLabel(identity)} gives ${keyValue.length} values `
         + `(${keyValue.join(', ')}); one ${entityType} needs one`));
@@ -384,6 +406,15 @@ function buildEntity(mapping, row, options, notes) {
 
     for (const [path, spec] of Object.entries(mapping.properties ?? {})) {
         const { value, withheld } = resolveProperty(spec, row);
+        // A fixed value may be an object; a value read from an input must be a value.
+        if (specSource(spec)?.input !== undefined && [value].flat().some((v) => v !== null && typeof v === 'object')) {
+            notes.push({
+                kind: 'notAValue',
+                where: `${entityType} ${keyValue}`,
+                detail: `${path} not set: ${sourceLabel(specSource(spec))} reaches an object, not a value`,
+            });
+            continue;
+        }
         if (Array.isArray(value) && !holdsList(path.split('.'), shape)) {
             notes.push(severalValues(`${entityType} ${keyValue}`, `${path} holds one value, and `
             + `${sourceLabel(specSource(spec))} gives ${value.length} (${value.join(', ')})`));

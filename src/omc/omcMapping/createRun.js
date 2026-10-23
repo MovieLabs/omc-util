@@ -15,6 +15,7 @@
  */
 
 import { edgeCreate } from '../omcEdges.js';
+import { idKey } from '../omcIdentifier.js';
 import { mergeEntity } from '../omcMerge.js';
 
 import { resolveOptions } from './entity.js';
@@ -103,14 +104,16 @@ export function createRun({ mapping, options = {} }) {
      *   `target`, referencing `source`
      */
     const result = () => {
-        // Inverses whose target the run built are written here; the rest go back to the caller.
-        const unwritten = [];
+        // Inverses whose target the run built are written here; the rest go back to the caller, once
+        // each however many rows produced them.
+        const unwritten = new Map();
         for (const inverse of inverses) {
             const { target, source, path } = inverse;
             const id = target?.[0]?.identifierValue;
             const held = id && byIdentifier.get(id);
             if (!held) {
-                unwritten.push(inverse);
+                const ids = ((list) => (list ?? []).map(idKey).sort().join('|'));
+                unwritten.set(`${ids(target)}>${ids(source.identifier)}>${path}`, inverse);
                 continue;
             }
             const written = edgeCreate({ fromEntity: held, toEntity: source, intrinsicEdge: path });
@@ -148,7 +151,7 @@ export function createRun({ mapping, options = {} }) {
         return {
             entities,
             notes,
-            inverses: unwritten,
+            inverses: [...unwritten.values()],
             counts: {
                 rows: rowCount,
                 entities: entities.length,

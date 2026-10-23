@@ -139,6 +139,16 @@ export function check({ mapping, options = {} }) {
             });
         }
 
+        // An input source reads a path in an entity; with none it reaches the entity, not a value.
+        const sources = [
+            ['the key', entry.key],
+            ...Object.entries(entry.properties ?? {}).map(([path, spec]) => [path, specSource(spec)]),
+            ...(entry.edges ?? []).map((edge) => ['an edge\'s via', edge.via]),
+        ];
+        sources.filter(([, source]) => sourceInputs(source).length && !source.path).forEach(([what, source]) => {
+            problems.push({ kind: 'inputWithoutPath', where, detail: `${what} reads input "${source.input}" with no path` });
+        });
+
         const shape = omcTemplate.shape({ entityType, schemaVersion });
         const edgeTable = omcTemplate.edgeTable({ entityType, schemaVersion }) ?? {};
 
@@ -192,6 +202,14 @@ export function check({ mapping, options = {} }) {
         const allEdges = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
         for (const edge of entry.edges ?? []) {
             edges += 1;
+            if (typeof edge.input === 'string' && (edge.to !== undefined || edge.via !== undefined)) {
+                problems.push({
+                    kind: 'ambiguousEdge',
+                    where,
+                    detail: `an edge names input "${edge.input}" and also a to or via; an input edge targets the input's entities, so give it neither`,
+                });
+                continue;
+            }
             const target = edgeTarget(mapping, edge);
             if (!target) {
                 problems.push({
@@ -219,7 +237,14 @@ export function check({ mapping, options = {} }) {
                 continue;
             }
             // An input edge without a toType takes whatever type the row's entities are.
-            if (!targetType) continue;
+            if (!targetType) {
+                warnings.push({
+                    kind: 'uncheckedEdge',
+                    where,
+                    detail: `the edge to input "${edge.input}" declares no toType, so whether it fits is known only when a row is mapped`,
+                });
+                continue;
+            }
             const allowed = named
                 ? named.allowed?.includes(targetType)
                 : Object.values(allEdges).some((e) => e.allowed?.includes(targetType));

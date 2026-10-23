@@ -73,7 +73,8 @@
  * The target is named one of three ways: `to`, the `id` of an entry in this template; `toType`, an
  * entityType that no entry here builds — a reference to an entity another template or source
  * provides; or `input`, the existing entities the row carries under that name, referenced as they
- * are and never built. More input entities than the relationship holds refuse the row. {@link module:omcMapping/mapRow.edgeTarget} resolves either.
+ * are and never built. More input entities than the relationship holds refuse the row.
+ * {@link module:omcMapping/mapRow.edgeTarget} resolves any of them.
  *
  * @typedef {Object} EdgeMapping
  * @memberof OmcMapping

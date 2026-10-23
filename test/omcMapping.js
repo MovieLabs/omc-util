@@ -629,6 +629,64 @@ console.log('\ninputs: new entities from existing ones');
     }).entities.a;
     ok(JSON.stringify(rest.customData?.[0]?.value) === '{"Note":"kept"}', 'customData carries columns, not input entities');
 
+    const twice = omcMapping.mapRow({
+        row,
+        mapping: [{ id: 'a', entityType: 'Asset', key: anchorKey, edges: [
+            { input: 'video', edgeKey: 'versionInfo.DerivationOf' }, { input: 'video', edgeKey: 'versionInfo.DerivationOf' },
+        ] }],
+        options: OPTIONS,
+    });
+    ok(twice.entities.a?.versionInfo?.DerivationOf?.length === 1 && !twice.notes.length,
+        'a reference already in place is not written again, and is not several values');
+
+    const filled = omcMapping.mapRow({
+        row,
+        mapping: [{ id: 'a', entityType: 'Asset', key: anchorKey, edges: [
+            { input: 'video', edgeKey: 'versionInfo.DerivationOf' }, { input: 'audio', edgeKey: 'versionInfo.DerivationOf' },
+        ] }],
+        options: OPTIONS,
+    });
+    ok(!Object.keys(filled.entities).length && filled.notes.some((n) => n.kind === 'severalValues'),
+        'two inputs into a slot that holds one are several values');
+
+    const derivedFrom = existing('Asset', 'video-2', { versionInfo: { DerivationOf: [existing('Asset', 'original')] } });
+    const reverseFull = omcMapping.mapRow({
+        row: { ...row, video: derivedFrom },
+        mapping: [{ id: 'a', entityType: 'Asset', key: anchorKey, edges: [{ input: 'video', edgeKey: 'versionInfo.Derivation' }] }],
+        options: OPTIONS,
+    });
+    ok(reverseFull.notes.some((n) => n.kind === 'edgeFull') && !reverseFull.entities.a?.versionInfo?.Derivation,
+        'an input entity whose own reverse slot is full is not referenced, and that is reported');
+
+    const objectKey = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take', path: '' } }], options: OPTIONS,
+    });
+    ok(!objectKey.entities.a && objectKey.notes.some((n) => n.kind === 'notAValue'), 'a key that reaches an entity, not a value, builds nothing');
+
+    const single = omcMapping.mapRow({
+        row: { ...row, Name: 'n1', take: [existing('CapturePoint', 'cp-1', { label: '1-1' }), existing('CapturePoint', 'cp-1b', { label: '1-2' })] },
+        mapping: [{ id: 'a', entityType: 'Asset', key: 'Name', properties: { label: { input: 'take', path: 'label', when: 'single' } } }],
+        options: OPTIONS,
+    });
+    ok(single.entities.a && single.entities.a.label === undefined && single.notes.some((n) => n.kind === 'propertyWithheld'),
+        'when single withholds a property an input gives several values for, and builds the rest');
+
+    const repeated = omcMapping.createRun({
+        mapping: [{ id: 'comp', entityType: 'Composition', key: { input: 'take', path: 'label' }, edges: [{ input: 'video', edgeKey: 'Product' }] }],
+        options: OPTIONS,
+    });
+    repeated.add(row);
+    repeated.add(row);
+    ok(repeated.result().inverses.length === 1, 'an inverse produced by several rows comes back once');
+
+    const flagged = omcMapping.check({
+        mapping: [{ id: 'a', entityType: 'Asset', key: { input: 'take' }, edges: [{ input: 'video', to: 'a' }, { input: 'audio' }] }],
+        options: OPTIONS,
+    });
+    ok(['inputWithoutPath', 'ambiguousEdge'].every((k) => flagged.problems.some((p) => p.kind === k))
+        && flagged.warnings.some((w) => w.kind === 'uncheckedEdge'),
+    'check reports an input with no path and an input edge with a to, and warns of an untyped input edge');
+
     ok(omcMapping.check({ mapping, options: OPTIONS }).valid, 'check accepts input sources and input edges');
     const inputs = omcMapping.checkInputs({ mapping, inputs: ['take', 'video'] });
     ok(!inputs.valid && JSON.stringify(inputs.missing) === '["audio"]', 'checkInputs names an input the mapping uses but is not given');
