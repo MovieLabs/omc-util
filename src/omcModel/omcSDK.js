@@ -68,6 +68,7 @@ const cache = () => {
             const storeKeys = Object.values(idKeys).filter((d, i, arr) => d && arr.indexOf(d) === i); // DeDupe and remove null
             const storeId = storeKeys.length === 0 ? this.tempId() : storeKeys.shift();
             Object.keys(idKeys).forEach((idKey) => this.idMapping[idKey] = storeId); // Update the mapping table
+            Object.keys(idKeys).forEach((idKey) => this.missing.delete(idKey)); // Held now, so not missing
 
             if (!Object.hasOwn(this.store, storeId)) {
                 this.store[storeId] = ent; // First time seeing this, so add the entity to the deDupe object
@@ -95,6 +96,7 @@ const cache = () => {
             const storeKeys = Object.values(idKeys).filter((d, i, arr) => d && arr.indexOf(d) === i); // DeDupe and remove null
             const storeId = storeKeys.length === 0 ? this.tempId() : storeKeys.shift();
             Object.keys(idKeys).forEach((idKey) => this.idMapping[idKey] = storeId); // Update the mapping table
+            Object.keys(idKeys).forEach((idKey) => this.missing.delete(idKey)); // Held now, so not missing
             this.store[storeId] = ent; // Replace an existing entity
             return ent;
         },
@@ -188,6 +190,7 @@ const cache = () => {
     tCache.cacheKey = 0;
     tCache.store = {};
     tCache.idMapping = {};
+    tCache.missing = new Set(); // idKeys the source was asked for and does not have
     tCache.log = [];
     return tCache;
 };
@@ -378,6 +381,34 @@ function getInternalId(storeId) {
     return this.cache.internal(storeId);
 }
 
+/**
+ * Record that the source this model loads from (fMam, for the Portal) was asked for these
+ * identifiers and does not have them, so a loader need not ask again. Forgotten for an identifier
+ * when an entity carrying it is stored, and entirely on `reset`.
+ *
+ * @function markMissing
+ * @memberof module:omcSDK
+ * @param {Array<OmcIdentifier|OmcEntity>} references - Identifiers, or references holding them
+ */
+function markMissing(references) {
+    references.flatMap((ref) => omcIdentifier.idNormalize(ref))
+        .forEach((id) => this.cache.missing.add(omcIdentifier.idKey(id)));
+}
+
+/**
+ * Whether a reference is known to be missing from the source: every identifier it carries was asked
+ * for and not found, and the model holds none of them.
+ *
+ * @function isMissing
+ * @memberof module:omcSDK
+ * @param {OmcIdentifier|OmcEntity} reference - An identifier, or a reference holding identifiers
+ * @returns {boolean}
+ */
+function isMissing(reference) {
+    const ids = omcIdentifier.idNormalize(reference);
+    return ids.length > 0 && ids.every((id) => this.cache.missing.has(omcIdentifier.idKey(id)));
+}
+
 function reset() {
     this.cache = cache(); // Reset the cache, clearing its contents
     this.notify(); // Subscribers live on the store, not the cache, so they survive this
@@ -440,6 +471,8 @@ export default function omcSDK() {
         reidentify,
         replace,
         reset,
+        markMissing,
+        isMissing,
         exportModel,
         find,
         intrinsicProps,
