@@ -1,8 +1,9 @@
 /**
  * Cut a release: bump the version, rebuild the edge table so it carries the new version, run
- * release:check, commit the rebuilt table, then make the version commit and tag. It stops at the
- * first thing that fails, and before tagging confirms `main` really moved: a git operation in a
- * Dropbox-synced checkout has updated the files without moving the branch.
+ * release:check, then commit both together and tag that commit. The version and the table's stamp
+ * agree in every commit, so the pre-commit check passes. It stops at the first thing that fails,
+ * and before reporting confirms `main` really moved: a git operation in a Dropbox-synced checkout
+ * has updated the files without moving the branch.
  *
  * Pushing is left to the person releasing; the command is printed at the end.
  *
@@ -37,12 +38,9 @@ run(`npm version ${level} --no-git-tag-version`);
 const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
 run('npm run edges:build');
 run('npm run release:check');
-run('git checkout package.json package-lock.json');
-if (read('git status --porcelain')) {
-    run('git add -A');
-    run(`git commit -m "Restamp edge table for ${version}"`);
-}
-run(`npm version ${level} -m "%s"`);
+run('git add -A');
+run(`git commit -m "${version}"`);
+run(`git tag -a v${version} -m "${version}"`);
 
 const head = read('git rev-parse HEAD');
 const tagged = read(`git rev-parse v${version}^{commit}`);

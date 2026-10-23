@@ -231,8 +231,8 @@ to run `tsc`, which would drag the full typescript devDependency into consumers'
 means declarations only refresh when someone runs `build:types`, so they can drift from source.
 
 `npm run release -- minor` (or `major`, `patch`) does the whole release from a clean `main`: bump,
-rebuild the edge table at the new version, `release:check`, commit the restamped table, version
-commit and tag, then confirm `main` and the tag are the commit it just made — a git operation in this
+rebuild the edge table at the new version, `release:check`, then one commit holding both, tagged,
+and a check that `main` and the tag are the commit it just made — a git operation in this
 Dropbox-synced checkout has been seen to update the files without moving the branch. It prints the
 push command; pushing is yours.
 
