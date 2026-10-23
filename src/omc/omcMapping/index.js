@@ -13,6 +13,10 @@
  * or a table**: parsing belongs to whoever holds the bytes, which is what keeps this module free of
  * spreadsheet dependencies and usable in a browser.
  *
+ * A row may also carry **inputs**: OMC entities under a name, such as the results of a query. A
+ * property or key reads them with `{ input, path }`, and an edge with `input` references them
+ * rather than building them, so a mapping can make new entities out of existing ones.
+ *
  * ```js
  * const { entities } = omcMapping.mapRow({ row, mapping, options });
  * ```
@@ -54,11 +58,13 @@
 export {
     mapRow, cast, splitList, identitySource, specSource, hasSuppliedIdentifier, edgeTarget,
 } from './mapRow.js';
-// How a key, an edge's `via` or a property reads a column or template, for an engine other than
-// mapRow and for an editor listing the columns a template uses.
-export { sourceValue, sourceColumns, sameSource } from './source.js';
+// How a key, an edge's `via` or a property reads a column, template or input, for an engine other
+// than mapRow and for an editor listing the columns or inputs a template uses.
+export {
+    sourceValue, sourceColumns, sourceInputs, inputValues, sameSource,
+} from './source.js';
 export { createRun } from './createRun.js';
-export { check, checkColumns } from './check.js';
+export { check, checkColumns, checkInputs } from './check.js';
 export {
     createEntity, entityRef, seedFor, resolveOptions, DEFAULT_OPTIONS,
 } from './entity.js';

@@ -9,14 +9,16 @@
  */
 
 import { omcTemplate } from '../../templates/index.js';
-import { edgeCreate } from '../omcEdges.js';
+import { edgeCreate, edgeRefusal } from '../omcEdges.js';
 
 import { createEntity, entityRef, resolveOptions } from './entity.js';
-import { hasValue, typeAtPath, writeShaped } from './shapedValue.js';
+import {
+    hasValue, parseSegment, typeAtPath, writeShaped,
+} from './shapedValue.js';
 import { sourceLabel, sourceValue } from './source.js';
 
 /**
- * Where a property spec reads from: its column, or its template.
+ * Where a property spec reads from: its column, its template, or its input path.
  *
  * @param {OmcMapping.PropertyMapping} spec
  * @returns {(OmcMapping.ValueSource|null)} Null for a fixed value
@@ -25,8 +27,38 @@ export const specSource = (spec) => {
     if (typeof spec === 'string') return spec;
     if (spec?.const !== undefined) return null;
     if (spec?.template !== undefined) return { template: spec.template };
+    if (spec?.input !== undefined) return { input: spec.input, path: spec.path ?? '' };
     return spec?.from ?? null;
 };
+
+/**
+ * Does the property at this path hold a list?
+ *
+ * @param {Array<string>} parts - Path segments
+ * @param {(Object|undefined)} shape - The entity shape
+ * @returns {boolean}
+ */
+function holdsList(parts, shape) {
+    let node = shape;
+    for (let i = 0; i < parts.length; i += 1) {
+        const { name, index } = parseSegment(parts[i]);
+        node = node?.[name];
+        if (!node) return false;
+        if (i === parts.length - 1) return node.$type === 'array' && index === undefined;
+        if (node.$type === 'array') node = node.$items;
+    }
+    return false;
+}
+
+/**
+ * A note that this row gave several values, or entities, where only one fits. A row carrying one
+ * builds nothing: which one was meant is the mapping's to say, not this engine's to guess.
+ *
+ * @param {string} where
+ * @param {string} detail
+ * @returns {OmcMapping.MappingNote}
+ */
+const severalValues = ((where, detail) => ({ kind: 'severalValues', where, detail }));
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
@@ -120,6 +152,7 @@ function resolveProperty(spec, row) {
     if (raw === null) return { value: null, withheld: null };
 
     let value = raw;
+    if (Array.isArray(value)) return { value: as ? value.map((v) => cast(v, as)) : value, withheld: null };
     if (split) {
         const members = splitList(value, split);
         if (when === 'single' && members.length !== 1) {
@@ -170,7 +203,8 @@ function buildCustomData(mapping, row, consumed) {
 
     const value = {};
     for (const [column, cell] of Object.entries(row)) {
-        if (skip.has(column) || !hasValue(cell)) continue;
+        // An input's entities are not a column's text.
+        if (skip.has(column) || !hasValue(cell) || typeof cell === 'object') continue;
         value[column] = cell;
     }
     if (!Object.keys(value).length) return [];
@@ -247,21 +281,72 @@ export function hasSuppliedIdentifier(mapping) {
 }
 
 /**
- * What an edge points at: the entry it names with `to`, or, with `toType`, an entityType that no
- * entry in this template builds.
+ * What an edge points at: the entry it names with `to`; with `toType`, an entityType that no entry
+ * in this template builds; or, with `input`, the entities the row carries under that name.
  *
  * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
  * @param {OmcMapping.EdgeMapping} edge - One of its edges
- * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: string}|null)} The target entry
- *   (null for a `toType` reference) and its entityType, or null when `to` names no entry or the
- *   edge names neither
+ * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: (string|null)}|null)} The target
+ *   entry (null for a `toType` or `input` reference) and its entityType (null for an `input` edge
+ *   with no `toType`, whose type only the row knows), or null when `to` names no entry or the edge
+ *   names no target
  */
 export function edgeTarget(mapping, edge) {
     if (edge?.to !== undefined && edge.to !== null) {
         const entry = (mapping ?? []).find((m) => m.id === edge.to);
         return entry ? { entry, entityType: entry.entityType } : null;
     }
+    if (typeof edge?.input === 'string') return { entry: null, entityType: edge.toType ?? null };
     return edge?.toType ? { entry: null, entityType: edge.toType } : null;
+}
+
+/**
+ * Reference the entities the row carries under an edge's `input` from the entity one entry built.
+ *
+ * Several entities into a relationship that holds fewer is reported and blocks the row. The inverse
+ * goes into `inverses`, since an input entity is never one the run builds.
+ *
+ * @param {Object.<string, Object>} built - This row's entities, by entry id
+ * @param {OmcMapping.EntityMapping} entry
+ * @param {OmcMapping.EdgeMapping} edge
+ * @param {MappingRow} row
+ * @param {OmcMapping.MappingOptions} options - Resolved options
+ * @param {Array<OmcMapping.MappingNote>} notes - Appended to in place
+ * @param {Array<Object>} inverses - Appended to in place
+ */
+function applyInputEdge(built, entry, edge, row, options, notes, inverses) {
+    const cell = row[edge.input];
+    const targets = (Array.isArray(cell) ? cell : [cell]).filter((ent) => ent?.identifier?.length);
+    for (const target of targets) {
+        const toEntity = {
+            schemaVersion: target.schemaVersion ?? options.schemaVersion,
+            entityType: target.entityType,
+            identifier: target.identifier,
+        };
+        const params = {
+            fromEntity: built[entry.id], toEntity, intrinsicEdge: edge.edgeKey ?? null, inverse: false,
+        };
+        const refused = edgeRefusal(params);
+        if (refused?.reason === 'full') {
+            notes.push(severalValues(`${entry.entityType} -> ${target.entityType}`, `input "${edge.input}" `
+            + `gives ${targets.length} entities, more than the relationship holds`));
+            return;
+        }
+        const result = refused ? null : edgeCreate({ ...params, inverse: edge.inverse !== false });
+        if (!result) {
+            notes.push({
+                kind: 'edgeNotAllowed',
+                where: `${entry.entityType} -> ${target.entityType}`,
+                detail: 'the schema does not allow this relationship; it was not written',
+            });
+            continue;
+        }
+        built[entry.id] = result.fromEntity;
+        if (result.toEdgePath) {
+            const { entityType, schemaVersion, identifier } = result.fromEntity;
+            inverses.push({ target: toEntity.identifier, source: { entityType, schemaVersion, identifier }, path: result.toEdgePath });
+        }
+    }
 }
 
 /**
@@ -288,12 +373,22 @@ function buildEntity(mapping, row, options, notes) {
         });
         return null;
     }
+    if (Array.isArray(keyValue)) {
+        notes.push(severalValues(entityType, `${sourceLabel(identity)} gives ${keyValue.length} values `
+        + `(${keyValue.join(', ')}); one ${entityType} needs one`));
+        return null;
+    }
 
     const shape = omcTemplate.shape({ entityType, schemaVersion: options.schemaVersion });
     const properties = {};
 
     for (const [path, spec] of Object.entries(mapping.properties ?? {})) {
         const { value, withheld } = resolveProperty(spec, row);
+        if (Array.isArray(value) && !holdsList(path.split('.'), shape)) {
+            notes.push(severalValues(`${entityType} ${keyValue}`, `${path} holds one value, and `
+            + `${sourceLabel(specSource(spec))} gives ${value.length} (${value.join(', ')})`));
+            continue;
+        }
         if (withheld) {
             notes.push({
                 kind: 'propertyWithheld',
@@ -306,7 +401,9 @@ function buildEntity(mapping, row, options, notes) {
             // `as` is the mapping's own decision and is applied by `resolveProperty`; only where it
             // said nothing does the schema's declared type stand in.
             const declared = typeof spec === 'object' && spec?.as;
-            writeShaped(properties, parts, declared ? value : promote(value, typeAtPath(parts, shape)), shape);
+            const type = typeAtPath(parts, shape);
+            const promoted = Array.isArray(value) ? value.map((v) => promote(v, type)) : promote(value, type);
+            writeShaped(properties, parts, declared ? value : promoted, shape);
         }
     }
 
@@ -349,6 +446,10 @@ function applyEdges(mapping, built, row, options, notes, inverses) {
         if (!built[entry.id]) continue;
 
         for (const edge of entry.edges ?? []) {
+            if (typeof edge.input === 'string') {
+                applyInputEdge(built, entry, edge, row, options, notes, inverses);
+                continue;
+            }
             const target = edgeTarget(mapping, edge);
             if (!target) {
                 notes.push({
@@ -426,13 +527,14 @@ function applyEdges(mapping, built, row, options, notes, inverses) {
  * Map one row to OMC entities.
  *
  * @param {Object} params
- * @param {MappingRow} params.row - One row, keyed by column heading
+ * @param {MappingRow} params.row - One row, keyed by column heading, and by input name for inputs
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>, inverses: Array<Object>}}
  *   The entities by entry id, already linked to one another, anything worth reporting, and the
- *   inverses whose target another row builds. Two entries that build the same entity each hold a
- *   copy; {@link module:omcMapping/createRun} folds them and writes those inverses
+ *   inverses whose target another row, or no row, builds. Two entries that build the same entity
+ *   each hold a copy; {@link module:omcMapping/createRun} folds them and writes those inverses. A
+ *   row with a `severalValues` note builds nothing
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options = {} }) {
@@ -448,6 +550,7 @@ export function mapRow({ row, mapping, options = {} }) {
 
     applyEdges(mapping, entities, row, resolved, notes, inverses);
 
+    if (notes.some((n) => n.kind === 'severalValues')) return { entities: {}, notes, inverses: [] };
     return { entities, notes, inverses };
 }
 

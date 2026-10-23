@@ -40,4 +40,22 @@ export function checkColumns({ mapping, columns }: {
     problems: Array<OmcMapping.MappingNote>;
     missing: Array<string>;
 };
+/**
+ * Check a mapping against the inputs it will actually be given: every input a source or an edge
+ * names must be one of them.
+ *
+ * @param {Object} params
+ * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
+ * @param {Array<string>} params.inputs - The input names available
+ * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>, missing: Array<string>}}
+ *   The outcome, and every input named but absent
+ */
+export function checkInputs({ mapping, inputs }: {
+    mapping: Array<OmcMapping.EntityMapping>;
+    inputs: Array<string>;
+}): {
+    valid: boolean;
+    problems: Array<OmcMapping.MappingNote>;
+    missing: Array<string>;
+};
 //# sourceMappingURL=check.d.ts.map

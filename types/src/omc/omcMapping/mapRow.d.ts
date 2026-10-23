@@ -42,30 +42,32 @@ export function identitySource(mapping: OmcMapping.EntityMapping): (OmcMapping.V
  */
 export function hasSuppliedIdentifier(mapping: OmcMapping.EntityMapping): boolean;
 /**
- * What an edge points at: the entry it names with `to`, or, with `toType`, an entityType that no
- * entry in this template builds.
+ * What an edge points at: the entry it names with `to`; with `toType`, an entityType that no entry
+ * in this template builds; or, with `input`, the entities the row carries under that name.
  *
  * @param {Array<OmcMapping.EntityMapping>} mapping - The whole template
  * @param {OmcMapping.EdgeMapping} edge - One of its edges
- * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: string}|null)} The target entry
- *   (null for a `toType` reference) and its entityType, or null when `to` names no entry or the
- *   edge names neither
+ * @returns {({entry: (OmcMapping.EntityMapping|null), entityType: (string|null)}|null)} The target
+ *   entry (null for a `toType` or `input` reference) and its entityType (null for an `input` edge
+ *   with no `toType`, whose type only the row knows), or null when `to` names no entry or the edge
+ *   names no target
  */
 export function edgeTarget(mapping: Array<OmcMapping.EntityMapping>, edge: OmcMapping.EdgeMapping): ({
     entry: (OmcMapping.EntityMapping | null);
-    entityType: string;
+    entityType: (string | null);
 } | null);
 /**
  * Map one row to OMC entities.
  *
  * @param {Object} params
- * @param {MappingRow} params.row - One row, keyed by column heading
+ * @param {MappingRow} params.row - One row, keyed by column heading, and by input name for inputs
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {OmcMapping.MappingOptions} [params.options] - Scope, schema version and namespace
  * @returns {{entities: Object.<string, Object>, notes: Array<OmcMapping.MappingNote>, inverses: Array<Object>}}
  *   The entities by entry id, already linked to one another, anything worth reporting, and the
- *   inverses whose target another row builds. Two entries that build the same entity each hold a
- *   copy; {@link module:omcMapping/createRun} folds them and writes those inverses
+ *   inverses whose target another row, or no row, builds. Two entries that build the same entity
+ *   each hold a copy; {@link module:omcMapping/createRun} folds them and writes those inverses. A
+ *   row with a `severalValues` note builds nothing
  * @throws {Error} When a mapping names a property or entityType the schema does not have
  */
 export function mapRow({ row, mapping, options }: {

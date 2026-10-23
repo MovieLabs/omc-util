@@ -1,21 +1,27 @@
 declare const _default: {};
 export default _default;
 /**
- * One row of source data — a plain object keyed by column heading.
+ * One row of source data — a plain object keyed by column heading, and by input name for the OMC
+ * entities it carries (one, or an array).
  *
- * This is the only shape omcMapping accepts. It knows nothing of files, sheets, workbooks or
- * tables: whoever holds the bytes parses them and feeds rows in.
+ * This is the only shape omcMapping accepts. It knows nothing of files, sheets, workbooks, tables or
+ * queries: whoever holds the data turns it into rows and feeds them in.
  */
 export type MappingRow = {
-    [x: string]: string | number | boolean;
+    [x: string]: any;
 };
 /**
  * Where a value is read from a row: a column heading, or a template — fixed text with columns in
  * braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}` write a literal brace. A
- * template whose columns are not all filled on a row gives no value there.
+ * template whose columns are not all filled on a row gives no value there. Or an input path,
+ * `{ input: 'video', path: 'assetFC.functionalType' }`: the value at that path in each entity the row
+ * carries under the input's name, an array when there are several.
  */
 export type ValueSource = (string | {
     template: string;
+} | {
+    input: string;
+    path: string;
 });
 /**
  * Where a property's value comes from.
@@ -38,9 +44,10 @@ export type PropertySource = any;
  * `edges.usedBy.Realization`). Optional, and omitting it means what it always did: the first
  * relationship admitting the target.
  *
- * The target is named one of two ways, and an edge carries exactly one: `to`, the `id` of an entry
- * in this template, or `toType`, an entityType that no entry here builds — a reference to an entity
- * another template or source provides. {@link module :omcMapping/mapRow.edgeTarget} resolves either.
+ * The target is named one of three ways: `to`, the `id` of an entry in this template; `toType`, an
+ * entityType that no entry here builds — a reference to an entity another template or source
+ * provides; or `input`, the existing entities the row carries under that name, referenced as they
+ * are and never built. More input entities than the relationship holds refuse the row. {@link module :omcMapping/mapRow.edgeTarget} resolves either.
  */
 export type EdgeMapping = any;
 /**

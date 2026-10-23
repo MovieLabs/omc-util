@@ -552,6 +552,89 @@ ok(!short.valid && short.missing.includes('Audio Sample Rate'),
     ok(JSON.stringify(omcMapping.sourceColumns(take)) === '["Scene","Slate"]', 'sourceColumns lists a template\'s columns');
 }
 
+/* ------------------------------------------------------------------ inputs ---------------- */
+
+console.log('\ninputs: new entities from existing ones');
+{
+    /** An existing entity, as a query returns it. */
+    const existing = ((entityType, value, extra = {}) => ({
+        schemaVersion: V3, entityType, identifier: [{ identifierScope: 'movielabs.com', identifierValue: value }], ...extra,
+    }));
+    const anchorKey = { input: 'take', path: 'identifier[0].identifierValue' };
+    const mapping = [
+        {
+            id: 'comp',
+            entityType: 'Composition',
+            key: anchorKey,
+            properties: { label: { input: 'take', path: 'label' } },
+            edges: [
+                { input: 'video', edgeKey: 'includes.Asset', toType: 'Asset' },
+                { input: 'audio', edgeKey: 'includes.Asset', toType: 'Asset' },
+                { to: 'product', via: anchorKey, edgeKey: 'Product' },
+            ],
+        },
+        { id: 'product', entityType: 'Asset', key: anchorKey, properties: { label: { input: 'take', path: 'label' } } },
+    ];
+    const row = {
+        take: existing('CapturePoint', 'cp-1', { label: '1-1' }),
+        video: existing('Asset', 'video-1'),
+        audio: [existing('Asset', 'audio-1'), existing('Asset', 'audio-2')],
+    };
+
+    const out = omcMapping.mapRow({ row, mapping, options: OPTIONS });
+    const comp = out.entities.comp;
+    ok(comp?.label === '1-1', 'a property reads a path in an input entity');
+    const included = (comp?.includes?.Asset ?? []).map((r) => r.identifier[0].identifierValue).sort();
+    ok(JSON.stringify(included) === '["audio-1","audio-2","video-1"]',
+        'an input edge references every entity the input holds, and builds none of them');
+    ok(comp?.Product?.[0]?.identifier[0].identifierValue === out.entities.product.identifier[0].identifierValue,
+        'an edge keyed on an input path links the entity this row built');
+    ok(JSON.stringify(omcMapping.mapRow({ row, mapping, options: OPTIONS }).entities.comp.identifier) === JSON.stringify(comp.identifier),
+        'an identity read from an input is as deterministic as one read from a column');
+
+    const inputRun = omcMapping.createRun({
+        mapping: [{ id: 'comp', entityType: 'Composition', key: anchorKey, edges: [{ input: 'video', edgeKey: 'Product' }] }],
+        options: OPTIONS,
+    });
+    inputRun.add(row);
+    const { inverses } = inputRun.result();
+    ok(inverses.some((inv) => inv.target[0].identifierValue === 'video-1' && inv.source.entityType === 'Composition'
+        && inv.path === 'edges.productOf.Composition'),
+    'a run hands back the inverses it cannot write onto input entities');
+
+    const twoTakes = omcMapping.mapRow({
+        row: { ...row, take: [existing('CapturePoint', 'cp-1', { label: '1-1' }), existing('CapturePoint', 'cp-2', { label: '1-2' })] },
+        mapping,
+        options: OPTIONS,
+    });
+    ok(!Object.keys(twoTakes.entities).length && twoTakes.notes.some((n) => n.kind === 'severalValues'),
+        'several values where one fits build nothing on that row, and say why');
+
+    const derived = omcMapping.mapRow({
+        row,
+        mapping: [{ id: 'a', entityType: 'Asset', key: anchorKey, edges: [{ input: 'audio', edgeKey: 'versionInfo.DerivationOf' }] }],
+        options: OPTIONS,
+    });
+    ok(!Object.keys(derived.entities).length && derived.notes.some((n) => n.kind === 'severalValues'),
+        'more input entities than a relationship holds build nothing on that row');
+
+    const noAudio = omcMapping.mapRow({ row: { ...row, audio: [] }, mapping, options: OPTIONS });
+    ok((noAudio.entities.comp?.includes?.Asset ?? []).length === 1 && !noAudio.notes.length,
+        'an input that holds nothing adds no reference, and is not a problem');
+
+    const rest = omcMapping.mapRow({
+        row: { ...row, Note: 'kept' },
+        mapping: [{ id: 'a', entityType: 'Asset', key: anchorKey, customData: { rest: true } }],
+        options: OPTIONS,
+    }).entities.a;
+    ok(JSON.stringify(rest.customData?.[0]?.value) === '{"Note":"kept"}', 'customData carries columns, not input entities');
+
+    ok(omcMapping.check({ mapping, options: OPTIONS }).valid, 'check accepts input sources and input edges');
+    const inputs = omcMapping.checkInputs({ mapping, inputs: ['take', 'video'] });
+    ok(!inputs.valid && JSON.stringify(inputs.missing) === '["audio"]', 'checkInputs names an input the mapping uses but is not given');
+    ok(JSON.stringify(omcMapping.sourceInputs(anchorKey)) === '["take"]', 'sourceInputs lists the input a source reads');
+}
+
 /* ------------------------------------------------------------------------------------------ */
 
 console.log();
