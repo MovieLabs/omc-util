@@ -482,10 +482,10 @@ ok(omcMapping.check({
         },
     ];
     const built = (inverse) => {
-        const run = omcMapping.createRun({ mapping: mapping(inverse), options: OPTIONS });
-        run.add({ scene: '1-1' });
-        run.add({ slate: 's1', sceneRef: '1-1' });
-        const { entities } = run.result();
+        const oneRun = omcMapping.createRun({ mapping: mapping(inverse), options: OPTIONS });
+        oneRun.add({ scene: '1-1' });
+        oneRun.add({ slate: 's1', sceneRef: '1-1' });
+        const { entities } = oneRun.result();
         return {
             scene: entities.find((e) => e.entityType === 'ProductionScene'),
             slate: entities.find((e) => e.entityType === 'Slate'),

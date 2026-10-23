@@ -40,9 +40,9 @@ const cleanBaseEntity = ((entity, schemaVersion) => {
 const filterVariables = ((entity, vars = {}) => {
     if (!entity) return null;
     return Object.keys(entity).reduce((obj, key) => {
-        const replacement = isPlainObject(entity[key])
-            ? filterVariables(entity[key], vars)
-            : (Object.hasOwn(vars, key) && vars[key]) ? vars[key] : null; // Replace if variable key exists and valid
+        let replacement = null;
+        if (isPlainObject(entity[key])) replacement = filterVariables(entity[key], vars);
+        else if (Object.hasOwn(vars, key) && vars[key]) replacement = vars[key]; // Replace if variable key exists and valid
         return { ...obj, [key]: replacement };
     }, {});
 });

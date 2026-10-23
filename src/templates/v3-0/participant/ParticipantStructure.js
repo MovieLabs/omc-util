@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, gender, contact } from '../utility/utility.js';
+import { baseEntity } from '../utility/utility.js';
 
 const entityType = 'ParticipantStructure';
 const entityGeneral = generalConfig[entityType];

@@ -5,10 +5,10 @@
  */
 
 import { makeArray, isPlainObject, isCapitalized } from '../mlHelpers/util.js';
-import { mergeEntity } from '../omc/omcMerge.js';
 import { relatedEdges, removeEdge } from '../omc/omcEdges.js';
 import omcFind from '../omc/omcFind.js';
 import * as omcIdentifier from '../omc/omcIdentifier.js';
+import { mergeEntity } from '../omc/omcMerge.js';
 import * as omcTransform from '../omc/omcTransform.js';
 
 import entityModel from './entityModel.js';

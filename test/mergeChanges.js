@@ -304,10 +304,10 @@ console.log('=== identities that disagree reject the whole merge ===');
     const v28 = 'https://movielabs.com/omc/json/schema/v2.8';
     const typeMismatch = changes(asset({}), { schemaVersion, entityType: 'AssetStructure', identifier: [assetId] });
     check('differing entityType is incompatible', typeMismatch.status === 'incompatible' && typeMismatch.merged === false
-        && typeMismatch.changed === false, JSON.stringify(typeMismatch));
+    && typeMismatch.changed === false, JSON.stringify(typeMismatch));
     const versionMismatch = changes(asset({}), { ...asset({}), schemaVersion: v28 });
     check('differing schemaVersion is incompatible', versionMismatch.status === 'incompatible'
-        && versionMismatch.merged === false, JSON.stringify(versionMismatch));
+    && versionMismatch.merged === false, JSON.stringify(versionMismatch));
 
     const nestedType = threw(() => mergeChanges(
         asset({ AssetStructure: [full(A)] }),

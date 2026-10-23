@@ -7,8 +7,8 @@
  *   Usage: node test/idMint.js
  */
 
-import { idMint } from '../src/omc/omcIdentifier.js';
 import { hashId } from '../src/mlHelpers/util.js';
+import { idMint } from '../src/omc/omcIdentifier.js';
 
 let failures = 0;
 const check = ((what, ok) => {
@@ -31,7 +31,7 @@ check('the scope is kept', a.identifierScope === scope);
 const asset = idMint({ identifierScope: scope, value: 'take-1.mov', entityType: 'Asset' });
 const structure = idMint({ identifierScope: scope, value: 'take-1.mov', entityType: 'AssetStructure' });
 check('two types from one value differ by prefix only', asset.identifierValue !== structure.identifierValue
-    && asset.identifierValue.split('-').slice(1).join('-') === structure.identifierValue.split('-').slice(1).join('-'));
+&& asset.identifierValue.split('-').slice(1).join('-') === structure.identifierValue.split('-').slice(1).join('-'));
 
 check('no entityType, no prefix', idMint({ identifierScope: scope, value: 'x' }).identifierValue === hashId('x'));
 

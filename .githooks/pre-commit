@@ -1,0 +1,4 @@
+#!/bin/sh
+# Lint (no warnings allowed) and every test, before each commit.
+# Wired once per checkout with `npm run setup:hooks`.
+exec npm run --silent check

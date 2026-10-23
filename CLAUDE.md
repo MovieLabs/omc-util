@@ -32,7 +32,10 @@ you have checked each one.
 ```bash
 npm run docs            # Markdown API reference → docs/api/
 npm run build:types     # .d.ts declarations via tsc → types/
-npm run release:check   # build:types + every gate below
+npm run check           # lint (no warnings allowed) + every test; the pre-commit check
+npm run setup:hooks     # once per checkout: run `check` before each commit (.githooks)
+npm run release:check   # lint + build:types + every test
+npm run release -- minor  # cut a release (see "Releasing")
 
 npm run test:mergerefs    # relationship-array merge guard
 npm run test:mergechanges # mergeChanges behaviour
@@ -227,14 +230,13 @@ the `omc-entity-type` skill. Read it before adding or changing an entity type or
 to run `tsc`, which would drag the full typescript devDependency into consumers' Docker builds. That
 means declarations only refresh when someone runs `build:types`, so they can drift from source.
 
-```bash
-npm run release:check          # regenerate types + run the guards
-git add -A && git commit       # types/ changes must be committed BEFORE versioning
-npm version minor              # bumps package.json, commits, creates tag vX.Y.Z
-git push --follow-tags
-```
+`npm run release -- minor` (or `major`, `patch`) does the whole release from a clean `main`: bump,
+rebuild the edge table at the new version, `release:check`, commit the restamped table, version
+commit and tag, then confirm `main` and the tag are the commit it just made — a git operation in this
+Dropbox-synced checkout has been seen to update the files without moving the branch. It prints the
+push command; pushing is yours.
 
-Consumers then `npm update omc-util` and commit their lockfile.
+Consumers then `npm update omc-util`, commit their lockfile, and fMam runs `npm run check:filters`.
 
 ### Traps
 

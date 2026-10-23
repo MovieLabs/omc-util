@@ -205,9 +205,9 @@ function migrateVersion(omcVersion) {
     const {
         versionNumber = false, // Keep if present
         name: _name, // Remove
-        description, // Remove
-        annotation, // Remove
-        customData, // Remove
+        description: _description, // Remove
+        annotation: _annotation, // Remove
+        customData: _customData, // Remove
         DerivationOf = false, // Change shape
         RevisionOf = false, // Change shape
         VariantOf = false, // Change shape
@@ -502,7 +502,7 @@ export default {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 
         const {
-            structuralType = false, // Becomes participantStructureType
+            structuralType: _structuralType = false, // Becomes participantStructureType
             name = false, // Becomes part of properties
             departmentName = false, // Becomes participantStructureName
             Location = false, // Singleton becomes an array
@@ -572,7 +572,7 @@ export default {
             name = false, // Becomes participantName
             InfrastructureSC = false, // Becomes ParticipantStructure and singleton becomes array
             infrastructureFC = {}, // Becomes participantFunction, has a required property
-            Infrastructure, // ToDo: Expand to include this in the Structure
+            Infrastructure: _infrastructure, // ToDo: Expand to include this in the Structure
             ...rest
         } = cxtUpdate;
 
@@ -762,7 +762,7 @@ export default {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 
         const {
-            structuralType = false, // Becomes participantStructureType
+            structuralType: _structuralType = false, // Becomes participantStructureType
             name = false, // Becomes part of properties
             organizationName = false, // Becomes participantStructureName
             Location = false, // Singleton becomes an array
@@ -793,7 +793,7 @@ export default {
             name = false, // Becomes participantName
             ParticipantSC = false, // Becomes ParticipantStructure and singleton becomes array
             participantFC = {}, // Becomes participantFunction, has a required property
-            Participant, // ToDo: Expand to include this in the Structure
+            Participant: _participant, // ToDo: Expand to include this in the Structure
             ...rest
         } = intUpdate;
 
@@ -819,7 +819,7 @@ export default {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 
         const {
-            structuralType = false, // Becomes participantStructureType
+            structuralType: _structuralType = false, // Becomes participantStructureType
             name = false, // Becomes part of properties
             personName = false, // Becomes participantStructureName
             jobTitle = false, // Becomes part of properties
@@ -940,7 +940,7 @@ export default {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
 
         const {
-            structuralType = false, // Becomes participantStructureType
+            structuralType: _structuralType = false, // Becomes participantStructureType
             name = false, // Becomes part of properties
             serviceName = false, // Becomes participantStructureName
             software = false, // Singleton becomes an array
@@ -1005,7 +1005,7 @@ export default {
             name = false, // Becomes participantName
             TaskSC = false, // Becomes ParticipantStructure and singleton becomes array
             taskFC = {}, // Becomes participantFunction, has a required property
-            Task, // ToDo: Expand to include this in the Structure
+            Task: _task, // ToDo: Expand to include this in the Structure
             ...rest
         } = cxtUpdate;
 

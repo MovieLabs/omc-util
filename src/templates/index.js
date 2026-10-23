@@ -378,7 +378,9 @@ const omcTemplate = {
         if (!edges || !Object.keys(edges).length) return null;
         return Object.values(edges).reduce((acc, { predicate, allowed }) => {
             acc[predicate] = { ...acc[predicate] };
-            allowed.forEach((subjectType) => { acc[predicate][subjectType] = null; });
+            allowed.forEach((subjectType) => {
+                acc[predicate][subjectType] = null;
+            });
             return acc;
         }, {});
     }),
