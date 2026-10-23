@@ -43,7 +43,7 @@ run(`git commit -m "${version}"`);
 run(`git tag -a v${version} -m "${version}"`);
 
 const head = read('git rev-parse HEAD');
-const tagged = read(`git rev-parse v${version}^{commit}`);
+const tagged = read(`git rev-list -n 1 v${version}`);
 if (head === start || head !== tagged || read('git rev-parse main') !== head) {
     fail(`main is at ${head.slice(0, 7)} but v${version} is ${tagged.slice(0, 7)}; check git log before pushing`);
 }
