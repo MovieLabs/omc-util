@@ -86,6 +86,8 @@ const found = omcFind.graph({ model, entityType: 'ProductionScene', template: ch
     const [event] = root.children;
     const [cp] = event.children;
     check('an unfiltered link keeps every child it reaches', names(event.children).join() === 'cp1');
+    check('a child records where its parent holds the reference that reached it',
+        Array.isArray(event.path) && event.path.length > 0 && found[0].path === undefined, JSON.stringify(event.path));
     check('siblings are both followed, one by a link named differently from its type',
         names(cp.children).join() === 'as1,cd1', names(cp.children).join());
     const deviceNode = cp.children.find((node) => node.entity.entityType === 'CaptureDevice');

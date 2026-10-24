@@ -127,6 +127,8 @@ function linksOf(spec, owner, schemaVersion, at = []) {
  * @typedef {Object} FoundNode
  * @property {OmcEntity} entity
  * @property {Object|string|null} spec - The query template body it was reached by
+ * @property {string[]} [path] - Where its parent holds the reference that reached it; absent on a
+ *   top-level match
  * @property {Array<FoundNode>} children - The entities its links reach and whose filters match
  */
 
@@ -152,6 +154,7 @@ function findChildren({ model, entity, spec }) {
             .map((child) => ({
                 entity: child,
                 spec: childSpec,
+                path,
                 children: findChildren({ model, entity: child, spec: childSpec }) ?? [],
             }));
     });

@@ -139,12 +139,9 @@ export function check({ mapping, options = {} }) {
             });
         }
 
-        // An input source reads a path in an entity; with none it reaches the entity, not a value.
-        const sources = [
-            ['the key', entry.key],
-            ...Object.entries(entry.properties ?? {}).map(([path, spec]) => [path, specSource(spec)]),
-            ...(entry.edges ?? []).map((edge) => ['an edge\'s via', edge.via]),
-        ];
+        // A property reads a value at a path in an input's entities; only a key or via may read the
+        // input itself, which gives the entities' identities.
+        const sources = Object.entries(entry.properties ?? {}).map(([path, spec]) => [path, specSource(spec)]);
         sources.filter(([, source]) => sourceInputs(source).length && !source.path).forEach(([what, source]) => {
             problems.push({ kind: 'inputWithoutPath', where, detail: `${what} reads input "${source.input}" with no path` });
         });
