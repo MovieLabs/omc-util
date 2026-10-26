@@ -25,14 +25,16 @@ export function inputValues(row: MappingRow, source: {
 }): Array<any>;
 /**
  * The value a source gives on one row: a column's cell as it is, a template's text filled from the
- * row, or an input path's value — an array when it finds more than one.
+ * row, or an input's values — an array when there is more than one. An input read with no path gives
+ * its entities' identities. A template token reading several values gives one text for each.
  *
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source
- * @returns {*} The value, or null when the cell is empty, any column the template names is, or the
- *   input path finds nothing
+ * @param {OmcMapping.MappingOptions} [options] - `identifierScope` chooses an entity's identity
+ * @returns {*} The value, or null when the cell is empty, any token the template names is, or the
+ *   input finds nothing
  */
-export function sourceValue(row: MappingRow, source: (OmcMapping.ValueSource | null | undefined)): any;
+export function sourceValue(row: MappingRow, source: (OmcMapping.ValueSource | null | undefined), options?: OmcMapping.MappingOptions): any;
 /**
  * A source as a note names it: `column "Scene"`, `template "scene-{Scene}"` or
  * `input "video" path "label"`.

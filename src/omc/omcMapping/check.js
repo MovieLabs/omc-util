@@ -299,16 +299,19 @@ export function check({ mapping, options = {} }) {
  * @param {Object} params
  * @param {Array<OmcMapping.EntityMapping>} params.mapping - The template
  * @param {Array<string>} params.columns - The column headings available
+ * @param {Array<string>} [params.inputs] - Input names the rows carry: a template token beginning
+ *   with one reads that input, not a column
  * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>, missing: Array<string>}}
  *   The outcome, and every column named but absent
  */
-export function checkColumns({ mapping, columns }) {
+export function checkColumns({ mapping, columns, inputs = [] }) {
     const have = new Set(columns ?? []);
+    const fromInput = new Set(inputs);
     const problems = [];
     const missing = new Set();
 
     const want = (column, where, what) => {
-        if (!column || have.has(column)) return;
+        if (!column || have.has(column) || fromInput.has(column.split('.')[0])) return;
         missing.add(column);
         problems.push({
             kind: 'unknownColumn',

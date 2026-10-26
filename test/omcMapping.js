@@ -700,6 +700,28 @@ console.log('\ninputs: new entities from existing ones');
         && flagged.warnings.some((w) => w.kind === 'uncheckedEdge'),
     'check reports an input with no path and an input edge with a to, and warns of an untyped input edge');
 
+    const twoAssets = omcMapping.mapRow({
+        row,
+        mapping: [
+            { id: 'product', entityType: 'Asset', key: { template: 'product-{take}' }, properties: { label: { template: 'Take {take.label}' } } },
+            { id: 'proxy', entityType: 'Asset', key: { template: 'proxy-{take}' } },
+        ],
+        options: OPTIONS,
+    }).entities;
+    ok(twoAssets.product?.label === 'Take 1-1', 'a template token reads a path in an input');
+    ok(twoAssets.product && twoAssets.proxy
+        && JSON.stringify(twoAssets.product.identifier) !== JSON.stringify(twoAssets.proxy.identifier),
+    'templates on one input keep two entities of one type apart');
+    const severalInTemplate = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{audio}' } }], options: OPTIONS,
+    });
+    ok(!Object.keys(severalInTemplate.entities).length && severalInTemplate.notes.some((n) => n.kind === 'severalValues'),
+        'a template token reading several values, as a key, builds nothing');
+    const tokenCheck = omcMapping.checkColumns({
+        mapping: [{ id: 'a', entityType: 'Asset', key: { template: '{take}-{Scene}' } }], columns: [], inputs: ['take'],
+    });
+    ok(JSON.stringify(tokenCheck.missing) === '["Scene"]', 'checkColumns leaves a token reading an input alone');
+
     ok(omcMapping.check({ mapping, options: OPTIONS }).valid, 'check accepts input sources and input edges');
     const inputs = omcMapping.checkInputs({ mapping, inputs: ['take', 'video'] });
     ok(!inputs.valid && JSON.stringify(inputs.missing) === '["audio"]', 'checkInputs names an input the mapping uses but is not given');

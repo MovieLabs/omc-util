@@ -10,7 +10,6 @@
 
 import { omcTemplate } from '../../templates/index.js';
 import { edgeCreate, edgeRefusal } from '../omcEdges.js';
-import { idKey } from '../omcIdentifier.js';
 
 import { createEntity, entityRef, resolveOptions } from './entity.js';
 import {
@@ -31,28 +30,6 @@ export const specSource = (spec) => {
     if (spec?.input !== undefined) return { input: spec.input, path: spec.path ?? '' };
     return spec?.from ?? null;
 };
-
-/**
- * The value a key or `via` reads. An input read with no path gives its entities' identities: each
- * entity's identifier in the run's scope, or else its lowest, as `scope:value`.
- *
- * @param {MappingRow} row
- * @param {(OmcMapping.ValueSource|null|undefined)} source
- * @param {OmcMapping.MappingOptions} options - Resolved options
- * @returns {*} As `sourceValue`
- */
-function keyValueOf(row, source, options) {
-    if (typeof source?.input !== 'string' || source.path) return sourceValue(row, source);
-    const identities = [row[source.input] ?? []].flat()
-        .filter((ent) => ent?.identifier?.length)
-        .map((ent) => {
-            const inScope = ent.identifier.find((id) => id.identifierScope === options.identifierScope);
-            return inScope ? idKey(inScope) : ent.identifier.map(idKey).sort()[0];
-        });
-    const distinct = [...new Set(identities)];
-    if (!distinct.length) return null;
-    return distinct.length === 1 ? distinct[0] : distinct;
-}
 
 /**
  * Does the property at this path hold a list?
@@ -161,9 +138,10 @@ function promote(value, type) {
  *
  * @param {OmcMapping.PropertyMapping} spec - The mapping, or a bare column name
  * @param {MappingRow} row - The row
+ * @param {OmcMapping.MappingOptions} options - Resolved options
  * @returns {{value: *, withheld: (string|null)}} The value, or why it was withheld
  */
-function resolveProperty(spec, row) {
+function resolveProperty(spec, row, options) {
     const source = typeof spec === 'string' ? { from: spec } : spec;
     const { as, split, when } = source;
 
@@ -171,7 +149,7 @@ function resolveProperty(spec, row) {
     if (source.const !== undefined) return { value: source.const, withheld: null };
 
     const read = specSource(source);
-    const raw = sourceValue(row, read);
+    const raw = sourceValue(row, read, options);
     if (raw === null) return { value: null, withheld: null };
 
     let value = raw;
@@ -400,7 +378,7 @@ function buildEntity(mapping, row, options, notes) {
     // An entity whose identifier the source supplies needs no key: the identity comes from the row
     // itself. `identitySource` resolves whichever of the two applies.
     const identity = identitySource(mapping);
-    const keyValue = keyValueOf(row, identity, options);
+    const keyValue = sourceValue(row, identity, options);
     if (keyValue === null) {
         notes.push({
             kind: 'noKeyValue',
@@ -428,7 +406,7 @@ function buildEntity(mapping, row, options, notes) {
     const properties = {};
 
     for (const [path, spec] of Object.entries(mapping.properties ?? {})) {
-        const { value, withheld } = resolveProperty(spec, row);
+        const { value, withheld } = resolveProperty(spec, row, options);
         // A fixed value may be an object; a value read from an input must be a value.
         if (specSource(spec)?.input !== undefined && [value].flat().some((v) => v !== null && typeof v === 'object')) {
             notes.push({
@@ -516,10 +494,10 @@ function applyEdges(mapping, built, row, options, notes, inverses) {
             const { entry: targetEntry, entityType: targetType } = target;
             // The identity value the target entry was built under on this row, so an edge can tell
             // "the entity this row built" from "an entity elsewhere that happens to be of that type".
-            const builtUnder = targetEntry ? keyValueOf(row, identitySource(targetEntry), options) : null;
+            const builtUnder = targetEntry ? sourceValue(row, identitySource(targetEntry), options) : null;
             const targetKeys = edge.split
-                ? splitList(keyValueOf(row, edge.via, options), edge.split)
-                : [keyValueOf(row, edge.via, options)].flat().filter(hasValue).map(String);
+                ? splitList(sourceValue(row, edge.via, options), edge.split)
+                : [sourceValue(row, edge.via, options)].flat().filter(hasValue).map(String);
 
             for (const targetKey of targetKeys) {
                 const isSameRow = builtUnder !== null && String(builtUnder) === targetKey && Boolean(built[targetEntry.id]);
