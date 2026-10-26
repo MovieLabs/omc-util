@@ -1,7 +1,7 @@
 /**
  * Where a mapping reads a value from a row: a column, named by its heading; a template — fixed
- * text with columns in braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}`
- * write a literal brace; or an input — a path into the OMC entities the row carries under a name,
+ * text with columns, or input paths, in braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where
+ * `{{` and `}}` write a literal brace; or an input — a path into the OMC entities the row carries under a name,
  * `{ input: 'video', path: 'assetFC.functionalType' }`.
  *
  * A key, an edge's `via` and a property can each take any of them, and all three read through here,
@@ -16,7 +16,7 @@ import { hasValue, parseSegment } from './shapedValue.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
-// `{{`, `}}`, or a column in braces.
+// `{{`, `}}`, or a column or input path in braces.
 const TOKEN = /\{\{|\}\}|\{([^{}]*)\}/g;
 
 /**
@@ -109,6 +109,15 @@ const inputSourceValues = ((row, source, scope) => (source.path
     : identities(row, source.input, scope)));
 
 /**
+ * Is a cell an input — an OMC entity, a list of them, or an empty list — rather than a column's value?
+ *
+ * @param {*} cell
+ * @returns {boolean}
+ */
+const isInputCell = ((cell) => (Array.isArray(cell) && !cell.length)
+    || [cell].flat().some((member) => Array.isArray(member?.identifier)));
+
+/**
  * The values one template token gives: its column's cell, or, where the row has no such column and
  * the token begins with an input's name, that input read as `{ input, path }` (`{Asset.label}`, or
  * `{Asset}` for its identities).
@@ -119,16 +128,18 @@ const inputSourceValues = ((row, source, scope) => (source.path
  * @returns {Array<*>}
  */
 function tokenValues(row, token, scope) {
-    if (hasValue(row[token]) && typeof row[token] !== 'object') return [row[token]];
+    if (hasValue(row[token]) && !isInputCell(row[token])) return [row[token]];
     const [input, ...rest] = token.split('.');
-    if (!row[input] || typeof row[input] !== 'object') return [];
-    return inputSourceValues(row, { input, path: rest.join('.') }, scope);
+    if (!isInputCell(row[input])) return [];
+    // An object is not text: a token reaching one reads nothing, rather than "[object Object]".
+    return inputSourceValues(row, { input, path: rest.join('.') }, scope).filter((v) => typeof v !== 'object');
 }
 
 /**
  * The value a source gives on one row: a column's cell as it is, a template's text filled from the
  * row, or an input's values — an array when there is more than one. An input read with no path gives
- * its entities' identities. A template token reading several values gives one text for each.
+ * its entities' identities. A template token reading several values gives one text for each, so
+ * tokens of many values multiply: three of ten give a thousand texts.
  *
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source

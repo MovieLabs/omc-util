@@ -26,7 +26,8 @@ export function inputValues(row: MappingRow, source: {
 /**
  * The value a source gives on one row: a column's cell as it is, a template's text filled from the
  * row, or an input's values — an array when there is more than one. An input read with no path gives
- * its entities' identities. A template token reading several values gives one text for each.
+ * its entities' identities. A template token reading several values gives one text for each, so
+ * tokens of many values multiply: three of ten give a thousand texts.
  *
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source

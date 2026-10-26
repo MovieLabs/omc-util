@@ -717,6 +717,27 @@ console.log('\ninputs: new entities from existing ones');
     });
     ok(!Object.keys(severalInTemplate.entities).length && severalInTemplate.notes.some((n) => n.kind === 'severalValues'),
         'a template token reading several values, as a key, builds nothing');
+    const emptyToken = omcMapping.mapRow({
+        row: { ...row, audio: [] }, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{audio}' } }], options: OPTIONS,
+    });
+    ok(!emptyToken.entities.a && emptyToken.notes.some((n) => n.kind === 'noKeyValue'), 'a template token reading an empty input gives no value');
+    const objectToken = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{take.identifier}' } }], options: OPTIONS,
+    });
+    ok(!objectToken.entities.a, 'a template token reaching an object reads nothing, not its string form');
+    const crossed = omcMapping.mapRow({
+        row: { ...row, Name: 'n1' },
+        mapping: [{ id: 'a', entityType: 'Asset', key: 'Name', properties: { 'tag.value': { template: '{audio.identifier.identifierValue}/{take.label}' } } }],
+        options: OPTIONS,
+    }).entities.a;
+    ok(crossed && JSON.stringify([crossed.tag].flat().map((t) => t.value).flat().sort()) === '["audio-1/1-1","audio-2/1-1"]',
+        'a template token reading several values gives one text for each, into a list');
+    const scoped = omcMapping.sourceValue(
+        { take: existing('CapturePoint', 'v', { identifier: [{ identifierScope: 'a.first', identifierValue: '1' }, { identifierScope: 'movielabs.com', identifierValue: '2' }] }) },
+        { template: '{take}' },
+        OPTIONS,
+    );
+    ok(scoped === 'movielabs.com:2', 'an input token gives the identifier in the run\'s scope, not the lowest');
     const tokenCheck = omcMapping.checkColumns({
         mapping: [{ id: 'a', entityType: 'Asset', key: { template: '{take}-{Scene}' } }], columns: [], inputs: ['take'],
     });
