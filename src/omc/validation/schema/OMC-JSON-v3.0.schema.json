@@ -935,8 +935,8 @@
                 "digital.visual.image",
                 "digital.visual.movingImage",
                 "digital.visual.imageSeries",
-                "digital.audio",
-                "digital.audiovisual",
+                "digital.visual.audiovisual",
+                "digital.audio",               
                 "digital.document",
                 "digital.structuredDocument",
                 "digital.data",
@@ -2073,6 +2073,12 @@
                     "type": [
                       "string",
                       "null"
+                    ],
+                    "x-controlledValues": [
+                    "full",
+                    "setting",
+                    "location",
+                    "periodInTime"   
                     ]
                   },
                   "text": {
@@ -4492,6 +4498,7 @@
           "properties": {
             "identifier": {"$ref": "#/$defs/Utility/properties/identifier"}
           },
+          "required": ["identifier"],
           "title": "Reference entity",
           "additionalProperties": false,
           "description": "An identifier that references another entity in the graph"
@@ -5259,10 +5266,6 @@
               "title": "Schema Version",
               "default": "https://movielabs.com/omc/json/schema/v3.0",
               "enum": [
-                "https://movielabs.com/omc/json/schema/v2.0",
-                "https://movielabs.com/omc/json/schema/v2.1",
-                "https://movielabs.com/omc/json/schema/v2.6",
-                "https://movielabs.com/omc/json/schema/v2.8",
                 "https://movielabs.com/omc/json/schema/v3.0"
               ],
               "description": "Describes the version of OMC-JSON schema that was used to create this instance."

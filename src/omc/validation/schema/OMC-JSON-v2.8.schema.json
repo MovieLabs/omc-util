@@ -6675,7 +6675,7 @@
           "properties": {
             "schemaVersion": {
               "title": "Schema Version",
-              "default": "https://movielabs.com/omc/json/schema/v2.6",
+              "default": "https://movielabs.com/omc/json/schema/v2.8",
               "enum": [
                 "https://movielabs.com/omc/json/schema/v2.0",
                 "https://movielabs.com/omc/json/schema/v2.1",
