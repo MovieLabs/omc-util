@@ -205,7 +205,6 @@
                     "cg.material",
                     "cg.shader",
                     "transform",
-                    "transform.colorSpace",
                     "transform.spatialTransform",
                     "transform.colorTransform",
                     "transform.temporalTransform",
@@ -933,9 +932,9 @@
               "default": "assetStructure",
               "x-controlledValues": [
                 "digital",
-                "digital.image",
-                "digital.movingImage",
-                "digital.imageSeries",
+                "digital.visual.image",
+                "digital.visual.movingImage",
+                "digital.visual.imageSeries",
                 "digital.audio",
                 "digital.audiovisual",
                 "digital.document",
@@ -1086,7 +1085,7 @@
                   "$ref": "#/$defs/Utility/properties/software"
                 },
                 "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
-                "smpteTimecode": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/smpteTimecode"},
+                "timecodeRange": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/timecodeRange"},
                 "Carrier": {
                   "title": "Carrier",
                   "maxItems": 1,
@@ -1285,13 +1284,7 @@
               "title": "Number of Points",
               "description": "The number of individual points in the Point Cloud."
             },
-            "smpteTimecode": {
-              "type": "object",
-              "properties": {
-                "tcIn": {"$ref": "#/$defs/Utility/properties/time/properties/smpteTimecode"},
-                "tcOut": {"$ref": "#/$defs/Utility/properties/time/properties/smpteTimecode"}
-              }
-            }
+            "timecodeRange": {"$ref": "#/$defs/Utility/properties/timecodeRange"}
           },
           "unevaluatedProperties": false
         }
@@ -1329,6 +1322,14 @@
             "infrastructureName": {
               "title": "Infrastructure Name",
               "$ref": "#/$defs/Utility/properties/basicName"
+            },
+            "infrastructureProperties": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "title": "Infrastructure Properties",
+              "additionalProperties": true
             },
             "Member": {
               "type": [
@@ -1496,10 +1497,7 @@
               "title": "Context Type",
               "description": "A classification of the type of context represented",
               "default": "context",
-              "x-controlledValues": [
-                "context",
-                "shootDay"
-              ]
+              "x-controlledValues": ["context"]
             },
             "contextName": {
               "title": "Context Name",
@@ -1521,36 +1519,9 @@
                 "object",
                 "null"
               ],
-              "properties": {
-                "shootDay": {"$ref": "#/$defs/MediaCreationContext/properties/Context/$defs/shootDay"}
-              },
               "additionalProperties": true
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
-          },
-          "$defs": {
-            "shootDay": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "shootDay": {
-                  "type": [
-                    "string",
-                    "number",
-                    "null"
-                  ]
-                },
-                "shootDate": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "$ref": "#/$defs/Utility/properties/time/properties/date"
-                }
-              }
-            }
           },
           "unevaluatedProperties": false,
           "required": [
@@ -2031,13 +2002,6 @@
               "title": "Narrative Object Properties",
               "description": "Properties specific to Narrative Object sub-types"
             },
-            "size": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "Size"
-            },
             "quantity": {
               "type": [
                 "string",
@@ -2096,9 +2060,29 @@
               "description": "A number used in the script to refer to the scene"
             },
             "slugline": {
-              "$ref": "#/$defs/Utility/properties/annotation",
               "title": "Slugline",
-              "description": "A note describing the slugline or seperate parts of the slugline"
+              "description": "A note describing the slugline or seperate parts of the slugline",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": ["object"],
+                "properties": {
+                  "piece": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "text": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2215,7 +2199,8 @@
               "default": "productionLocation",
               "x-controlledValues": [
                 "productionLocation",
-                "shootingLocation"
+                "shootingLocation",
+                "shootingSet"
               ],
               "title": "Production Location Type"
             },
@@ -2264,14 +2249,6 @@
             "productionSceneName": {
               "title": "Production Scene Name",
               "$ref": "#/$defs/Utility/properties/basicName"
-            },
-            "sceneHeader": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "title": "Scene Header",
-              "description": "Used when referring to the Production Scene. It is generally synonymous with Slugline and is used to divide a Script into scenes."
             },
             "sceneDescriptor": {
               "type": [
@@ -2467,19 +2444,6 @@
               ]
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"},
-            "CaptureDetails": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Details",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Collection"}
-                ]
-              }
-            },
             "CapturePoint": {
               "type": [
                 "array",
@@ -2552,6 +2516,19 @@
                 ]
               }
             },
+            "CaptureEvent": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "title": "Capture",
+              "items": {
+                "anyOf": [
+                  {"$ref": "#/$defs/core/properties/reference"},
+                  {"$ref": "#/$defs/Production/properties/CaptureEvent"}
+                ]
+              }
+            },
             "Capture": {
               "type": [
                 "array",
@@ -2575,19 +2552,6 @@
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
                   {"$ref": "#/$defs/Production/properties/CaptureDevice"}
-                ]
-              }
-            },
-            "CaptureDetails": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "title": "Capture Details",
-              "items": {
-                "anyOf": [
-                  {"$ref": "#/$defs/core/properties/reference"},
-                  {"$ref": "#/$defs/Utility/properties/Collection"}
                 ]
               }
             },
@@ -3072,13 +3036,7 @@
               "additionalProperties": true
             },
             "includes": {
-              "oneOf": [
-                {"$ref": "#/$defs/core/properties/entityMap"},
-                {
-                  "type": "array",
-                  "items": {"$ref": "#/$defs/core/properties/rootEntity"}
-                }
-              ],
+              "$ref": "#/$defs/core/properties/entityMap",
               "title": "Includes",
               "description": "The things in this collection"
             },
@@ -3299,11 +3257,6 @@
               },
               "title": "The entity that created, modified, etc. this thing."
             },
-            "createdOn": {
-              "$ref": "#/$defs/Utility/properties/time/properties/dateTime",
-              "title": "Created On",
-              "description": "When it was made or done."
-            },
             "Role": {
               "type": [
                 "array",
@@ -3317,7 +3270,12 @@
                 ]
               }
             },
-            "Origin": {
+            "createdOn": {
+              "$ref": "#/$defs/Utility/properties/time/properties/dateTime",
+              "title": "Created On",
+              "description": "When it was made or done."
+            },
+            "origin": {
               "type": [
                 "string",
                 "null"
@@ -4001,47 +3959,64 @@
               "pattern": "^(-?)P(?=.)((\\d+)Y)?((\\d+)M)?((\\d+)D)?(T(?=.)((\\d+)H)?((\\d+)M)?(\\d*(\\.\\d+)?S)?)?$",
               "examples": ["P2Y12M3D"],
               "description": "Should be formatted to comply with ISO 8601"
+            }
+          }
+        },
+        "timecodeRange": {
+          "type": "object",
+          "properties": {
+            "startTimecode": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Start Timecode",
+              "examples": ["00:03:43:12"],
+              "description": "The start of timecode range as a SMPTE Timecode\nExact format of timecode is dependent on recording frames per second, but generally follows HH:MM:SS:FF"
             },
-            "smpteTimecode": {
-              "type": "object",
-              "properties": {
-                "timecode": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "SMPTE Timecode",
-                  "pattern": "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d):([0-2]\\d)$",
-                  "examples": ["00:03:43:12"],
-                  "description": "SMPTE Timecode in the format HH:MM:SS:FF. \nAssumes the frame rate is 23.98, 24, 25, 29.97 NDF, or 30"
-                },
-                "rate": {
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "properties": {
-                    "numerator": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
-                    },
-                    "denominator": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
-                    }
-                  }
-                },
-                "dropFrame": {
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                }
-              }
+            "endTimecode": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "End Timecode",
+              "examples": ["00:03:43:12"],
+              "description": "The end of timecode range as a SMPTE Timecode\nExact format of timecode is dependent on recording frames per second, but generally follows HH:MM:SS:FF"
+            },
+            "dropFrame": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "timecodeFPS": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "title": "Timecode Range",
+          "description": "A pair of SMPTE timecodes describing part of an audio or video Asset."
+        },
+        "frameRate": {
+          "type": "object",
+          "properties": {
+            "playbackFPS": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "title": "Playback Frames Per Second",
+              "description": "Frames per second used for playback"
+            },
+            "recordingFPS": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "title": "Recording Frames Per Second",
+              "description": "Frames per second recorded by the camera."
             }
           }
         },

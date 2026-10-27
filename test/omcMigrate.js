@@ -151,6 +151,65 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
     check('the other structural properties stay', structure?.assetStructureProperties?.fileDetails?.fileExtension === 'mxf');
 }
 
+// ---- properties v3.0 renamed, reshaped or dropped ----
+
+{
+    const entity = ((entityType, value, rest) => ({
+        schemaVersion: v28,
+        entityType,
+        identifier: [{ identifierScope: 'labkoat', identifierValue: value }],
+        ...rest,
+    }));
+    const valid = ((ent) => omcValidate(ent) === true);
+
+    const named = omcMigrate(entity('ProductionScene', 'ps-named', {
+        sceneName: { fullName: '12A' }, sceneHeader: 'INT. KITCHEN - DAY',
+    }));
+    check('a sceneHeader is dropped where the name has a fullName',
+        named.productionSceneName?.fullName === '12A' && !Object.hasOwn(named, 'sceneHeader'),
+        JSON.stringify(named));
+    check('that ProductionScene validates', valid(named));
+    const unnamed = omcMigrate(entity('ProductionScene', 'ps-unnamed', {
+        sceneName: { altName: '12' }, sceneHeader: 'INT. KITCHEN - DAY',
+    }));
+    check('a sceneHeader becomes the fullName where the name has none',
+        unnamed.productionSceneName?.fullName === 'INT. KITCHEN - DAY' && unnamed.productionSceneName?.altName === '12',
+        JSON.stringify(unnamed.productionSceneName));
+
+    const scene = omcMigrate(entity('NarrativeScene', 'ns-1', {
+        slugline: [{ author: 'Script-E', title: 'Scene Slug', text: 'Julia finds the letter' }],
+    }));
+    check('slugline notes become pieces',
+        JSON.stringify(scene.slugline) === JSON.stringify([{ piece: 'Scene Slug', text: 'Julia finds the letter' }]),
+        JSON.stringify(scene.slugline));
+    check('that NarrativeScene validates', valid(scene));
+
+    const object = omcMigrate(entity('NarrativeObject', 'no-1', { size: 'large' }));
+    check('a NarrativeObject size is dropped', !Object.hasOwn(object, 'size'));
+    check('that NarrativeObject validates', valid(object));
+
+    const context = omcMigrate(entity('Context', 'cxt-1', {
+        contextType: 'shootDay', contextProperties: { shootDay: 1, shootDate: '2026-01-23' },
+    }));
+    check('contextProperties carry across unchanged',
+        JSON.stringify(context.contextProperties) === JSON.stringify({ shootDay: 1, shootDate: '2026-01-23' }),
+        JSON.stringify(context.contextProperties));
+
+    const structure = omcMigrate(entity('AssetSC', 'asc-1', { structuralType: 'digital.movingImage' }));
+    check('an image structuralType moves under digital.visual',
+        structure.assetStructureType === 'digital.visual.movingImage', `got ${structure.assetStructureType}`);
+
+    const originOf = ((Origin) => omcMigrate(entity('Asset', 'ast-1', {
+        provenance: { Origin },
+    })).edges?.has?.Provenance?.[0]);
+    const combined = originOf({ identifier: [{ identifierScope: 'labkoat', identifierValue: 'ast-src', combinedForm: 'urn:labkoat:ast-src' }] });
+    check('Origin becomes origin, the identifier\'s combinedForm',
+        combined?.origin === 'urn:labkoat:ast-src' && !Object.hasOwn(combined, 'Origin'), JSON.stringify(combined));
+    check('that Provenance validates', valid(combined));
+    const joined = originOf({ identifier: [{ identifierScope: 'labkoat', identifierValue: 'ast-src' }] });
+    check('Origin with no combinedForm joins scope and value', joined?.origin === 'labkoat:ast-src', `got ${joined?.origin}`);
+}
+
 // ---- a second pass changes nothing ----
 
 {

@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 137,
-    "rows": 249,
+    "edges": 134,
+    "rows": 244,
     "verbs": 41,
-    "properties": 130,
+    "properties": 129,
     "classes": 137
   },
   "namespace": {
@@ -1537,7 +1537,6 @@
               "Slate"
             ],
             "range": [
-              "Infrastructure",
               "Participant"
             ],
             "placement": "edges"
@@ -1660,16 +1659,6 @@
           },
           {
             "domain": [
-              "CaptureEvent",
-              "CapturePoint"
-            ],
-            "range": [
-              "Collection"
-            ],
-            "path": "CaptureDetails"
-          },
-          {
-            "domain": [
               "CapturePoint"
             ],
             "range": [
@@ -1748,29 +1737,11 @@
           },
           {
             "domain": [
-              "CapturePoint"
-            ],
-            "range": [
-              "CaptureEvent"
-            ]
-          },
-          {
-            "domain": [
               "ProductionScene"
             ],
             "range": [
               "CaptureEvent",
               "CapturePoint"
-            ]
-          },
-          {
-            "domain": [
-              "Collection"
-            ],
-            "range": [
-              "CaptureEvent",
-              "CapturePoint",
-              "ProductionScene"
             ]
           },
           {
@@ -1779,6 +1750,14 @@
             ],
             "range": [
               "CapturePoint"
+            ]
+          },
+          {
+            "domain": [
+              "Collection"
+            ],
+            "range": [
+              "ProductionScene"
             ]
           },
           {
@@ -1807,6 +1786,16 @@
               "Slate"
             ],
             "inverse": "Director"
+          },
+          {
+            "domain": [
+              "CapturePoint"
+            ],
+            "range": [
+              "CaptureEvent"
+            ],
+            "placement": "property",
+            "pathTemplate": "{range}"
           }
         ]
       },
@@ -3332,7 +3321,6 @@
           "omc:for"
         ],
         "domains": [
-          "omc:CaptureDetails",
           "omc:CapturePoint",
           "omc:ProductionScene"
         ],
@@ -3349,7 +3337,6 @@
         ],
         "domains": [
           "omc:Asset",
-          "omc:CaptureDetails",
           "omc:CaptureDevice",
           "omc:ProductionScene"
         ],
@@ -3438,7 +3425,6 @@
           "omc:for"
         ],
         "domains": [
-          "omc:Infrastructure",
           "omc:Participant"
         ],
         "ranges": [
@@ -3482,21 +3468,6 @@
             }
           }
         ]
-      },
-      {
-        "id": "omc:hasCaptureDetails",
-        "name": "hasCaptureDetails",
-        "verbs": [
-          "omc:has"
-        ],
-        "domains": [
-          "omc:CaptureEvent",
-          "omc:CapturePoint"
-        ],
-        "ranges": [
-          "omc:CaptureDetails"
-        ],
-        "inverseOf": []
       },
       {
         "id": "omc:hasCaptureDevice",
@@ -3620,8 +3591,7 @@
           "omc:has"
         ],
         "domains": [
-          "omc:CaptureDevice",
-          "omc:Slate"
+          "omc:CaptureDevice"
         ],
         "ranges": [
           "omc:Infrastructure"

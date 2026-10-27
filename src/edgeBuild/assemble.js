@@ -65,11 +65,11 @@ const rdfPropertyIndex = ((document, jsonTypes) => {
  * What a row's RDF properties call the ends it admits, where they call them something narrower
  * than the entityType.
  *
- * Two ways an end is narrowed, and both read the same on a diagram — `Collection (CaptureDetails)`:
+ * Two ways an end is narrowed, and both read the same on a diagram — `Collection (ProductionPlanning)`:
  *
  * - **A qualifier.** `omc:hasScript` ranges over `omc:Asset` and states beside it that the Asset's
  *   `hasAssetFunction` is `Script`. The end is still an Asset; the property says which kind.
- * - **A subclass.** `omc:hasCaptureDetails` ranges over `omc:CaptureDetails`, a class that
+ * - **A subclass.** `omc:hasProductionPlanning` ranges over `omc:ProductionPlanning`, a class that
  *   publishes as a `Collection`. The entityType is the projection; the class is the thing.
  *
  * Both assert rather than restrict: what the edge accepts is the entityType either way.

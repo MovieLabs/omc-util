@@ -16,7 +16,8 @@ export default {
             captureEventName: basicName.graphQl.properties,
             CapturePoint: null,
             ProductionScene: null,
-            CaptureDetails: null,
+            startDate: null,
+            endDate: null,
         },
         filter: {
             ...baseEntity.graphQl.properties,

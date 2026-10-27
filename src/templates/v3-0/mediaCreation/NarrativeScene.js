@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, scriptName, note } from '../utility/utility.js';
+import { baseEntity, scriptName } from '../utility/utility.js';
 
 const entityType = 'NarrativeScene';
 const entityGeneral = generalConfig[entityType];
@@ -17,7 +17,10 @@ export default {
             narrativeSceneProperties: null,
             narrativeSceneName: scriptName.graphQl.properties,
             sceneNumber: null,
-            slugline: note.graphQl.properties,
+            slugline: {
+                piece: null,
+                text: null,
+            },
         },
         filter: {
             ...baseEntity.graphQl.filter,

@@ -6,7 +6,7 @@
 
 import { isPlainObject, makeArray } from '../../mlHelpers/util.js';
 import { edgeCreate } from '../omcEdges.js';
-import { idMint } from '../omcIdentifier.js';
+import { idCombinedForm, idMint } from '../omcIdentifier.js';
 import { deepMerge } from '../omcMerge.js';
 
 const schemaVersion = 'https://movielabs.com/omc/json/schema/v3.0';
@@ -27,6 +27,13 @@ const sequenceTypeMap = {
     editorial: 'sequence.editorial',
     animation: 'sequence.animation',
     color: 'sequence.color',
+};
+
+// The v2.8 image structuralTypes, which v3.0 moved under `digital.visual`.
+const assetStructureTypeMap = {
+    'digital.image': 'digital.visual.image',
+    'digital.movingImage': 'digital.visual.movingImage',
+    'digital.imageSeries': 'digital.visual.imageSeries',
 };
 
 const productionLocationTypeMap = {
@@ -68,45 +75,6 @@ const cxtEdges = ((cxt) => {
     Object.keys(edges).forEach((predicate) => renameTarget(edges[predicate])); // For each predicate, check if targets need renaming
     return edges;
 });
-
-/**
- * Move a Context's properties into the sub-type slot v3.0 expects.
- *
- * `contextProperties` is the container in both versions, and stays where it is. What changed is
- * that v3.0 added a level inside it, keyed by the context's sub-type:
- *
- * ```
- * v2.6/v2.8   contextProperties: { shootDay: 1, shootDate: '2026-01-23' }
- * v3.0        contextProperties: { shootDay: { shootDay: 1, shootDate: '2026-01-23' } }
- * ```
- *
- * The schemas show the same definition relocated rather than redefined: v2.6 has
- * `contextProperties` → `anyOf` → `$ref …/$defs/shootDay`, while v3.0 has `contextProperties` →
- * `properties.shootDay` → the same `$ref`, and `$defs/shootDay` is identical between them. So
- * nothing is renamed and no value is converted — `shootDay` is typed `string | number | null` in
- * both, and a number stays a number. A wrapper is inserted, and that is all.
- *
- * `shootDay` therefore appears twice at different levels: the outer is the slot name, the inner is
- * the day number.
- *
- * Applied whatever the sub-type. v3.0 sets `additionalProperties: true` on `contextProperties`, so
- * a type the schema does not describe still validates, and a sub-type added later needs no change
- * here. Note the caller defaults a missing `contextType` to `'context'`, so a Context that declares
- * no type nests under a slot of that name — meaningless, but harmless, and not worth a special
- * case.
- *
- * @param {Object|null} contextProperties - The v2.x properties, if any
- * @param {string} contextType - The context's sub-type, which names the slot
- * @returns {Object|null} The v3.0 form, or the input untouched when there is nothing to do
- */
-function migrateContextProperties(contextProperties, contextType) {
-    if (!contextProperties || !isPlainObject(contextProperties)) return contextProperties;
-    // Already in the v3.0 shape. Migration has to be safe to run twice, and without this a second
-    // pass would bury the properties another level down.
-    const existing = contextProperties[contextType];
-    if (existing !== undefined && isPlainObject(existing)) return contextProperties;
-    return { [contextType]: contextProperties };
-}
 
 /**
  * Hoist edges carried on resolved Context entities onto the entity itself.
@@ -269,6 +237,24 @@ function groupStructure(assetSC, members, assetIdentifier) {
 }
 
 /**
+ * v2.8 `Origin` referenced an entity; v3.0 `origin` is a string naming it: the referenced
+ * identifier's combinedForm, or its scope and value joined by `:` where it has none.
+ */
+function migrateOrigin(Origin) {
+    const id = makeArray(makeArray(Origin)[0]?.identifier)[0];
+    return id ? idCombinedForm(id, ':') : null;
+}
+
+/**
+ * v2.8 slugline notes are `{author, title, text}`; v3.0 slugline pieces are `{piece, text}`. The
+ * title names the piece, and the author is dropped.
+ */
+function migrateSlugline(slugline) {
+    if (!Array.isArray(slugline)) return slugline;
+    return slugline.map(({ piece, title, text = null }) => ({ piece: piece ?? title ?? null, text }));
+}
+
+/**
  * Migrate Provenance, by creating a new entity.
  */
 
@@ -278,16 +264,16 @@ function migrateProvenance(provenance) {
     // Create an identifier, as Provenance is now an entity
     const provId = idMint({ identifierScope: 'com.movielabs', entityType: 'Provenance' });
     const createdBy = migrateShape(provenance, 'CreatedBy');
-    const origin = migrateShape(provenance, 'Origin');
     const role = migrateShape(provenance, 'Role');
+    const { Origin = false, ...rest } = provenance; // A reference becomes the string `origin`
 
     return [{
         schemaVersion,
         entityType: 'Provenance',
         identifier: [provId],
-        ...provenance,
+        ...rest,
         ...(createdBy !== false && { CreatedBy: createdBy }),
-        ...(origin !== false && { Origin: origin }),
+        ...(Origin !== false && { origin: migrateOrigin(Origin) }),
         ...(role !== false && { Role: role }),
     }];
 }
@@ -379,7 +365,7 @@ export default {
             label: name || labelDefault,
             entityType: 'AssetStructure',
             ...(assetStructureName !== false && { assetStructureName }),
-            assetStructureType: structuralType,
+            assetStructureType: assetStructureTypeMap[structuralType] || structuralType,
             ...(assetStructureProperties !== false && { assetStructureProperties }),
             ...(versionInfo !== false && { versionInfo }),
             edges,
@@ -458,11 +444,6 @@ export default {
             ...rest,
             schemaVersion,
             contextType,
-            // v3.0 keys these by sub-type; v2.x carried them flat. Placed after the rest spread so
-            // it replaces the v2.x value rather than being overwritten by it.
-            ...(rest.contextProperties !== undefined && {
-                contextProperties: migrateContextProperties(rest.contextProperties, contextType),
-            }),
             label: name || labelDefault,
             ...(name !== false && { contextName: migrateName(name) }),
             edges,
@@ -693,6 +674,7 @@ export default {
         const {
             name = false,
             narrativeType = 'narrativeObject', // Becomes narrativeObjectType, required property
+            size: _size, // Remove
             ...rest
         } = update;
 
@@ -711,6 +693,7 @@ export default {
             name = false,
             sceneName, // Becomes narrativeSceneName
             narrativeType = 'narrativeScene', // Required property
+            slugline = false, // Annotation-shaped notes become pieces
             ...rest
         } = cxtUpdate;
 
@@ -720,6 +703,7 @@ export default {
             label: name || labelDefault,
             ...(sceneName !== false && { narrativeSceneName: sceneName }),
             narrativeSceneType: narrativeType,
+            ...(slugline !== false && { slugline: migrateSlugline(slugline) }),
         };
     },
     NarrativeStyling: (omc) => {
@@ -872,17 +856,22 @@ export default {
         const {
             name = false,
             sceneName = false,
+            sceneHeader = false, // The name's fullName when it has none, otherwise dropped
             sceneNumber = null,
             sceneDescriptor = false,
             ...rest
         } = cxtUpdate;
+
+        const productionSceneName = sceneHeader && !sceneName?.fullName
+            ? { ...sceneName, fullName: sceneHeader }
+            : sceneName;
 
         return {
             ...rest,
             schemaVersion,
             label: name || labelDefault,
             sceneDescriptor: sceneDescriptor || sceneNumber,
-            ...(sceneName !== false && { productionSceneName: sceneName }),
+            ...(productionSceneName !== false && { productionSceneName }),
         };
     },
     Role: (omc) => {

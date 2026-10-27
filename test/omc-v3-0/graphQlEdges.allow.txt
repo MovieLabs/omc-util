@@ -3,6 +3,3 @@
 # One `<CATEGORY> <EntityType> <path>` per line, copied verbatim from the report. Blank lines and
 # `#` comments are ignored. An entry here says the difference is intended, so write down why
 # beside it.
-
-# Provenance.Origin is a schema property the edge table does not carry as an edge.
-UNKNOWN Provenance Origin

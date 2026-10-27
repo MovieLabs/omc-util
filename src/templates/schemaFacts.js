@@ -53,7 +53,7 @@ function walkProperty({
     if (!isObject(node) || depth > MAX_DEPTH) return;
 
     if (node.$ref) {
-        // A property alias (e.g. `slugline: { $ref: '.../annotation' }`). Follow it so
+        // A property alias (e.g. `productionSceneName: { $ref: '.../basicName' }`). Follow it so
         // the alias inherits the target's constraints, guarding against ref cycles.
         if (seenRefs.has(node.$ref)) return;
         const target = resolveRef(root, node.$ref);

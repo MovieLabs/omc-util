@@ -18,7 +18,7 @@ export default {
             CreatedBy: null,
             createdOn: null,
             Role: null,
-            Origin: null,
+            origin: null,
             reason: null,
         },
         filter: {

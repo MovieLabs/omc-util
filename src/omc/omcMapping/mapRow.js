@@ -177,9 +177,8 @@ function resolveProperty(spec, row, options) {
 /**
  * Build a note-shaped property — an array of `{author, title, text}`.
  *
- * OMC uses that shape for more than `annotation`: `NarrativeScene.slugline` has it too. One
- * construct covers them all, so a mapping names the property rather than this file hard-coding
- * which properties are note-shaped.
+ * `annotation` is the property with that shape. One construct covers any that has it, so a
+ * mapping names the property rather than this file hard-coding which properties are note-shaped.
  *
  * @param {Array<OmcMapping.NoteMapping>} entries - Note mappings
  * @param {MappingRow} row - The row

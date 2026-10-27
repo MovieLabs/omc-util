@@ -156,6 +156,7 @@ declare namespace _default {
     function NarrativeLocation(omc: any): any;
     function NarrativeObject(omc: any): any;
     function NarrativeScene(omc: any): {
+        slugline: any;
         narrativeSceneType: any;
         narrativeSceneName: any;
         schemaVersion: string;

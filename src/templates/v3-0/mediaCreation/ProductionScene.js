@@ -14,7 +14,6 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             productionSceneName: basicName.graphQl.properties,
-            sceneHeader: null,
             sceneDescriptor: null,
         },
         filter: {

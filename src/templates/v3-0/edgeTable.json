@@ -10,18 +10,18 @@
       "format": "omc-edges",
       "version": 1,
       "viewId": "view:entity-structure",
-      "edges": 137,
-      "rows": 249,
+      "edges": 134,
+      "rows": 244,
       "verbs": 41,
-      "properties": 130,
+      "properties": 129,
       "classes": 137
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
-      "fingerprint": "2ea8d921b68c1248"
+      "fingerprint": "b24bbf4f4d389c03"
     },
-    "rows": 183,
-    "rdfNamed": 178,
+    "rows": 178,
+    "rdfNamed": 173,
     "spreadRows": 54
   },
   "table": {
@@ -1921,30 +1921,6 @@
         }
       },
       "edges": {
-        "edges.has.Infrastructure": {
-          "predicate": "has",
-          "allowed": [
-            "Infrastructure"
-          ],
-          "path": "edges.has.Infrastructure",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "has",
-            "Infrastructure"
-          ],
-          "containerSegments": [
-            "edges",
-            "has"
-          ],
-          "relativePath": "has.Infrastructure",
-          "inverseEdge": null,
-          "omcPredicate": "omc:hasInfrastructure",
-          "rdfProperties": [
-            "omc:hasInfrastructure"
-          ]
-        },
         "edges.has.Participant": {
           "predicate": "has",
           "allowed": [
@@ -3248,19 +3224,14 @@
           "containerSegments": [],
           "relativePath": "CapturePoint",
           "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.CaptureEvent",
-            "bucket": "edges",
+            "predicate": "CaptureEvent",
+            "path": "CaptureEvent",
+            "bucket": "intrinsic",
             "pathSegments": [
-              "edges",
-              "for",
               "CaptureEvent"
             ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.CaptureEvent"
+            "containerSegments": [],
+            "relativePath": "CaptureEvent"
           },
           "omcPredicate": "omc:hasCapturePoint",
           "rdfProperties": [
@@ -3298,47 +3269,6 @@
           "omcPredicate": "omc:hasProductionScene",
           "rdfProperties": [
             "omc:hasProductionScene"
-          ]
-        },
-        "CaptureDetails": {
-          "predicate": "has",
-          "allowed": [
-            "Collection"
-          ],
-          "path": "CaptureDetails",
-          "type": "array",
-          "bucket": "intrinsic",
-          "pathSegments": [
-            "CaptureDetails"
-          ],
-          "containerSegments": [],
-          "relativePath": "CaptureDetails",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.CaptureEvent",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "CaptureEvent"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.CaptureEvent"
-          },
-          "omcPredicate": "omc:hasCaptureDetails",
-          "rdfProperties": [
-            "omc:hasCaptureDetails"
-          ],
-          "narrowedRanges": [
-            {
-              "range": "Collection",
-              "as": "CaptureDetails",
-              "kind": "class",
-              "property": "omc:hasCaptureDetails"
-            }
           ]
         }
       },
@@ -3413,47 +3343,6 @@
             "omc:hasProductionScene"
           ]
         },
-        "CaptureDetails": {
-          "predicate": "has",
-          "allowed": [
-            "Collection"
-          ],
-          "path": "CaptureDetails",
-          "type": "array",
-          "bucket": "intrinsic",
-          "pathSegments": [
-            "CaptureDetails"
-          ],
-          "containerSegments": [],
-          "relativePath": "CaptureDetails",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.CapturePoint",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "CapturePoint"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.CapturePoint"
-          },
-          "omcPredicate": "omc:hasCaptureDetails",
-          "rdfProperties": [
-            "omc:hasCaptureDetails"
-          ],
-          "narrowedRanges": [
-            {
-              "range": "Collection",
-              "as": "CaptureDetails",
-              "kind": "class",
-              "property": "omc:hasCaptureDetails"
-            }
-          ]
-        },
         "Capture": {
           "predicate": "has",
           "allowed": [
@@ -3495,27 +3384,20 @@
               "property": "omc:hasCapture"
             }
           ]
-        }
-      },
-      "edges": {
-        "edges.for.CaptureEvent": {
+        },
+        "CaptureEvent": {
           "predicate": "for",
           "allowed": [
             "CaptureEvent"
           ],
-          "path": "edges.for.CaptureEvent",
+          "path": "CaptureEvent",
           "type": "array",
-          "bucket": "edges",
+          "bucket": "intrinsic",
           "pathSegments": [
-            "edges",
-            "for",
             "CaptureEvent"
           ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.CaptureEvent",
+          "containerSegments": [],
+          "relativePath": "CaptureEvent",
           "inverseEdge": {
             "predicate": "CapturePoint",
             "path": "CapturePoint",
@@ -3532,6 +3414,7 @@
           ]
         }
       },
+      "edges": {},
       "cxtEdges": {}
     },
     "CaptureDevice": {
@@ -4488,72 +4371,6 @@
         }
       },
       "edges": {
-        "edges.for.CaptureEvent": {
-          "predicate": "for",
-          "allowed": [
-            "CaptureEvent"
-          ],
-          "path": "edges.for.CaptureEvent",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "for",
-            "CaptureEvent"
-          ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.CaptureEvent",
-          "inverseEdge": {
-            "predicate": "CaptureDetails",
-            "path": "CaptureDetails",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "CaptureDetails"
-            ],
-            "containerSegments": [],
-            "relativePath": "CaptureDetails"
-          },
-          "omcPredicate": "omc:forCaptureEvent",
-          "rdfProperties": [
-            "omc:forCaptureEvent"
-          ]
-        },
-        "edges.for.CapturePoint": {
-          "predicate": "for",
-          "allowed": [
-            "CapturePoint"
-          ],
-          "path": "edges.for.CapturePoint",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "for",
-            "CapturePoint"
-          ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.CapturePoint",
-          "inverseEdge": {
-            "predicate": "CaptureDetails",
-            "path": "CaptureDetails",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "CaptureDetails"
-            ],
-            "containerSegments": [],
-            "relativePath": "CaptureDetails"
-          },
-          "omcPredicate": "omc:forCapturePoint",
-          "rdfProperties": [
-            "omc:forCapturePoint"
-          ]
-        },
         "edges.for.ProductionScene": {
           "predicate": "for",
           "allowed": [

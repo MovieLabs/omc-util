@@ -16,7 +16,6 @@ export default {
             narrativeObjectType: null,
             narrativeObjectName: scriptName.graphQl.filter,
             quantity: null,
-            size: null,
             narrativeObjectProperties: null,
         },
         filter: {

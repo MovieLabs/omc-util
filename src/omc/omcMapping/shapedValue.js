@@ -1,11 +1,11 @@
 /**
  * Read and write values at a path, against the entity's shape.
  *
- * A dotted path is not enough on its own: OMC puts `annotation` in an array of objects, `slugline`
- * in an array of scalars, and `assetStructureProperties.fileDetails.fileName` in plain nested
- * objects. Writing `annotation.author` as `{annotation: {author}}` produces an entity the schema
- * rejects. So the shape decides how each segment is placed, and callers never do their own
- * array-wrapping or `identifier[0]` surgery.
+ * A dotted path is not enough on its own: OMC puts `annotation` and `slugline` in arrays of
+ * objects, and `assetStructureProperties.fileDetails.fileName` in plain nested objects. Writing
+ * `annotation.author` as `{annotation: {author}}` produces an entity the schema rejects. So the
+ * shape decides how each segment is placed, and callers never do their own array-wrapping or
+ * `identifier[0]` surgery.
  *
  * The shape is `omcTemplate.shape()`'s `$type`/`$items` form.
  *

@@ -15,6 +15,7 @@ export default {
             ...baseEntity.graphQl.properties,
             infrastructureName: basicName.graphQl.properties,
             infrastructureType: null,
+            infrastructureProperties: null,
             Member: null,
         },
         filter: {
