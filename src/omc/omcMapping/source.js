@@ -1,7 +1,7 @@
 /**
  * Where a mapping reads a value from a row: a column, named by its heading; a template — fixed
- * text with columns in braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where `{{` and `}}`
- * write a literal brace; or an input — a path into the OMC entities the row carries under a name,
+ * text with columns, or input paths, in braces, `{ template: 'scene-{Scene}-take-{Take}' }`, where
+ * `{{` and `}}` write a literal brace; or an input — a path into the OMC entities the row carries under a name,
  * `{ input: 'video', path: 'assetFC.functionalType' }`.
  *
  * A key, an edge's `via` and a property can each take any of them, and all three read through here,
@@ -10,11 +10,13 @@
  * @module omcMapping/source
  */
 
+import { idKey } from '../omcIdentifier.js';
+
 import { hasValue, parseSegment } from './shapedValue.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
-// `{{`, `}}`, or a column in braces.
+// `{{`, `}}`, or a column or input path in braces.
 const TOKEN = /\{\{|\}\}|\{([^{}]*)\}/g;
 
 /**
@@ -77,29 +79,94 @@ export function inputValues(row, source) {
 }
 
 /**
+ * The identities of the entities a row carries under an input: each entity's identifier in `scope`,
+ * or else its lowest, as `scope:value`.
+ *
+ * @param {MappingRow} row
+ * @param {string} input
+ * @param {string} [scope]
+ * @returns {Array<string>} The distinct identities
+ */
+function identities(row, input, scope) {
+    return [...new Set([row[input] ?? []].flat()
+        .filter((ent) => ent?.identifier?.length)
+        .map((ent) => {
+            const inScope = ent.identifier.find((id) => id.identifierScope === scope);
+            return inScope ? idKey(inScope) : ent.identifier.map(idKey).sort()[0];
+        }))];
+}
+
+/**
+ * The values an input source gives: those at its path, or with no path, its entities' identities.
+ *
+ * @param {MappingRow} row
+ * @param {{input: string, path: string}} source
+ * @param {string} [scope]
+ * @returns {Array<*>}
+ */
+const inputSourceValues = ((row, source, scope) => (source.path
+    ? inputValues(row, source)
+    : identities(row, source.input, scope)));
+
+/**
+ * Is a cell an input — an OMC entity, a list of them, or an empty list — rather than a column's value?
+ *
+ * @param {*} cell
+ * @returns {boolean}
+ */
+const isInputCell = ((cell) => (Array.isArray(cell) && !cell.length)
+    || [cell].flat().some((member) => Array.isArray(member?.identifier)));
+
+/**
+ * The values one template token gives: its column's cell, or, where the row has no such column and
+ * the token begins with an input's name, that input read as `{ input, path }` (`{Asset.label}`, or
+ * `{Asset}` for its identities).
+ *
+ * @param {MappingRow} row
+ * @param {string} token
+ * @param {string} [scope]
+ * @returns {Array<*>}
+ */
+function tokenValues(row, token, scope) {
+    if (hasValue(row[token]) && !isInputCell(row[token])) return [row[token]];
+    const [input, ...rest] = token.split('.');
+    if (!isInputCell(row[input])) return [];
+    // An object is not text: a token reaching one reads nothing, rather than "[object Object]".
+    return inputSourceValues(row, { input, path: rest.join('.') }, scope).filter((v) => typeof v !== 'object');
+}
+
+/**
  * The value a source gives on one row: a column's cell as it is, a template's text filled from the
- * row, or an input path's value — an array when it finds more than one.
+ * row, or an input's values — an array when there is more than one. An input read with no path gives
+ * its entities' identities. A template token reading several values gives one text for each, so
+ * tokens of many values multiply: three of ten give a thousand texts.
  *
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source
- * @returns {*} The value, or null when the cell is empty, any column the template names is, or the
- *   input path finds nothing
+ * @param {OmcMapping.MappingOptions} [options] - `identifierScope` chooses an entity's identity
+ * @returns {*} The value, or null when the cell is empty, any token the template names is, or the
+ *   input finds nothing
  */
-export function sourceValue(row, source) {
+export function sourceValue(row, source, options = {}) {
     if (typeof source === 'string') return hasValue(row[source]) ? row[source] : null;
-    if (isInput(source)) {
-        const values = inputValues(row, source);
+    const one = ((values) => {
         if (!values.length) return null;
         return values.length === 1 ? values[0] : values;
-    }
-    if (typeof source?.template !== 'string') return null;
-    let empty = false;
-    const text = source.template.replace(TOKEN, (token, column) => {
-        if (column === undefined) return token[0];
-        if (!hasValue(row[column])) empty = true;
-        return String(row[column] ?? '');
     });
-    return empty ? null : text;
+    if (isInput(source)) return one(inputSourceValues(row, source, options.identifierScope));
+    if (typeof source?.template !== 'string') return null;
+    // Each piece of the text is a set of alternatives; the texts are every combination of them.
+    const pieces = [];
+    let at = 0;
+    for (const match of source.template.matchAll(TOKEN)) {
+        pieces.push([source.template.slice(at, match.index)]);
+        pieces.push(match[1] === undefined ? [match[0][0]] : tokenValues(row, match[1], options.identifierScope).map(String));
+        at = match.index + match[0].length;
+    }
+    pieces.push([source.template.slice(at)]);
+    if (pieces.some((piece) => !piece.length)) return null;
+    const texts = pieces.reduce((acc, piece) => acc.flatMap((text) => piece.map((p) => `${text}${p}`)), ['']);
+    return one([...new Set(texts)]);
 }
 
 /**

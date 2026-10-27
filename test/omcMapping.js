@@ -700,6 +700,49 @@ console.log('\ninputs: new entities from existing ones');
         && flagged.warnings.some((w) => w.kind === 'uncheckedEdge'),
     'check reports an input with no path and an input edge with a to, and warns of an untyped input edge');
 
+    const twoAssets = omcMapping.mapRow({
+        row,
+        mapping: [
+            { id: 'product', entityType: 'Asset', key: { template: 'product-{take}' }, properties: { label: { template: 'Take {take.label}' } } },
+            { id: 'proxy', entityType: 'Asset', key: { template: 'proxy-{take}' } },
+        ],
+        options: OPTIONS,
+    }).entities;
+    ok(twoAssets.product?.label === 'Take 1-1', 'a template token reads a path in an input');
+    ok(twoAssets.product && twoAssets.proxy
+        && JSON.stringify(twoAssets.product.identifier) !== JSON.stringify(twoAssets.proxy.identifier),
+    'templates on one input keep two entities of one type apart');
+    const severalInTemplate = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{audio}' } }], options: OPTIONS,
+    });
+    ok(!Object.keys(severalInTemplate.entities).length && severalInTemplate.notes.some((n) => n.kind === 'severalValues'),
+        'a template token reading several values, as a key, builds nothing');
+    const emptyToken = omcMapping.mapRow({
+        row: { ...row, audio: [] }, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{audio}' } }], options: OPTIONS,
+    });
+    ok(!emptyToken.entities.a && emptyToken.notes.some((n) => n.kind === 'noKeyValue'), 'a template token reading an empty input gives no value');
+    const objectToken = omcMapping.mapRow({
+        row, mapping: [{ id: 'a', entityType: 'Asset', key: { template: 'x-{take.identifier}' } }], options: OPTIONS,
+    });
+    ok(!objectToken.entities.a, 'a template token reaching an object reads nothing, not its string form');
+    const crossed = omcMapping.mapRow({
+        row: { ...row, Name: 'n1' },
+        mapping: [{ id: 'a', entityType: 'Asset', key: 'Name', properties: { 'tag.value': { template: '{audio.identifier.identifierValue}/{take.label}' } } }],
+        options: OPTIONS,
+    }).entities.a;
+    ok(crossed && JSON.stringify([crossed.tag].flat().map((t) => t.value).flat().sort()) === '["audio-1/1-1","audio-2/1-1"]',
+        'a template token reading several values gives one text for each, into a list');
+    const scoped = omcMapping.sourceValue(
+        { take: existing('CapturePoint', 'v', { identifier: [{ identifierScope: 'a.first', identifierValue: '1' }, { identifierScope: 'movielabs.com', identifierValue: '2' }] }) },
+        { template: '{take}' },
+        OPTIONS,
+    );
+    ok(scoped === 'movielabs.com:2', 'an input token gives the identifier in the run\'s scope, not the lowest');
+    const tokenCheck = omcMapping.checkColumns({
+        mapping: [{ id: 'a', entityType: 'Asset', key: { template: '{take}-{Scene}' } }], columns: [], inputs: ['take'],
+    });
+    ok(JSON.stringify(tokenCheck.missing) === '["Scene"]', 'checkColumns leaves a token reading an input alone');
+
     ok(omcMapping.check({ mapping, options: OPTIONS }).valid, 'check accepts input sources and input edges');
     const inputs = omcMapping.checkInputs({ mapping, inputs: ['take', 'video'] });
     ok(!inputs.valid && JSON.stringify(inputs.missing) === '["audio"]', 'checkInputs names an input the mapping uses but is not given');
