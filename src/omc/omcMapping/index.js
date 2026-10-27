@@ -61,7 +61,7 @@ export {
 // How a key, an edge's `via` or a property reads a column, template or input, for an engine other
 // than mapRow and for an editor listing the columns or inputs a template uses.
 export {
-    sourceValue, sourceColumns, sourceInputs, inputValues, sameSource,
+    sourceValue, sourceColumns, sourceInputs, inputValues, sameSource, sourceLabel,
 } from './source.js';
 export { createRun } from './createRun.js';
 export { check, checkColumns, checkInputs } from './check.js';
