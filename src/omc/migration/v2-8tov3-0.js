@@ -246,12 +246,12 @@ function migrateOrigin(Origin) {
 }
 
 /**
- * v2.8 slugline notes are `{author, title, text}`; v3.0 slugline pieces are `{piece, text}`. The
- * title names the piece, and the author is dropped.
+ * v2.8 slugline notes are `{author, title, text}`; v3.0 slugline pieces are `{piece, text}`. A v2.8
+ * note holds the slugline whole, so each becomes a `full` piece; the title and author are dropped.
  */
 function migrateSlugline(slugline) {
     if (!Array.isArray(slugline)) return slugline;
-    return slugline.map(({ piece, title, text = null }) => ({ piece: piece ?? title ?? null, text }));
+    return slugline.map(({ text = null }) => ({ piece: 'full', text }));
 }
 
 /**

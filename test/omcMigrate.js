@@ -179,8 +179,8 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
     const scene = omcMigrate(entity('NarrativeScene', 'ns-1', {
         slugline: [{ author: 'Script-E', title: 'Scene Slug', text: 'Julia finds the letter' }],
     }));
-    check('slugline notes become pieces',
-        JSON.stringify(scene.slugline) === JSON.stringify([{ piece: 'Scene Slug', text: 'Julia finds the letter' }]),
+    check('slugline notes become full pieces',
+        JSON.stringify(scene.slugline) === JSON.stringify([{ piece: 'full', text: 'Julia finds the letter' }]),
         JSON.stringify(scene.slugline));
     check('that NarrativeScene validates', valid(scene));
 
