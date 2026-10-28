@@ -336,6 +336,33 @@ const linked = omcMapping.mapRow({ row: suppliedRow, mapping: REF_TO_SUPPLIED, o
 ok(JSON.stringify(linked.entities.structure).includes('file-a-123'),
     'a reference to a self-naming entity uses that name, not a hash of it');
 
+// A property template takes what the row has; an identity template needs every token.
+const PARTIAL = [{
+    id: 'device',
+    entityType: 'Infrastructure',
+    properties: {
+        'identifier[0].identifierValue': { template: 'cd-{Model}-{Lens}' },
+        'label': { template: '{Model} {Lens}' },
+        'description': { template: 'Lens {Lens} mm' },
+    },
+}];
+const partialRow = omcMapping.mapRow({ row: { Model: 'FX30', Lens: '' }, mapping: PARTIAL, options: OPTIONS });
+ok(!partialRow.entities.device && partialRow.notes.some((n) => n.kind === 'noKeyValue'),
+    'an identity template with an empty token builds no entity');
+const partialOnly = omcMapping.mapRow({
+    row: { Model: '', Lens: '30', Id: 'x' },
+    mapping: [{ ...PARTIAL[0], properties: { ...PARTIAL[0].properties, 'identifier[0].identifierValue': 'Id' } }],
+    options: OPTIONS,
+}).entities.device;
+ok(partialOnly.label === '30' && partialOnly.description === 'Lens 30 mm',
+    'a property template fills the tokens the row has, trimmed');
+ok(omcMapping.mapRow({
+    row: { Model: '', Lens: '', Id: 'x' },
+    mapping: [{ ...PARTIAL[0], properties: { ...PARTIAL[0].properties, 'identifier[0].identifierValue': 'Id' } }],
+    options: OPTIONS,
+}).entities.device.description === undefined,
+'and writes nothing when none of its tokens has a value');
+
 // Two types naming themselves from one column in one scope would share an identifier.
 const CLASH = [
     { id: 'point', entityType: 'CapturePoint', properties: { 'identifier[0].identifierValue': 'Take ID' } },
@@ -589,7 +616,7 @@ ok(!short.valid && short.missing.includes('Audio Sample Rate'),
         mapping: [{ id: 'asset', entityType: 'Asset', key: 'File Name', properties: { label: { template: 'Scene {Scene}' } } }],
         options: OPTIONS,
     }).entities.asset;
-    ok(noLabel && noLabel.label === undefined, 'a templated property with an empty column is not written');
+    ok(noLabel && noLabel.label === undefined, 'a templated property whose only column is empty is not written');
 
     const templateCols = omcMapping.checkColumns({ mapping, columns: ['File Name', 'Scene'] });
     ok(!templateCols.valid && templateCols.missing.includes('Slate'), 'checkColumns names a column a template uses but the data lacks');

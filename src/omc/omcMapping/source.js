@@ -144,10 +144,14 @@ function tokenValues(row, token, scope) {
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source
  * @param {OmcMapping.MappingOptions} [options] - `identifierScope` chooses an entity's identity
- * @returns {*} The value, or null when the cell is empty, any token the template names is, or the
- *   input finds nothing
+ * @param {Object} [fill]
+ * @param {boolean} [fill.partial=false] - Fill a template whose tokens are only partly present:
+ *   an empty token writes nothing and the text is trimmed. For a property value; an identity must
+ *   be whole, so a key or `via` never passes it
+ * @returns {*} The value, or null when the cell is empty, any token the template names is (every
+ *   token, with `partial`), or the input finds nothing
  */
-export function sourceValue(row, source, options = {}) {
+export function sourceValue(row, source, options = {}, { partial = false } = {}) {
     if (typeof source === 'string') return hasValue(row[source]) ? row[source] : null;
     const one = ((values) => {
         if (!values.length) return null;
@@ -158,14 +162,24 @@ export function sourceValue(row, source, options = {}) {
     // Each piece of the text is a set of alternatives; the texts are every combination of them.
     const pieces = [];
     let at = 0;
+    let tokens = 0;
+    let filled = 0;
     for (const match of source.template.matchAll(TOKEN)) {
         pieces.push([source.template.slice(at, match.index)]);
-        pieces.push(match[1] === undefined ? [match[0][0]] : tokenValues(row, match[1], options.identifierScope).map(String));
+        if (match[1] === undefined) {
+            pieces.push([match[0][0]]);
+        } else {
+            const values = tokenValues(row, match[1], options.identifierScope).map(String);
+            tokens += 1;
+            if (values.length) filled += 1;
+            pieces.push(values.length || !partial ? values : ['']);
+        }
         at = match.index + match[0].length;
     }
     pieces.push([source.template.slice(at)]);
-    if (pieces.some((piece) => !piece.length)) return null;
-    const texts = pieces.reduce((acc, piece) => acc.flatMap((text) => piece.map((p) => `${text}${p}`)), ['']);
+    if (pieces.some((piece) => !piece.length) || (tokens && !filled)) return null;
+    const texts = pieces.reduce((acc, piece) => acc.flatMap((text) => piece.map((p) => `${text}${p}`)), [''])
+        .map((text) => (partial ? text.trim() : text));
     return one([...new Set(texts)]);
 }
 

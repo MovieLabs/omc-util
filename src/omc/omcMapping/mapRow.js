@@ -149,7 +149,8 @@ function resolveProperty(spec, row, options) {
     if (source.const !== undefined) return { value: source.const, withheld: null };
 
     const read = specSource(source);
-    const raw = sourceValue(row, read, options);
+    // A property takes what the row has; only an identity needs every token.
+    const raw = sourceValue(row, read, options, { partial: true });
     if (raw === null) return { value: null, withheld: null };
 
     let value = raw;
