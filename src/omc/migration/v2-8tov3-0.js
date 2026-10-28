@@ -255,6 +255,17 @@ function migrateSlugline(slugline) {
 }
 
 /**
+ * v2.8 `audioContent` is an array; v3.0 holds one object. A single item becomes that object and an
+ * empty array is dropped. Several are left as they are, so they fail validation rather than vanish.
+ */
+function migrateAudioContent(properties) {
+    if (!isPlainObject(properties) || !Array.isArray(properties.audioContent)) return properties;
+    const { audioContent, ...rest } = properties;
+    if (audioContent.length > 1) return properties;
+    return audioContent.length ? { ...rest, audioContent: audioContent[0] } : rest;
+}
+
+/**
  * Migrate Provenance, by creating a new entity.
  */
 
@@ -305,7 +316,7 @@ export default {
         } = assetFC;
         const assetFunction = {
             assetFunctionType: functionalType,
-            ...(functionalProperties !== false && { assetFunctionProperties: functionalProperties }),
+            ...(functionalProperties !== false && { assetFunctionProperties: migrateAudioContent(functionalProperties) }),
         };
 
         const assetName = migrateName(name); // Reformat the name property
@@ -414,6 +425,7 @@ export default {
         const {
             name = false,
             compositionType = 'composition', // Required property
+            compositionProperties = false, // Its audioContent becomes one object
             provenance: _provenance, // Remove
             ...rest
         } = cxtUpdate;
@@ -422,6 +434,7 @@ export default {
             ...rest,
             schemaVersion,
             compositionType,
+            ...(compositionProperties !== false && { compositionProperties: migrateAudioContent(compositionProperties) }),
             label: name || labelDefault,
             ...(name !== false && { compositionName: migrateName(name) }),
         };

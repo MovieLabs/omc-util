@@ -32,9 +32,10 @@ declare namespace _default {
     };
     function Composition(omc: any): {
         compositionName: any;
+        label: string;
+        compositionProperties: any;
         schemaVersion: string;
         compositionType: any;
-        label: string;
         identifier?: OmcIdentifier[];
         entityType?: OmcEntityType;
         description: string | null;

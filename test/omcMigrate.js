@@ -184,6 +184,30 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
         JSON.stringify(scene.slugline));
     check('that NarrativeScene validates', valid(scene));
 
+    const stereo = { mcaContent: 'stereo' };
+    const audio = omcMigrate(entity('Asset', 'ast-audio', {
+        assetFC: { functionalType: 'audio', functionalProperties: { audioContent: [stereo] } },
+    }));
+    check('an Asset\'s single audioContent becomes one object',
+        JSON.stringify(audio.assetFunction?.assetFunctionProperties?.audioContent) === JSON.stringify(stereo),
+        JSON.stringify(audio.assetFunction));
+    check('that Asset validates', valid(audio));
+    const mix = omcMigrate(entity('Composition', 'cmp-audio', {
+        compositionProperties: { audioContent: [stereo] },
+    }));
+    check('a Composition\'s single audioContent becomes one object',
+        JSON.stringify(mix.compositionProperties?.audioContent) === JSON.stringify(stereo),
+        JSON.stringify(mix.compositionProperties));
+    check('that Composition validates', valid(mix));
+    const empty = omcMigrate(entity('Composition', 'cmp-empty', { compositionProperties: { audioContent: [] } }));
+    check('an empty audioContent is dropped', !Object.hasOwn(empty.compositionProperties, 'audioContent'),
+        JSON.stringify(empty.compositionProperties));
+    const several = omcMigrate(entity('Composition', 'cmp-several', {
+        compositionProperties: { audioContent: [stereo, { mcaContent: 'mono' }] },
+    }));
+    check('several audioContents stay, and fail validation',
+        Array.isArray(several.compositionProperties?.audioContent) && !valid(several));
+
     const object = omcMigrate(entity('NarrativeObject', 'no-1', { size: 'large' }));
     check('a NarrativeObject size is dropped', !Object.hasOwn(object, 'size'));
     check('that NarrativeObject validates', valid(object));
