@@ -209,8 +209,8 @@
                     "transform.colorTransform",
                     "transform.temporalTransform",
                     "productionCharacter",
+                    "productionCostume",
                     "productionObject",
-                    "productionObject.productionCostume",
                     "productionObject.productionGreenery",
                     "productionObject.productionProp",
                     "productionObject.productionSetDressing",
@@ -294,6 +294,7 @@
                     "script",
                     "configurationFile",
                     "configurationFile.colorSpace",
+                    "cameraMetadata",
                     "proxy",
                     "proxy.editorial",
                     "proxy.cameraProxy",
@@ -936,7 +937,7 @@
                 "digital.visual.movingImage",
                 "digital.visual.imageSeries",
                 "digital.visual.audiovisual",
-                "digital.audio",               
+                "digital.audio",
                 "digital.document",
                 "digital.structuredDocument",
                 "digital.data",
@@ -1073,6 +1074,7 @@
                 "codec": {"$ref": "#/$defs/Utility/properties/codec"},
                 "coordinateOrientation": {"$ref": "#/$defs/Utility/properties/coordinateOrientation"},
                 "dimensions": {"$ref": "#/$defs/Utility/properties/unitOfMeasurement/properties/dimensions"},
+                "isOriginalCapture": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/isOriginalCapture"},
                 "fileDetails": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/fileDetails"},
                 "geometryType": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/geometryType"},
                 "levelOfDetail": {"$ref": "#/$defs/Utility/properties/levelOfDetail"},
@@ -1169,6 +1171,14 @@
               ],
               "title": "Audio Sample Size",
               "description": "The number of bits per audio sample."
+            },
+            "isOriginalCapture": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "title": "Is Original Capture",
+              "description": "True if this is the unmodified output of a Capture Point"
             },
             "fileDetails": {
               "type": [
@@ -2075,10 +2085,10 @@
                       "null"
                     ],
                     "x-controlledValues": [
-                    "full",
-                    "setting",
-                    "location",
-                    "periodInTime"   
+                      "full",
+                      "setting",
+                      "location",
+                      "periodInTime"
                     ]
                   },
                   "text": {
@@ -4313,8 +4323,9 @@
           "description": "The specific codec used to encode the Asset."
         },
         "audioContent": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "title": "Audio Content Information",
+          "description": "Identification of the content type in a particular Audio Asset.",
             "properties": {
               "mcaContent": {
                 "type": [
@@ -4374,9 +4385,6 @@
               },
               "language": {"$ref": "#/$defs/Utility/properties/language"}
             }
-          },
-          "title": "Audio Content Information",
-          "description": "Identification of the content type in a particular Audio Asset."
         },
         "soundfield": {
           "type": [
@@ -4410,8 +4418,7 @@
             },
             {
               "type": ["array"],
-              "items": [
-                {
+              "items": {
                   "type": "object",
                   "properties": {
                     "softwareName": {
@@ -4476,7 +4483,6 @@
                     }
                   }
                 }
-              ]
             }
           ],
           "title": "Software",
@@ -4505,6 +4511,7 @@
         },
         "rootObject": {
           "$ref": "#/$defs/core/properties/entityMap",
+          "type": ["object"],
           "title": "Root Object",
           "description": "The document envelope: entityMap's slot for every entity type, holding entities only. A reference cannot stand at the root.",
           "additionalProperties": {
@@ -5265,9 +5272,7 @@
             "schemaVersion": {
               "title": "Schema Version",
               "default": "https://movielabs.com/omc/json/schema/v3.0",
-              "enum": [
-                "https://movielabs.com/omc/json/schema/v3.0"
-              ],
+              "enum": ["https://movielabs.com/omc/json/schema/v3.0"],
               "description": "Describes the version of OMC-JSON schema that was used to create this instance."
             },
             "identifier": {
