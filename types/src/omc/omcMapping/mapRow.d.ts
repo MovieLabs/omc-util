@@ -22,6 +22,13 @@ export function splitList(value: any, delimiter: string): Array<string>;
  */
 export function cast(value: any, as: string): any;
 /**
+ * The spec a mapping gives the scope beside its mapped identifierValue, if it gives one.
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {(OmcMapping.PropertyMapping|undefined)} The spec, or undefined when the scope is the run's
+ */
+export function identifierScopeSpec(mapping: OmcMapping.EntityMapping): (OmcMapping.PropertyMapping | undefined);
+/**
  * What identifies this entity — either the nominated key, or the source feeding a mapped
  * `identifierValue`.
  *
