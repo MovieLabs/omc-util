@@ -32,10 +32,16 @@ export function inputValues(row: MappingRow, source: {
  * @param {MappingRow} row
  * @param {(OmcMapping.ValueSource|null|undefined)} source
  * @param {OmcMapping.MappingOptions} [options] - `identifierScope` chooses an entity's identity
- * @returns {*} The value, or null when the cell is empty, any token the template names is, or the
- *   input finds nothing
+ * @param {Object} [fill]
+ * @param {boolean} [fill.partial=false] - Fill a template whose tokens are only partly present:
+ *   an empty token writes nothing and the text is trimmed. For a property value; an identity must
+ *   be whole, so a key or `via` never passes it
+ * @returns {*} The value, or null when the cell is empty, any token the template names is (every
+ *   token, with `partial`), or the input finds nothing
  */
-export function sourceValue(row: MappingRow, source: (OmcMapping.ValueSource | null | undefined), options?: OmcMapping.MappingOptions): any;
+export function sourceValue(row: MappingRow, source: (OmcMapping.ValueSource | null | undefined), options?: OmcMapping.MappingOptions, { partial }?: {
+    partial?: boolean;
+}): any;
 /**
  * A source as a note names it: `column "Scene"`, `template "scene-{Scene}"` or
  * `input "video" path "label"`.
