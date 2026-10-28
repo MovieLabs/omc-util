@@ -254,6 +254,17 @@ function identifierValuePath(mapping) {
 }
 
 /**
+ * The spec a mapping gives the scope beside its mapped identifierValue, if it gives one.
+ *
+ * @param {OmcMapping.EntityMapping} mapping - One entity's mapping
+ * @returns {(OmcMapping.PropertyMapping|undefined)} The spec, or undefined when the scope is the run's
+ */
+export function identifierScopeSpec(mapping) {
+    const path = identifierValuePath(mapping);
+    return path ? mapping.properties[path.replace(/identifierValue$/, 'identifierScope')] : undefined;
+}
+
+/**
  * What identifies this entity — either the nominated key, or the source feeding a mapped
  * `identifierValue`.
  *
@@ -506,11 +517,13 @@ function applyEdges(mapping, built, row, options, notes, inverses) {
                 } else if (targetEntry && hasSuppliedIdentifier(targetEntry)) {
                     // The target names itself, so the reference is that name — hashing it would
                     // point at an entity nothing will ever build.
+                    const scopeSpec = identifierScopeSpec(targetEntry);
+                    const scope = scopeSpec === undefined ? null : resolveProperty(scopeSpec, row, options).value;
                     toEntity = {
                         schemaVersion: options.schemaVersion,
                         entityType: targetType,
                         identifier: [{
-                            identifierScope: options.identifierScope,
+                            identifierScope: scope || options.identifierScope,
                             identifierValue: targetKey,
                         }],
                     };

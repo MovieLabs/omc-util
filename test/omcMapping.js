@@ -336,6 +336,51 @@ const linked = omcMapping.mapRow({ row: suppliedRow, mapping: REF_TO_SUPPLIED, o
 ok(JSON.stringify(linked.entities.structure).includes('file-a-123'),
     'a reference to a self-naming entity uses that name, not a hash of it');
 
+// Two types naming themselves from one column in one scope would share an identifier.
+const CLASH = [
+    { id: 'point', entityType: 'CapturePoint', properties: { 'identifier[0].identifierValue': 'Take ID' } },
+    {
+        id: 'structure',
+        entityType: 'AssetStructure',
+        properties: { 'identifier[0].identifierValue': 'Take ID', 'assetStructureType': { const: 'digital.movingImage' } },
+    },
+    { id: 'asset', entityType: 'Asset', key: 'Take ID', edges: [{ to: 'structure', via: 'Take ID', edgeKey: 'AssetStructure' }] },
+];
+const clashCheck = omcMapping.check({ mapping: CLASH, options: OPTIONS });
+ok(!clashCheck.valid && clashCheck.problems.some((p) => p.kind === 'identifierClash' && p.where === 'AssetStructure'),
+    'check refuses two types taking one identifierValue in one scope');
+const clashRun = omcMapping.createRun({ mapping: CLASH, options: OPTIONS });
+clashRun.add({ 'Take ID': 't-1' });
+const clashOut = clashRun.result();
+ok(!clashOut.entities.some((e) => e.entityType === 'AssetStructure')
+    && clashOut.notes.some((n) => n.kind === 'mergeRejected' && n.detail.includes('a CapturePoint already has this identifier')),
+'and a run that goes ahead anyway names the entity that already holds the identifier');
+
+const OWN_SCOPE = CLASH.map((e) => (e.id === 'structure'
+    ? { ...e, properties: { ...e.properties, 'identifier[0].identifierScope': { const: 'movielabs.com/structure' } } }
+    : e));
+ok(omcMapping.check({ mapping: OWN_SCOPE, options: OPTIONS }).valid,
+    'its own identifierScope settles the clash');
+const scopedRun = omcMapping.createRun({ mapping: OWN_SCOPE, options: OPTIONS });
+scopedRun.add({ 'Take ID': 't-1' });
+scopedRun.add({ 'Take ID': 't-2' });
+const scopedOut = scopedRun.result();
+const scopedStructure = scopedOut.entities.find((e) => e.entityType === 'AssetStructure');
+const scopedAsset = scopedOut.entities.find((e) => e.entityType === 'Asset');
+ok(scopedOut.counts.byType.AssetStructure === 2 && scopedOut.counts.byType.CapturePoint === 2,
+    'and the run folds by scope and value, so one value in two scopes builds two entities');
+ok(scopedStructure.identifier[0].identifierScope === 'movielabs.com/structure'
+    && JSON.stringify(scopedAsset.AssetStructure).includes('movielabs.com/structure'),
+'a reference to an entity with its own scope carries that scope');
+const crossRow = omcMapping.mapRow({
+    row: { 'Take ID': 't-1', 'Other Take': 't-9' },
+    mapping: OWN_SCOPE.map((e) => (e.id === 'asset' ? { ...e, edges: [{ ...e.edges[0], via: 'Other Take' }] } : e)),
+    options: OPTIONS,
+});
+ok(JSON.stringify(crossRow.entities.asset.AssetStructure)
+    === JSON.stringify([{ identifier: [{ identifierScope: 'movielabs.com/structure', identifierValue: 't-9' }] }]),
+'even when another row builds it');
+
 /* ------------------------------------------------------ a key that is not unique ----------- */
 
 const dupRun = omcMapping.createRun({

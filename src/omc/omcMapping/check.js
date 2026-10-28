@@ -15,7 +15,9 @@
 import { omcTemplate } from '../../templates/index.js';
 
 import { resolveOptions } from './entity.js';
-import { edgeTarget, identitySource, specSource } from './mapRow.js';
+import {
+    edgeTarget, hasSuppliedIdentifier, identifierScopeSpec, identitySource, specSource,
+} from './mapRow.js';
 import { parseSegment } from './shapedValue.js';
 import { sourceColumns, sourceInputs, sourceLabel } from './source.js';
 
@@ -76,6 +78,21 @@ function resolveEdgePath(edgeTable, schemaVersion, path) {
 }
 
 /**
+ * Name the scope a supplied identifier will be minted in, as far as the mapping says: a fixed
+ * value and the run's scope by that value, so the two compare equal when they are; a column or
+ * template by its label.
+ *
+ * @param {(OmcMapping.PropertyMapping|undefined)} spec - The mapped identifierScope, if any
+ * @param {string} runScope - The run's identifierScope
+ * @returns {string}
+ */
+function scopeLabel(spec, runScope) {
+    if (spec === undefined) return `scope "${runScope}"`;
+    if (spec?.const !== undefined) return `scope "${spec.const}"`;
+    return `the scope from ${sourceLabel(specSource(spec))}`;
+}
+
+/**
  * Check a mapping against the schema.
  *
  * @param {Object} params
@@ -87,7 +104,7 @@ function resolveEdgePath(edgeTable, schemaVersion, path) {
  *   controlled values, never stops a save or a run
  */
 export function check({ mapping, options = {} }) {
-    const { schemaVersion } = resolveOptions(options);
+    const { schemaVersion, identifierScope } = resolveOptions(options);
     const problems = [];
     const warnings = [];
     const known = new Set(omcTemplate.allEntityTypes({ schemaVersion }) ?? []);
@@ -276,6 +293,30 @@ export function check({ mapping, options = {} }) {
             });
         }
         byIdentity.set(key, true);
+    }
+
+    // Entries of different types that name themselves from one source in one scope give two
+    // entities one identifier on every row, which OMC forbids; the run keeps the first. A hashed
+    // identifier carries its type's prefix, so only supplied ones can clash.
+    const bySupplied = new Map();
+    for (const entry of mapping ?? []) {
+        if (!entry.entityType || !hasSuppliedIdentifier(entry)) continue;
+        const value = sourceLabel(identitySource(entry));
+        const scope = scopeLabel(identifierScopeSpec(entry), identifierScope);
+        const key = `${scope}::${value}`;
+        const other = bySupplied.get(key);
+        if (!other) {
+            bySupplied.set(key, entry);
+        } else if (other.entityType !== entry.entityType) {
+            problems.push({
+                kind: 'identifierClash',
+                where: entry.entityType,
+                detail: `${other.entityType} and ${entry.entityType} both take their identifierValue from `
+                    + `${value} in ${scope}, so each row gives the two one identifier and the `
+                    + `${entry.entityType} is dropped. Give one a key instead, a different identifierValue, `
+                    + 'or its own identifierScope',
+            });
+        }
     }
 
     return {

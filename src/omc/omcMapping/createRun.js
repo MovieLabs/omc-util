@@ -38,8 +38,8 @@ import './types.js'; // Type definitions, resolved globally by JSDoc
  */
 export function createRun({ mapping, options = {} }) {
     const resolved = resolveOptions(options);
-    // Keyed by identifier rather than by entityType + key value: two entities of different types
-    // may share a key, and the identifier already folds the type in.
+    // Keyed by identifier, scope and value, rather than by entityType + key value: two entities of
+    // different types may share a key, and a hashed identifier already folds the type in.
     const byIdentifier = new Map();
     const notes = [];
     const inverses = [];
@@ -62,8 +62,9 @@ export function createRun({ mapping, options = {} }) {
         inverses.push(...outcome.inverses);
 
         for (const entity of Object.values(outcome.entities)) {
-            const id = entity.identifier?.[0]?.identifierValue;
-            if (!id) continue;
+            const identifier = entity.identifier?.[0];
+            if (!identifier?.identifierValue) continue;
+            const id = idKey(identifier);
             const seen = byIdentifier.get(id);
             if (!seen) {
                 byIdentifier.set(id, entity);
@@ -74,22 +75,25 @@ export function createRun({ mapping, options = {} }) {
             // forty take rows would end up describing the last take rather than the scene. First
             // value seen wins; later rows fill gaps. `prefer` decides this inside the merge, so
             // the arguments stay in their natural order rather than being swapped.
-            const record = collisions.get(entity.entityType)
-                ?? { count: 0, examples: new Set() };
-            record.count += 1;
-            if (record.examples.size < 3) record.examples.add(id);
-            collisions.set(entity.entityType, record);
-
             const merged = mergeEntity(seen, entity, { prefer: 'existing', emptyAsNull: true });
             if (merged === false) {
                 notes.push({
                     kind: 'mergeRejected',
-                    where: `${entity.entityType} ${id}`,
-                    detail: 'two rows produced the same identifier but disagree on entityType or '
-                        + 'schemaVersion; the later row was dropped',
+                    where: `${entity.entityType} ${identifier.identifierValue}`,
+                    detail: seen.entityType !== entity.entityType
+                        ? `a ${seen.entityType} already has this identifier, and no two entities may `
+                        + `share one, so this ${entity.entityType} was dropped. Give it a key, a `
+                        + 'different identifierValue or its own identifierScope'
+                        : 'an entity with this identifier was built under another schemaVersion; this '
+                            + 'one was dropped',
                 });
                 continue;
             }
+            const record = collisions.get(entity.entityType)
+                ?? { count: 0, examples: new Set() };
+            record.count += 1;
+            if (record.examples.size < 3) record.examples.add(identifier.identifierValue);
+            collisions.set(entity.entityType, record);
             byIdentifier.set(id, merged);
         }
     };
@@ -109,7 +113,7 @@ export function createRun({ mapping, options = {} }) {
         const unwritten = new Map();
         for (const inverse of inverses) {
             const { target, source, path } = inverse;
-            const id = target?.[0]?.identifierValue;
+            const id = target?.[0]?.identifierValue && idKey(target[0]);
             const held = id && byIdentifier.get(id);
             if (!held) {
                 const ids = ((list) => (list ?? []).map(idKey).sort().join('|'));
