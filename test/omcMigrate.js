@@ -212,12 +212,34 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
     check('a NarrativeObject size is dropped', !Object.hasOwn(object, 'size'));
     check('that NarrativeObject validates', valid(object));
 
-    const context = omcMigrate(entity('Context', 'cxt-1', {
-        contextType: 'shootDay', contextProperties: { shootDay: 1, shootDate: '2026-01-23' },
+    const bundle = omcMigrate(entity('Context', 'cxt-1', {
+        name: 'Day 1', contextType: 'shootDay', contextCategory: 'schedule',
+        contextProperties: { shootDay: 1, shootDate: '2026-01-23' },
     }));
-    check('contextProperties carry across unchanged',
-        JSON.stringify(context.contextProperties) === JSON.stringify({ shootDay: 1, shootDate: '2026-01-23' }),
-        JSON.stringify(context.contextProperties));
+    check('a Context becomes a Bundle', bundle.entityType === 'Bundle', `got ${bundle.entityType}`);
+    check('its context properties take the bundle names',
+        bundle.bundleType === 'shootDay' && bundle.bundleCategory === 'schedule'
+        && bundle.bundleName?.fullName === 'Day 1'
+        && !Object.keys(bundle).some((key) => key.startsWith('context')),
+        JSON.stringify(bundle));
+    check('bundleProperties carry across unchanged',
+        JSON.stringify(bundle.bundleProperties) === JSON.stringify({ shootDay: 1, shootDate: '2026-01-23' }),
+        JSON.stringify(bundle.bundleProperties));
+    check('that Bundle validates', valid(bundle));
+    const untyped = omcMigrate(entity('Context', 'cxt-2', {}));
+    check('a Context with no type is a bundle', untyped.bundleType === 'bundle', `got ${untyped.bundleType}`);
+
+    const pointing = omcMigrate(entity('CreativeWork', 'cw-1', {
+        Context: [{
+            schemaVersion: v28,
+            entityType: 'Context',
+            identifier: [{ identifierScope: 'labkoat', identifierValue: 'cxt-carrier' }],
+            has: { Context: [{ identifier: [{ identifierScope: 'labkoat', identifierValue: 'cxt-3' }] }] },
+        }],
+    }));
+    check('an edge to a Context becomes an edge to a Bundle',
+        idValue(pointing.edges?.has?.Bundle?.[0]) === 'cxt-3' && !pointing.edges?.has?.Context,
+        JSON.stringify(pointing.edges));
 
     const structure = omcMigrate(entity('AssetSC', 'asc-1', { structuralType: 'digital.movingImage' }));
     check('an image structuralType moves under digital.visual',

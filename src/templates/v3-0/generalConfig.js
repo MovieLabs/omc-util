@@ -90,18 +90,18 @@ export const generalConfig = {
             propRows: ['label', 'creativeWorkType'],
         },
     },
-    Context: {
+    Bundle: {
         group: 'Media Creation Context',
-        idPrefix: 'cxt',
-        mergeKey: ['contextName.fullName'],
+        idPrefix: 'bnd',
+        mergeKey: ['bundleName.fullName'],
         presentation: {
             header: {
                 backgroundColor: '#F5B041',
                 fontColor: '#000',
-                entityLabel: 'Context',
-                entityLabelSuffix: ((omc) => formatLabel(omc.contextType)),
+                entityLabel: 'Bundle',
+                entityLabelSuffix: ((omc) => formatLabel(omc.bundleType)),
             },
-            propRows: ['label', 'contextType', 'contextCategory'],
+            propRows: ['label', 'bundleType', 'bundleCategory'],
         },
     },
     Effect: {

@@ -15,6 +15,7 @@ const labelDefault = 'N/A';
 const edgeTargetRename = {
     Depiction: 'Realization',
     AssetSC: 'AssetStructure',
+    Context: 'Bundle',
     InfrastructureSC: 'InfrastructureStructure',
     ParticipantSC: 'ParticipantStructure',
     Sequence: 'Composition',
@@ -439,11 +440,13 @@ export default {
             ...(name !== false && { compositionName: migrateName(name) }),
         };
     },
+    // v3.0 has no Context: it is a Bundle, whose properties are named for it.
     Context: (omc) => {
-        // const cxtUpdate = { ...setEdgesFromContext(omc) };
         const {
             name = false,
-            contextType = 'context', // Required property
+            contextType = 'bundle', // Becomes bundleType, which is required
+            contextCategory = false, // Becomes bundleCategory
+            contextProperties = false, // Becomes bundleProperties
             ForEntity: _ForEntity, // Remove,
             For: _For, // Remove
             ...rest
@@ -456,9 +459,12 @@ export default {
         return {
             ...rest,
             schemaVersion,
-            contextType,
+            entityType: 'Bundle',
+            bundleType: contextType,
             label: name || labelDefault,
-            ...(name !== false && { contextName: migrateName(name) }),
+            ...(name !== false && { bundleName: migrateName(name) }),
+            ...(contextCategory !== false && { bundleCategory: contextCategory }),
+            ...(contextProperties !== false && { bundleProperties: contextProperties }),
             edges,
         };
     },

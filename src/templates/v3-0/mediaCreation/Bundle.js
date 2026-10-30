@@ -1,11 +1,11 @@
 /**
- * Template details for Context
+ * Template details for Bundle
  */
 
 import { generalConfig } from '../generalConfig.js';
 import { baseEntity, basicName } from '../utility/utility.js';
 
-const entityType = 'Context';
+const entityType = 'Bundle';
 const entityGeneral = generalConfig[entityType];
 
 export default {
@@ -13,16 +13,16 @@ export default {
     graphQl: {
         properties: {
             ...baseEntity.graphQl.properties,
-            contextType: null,
-            contextName: basicName.graphQl.properties,
-            contextCategory: null,
-            contextProperties: null,
+            bundleType: null,
+            bundleName: basicName.graphQl.properties,
+            bundleCategory: null,
+            bundleProperties: null,
         },
         filter: {
             ...baseEntity.graphQl.filter,
-            contextType: ['string'],
-            contextName: basicName.graphQl.filter,
-            contextCategory: ['string'],
+            bundleType: ['string'],
+            bundleName: basicName.graphQl.filter,
+            bundleCategory: ['string'],
         },
         inlineFragment: null,
     },

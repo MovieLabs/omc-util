@@ -37,8 +37,8 @@ import { expandSpread } from '../../edgeBuild/spread.js';
 import Asset from './asset/Asset.js';
 import AssetStructure from './asset/AssetStructure.js';
 import Infrastructure from './infrastructure/Infrastructure.js';
+import Bundle from './mediaCreation/Bundle.js';
 import Character from './mediaCreation/Character.js';
-import Context from './mediaCreation/Context.js';
 import CreativeWork from './mediaCreation/CreativeWork.js';
 import Effect from './mediaCreation/Effect.js';
 import NarrativeAudio from './mediaCreation/NarrativeAudio.js';
@@ -71,7 +71,7 @@ const omcTemplate = {
     AssetStructure,
     Character,
     CreativeWork,
-    Context,
+    Bundle,
     Effect,
     NarrativeAudio,
     NarrativeLocation,

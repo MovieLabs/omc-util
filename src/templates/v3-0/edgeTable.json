@@ -10,18 +10,18 @@
       "format": "omc-edges",
       "version": 1,
       "viewId": "view:entity-structure",
-      "edges": 134,
-      "rows": 244,
+      "edges": 133,
+      "rows": 243,
       "verbs": 41,
-      "properties": 129,
-      "classes": 137
+      "properties": 128,
+      "classes": 133
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
-      "fingerprint": "e722b99f3363b7d9"
+      "fingerprint": "2fb5bcb2a2c548bb"
     },
-    "rows": 178,
-    "rdfNamed": 173,
+    "rows": 177,
+    "rdfNamed": 172,
     "spreadRows": 54
   },
   "table": {
@@ -4127,28 +4127,6 @@
             "omc:includesSpecialAction"
           ]
         },
-        "includes.Context": {
-          "predicate": "includes",
-          "allowed": [
-            "Context"
-          ],
-          "path": "includes.Context",
-          "type": "array",
-          "bucket": "intrinsic",
-          "pathSegments": [
-            "includes",
-            "Context"
-          ],
-          "containerSegments": [
-            "includes"
-          ],
-          "relativePath": "includes.Context",
-          "inverseEdge": null,
-          "omcPredicate": "omc:includesContext",
-          "rdfProperties": [
-            "omc:includesContext"
-          ]
-        },
         "includes.CapturePoint": {
           "predicate": "includes",
           "allowed": [
@@ -6096,9 +6074,9 @@
             "Participant",
             "Role",
             "Task",
-            "Context",
             "Composition",
             "Collection",
+            "Bundle",
             "Provenance"
           ],
           "spread": true
@@ -6135,9 +6113,9 @@
             "Participant",
             "Role",
             "Task",
-            "Context",
             "Composition",
             "Collection",
+            "Bundle",
             "Provenance"
           ],
           "range": [

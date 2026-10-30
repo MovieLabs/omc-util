@@ -25,7 +25,6 @@ export default {
                 Character: null,
                 Collection: null,
                 Composition: null,
-                Context: null,
                 CreativeWork: null,
                 Effect: null,
                 Infrastructure: null,

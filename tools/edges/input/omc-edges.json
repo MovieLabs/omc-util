@@ -3,11 +3,11 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 134,
-    "rows": 244,
+    "edges": 133,
+    "rows": 243,
     "verbs": 41,
-    "properties": 129,
-    "classes": 137
+    "properties": 128,
+    "classes": 133
   },
   "namespace": {
     "prefix": "omc",
@@ -196,6 +196,15 @@
       ]
     },
     {
+      "id": "omc:Bundle",
+      "name": "Bundle",
+      "label": "Bundle",
+      "role": "entity",
+      "joinable": true,
+      "jsonType": "Bundle",
+      "supers": []
+    },
+    {
       "id": "omc:Camera",
       "name": "Camera",
       "label": "Camera",
@@ -346,15 +355,6 @@
       "supers": [
         "omc:Realization"
       ]
-    },
-    {
-      "id": "omc:Context",
-      "name": "Context",
-      "label": "Context",
-      "role": "entity",
-      "joinable": true,
-      "jsonType": "Context",
-      "supers": []
     },
     {
       "id": "omc:CoordinateOrientation",
@@ -700,17 +700,6 @@
       ]
     },
     {
-      "id": "omc:MediaCreationContext",
-      "name": "MediaCreationContext",
-      "label": "Media Creation Context",
-      "role": "entity",
-      "joinable": true,
-      "jsonType": "Context",
-      "supers": [
-        "omc:Context"
-      ]
-    },
-    {
       "id": "omc:Microphone",
       "name": "Microphone",
       "label": "Microphone",
@@ -742,17 +731,6 @@
       "supers": [
         "omc:NarrativeEntity",
         "omc:DepictableNarrative"
-      ]
-    },
-    {
-      "id": "omc:NarrativeContext",
-      "name": "NarrativeContext",
-      "label": "Narrative Context",
-      "role": "entity",
-      "joinable": true,
-      "jsonType": "Context",
-      "supers": [
-        "omc:Context"
       ]
     },
     {
@@ -1107,17 +1085,6 @@
       ]
     },
     {
-      "id": "omc:ProductionContext",
-      "name": "ProductionContext",
-      "label": "Production Context",
-      "role": "entity",
-      "joinable": true,
-      "jsonType": "Context",
-      "supers": [
-        "omc:Context"
-      ]
-    },
-    {
       "id": "omc:ProductionEntity",
       "name": "ProductionEntity",
       "label": "Production Entity",
@@ -1259,17 +1226,6 @@
       "jsonType": "ParticipantStructure",
       "supers": [
         "omc:ParticipantStructure"
-      ]
-    },
-    {
-      "id": "omc:ShootDayContext",
-      "name": "ShootDayContext",
-      "label": "Shoot Day Context",
-      "role": "entity",
-      "joinable": true,
-      "jsonType": "Context",
-      "supers": [
-        "omc:Context"
       ]
     },
     {
@@ -2209,7 +2165,6 @@
               "ProductionScene",
               "Slate",
               "SpecialAction",
-              "Context",
               "CapturePoint",
               "CaptureEvent",
               "Realization",
@@ -2714,9 +2669,9 @@
               "Participant",
               "Role",
               "Task",
-              "Context",
               "Composition",
               "Collection",
+              "Bundle",
               "Provenance"
             ],
             "spread": true
@@ -2753,9 +2708,9 @@
               "Participant",
               "Role",
               "Task",
-              "Context",
               "Composition",
               "Collection",
+              "Bundle",
               "Provenance"
             ],
             "range": [
@@ -3958,20 +3913,6 @@
         "inverseOf": []
       },
       {
-        "id": "omc:includesContext",
-        "name": "includesContext",
-        "verbs": [
-          "omc:includes"
-        ],
-        "domains": [
-          "omc:Collection"
-        ],
-        "ranges": [
-          "omc:Context"
-        ],
-        "inverseOf": []
-      },
-      {
         "id": "omc:includesCreativeWork",
         "name": "includesCreativeWork",
         "verbs": [
@@ -4281,6 +4222,7 @@
           "omc:Asset",
           "omc:AssetGroup",
           "omc:AudioComposition",
+          "omc:Bundle",
           "omc:CGAssembly",
           "omc:Camera",
           "omc:CameraRig",
@@ -4295,7 +4237,6 @@
           "omc:CompositeMaterial",
           "omc:Composition",
           "omc:Concept",
-          "omc:Context",
           "omc:CreativeWork",
           "omc:Department",
           "omc:Depiction",
@@ -4318,11 +4259,9 @@
           "omc:Lens",
           "omc:Location",
           "omc:Marine",
-          "omc:MediaCreationContext",
           "omc:Microphone",
           "omc:MotionCapture",
           "omc:NarrativeAudio",
-          "omc:NarrativeContext",
           "omc:NarrativeGreenery",
           "omc:NarrativeHair",
           "omc:NarrativeLocation",
@@ -4352,7 +4291,6 @@
           "omc:Portrayal",
           "omc:PreMix",
           "omc:ProceduralObject",
-          "omc:ProductionContext",
           "omc:ProductionLocation",
           "omc:ProductionPlanning",
           "omc:ProductionScene",
@@ -4366,7 +4304,6 @@
           "omc:Sequence",
           "omc:Series",
           "omc:Service",
-          "omc:ShootDayContext",
           "omc:ShootDayPlanning",
           "omc:ShootPlanning",
           "omc:ShootingLocation",
@@ -4405,6 +4342,7 @@
           "omc:Asset",
           "omc:AssetGroup",
           "omc:AudioComposition",
+          "omc:Bundle",
           "omc:CGAssembly",
           "omc:Camera",
           "omc:CameraRig",
@@ -4419,7 +4357,6 @@
           "omc:CompositeMaterial",
           "omc:Composition",
           "omc:Concept",
-          "omc:Context",
           "omc:CreativeWork",
           "omc:Department",
           "omc:Depiction",
@@ -4442,11 +4379,9 @@
           "omc:Lens",
           "omc:Location",
           "omc:Marine",
-          "omc:MediaCreationContext",
           "omc:Microphone",
           "omc:MotionCapture",
           "omc:NarrativeAudio",
-          "omc:NarrativeContext",
           "omc:NarrativeGreenery",
           "omc:NarrativeHair",
           "omc:NarrativeLocation",
@@ -4476,7 +4411,6 @@
           "omc:Portrayal",
           "omc:PreMix",
           "omc:ProceduralObject",
-          "omc:ProductionContext",
           "omc:ProductionLocation",
           "omc:ProductionPlanning",
           "omc:ProductionScene",
@@ -4490,7 +4424,6 @@
           "omc:Sequence",
           "omc:Series",
           "omc:Service",
-          "omc:ShootDayContext",
           "omc:ShootDayPlanning",
           "omc:ShootPlanning",
           "omc:ShootingLocation",
