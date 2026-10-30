@@ -3701,21 +3701,19 @@
             "object",
             "null"
           ],
-          "allOf": [
-            {"$ref": "#/$defs/Utility/properties/basicName"},
-            {
-              "properties": {
-                "scriptName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Script Name",
-                  "description": "The name as it appears in the script (often capitalized)"
-                }
-              }
+          "$comment": "basicName's fields, by reference, plus scriptName. Listed rather than composed with allOf: basicName is closed, so an allOf over it rejects scriptName.",
+          "properties": {
+            "fullName": {"$ref": "#/$defs/Utility/properties/basicName/properties/fullName"},
+            "altName": {"$ref": "#/$defs/Utility/properties/basicName/properties/altName"},
+            "scriptName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Script Name",
+              "description": "The name as it appears in the script (often capitalized)"
             }
-          ],
+          },
           "title": "Narrative Name",
           "description": "A canonical name and alternative name for narrative entities, that may have a script name.",
           "additionalProperties": false
@@ -3726,77 +3724,76 @@
             "null"
           ],
           "title": "Complete Name",
-          "allOf": [
-            {"$ref": "#/$defs/Utility/properties/narrativeName"},
-            {
-              "properties": {
-                "firstGivenName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "First Given Name",
-                  "description": "A person's first name, also referred to as given name."
-                },
-                "secondGivenName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Second Given Name",
-                  "description": "A persons second given name, also referred to as middle name."
-                },
-                "familyName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Family Name",
-                  "description": "A persons family name, also referred to as surname."
-                },
-                "birthName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Birth Name",
-                  "description": "A persons name at birth, also referred to as maiden name."
-                },
-                "primaryName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Primary Name",
-                  "description": "A persons primary name, one they typically use, also often a combination of first, second and family name."
-                },
-                "pseudonym": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Pseudonym",
-                  "description": "An assumed name used by the person. A synonym for “alias\"."
-                },
-                "moniker": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Moniker",
-                  "description": "A nickname or alternate name. For example, “Scatman” in Benjamin Sherman “Scatman” Crothers or Dwayne “The Rock” Johnson."
-                },
-                "contractualName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Contractual Name",
-                  "description": "The name used in contract and other legal documents. "
-                }
-              }
+          "$comment": "narrativeName's fields, by reference, plus the person-name fields. Listed rather than composed with allOf, for the reason given on narrativeName.",
+          "properties": {
+            "fullName": {"$ref": "#/$defs/Utility/properties/basicName/properties/fullName"},
+            "altName": {"$ref": "#/$defs/Utility/properties/basicName/properties/altName"},
+            "scriptName": {"$ref": "#/$defs/Utility/properties/narrativeName/properties/scriptName"},
+            "firstGivenName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "First Given Name",
+              "description": "A person's first name, also referred to as given name."
+            },
+            "secondGivenName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Second Given Name",
+              "description": "A persons second given name, also referred to as middle name."
+            },
+            "familyName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Family Name",
+              "description": "A persons family name, also referred to as surname."
+            },
+            "birthName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Birth Name",
+              "description": "A persons name at birth, also referred to as maiden name."
+            },
+            "primaryName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Primary Name",
+              "description": "A persons primary name, one they typically use, also often a combination of first, second and family name."
+            },
+            "pseudonym": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Pseudonym",
+              "description": "An assumed name used by the person. A synonym for “alias\"."
+            },
+            "moniker": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Moniker",
+              "description": "A nickname or alternate name. For example, “Scatman” in Benjamin Sherman “Scatman” Crothers or Dwayne “The Rock” Johnson."
+            },
+            "contractualName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Contractual Name",
+              "description": "The name used in contract and other legal documents. "
             }
-          ],
+          },
           "additionalProperties": false,
           "description": "A detailed description of a person, or others, name and variants of their name."
         },
