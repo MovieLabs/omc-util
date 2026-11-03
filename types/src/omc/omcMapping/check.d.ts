@@ -31,8 +31,14 @@ export function check({ mapping, options }: {
  * @param {Array<string>} params.columns - The column headings available
  * @param {Array<string>} [params.inputs] - Input names the rows carry: a template token beginning
  *   with one reads that input, not a column
- * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>, missing: Array<string>}}
- *   The outcome, and every column named but absent
+ * A column the entity's identity reads — its key, or the source of a mapped identifierValue — is a
+ * problem: without it no entity is built. Any other is a warning, naming the mapping that reads it
+ * (`entryId` with `path`, or with `edgeKey` and `to`), since that mapping writes nothing and the
+ * rest of the entity is still built.
+ *
+ * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>,
+ *   warnings: Array<OmcMapping.MappingNote>, missing: Array<string>}} The outcome, and every
+ *   column named but absent. `valid` reflects `problems` only
  */
 export function checkColumns({ mapping, columns, inputs }: {
     mapping: Array<OmcMapping.EntityMapping>;
@@ -41,6 +47,7 @@ export function checkColumns({ mapping, columns, inputs }: {
 }): {
     valid: boolean;
     problems: Array<OmcMapping.MappingNote>;
+    warnings: Array<OmcMapping.MappingNote>;
     missing: Array<string>;
 };
 /**
