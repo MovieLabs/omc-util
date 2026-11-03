@@ -543,6 +543,13 @@ const offList = omcMapping.check({
 });
 ok(offList.valid && offList.warnings.map((w) => w.kind).includes('valueNotSuggested'),
     'check accepts a const outside a controlled value list, with a warning');
+const cameraRoll = omcMapping.check({
+    mapping: [{ id: 'x', entityType: 'Asset', key: 'k', properties: { 'assetFunction.assetFunctionType': { const: 'capture.cameraRoll' } } }],
+    options: OPTIONS,
+}).warnings.find((w) => w.kind === 'valueNotSuggested');
+ok(cameraRoll.detail.length < 250 && cameraRoll.suggested.includes('capture.videoCapture')
+    && cameraRoll.entryId === 'x' && cameraRoll.path === 'assetFunction.assetFunctionType',
+'and names the closest suggested values rather than every one of them');
 ok(problems([{
     id: 'x',
     entityType: 'AssetStructure',

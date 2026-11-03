@@ -166,6 +166,8 @@
  * @property {string} [to] - The entry an edge links to
  * @property {string} [input] - The input an edge links to
  * @property {string} [column] - The column it concerns
+ * @property {*} [value] - The fixed value it concerns
+ * @property {Array<string>} [suggested] - The suggested values nearest `value`
  */
 
 export default {};

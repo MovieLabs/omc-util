@@ -24,6 +24,26 @@ import { sameSource, sourceColumns, sourceInputs, sourceLabel } from './source.j
 import './types.js'; // Type definitions, resolved globally by JSDoc
 
 /**
+ * Up to three suggested values nearest a value that is not one of them: those sharing its longest
+ * run of leading dotted segments (`capture.cameraRoll` → `capture`, `capture.videoCapture`, …),
+ * else those containing its last segment.
+ *
+ * @param {string} value
+ * @param {Array<string>} suggested
+ * @returns {Array<string>}
+ */
+function closestValues(value, suggested) {
+    const parts = String(value).split('.');
+    for (let n = parts.length - 1; n > 0; n -= 1) {
+        const prefix = parts.slice(0, n).join('.');
+        const near = suggested.filter((s) => s === prefix || s.startsWith(`${prefix}.`));
+        if (near.length) return near.slice(0, 3);
+    }
+    const last = parts[parts.length - 1].toLowerCase();
+    return suggested.filter((s) => s.toLowerCase().includes(last)).slice(0, 3);
+}
+
+/**
  * Name the scope a supplied identifier will be minted in, as far as the mapping says: a fixed
  * value and the run's scope by that value, so the two compare equal when they are; a column or
  * template by its label.
@@ -137,12 +157,17 @@ export function check({ mapping, options = {} }) {
                 });
             } else if (fixed !== undefined && Array.isArray(node.$controlledValues)
                 && !node.$controlledValues.includes(fixed)) {
+                const suggested = closestValues(fixed, node.$controlledValues);
                 warnings.push({
                     kind: 'valueNotSuggested',
                     where,
-                    detail: `"${fixed}" is not one of the controlled values for ${path} `
-                        + `(${node.$controlledValues.join(', ')}); it is accepted, but check it is not a `
-                        + 'misspelling of one',
+                    detail: `"${fixed}" is not one of the ${node.$controlledValues.length} suggested values for `
+                        + `${path}; it is written as given${suggested.length ? `. Closest: ${suggested.join(', ')}` : ''}`,
+                    entryId: id,
+                    path,
+                    section: 'properties',
+                    value: fixed,
+                    suggested,
                 });
             }
         }
