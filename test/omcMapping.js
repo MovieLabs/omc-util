@@ -524,14 +524,21 @@ ok(problems([
     { id: 'same', entityType: 'Asset', key: 'k' }, { id: 'same', entityType: 'Slate', key: 'k' },
 ]).includes('duplicateEntryId'),
 'check rejects two entries sharing an id');
-ok(problems([
-    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ to: 'missing', via: 'k' }] },
-]).includes('unknownEdgeTarget'),
-'check rejects an edge naming no entry');
-ok(problems([
-    { id: 'a', entityType: 'Asset', key: 'k', edges: [{ via: 'k' }] },
-]).includes('unknownEdgeTarget'),
-'check rejects an edge naming no target at all');
+// An edge the run cannot write is skipped, so check warns of it, naming the edge to remove.
+const edgeWarnings = (m) => omcMapping.check({ mapping: m, options: OPTIONS }).warnings;
+const noEntry = edgeWarnings([{ id: 'a', entityType: 'Asset', key: 'k', edges: [{ to: 'missing', via: 'k', edgeKey: 'AssetStructure' }] }])
+    .find((w) => w.kind === 'unknownEdgeTarget');
+ok(noEntry?.entryId === 'a' && noEntry.to === 'missing' && noEntry.edgeKey === 'AssetStructure',
+    'check warns of an edge naming no entry, and names the edge');
+ok(edgeWarnings([{ id: 'a', entityType: 'Asset', key: 'k', edges: [{ via: 'k' }] }]).some((w) => w.kind === 'unknownEdgeTarget'),
+    'and of an edge naming no target at all');
+const noSuchEdge = omcMapping.check({
+    mapping: [{ id: 'a', entityType: 'Asset', key: 'k' }, { id: 's', entityType: 'Slate', key: 'j', edges: [{ to: 'a', via: 'k', edgeKey: 'edges.has.Asset' }] }],
+    options: OPTIONS,
+});
+const gone = noSuchEdge.warnings.find((w) => w.kind === 'edgeNotAllowed');
+ok(noSuchEdge.valid && gone?.entryId === 's' && gone.edgeKey === 'edges.has.Asset' && gone.to === 'a',
+    'and of a relationship the schema does not have, so a template a schema change outdated still runs');
 ok(!problems([
     { id: 'a', entityType: 'Asset', key: 'k' }, { id: 'b', entityType: 'Asset', key: 'j' },
 ]).length, 'check accepts two entries of one type');
@@ -592,9 +599,9 @@ ok(omcMapping.check({
     const off = built(false);
     ok(!refersTo(off.scene, off.slate), 'inverse: false writes the forward edge alone');
 }
-ok(problems([
+ok(edgeWarnings([
     { id: 'slate', entityType: 'Slate', key: 'k', edges: [{ toType: 'AssetStructure', via: 'k' }] },
-]).includes('edgeNotAllowed'),
+]).some((w) => w.kind === 'edgeNotAllowed'),
 'check validates a toType reference against the schema like any other edge');
 
 /* --------------------------------------------------------------- checkColumns ------------- */

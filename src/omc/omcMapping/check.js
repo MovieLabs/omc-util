@@ -183,14 +183,21 @@ export function check({ mapping, options = {} }) {
                 });
                 continue;
             }
+            // An edge the run cannot write — its target is no entry, or the schema has no such
+            // relationship or no longer lets it reach the target — is skipped when the mapping runs,
+            // so it warns rather than stops the run, naming the edge so it can be removed.
+            const at = {
+                entryId: id, edgeKey: edge.edgeKey, ...(typeof edge.input === 'string' ? { input: edge.input } : { to: edge.to }),
+            };
             const target = edgeTarget(mapping, edge);
             if (!target) {
-                problems.push({
+                warnings.push({
                     kind: 'unknownEdgeTarget',
                     where,
                     detail: (edge.to ?? edge.toType)
-                        ? `an edge names "${edge.to}", which is no entry in this template`
-                        : 'an edge names no target: give it the id of an entry (to), an entityType (toType) or an input',
+                        ? `an edge names "${edge.to}", which is no entry in this template; it is skipped`
+                        : 'an edge names no target, so it is skipped: give it the id of an entry (to), an entityType (toType) or an input',
+                    ...at,
                 });
                 continue;
             }
@@ -201,11 +208,12 @@ export function check({ mapping, options = {} }) {
             // optional, so a mapping that names no relationship is still checked the old way.
             const named = edge.edgeKey ? allEdges[edge.edgeKey] : null;
             if (edge.edgeKey && !named) {
-                problems.push({
+                warnings.push({
                     kind: 'edgeNotAllowed',
                     where,
                     detail: `${entityType} has no relationship "${edge.edgeKey}" in `
-                        + `${omcTemplate.versionLabel(schemaVersion)}`,
+                        + `${omcTemplate.versionLabel(schemaVersion)}; it is skipped`,
+                    ...at,
                 });
                 continue;
             }
@@ -222,15 +230,16 @@ export function check({ mapping, options = {} }) {
                 ? named.allowed?.includes(targetType)
                 : Object.values(allEdges).some((e) => e.allowed?.includes(targetType));
             if (!allowed) {
-                problems.push({
+                warnings.push({
                     kind: 'edgeNotAllowed',
                     where,
-                    detail: named
+                    detail: `${named
                         ? `${entityType}.${edge.edgeKey} cannot reference ${targetType} in `
                         + `${omcTemplate.versionLabel(schemaVersion)}; it admits `
                         + `${named.allowed?.join(' or ') || 'nothing'}`
                         : `${entityType} cannot reference ${targetType} in `
-                            + `${omcTemplate.versionLabel(schemaVersion)}`,
+                            + `${omcTemplate.versionLabel(schemaVersion)}`}; it is skipped`,
+                    ...at,
                 });
             }
         }
