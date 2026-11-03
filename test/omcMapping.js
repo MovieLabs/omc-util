@@ -482,13 +482,16 @@ const bareSlot = omcMapping.check({
     mapping: [{ id: 'asset', entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate': 'c' } }],
     options: OPTIONS,
 });
-ok(!bareSlot.valid && /relationship to Slate/.test(bareSlot.problems[0].detail),
-    'mapping a column onto the relationship itself is refused, and says what to do instead');
+const slotWarning = bareSlot.warnings.find((w) => w.kind === 'unknownProperty');
+ok(bareSlot.valid && /relationship to Slate/.test(slotWarning?.detail)
+    && slotWarning.entryId === 'asset' && slotWarning.path === 'edges.has.Slate',
+'mapping a column onto the relationship itself is warned of, says what to do instead, and names the mapping');
 
-ok(!omcMapping.check({
+ok(omcMapping.check({
     mapping: [{ id: 'asset', entityType: 'Asset', key: 'k', properties: { 'edges.has.Slate[0].nonsense': 'c' } }],
     options: OPTIONS,
-}).valid, 'but an arbitrary property inside a reference is still rejected');
+}).warnings.some((w) => w.kind === 'unknownProperty' && w.path === 'edges.has.Slate[0].nonsense'),
+'and so is an arbitrary property inside a reference');
 
 /* ------------------------------------------------------------------- check ---------------- */
 
@@ -499,8 +502,20 @@ const problems = (m) => omcMapping.check({ mapping: m, options: OPTIONS }).probl
 
 ok(problems([{ id: 'x', entityType: 'Nonsense', key: 'k' }]).includes('unknownEntityType'),
     'check rejects an unknown entity type');
-ok(problems([{ id: 'x', entityType: 'Asset', key: 'k', properties: { nope: 'c' } }]).includes('unknownProperty'),
-    'check rejects a property the schema does not have');
+// A property the schema does not have — renamed or removed since the template was saved — is skipped
+// with a warning, not a refusal, so the rest of the template still runs and the mapping can be removed.
+{
+    const stale = [{ id: 'x', entityType: 'Asset', key: 'k', properties: { label: 'k', nope: 'c' }, notes: { 'gone.text': [{ from: 'n' }] } }];
+    const staleCheck = omcMapping.check({ mapping: stale, options: OPTIONS });
+    ok(staleCheck.valid && JSON.stringify(staleCheck.warnings.filter((w) => w.kind === 'unknownProperty')
+        .map(({ entryId, path, section }) => [entryId, path, section])) === '[["x","nope","properties"],["x","gone.text","notes"]]',
+    'check warns of a property or note path the schema does not have, naming the entry and path');
+    const staleRow = omcMapping.mapRow({ row: { k: 'a', c: 'v', n: 'note' }, mapping: stale, options: OPTIONS });
+    ok(staleRow.entities.x?.label === 'a' && staleRow.entities.x.nope === undefined && staleRow.entities.x.gone === undefined,
+        'and the run builds the entity without it, rather than writing what the schema would reject');
+    ok(staleRow.notes.filter((n) => n.kind === 'unknownProperty').map((n) => n.path).join() === 'nope,gone.text',
+        'and says each path it skipped');
+}
 ok(problems([{ id: 'x', entityType: 'Asset', properties: { label: 'c' } }]).includes('missingKey'),
     'check requires a key column');
 ok(problems([{ entityType: 'Asset', key: 'k' }]).includes('missingEntryId'),
@@ -581,8 +596,19 @@ const cols = omcMapping.checkColumns({ mapping: MAPPING, columns: Object.keys(RO
 ok(cols.valid, 'checkColumns passes when every named column is present');
 
 const short = omcMapping.checkColumns({ mapping: MAPPING, columns: ['File Name'] });
-ok(!short.valid && short.missing.includes('Audio Sample Rate'),
-    'checkColumns names the columns a mapping expects but the data lacks');
+const shortWarning = short.warnings.find((w) => w.column === 'Audio Sample Rate');
+ok(short.valid && short.missing.includes('Audio Sample Rate')
+    && shortWarning?.entryId === 'structure' && shortWarning.path === 'assetStructureProperties.audioSampleRate',
+'checkColumns warns of a column a property reads but the data lacks, naming the mapping');
+const keyless = omcMapping.checkColumns({ mapping: MAPPING, columns: ['Audio Sample Rate'] });
+ok(!keyless.valid && keyless.problems.every((p) => p.column === 'File Name'),
+    'but a missing key column is a problem: nothing is built without it');
+const linkless = omcMapping.checkColumns({
+    mapping: [{ id: 'a', entityType: 'Asset', key: 'k' }, { id: 'b', entityType: 'Slate', key: 's', edges: [{ to: 'a', via: 'gone', edgeKey: 'Asset' }] }],
+    columns: ['k', 's'],
+});
+ok(linkless.valid && JSON.stringify(linkless.warnings.map(({ entryId, edgeKey, to }) => [entryId, edgeKey, to])) === '[["b","Asset","a"]]',
+    'and a missing column an edge joins on names the edge');
 
 /* ------------------------------------------------------------------ templates ------------- */
 

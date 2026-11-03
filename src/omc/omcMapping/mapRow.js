@@ -12,6 +12,7 @@ import { omcTemplate } from '../../templates/index.js';
 import { edgeCreate, edgeRefusal } from '../omcEdges.js';
 
 import { createEntity, entityRef, resolveOptions } from './entity.js';
+import { pathNode } from './paths.js';
 import {
     hasValue, parseSegment, typeAtPath, writeShaped,
 } from './shapedValue.js';
@@ -415,8 +416,16 @@ function buildEntity(mapping, row, options, notes) {
 
     const shape = omcTemplate.shape({ entityType, schemaVersion: options.schemaVersion });
     const properties = {};
+    // A path the schema does not have — renamed, or removed since the template was saved — is
+    // skipped rather than written into an entity the schema would reject. `check` warns of it too.
+    const known = ((path) => {
+        const { node, detail } = pathNode({ entityType, schemaVersion: options.schemaVersion, path });
+        if (!node) notes.push({ kind: 'unknownProperty', where: entityType, detail: `${detail}; it was not written`, path });
+        return Boolean(node);
+    });
 
     for (const [path, spec] of Object.entries(mapping.properties ?? {})) {
+        if (!known(path)) continue;
         const { value, withheld } = resolveProperty(spec, row, options);
         // A fixed value may be an object; a value read from an input must be a value.
         if (specSource(spec)?.input !== undefined && [value].flat().some((v) => v !== null && typeof v === 'object')) {
@@ -451,6 +460,7 @@ function buildEntity(mapping, row, options, notes) {
     }
 
     for (const [path, entries] of Object.entries(mapping.notes ?? {})) {
+        if (!known(path)) continue;
         const noteList = buildNotes(entries, row);
         if (noteList.length) writeShaped(properties, path.split('.'), noteList, shape);
     }

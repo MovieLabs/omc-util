@@ -18,64 +18,10 @@ import { resolveOptions } from './entity.js';
 import {
     edgeTarget, hasSuppliedIdentifier, identifierScopeSpec, identitySource, specSource,
 } from './mapRow.js';
-import { parseSegment } from './shapedValue.js';
-import { sourceColumns, sourceInputs, sourceLabel } from './source.js';
+import { pathNode } from './paths.js';
+import { sameSource, sourceColumns, sourceInputs, sourceLabel } from './source.js';
 
 import './types.js'; // Type definitions, resolved globally by JSDoc
-
-/**
- * Walk a dotted path through a shape, descending into `$items` for array-of-object nodes.
- *
- * @param {Object} shape - The entity shape
- * @param {string} path - Dotted path, possibly with `[n]` indices
- * @returns {(Object|null)} The shape node at that path, or null when it does not resolve
- */
-function resolvePath(shape, path) {
-    let node = shape;
-    for (const segment of path.split('.')) {
-        const { name } = parseSegment(segment);
-        if (!node || typeof node !== 'object') return null;
-        const next = node[name];
-        if (!next) return null;
-        node = next.$type === 'array' && next.$items ? next.$items : next;
-        if (node !== next && Object.keys(node).every((k) => k.startsWith('$'))) node = next;
-    }
-    return node;
-}
-
-/**
- * Resolve a path that writes into a relationship slot.
- *
- * `omcTemplate.shape()` is deliberately data-only — relationships are delivered by `edgeTable()` —
- * so a path like `edges.has.Slate[0].identifier[0].identifierValue` resolves against neither the
- * shape nor anything else, and was reported as a property the entity does not have.
- *
- * It is a legitimate and useful mapping: it references an entity by an identifier the source
- * already carries, without building that entity. So the edge part is checked against the edge
- * table, and the remainder against the reference template — which is stricter than the shape walk
- * would have been, since it also rejects writing an arbitrary property into a reference.
- *
- * @param {Object} edgeTable - `omcTemplate.edgeTable()` for this entity
- * @param {string} schemaVersion
- * @param {string} path - The mapping's property path
- * @returns {({node: Object, edge: Object}|null)} The resolved leaf and the edge it sits in, or
- *   null when the path is not a relationship path at all
- */
-function resolveEdgePath(edgeTable, schemaVersion, path) {
-    const all = { ...edgeTable.intrinsic ?? {}, ...edgeTable.edges ?? {} };
-    // Longest first, so `edges.has.Slate` wins over a shorter entry that also prefixes the path.
-    const entry = Object.values(all)
-        .filter((e) => path === e.path || path.startsWith(`${e.path}[`) || path.startsWith(`${e.path}.`))
-        .sort((a, b) => b.path.length - a.path.length)[0];
-    if (!entry) return null;
-
-    const rest = path.slice(entry.path.length).replace(/^\[\d+\]\.?/, '').replace(/^\./, '');
-    // The slot itself, with nothing after it, is a relationship — not something a column fills.
-    if (!rest) return { node: null, edge: entry };
-
-    const node = resolvePath(omcTemplate.referenceTemplate({ schemaVersion }), rest);
-    return { node, edge: entry };
-}
 
 /**
  * Name the scope a supplied identifier will be minted in, as far as the mapping says: a fixed
@@ -163,32 +109,20 @@ export function check({ mapping, options = {} }) {
             problems.push({ kind: 'inputWithoutPath', where, detail: `${what} reads input "${source.input}" with no path` });
         });
 
-        const shape = omcTemplate.shape({ entityType, schemaVersion });
         const edgeTable = omcTemplate.edgeTable({ entityType, schemaVersion }) ?? {};
+        const paths = [
+            ...Object.keys(entry.properties ?? {}).map((path) => ({ path, section: 'properties' })),
+            ...Object.keys(entry.notes ?? {}).map((path) => ({ path, section: 'notes' })),
+        ];
 
-        for (const path of [...Object.keys(entry.properties ?? {}), ...Object.keys(entry.notes ?? {})]) {
+        for (const { path, section } of paths) {
             properties += 1;
-            // A relationship path resolves against the edge table, not the shape.
-            const asEdge = resolveEdgePath(edgeTable, schemaVersion, path);
-            if (asEdge) {
-                if (!asEdge.node) {
-                    problems.push({
-                        kind: 'unknownProperty',
-                        where,
-                        detail: `"${path}" is a relationship to ${asEdge.edge.allowed.join(' or ')}, not a `
-                            + 'value. Map onto its identifierValue to reference an entity by an id '
-                            + 'the source carries, or link the two entities on the canvas',
-                    });
-                }
-                continue;
-            }
-            const node = resolvePath(shape, path);
+            // A path the schema does not have is skipped when the mapping runs, so it warns rather
+            // than stops the run; `entryId` and `path` say which mapping to remove.
+            const { node, detail } = pathNode({ entityType, schemaVersion, path });
             if (!node) {
-                problems.push({
-                    kind: 'unknownProperty',
-                    where,
-                    detail: `${entityType} has no property "${path}" in `
-                        + `${omcTemplate.versionLabel(schemaVersion)}`,
+                warnings.push({
+                    kind: 'unknownProperty', where, detail: `${detail}; it is skipped`, entryId: id, path, section,
                 });
                 continue;
             }
@@ -342,46 +276,58 @@ export function check({ mapping, options = {} }) {
  * @param {Array<string>} params.columns - The column headings available
  * @param {Array<string>} [params.inputs] - Input names the rows carry: a template token beginning
  *   with one reads that input, not a column
- * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>, missing: Array<string>}}
- *   The outcome, and every column named but absent
+ * A column the entity's identity reads — its key, or the source of a mapped identifierValue — is a
+ * problem: without it no entity is built. Any other is a warning, naming the mapping that reads it
+ * (`entryId` with `path`, or with `edgeKey` and `to`), since that mapping writes nothing and the
+ * rest of the entity is still built.
+ *
+ * @returns {{valid: boolean, problems: Array<OmcMapping.MappingNote>,
+ *   warnings: Array<OmcMapping.MappingNote>, missing: Array<string>}} The outcome, and every
+ *   column named but absent. `valid` reflects `problems` only
  */
 export function checkColumns({ mapping, columns, inputs = [] }) {
     const have = new Set(columns ?? []);
     const fromInput = new Set(inputs);
     const problems = [];
+    const warnings = [];
     const missing = new Set();
 
-    const want = (column, where, what) => {
+    const want = (column, where, what, at = null) => {
         if (!column || have.has(column) || fromInput.has(column.split('.')[0])) return;
         missing.add(column);
-        problems.push({
-            kind: 'unknownColumn',
-            where,
-            detail: `${what} names column "${column}", which is not in this data`,
-        });
+        const detail = `${what} names column "${column}", which is not in this data`;
+        if (at) warnings.push({ kind: 'unknownColumn', where, detail: `${detail}; it is skipped`, column, ...at });
+        else problems.push({ kind: 'unknownColumn', where, detail, column });
     };
 
     for (const entry of mapping ?? []) {
         const where = entry.entityType ?? '(no entityType)';
-        // Only when it is the identity — an entity naming itself through identifierValue has no
-        // separate key column to check.
+        const identity = identitySource(entry);
         sourceColumns(entry.key).forEach((column) => want(column, where, 'the key'));
         for (const [path, spec] of Object.entries(entry.properties ?? {})) {
-            sourceColumns(specSource(spec)).forEach((column) => want(column, where, path));
+            const source = specSource(spec);
+            // An entity naming itself through identifierValue cannot be built without its column.
+            const at = sameSource(source, identity) ? null : { entryId: entry.id, path, section: 'properties' };
+            sourceColumns(source).forEach((column) => want(column, where, path, at));
         }
         for (const [path, entries] of Object.entries(entry.notes ?? {})) {
-            (entries ?? []).forEach((n) => want(n.from, where, path));
+            (entries ?? []).forEach((n) => want(n.from, where, path, { entryId: entry.id, path, section: 'notes' }));
         }
         for (const edge of entry.edges ?? []) {
             const what = `the edge to ${edgeTarget(mapping, edge)?.entityType ?? edge.to ?? edge.toType}`;
-            sourceColumns(edge.via).forEach((column) => want(column, where, what));
+            const at = {
+                entryId: entry.id, edgeKey: edge.edgeKey, ...(edge.input ? { input: edge.input } : { to: edge.to }),
+            };
+            sourceColumns(edge.via).forEach((column) => want(column, where, what, at));
         }
         for (const column of entry.customData?.exclude ?? []) {
-            want(column, where, 'customData.exclude');
+            want(column, where, 'customData.exclude', { entryId: entry.id, section: 'customData' });
         }
     }
 
-    return { valid: problems.length === 0, problems, missing: [...missing] };
+    return {
+        valid: problems.length === 0, problems, warnings, missing: [...missing],
+    };
 }
 
 /**

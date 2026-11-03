@@ -159,6 +159,13 @@
  * @property {string} kind - Machine-readable category
  * @property {string} where - What it concerns
  * @property {string} detail - What happened
+ * @property {string} [entryId] - The mapping entry it concerns, where one mapping in it is named
+ * @property {string} [path] - The property or note path it concerns
+ * @property {('properties'|'notes'|'customData')} [section] - Where in the entry `path` is mapped
+ * @property {string} [edgeKey] - The relationship it concerns, with `to` or `input` naming the link
+ * @property {string} [to] - The entry an edge links to
+ * @property {string} [input] - The input an edge links to
+ * @property {string} [column] - The column it concerns
  */
 
 export default {};
