@@ -212,6 +212,58 @@ omcValidate(migrated.map(carrierAsReference), { atomic: false })
     check('a NarrativeObject size is dropped', !Object.hasOwn(object, 'size'));
     check('that NarrativeObject validates', valid(object));
 
+    const infrastructure = omcMigrate(entity('Infrastructure', 'inf-1', { infrastructureFC: null }));
+    check('a null infrastructureFC becomes the default infrastructureFunction',
+        infrastructure.infrastructureFunction?.infrastructureFunctionType === 'infrastructureFunction',
+        JSON.stringify(infrastructure.infrastructureFunction));
+    const asset = omcMigrate(entity('Asset', 'ast-1', { assetFC: null }));
+    check('a null assetFC becomes the default assetFunction',
+        asset.assetFunction?.assetFunctionType === 'assetFunction', JSON.stringify(asset.assetFunction));
+
+    const daily = omcMigrate(entity('Asset', 'ast-daily', { assetFC: { functionalType: 'proxy.daily' } }));
+    check('a proxy.daily becomes a videoProxy with proxyIntent daily',
+        daily.assetFunction?.assetFunctionType === 'videoProxy'
+        && daily.assetFunction?.assetFunctionProperties?.proxyIntent === 'daily',
+        JSON.stringify(daily.assetFunction));
+    check('that Asset validates', valid(daily));
+    const proxy = omcMigrate(entity('Asset', 'ast-proxy', { assetFC: { functionalType: 'proxy' } }));
+    check('a proxy becomes a videoProxy with no intent',
+        proxy.assetFunction?.assetFunctionType === 'videoProxy' && !proxy.assetFunction.assetFunctionProperties,
+        JSON.stringify(proxy.assetFunction));
+    const camera = omcMigrate(entity('Asset', 'ast-camera', {
+        assetFC: { functionalType: 'cameraMetadata', functionalProperties: { cameraMetadata: { isoSpeed: '800' } } },
+    }));
+    check('cameraMetadata becomes cameraConfiguration',
+        camera.assetFunction?.assetFunctionProperties?.cameraConfiguration?.isoSpeed === '800'
+        && !Object.hasOwn(camera.assetFunction.assetFunctionProperties, 'cameraMetadata'),
+        JSON.stringify(camera.assetFunction));
+    check('that Asset validates', valid(camera));
+    const label = omcMigrate(entity('Asset', 'ast-label', {
+        assetFC: { functionalProperties: { cameraMetadata: { cameraLabel: 'A' } } },
+    }));
+    check('a camera member v3.0 does not declare stays, and fails validation',
+        label.assetFunction?.assetFunctionProperties?.cameraConfiguration?.cameraLabel === 'A' && !valid(label));
+
+    const counted = omcMigrate(entity('NarrativeObject', 'no-2', { quantity: '12' }));
+    check('a whole-number quantity string becomes an integer', counted.quantity === 12, JSON.stringify(counted.quantity));
+    check('that NarrativeObject validates', valid(counted));
+    const dozen = omcMigrate(entity('NarrativeObject', 'no-3', { quantity: 'dozen' }));
+    check('any other quantity stays, and fails validation', dozen.quantity === 'dozen' && !valid(dozen));
+    const extras = omcMigrate(entity('Character', 'chr-extras', { quantity: '30', profile: { gender: { gender: 'other' } } }));
+    check('a Character quantity moves into characterProperties',
+        !Object.hasOwn(extras, 'quantity') && extras.characterProperties?.quantity === 30
+        && extras.characterProperties?.gender?.gender === 'other',
+        JSON.stringify(extras.characterProperties));
+    check('that Character validates', valid(extras));
+
+    ['NarrativeLocation', 'NarrativeObject', 'NarrativeStyling', 'NarrativeWardrobe'].forEach((entityType) => {
+        const depicted = omcMigrate(entity(entityType, `${entityType}-dep`, {
+            Depiction: [{ identifier: [{ identifierScope: 'test', identifierValue: 'dep-1' }] }],
+        }));
+        check(`a ${entityType} Depiction becomes a usedIn Realization edge`,
+            idValue(depicted.edges?.usedIn?.Realization?.[0]) === 'dep-1', JSON.stringify(depicted.edges));
+    });
+
     const bundle = omcMigrate(entity('Context', 'cxt-1', {
         name: 'Day 1', contextType: 'shootDay', contextCategory: 'schedule',
         contextProperties: { shootDay: 1, shootDate: '2026-01-23' },

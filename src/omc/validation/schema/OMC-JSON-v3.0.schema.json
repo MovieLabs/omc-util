@@ -50,6 +50,7 @@
                   "description": "A designation indicating a place in a sequence of versions"
                 },
                 "RevisionOf": {
+                  "description": "The Asset of which this is a Revision.",
                   "type": [
                     "array",
                     "null"
@@ -63,6 +64,7 @@
                   }
                 },
                 "DerivationOf": {
+                  "description": "The Asset of which this is a Derivation.",
                   "type": [
                     "array",
                     "null"
@@ -76,6 +78,7 @@
                   }
                 },
                 "RepresentationOf": {
+                  "description": "The Asset of which this is a Representation.",
                   "type": [
                     "array",
                     "null"
@@ -89,6 +92,7 @@
                   }
                 },
                 "VariantOf": {
+                  "description": "The Asset of which this is a Variant.",
                   "type": [
                     "array",
                     "null"
@@ -102,6 +106,7 @@
                   }
                 },
                 "Revision": {
+                  "description": "Any Revisions of this Asset.",
                   "type": [
                     "array",
                     "null"
@@ -114,6 +119,7 @@
                   }
                 },
                 "Derivation": {
+                  "description": "Any Derivations of this Asset.",
                   "type": [
                     "array",
                     "null"
@@ -126,6 +132,7 @@
                   }
                 },
                 "Representation": {
+                  "description": "Any Representations of this Asset.",
                   "type": [
                     "array",
                     "null"
@@ -138,6 +145,7 @@
                   }
                 },
                 "Variant": {
+                  "description": "Any Variants of this Asset.",
                   "type": [
                     "array",
                     "null"
@@ -150,6 +158,7 @@
                   }
                 },
                 "Alternative": {
+                  "description": "The Assets of which this is an Alternative.",
                   "type": [
                     "array",
                     "null"
@@ -292,13 +301,11 @@
                     "technicalReferenceMaterial.scriptSupervisorNotes",
                     "technicalReferenceMaterial.linedScript",
                     "script",
-                    "configurationFile",
-                    "configurationFile.colorSpace",
+                    "configuration",
+                    "configuration.colorSpaceConfiguration",
+                    "configuration.cameraConfiguration",
                     "cameraMetadata",
-                    "proxy",
-                    "proxy.editorial",
-                    "proxy.cameraProxy",
-                    "proxy.daily",
+                    "videoProxy",
                     "capture",
                     "capture.videoCapture",
                     "capture.audioCapture"
@@ -315,7 +322,7 @@
                     "audioMixType": {"$ref": "#/$defs/Asset/properties/Asset/$defs/audioMixType"},
                     "audioProcessingAction": {"$ref": "#/$defs/Asset/properties/Asset/$defs/audioProcessingAction"},
                     "audioTrackName": {"$ref": "#/$defs/Asset/properties/Asset/$defs/audioTrackName"},
-                    "cameraMetadata": {"$ref": "#/$defs/Asset/properties/Asset/$defs/cameraMetadata"},
+                    "cameraConfiguration": {"$ref": "#/$defs/Asset/properties/Asset/$defs/cameraConfiguration"},
                     "cgVolumePurpose": {"$ref": "#/$defs/Asset/properties/Asset/$defs/cgVolumePurpose"},
                     "isSelfContained": {"$ref": "#/$defs/Asset/properties/Asset/$defs/isSelfContained"},
                     "lensMetadata": {"$ref": "#/$defs/Asset/properties/Asset/$defs/lensMetadata"},
@@ -323,7 +330,6 @@
                     "mapType": {"$ref": "#/$defs/Asset/properties/Asset/$defs/mapType"},
                     "recorderMetadata": {"$ref": "#/$defs/Asset/properties/Asset/$defs/recorderMetadata"},
                     "soundfield": {"$ref": "#/$defs/Utility/properties/soundfield"},
-                    "timing": {"$ref": "#/$defs/Asset/properties/Asset/$defs/timing"},
                     "udimTileNumber": {"$ref": "#/$defs/Asset/properties/Asset/$defs/udimTileNumber"},
                     "proxyIntent": {"$ref": "#/$defs/Asset/properties/Asset/$defs/proxyIntent"}
                   },
@@ -413,7 +419,7 @@
               "title": "Audio Track Name",
               "description": "Further differentiation for the Audio Track."
             },
-            "cameraMetadata": {
+            "cameraConfiguration": {
               "type": [
                 "object",
                 "null"
@@ -517,7 +523,7 @@
                 }
               },
               "additionalProperties": false,
-              "title": "Camera Metadata",
+              "title": "Camera Configuration",
               "description": "Capture-specific details and information about the Camera itself."
             },
             "cgVolumePurpose": {
@@ -573,6 +579,7 @@
                   "description": "The linear f-number of the lens, equal to the focal length divided by the diameter of the entrance pupil."
                 },
                 "entrancePupilPosition": {
+                  "description": "Entrance pupil position of the lens.",
                   "type": [
                     "string",
                     "null"
@@ -656,45 +663,6 @@
               "description": "Information about a Recorder and the recording media.",
               "additionalProperties": false
             },
-            "timing": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "sourceStart": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "sourceEnd": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "recordStart": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "recordEnd": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "duration": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
             "udimTileNumber": {
               "type": [
                 "integer",
@@ -734,7 +702,9 @@
               "description": "A canonical description of the the assets form.",
               "default": "assetStructure",
               "x-controlledValues": [
+                "assetStructure",
                 "digital",
+                "digital.visual",
                 "digital.visual.image",
                 "digital.visual.movingImage",
                 "digital.visual.imageSeries",
@@ -805,6 +775,7 @@
                   }
                 },
                 "RepresentationOf": {
+                  "description": "The Asset Structure of which this is a Representation.",
                   "type": [
                     "array",
                     "null"
@@ -818,6 +789,7 @@
                   }
                 },
                 "Revision": {
+                  "description": "Any Revisions of this Asset Structure.",
                   "type": [
                     "array",
                     "null"
@@ -830,6 +802,7 @@
                   }
                 },
                 "Derivation": {
+                  "description": "Any Derivations of this Asset Structure.",
                   "type": [
                     "array",
                     "null"
@@ -885,12 +858,14 @@
                 "scale": {"$ref": "#/$defs/Utility/properties/scale"},
                 "software": {
                   "title": "Software",
-                  "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
+                  "description": "A description of any software that might be connected to this Asset Structure.",
                   "$ref": "#/$defs/Utility/properties/software"
                 },
                 "numberPoints": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/numberPoints"},
                 "timecodeRange": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/timecodeRange"},
+                "colorInformation": {"$ref": "#/$defs/Asset/properties/AssetStructure/$defs/colorInformation"},
                 "Carrier": {
+                  "description": "For Digital Structures where the physical storage matters, this is usually a piece of Infrastructure, since it can be used across multiple productions. Common infrastructure (for example a USB storage device or a Camera Mag from a common pool) should be represented as Infrastructure for this purpose.",
                   "title": "Carrier",
                   "maxItems": 1,
                   "items": {
@@ -903,6 +878,34 @@
                     "array",
                     "null"
                   ]
+                },
+                "Infrastructure": {
+                  "description": "The infrastructure used for the Procedural Object.",
+                  "title": "Infrastructure",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"}
+                    ]
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                },
+                "Image": {
+                  "title": "Image",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"}
+                    ]
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "description": "The Digital Images that make up the Digital Image Series. "
                 }
               },
               "additionalProperties": true
@@ -933,6 +936,7 @@
                   }
                 },
                 "isOrdered": {
+                  "description": "Indicates whether the order of the components matters or not. The actual mechanism for ordering is implementation dependent.",
                   "type": [
                     "boolean",
                     "null"
@@ -989,39 +993,48 @@
               ],
               "properties": {
                 "fileName": {
+                  "description": "The name of the file, as understood by the storage system.",
                   "type": [
                     "string",
                     "null"
                   ]
                 },
                 "filePath": {
+                  "description": "A path for the file. Besides being //<…> for a typical file path, it can also be file:… or https:…",
                   "type": [
                     "string",
                     "null"
                   ]
                 },
                 "fileExtension": {
+                  "description": "The extension part of the File Name. This is for convenience if there is a full file path, since the extension is also included in the file name; in general, it can also be used to decide what application(s) can use the Asset or by an application to determine the correct way of loading the Asset, even for systems that are not file-based.",
                   "type": [
                     "string",
                     "null"
                   ]
                 },
                 "mediaType": {
+                  "description": "The format of the Digital Object’s containing file, for example a MIME type. Some codecs are self-containing, but others can be included inside multiple types of container.",
                   "type": [
                     "string",
                     "null"
                   ]
                 },
                 "fileNameCompound": {
-                  "type": "object",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
                   "properties": {
                     "fileNamePattern": {
+                      "description": "The template for accessing individual components of the Compound Essence.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "fileNameRegex": {
+                      "description": "Regular expression to apply to File Name Pattern to generate a file name for individual components of the Compound Essence.",
                       "type": [
                         "string",
                         "null"
@@ -1096,7 +1109,45 @@
               "title": "Number of Points",
               "description": "The number of individual points in the Point Cloud."
             },
-            "timecodeRange": {"$ref": "#/$defs/Utility/properties/timecodeRange"}
+            "timecodeRange": {"$ref": "#/$defs/Utility/properties/timecodeRange"},
+            "colorInformation": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "colorSpaceName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "Color Space Name",
+                  "description": "A human-readable form of the color space name."
+                },
+                "colorInteropId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "Color Interop ID",
+                  "description": "A Color Interop ID, as defined by ASWF. "
+                },
+                "ColorManagementConfiguration": {
+                  "title": "Color Management Configuration",
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"}
+                    ]
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "description": "Configuration for a color library or color system. "
+                }
+              }
+            }
           },
           "unevaluatedProperties": false
         }
@@ -1123,6 +1174,7 @@
               ],
               "default": "infrastructure",
               "x-controlledValues": [
+                "infrastructure",
                 "carrier",
                 "camera",
                 "cameraRig",
@@ -1335,7 +1387,7 @@
         "Bundle": {
           "type": "object",
           "title": "Bundle",
-          "description": "Informs scope within the construction process of a Creative Work.",
+          "description": "A set of relationships applying to the same source.",
           "allOf": [
             {"$ref": "#/$defs/core/properties/baseEntity"}
           ],
@@ -1491,6 +1543,7 @@
                         "type": "object",
                         "properties": {
                           "value": {
+                            "description": "The number of the episode in the domain, e.g. “1” or “2a”.",
                             "type": [
                               "string",
                               "number",
@@ -1498,6 +1551,7 @@
                             ]
                           },
                           "domain": {
+                            "description": "A text string with no whitespace characters, following the general pattern of a dot-separated list of sub-domains ending in a top-level domain: e.g.: prodco.com",
                             "type": [
                               "string",
                               "null"
@@ -1533,12 +1587,14 @@
                 "type": "object",
                 "properties": {
                   "titleName": {
+                    "description": "A name of the Creative Work.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "titleType": {
+                    "description": "The kind of title, e.g., official, working, internal.",
                     "enum": [
                       null,
                       "working",
@@ -1635,6 +1691,7 @@
               "properties": {}
             },
             "RealizedBy": {
+              "description": "How the realization is accomplished. This can be a mix of any of these.",
               "type": [
                 "array",
                 "null"
@@ -1645,11 +1702,13 @@
                   {"$ref": "#/$defs/Asset/properties/Asset"},
                   {"$ref": "#/$defs/Participant/properties/Participant"},
                   {"$ref": "#/$defs/Utility/properties/Composition"},
-                  {"$ref": "#/$defs/Task/properties/Task"}
+                  {"$ref": "#/$defs/Task/properties/Task"},
+                  {"$ref": "#/$defs/Production/properties/ProductionScene"}
                 ]
               }
             },
             "RealizationOf": {
+              "description": "The thing being realized or represented, e.g., Narrative Scene, Character, Narrative Prop, Special Effect, or Stunt.",
               "type": [
                 "array",
                 "null"
@@ -1698,7 +1757,7 @@
             },
             "characterName": {
               "title": "Character Name",
-              "$ref": "#/$defs/Utility/properties/completeName"
+              "$ref": "#/$defs/Utility/properties/personName"
             },
             "characterType": {
               "title": "Character Type",
@@ -1984,9 +2043,9 @@
               "description": "Properties specific to Narrative Object sub-types"
             },
             "quantity": {
+              "description": "The number of Narrative Objects needed in a particular Narrative Scene.",
               "type": [
-                "string",
-                "number",
+                "integer",
                 "null"
               ],
               "title": "Quantity"
@@ -1997,7 +2056,7 @@
             "entityType",
             "narrativeObjectType"
           ],
-          "description": "A named object related to or interacting with characters that is implied or understood to be necessary for the narrative. Includes items like props, wardrobe, set dressing and vehicles.",
+          "description": "A named object related to or interacting with characters that is implied or understood to be necessary for the narrative. Includes items like props, set dressing and vehicles.",
           "unevaluatedProperties": false
         },
         "NarrativeScene": {
@@ -2051,6 +2110,7 @@
                 "type": ["object"],
                 "properties": {
                   "piece": {
+                    "description": "OMC provides types for some common ways of dividing sluglines; other values are allowed.",
                     "type": [
                       "string",
                       "null"
@@ -2063,6 +2123,7 @@
                     ]
                   },
                   "text": {
+                    "description": "The text of the Slugline Piece.",
                     "type": [
                       "string",
                       "null"
@@ -2292,6 +2353,7 @@
               "const": "ProductionScene"
             },
             "productionSceneName": {
+              "description": "This is sometimes synonymous with the full Slugline of the associated Narrative Scene. For Production Scenes that are not directly tied to a capture on set, such as drone footage or landscape shots, the Production Scene Name should be something that is clear within the context of the production.",
               "title": "Production Scene Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
@@ -2456,16 +2518,14 @@
               }
             },
             "startDate": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "title": "Start Date",
+              "$ref": "#/$defs/Utility/properties/time/properties/date",
+              "description": "The date the Capture Event starts."
             },
             "endDate": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "title": "End Date",
+              "$ref": "#/$defs/Utility/properties/time/properties/date",
+              "description": "The date the Capture Event ends."
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
@@ -2494,16 +2554,6 @@
                 "object",
                 "null"
               ],
-              "properties": {
-                "cameraLabel": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "title": "Camera Label",
-                  "description": "Human readable ID assigned to each production camera."
-                }
-              },
               "additionalProperties": true,
               "title": "Capture Point Properties"
             },
@@ -2559,6 +2609,15 @@
                 ]
               }
             },
+            "captureDeviceLabel": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Capture Device Label",
+              "description": "Human readable ID assigned to the device used at this capture point.",
+              "examples": ["Camera A"]
+            },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
           },
           "required": ["entityType"],
@@ -2576,7 +2635,7 @@
               "const": "CaptureDevice"
             },
             "captureDeviceName": {
-              "title": "Capture Point Name",
+              "title": "Capture Device Name",
               "anyOf": [
                 {"$ref": "#/$defs/Utility/properties/basicName"}
               ]
@@ -2600,8 +2659,8 @@
                 "array",
                 "null"
               ],
-              "title": "Infrastructure",
-              "description": "The set of Infrastructure that make up this Capture Device.",
+              "title": "Configuration",
+              "description": "The Assets that hold the configuration of this Capture Device.",
               "items": {
                 "anyOf": [
                   {"$ref": "#/$defs/core/properties/reference"},
@@ -2636,7 +2695,7 @@
               "title": "Participant Name",
               "anyOf": [
                 {"$ref": "#/$defs/Utility/properties/basicName"},
-                {"$ref": "#/$defs/Utility/properties/completeName"}
+                {"$ref": "#/$defs/Utility/properties/personName"}
               ]
             },
             "participantFunction": {
@@ -2722,7 +2781,7 @@
               "title": "Participant Structure Name",
               "anyOf": [
                 {"$ref": "#/$defs/Utility/properties/basicName"},
-                {"$ref": "#/$defs/Utility/properties/completeName"}
+                {"$ref": "#/$defs/Utility/properties/personName"}
               ]
             },
             "participantStructureType": {
@@ -2878,6 +2937,7 @@
               "const": "Task"
             },
             "taskName": {
+              "description": "The name of this instance of the Task, should be at an appropriate level of granularity for its position in the workflow.",
               "title": "Task Name",
               "$ref": "#/$defs/Utility/properties/basicName"
             },
@@ -3019,9 +3079,11 @@
               "x-controlledValues": [
                 "collection",
                 "captureDetails",
+                "partition",
                 "partition.reel",
                 "partition.part",
                 "partition.act",
+                "productionPlanning",
                 "productionPlanning.shootPlanning",
                 "productionPlanning.shootDayPlanning"
               ]
@@ -3037,7 +3099,45 @@
               ],
               "title": "Collection Properties",
               "description": "Properties specific to Collection sub-types",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "properties": {
+                "partitionNumber": {
+                  "type": [
+                    "integer",
+                    "string",
+                    "null"
+                  ],
+                  "title": "Partition Number",
+                  "description": "The number of the Partition."
+                },
+                "approximateLength": {
+                  "title": "Approximate Length",
+                  "$ref": "#/$defs/Utility/properties/time/properties/durationTime"
+                },
+                "shootDayNumber": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "title": "Shoot Day Number",
+                  "description": "The number of the Shoot Day on the filming Schedule. "
+                },
+                "shootDate": {
+                  "title": "Shoot Date",
+                  "$ref": "#/$defs/Utility/properties/time/properties/date",
+                  "description": "The date of the shoot day"
+                },
+                "startDate": {
+                  "title": "Start Date",
+                  "$ref": "#/$defs/Utility/properties/time/properties/date",
+                  "description": "The first day of the production or shoot being planned."
+                },
+                "endDate": {
+                  "title": "End Date",
+                  "$ref": "#/$defs/Utility/properties/time/properties/date",
+                  "description": "The last day of the production or shoot being planned."
+                }
+              }
             },
             "includes": {
               "$ref": "#/$defs/core/properties/entityMap",
@@ -3046,7 +3146,7 @@
             },
             "software": {
               "title": "Software",
-              "description": "A description of any software that might be connected to this Composition, typically those used in generating the final product.",
+              "description": "A description of any software that might be connected to this Collection, typically those used in generating the final product.",
               "$ref": "#/$defs/Utility/properties/software"
             },
             "edges": {"$ref": "#/$defs/core/properties/edges"}
@@ -3286,6 +3386,7 @@
               "$ref": "#/$defs/Utility/properties/basicName"
             },
             "CreatedBy": {
+              "description": "The entity that created, modified, etc. this thing.",
               "type": [
                 "array",
                 "null"
@@ -3493,6 +3594,15 @@
               ],
               "title": "Street Address",
               "description": "The street address",
+              "examples": ["1600 Amphitheater Parkway"]
+            },
+            "extendedStreet": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Extended Street Address",
+              "description": "Additional street or address information",
               "examples": ["1600 Amphitheater Parkway"]
             },
             "locality": {
@@ -3718,12 +3828,12 @@
           "description": "A canonical name and alternative name for narrative entities, that may have a script name.",
           "additionalProperties": false
         },
-        "completeName": {
+        "personName": {
           "type": [
             "object",
             "null"
           ],
-          "title": "Complete Name",
+          "title": "Person Name",
           "$comment": "narrativeName's fields, by reference, plus the person-name fields. Listed rather than composed with allOf, for the reason given on narrativeName.",
           "properties": {
             "fullName": {"$ref": "#/$defs/Utility/properties/basicName/properties/fullName"},
@@ -3874,7 +3984,10 @@
           }
         },
         "timecodeRange": {
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "properties": {
             "startTimecode": {
               "type": [
@@ -3894,24 +4007,31 @@
               "examples": ["00:03:43:12"],
               "description": "The end of timecode range as a SMPTE Timecode\nExact format of timecode is dependent on recording frames per second, but generally follows HH:MM:SS:FF"
             },
-            "dropFrame": {
+            "isDropFrame": {
               "type": [
                 "boolean",
                 "null"
-              ]
+              ],
+              "title": "Drop Frame",
+              "description": "Whether a drop frame is used"
             },
             "timecodeFPS": {
               "type": [
                 "number",
                 "null"
-              ]
+              ],
+              "title": "Timecode Frames Per Second",
+              "description": "The frames per second"
             }
           },
           "title": "Timecode Range",
           "description": "A pair of SMPTE timecodes describing part of an audio or video Asset."
         },
         "frameRate": {
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "properties": {
             "playbackFPS": {
               "type": [
@@ -3929,7 +4049,31 @@
               "title": "Recording Frames Per Second",
               "description": "Frames per second recorded by the camera."
             }
-          }
+          },
+          "title": "Frame Rate"
+        },
+        "frameRange": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "startFrame": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "title": "Start Frame"
+            },
+            "endFrame": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "title": "End Frame"
+            }
+          },
+          "title": "Frame Range"
         },
         "unitOfMeasurement": {
           "type": [
@@ -3965,7 +4109,7 @@
               "description": "Encode a set of measurements to describe a 2 or 3 dimensional object (metric, imperial or pixels)",
               "properties": {
                 "height": {
-                  "description": "The height or X axis of the object",
+                  "description": "The height or Y axis of the object",
                   "oneOf": [
                     {"type": "null"},
                     {
@@ -4082,7 +4226,8 @@
               ]
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "title": "Unit Of Measurement"
         },
         "boundingBox": {
           "type": [
@@ -4103,6 +4248,7 @@
           ],
           "properties": {
             "handedness": {
+              "description": "The handedness of the third axis.",
               "enum": [
                 "left",
                 "right"
@@ -5361,18 +5507,6 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
                 }
               }
             },
@@ -5390,18 +5524,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Narrative/properties/NarrativeScene"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5530,6 +5652,54 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Production/properties/CapturePoint"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Realization": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Infrastructure": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Infrastructure/properties/Infrastructure"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "CaptureDevice": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Production/properties/CaptureDevice"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "ParticipantStructure": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Participant/properties/ParticipantStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5670,6 +5840,42 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Utility/properties/Provenance"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                },
+                "Collection": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Utility/properties/Collection"}
+                    ]
+                  }
+                },
+                "ProductionLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Production/properties/ProductionLocation"}
+                    ]
+                  }
+                },
+                "Realization": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5818,14 +6024,54 @@
                     ]
                   }
                 },
-                "Bundle": {
+                "CreativeWork": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "contributesTo": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "CreativeWork": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
+                      {"$ref": "#/$defs/core/properties/reference"}
+                    ]
+                  }
+                }
+              }
+            },
+            "contributor": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Participant": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/Participant/properties/Participant"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5833,38 +6079,6 @@
               }
             },
             "represents": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "NarrativeScene": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeScene"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "representedBy": {
               "type": [
                 "object",
                 "null"
@@ -5881,15 +6095,23 @@
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
-                },
-                "Bundle": {
+                }
+              }
+            },
+            "representedBy": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Asset": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
+                      {"$ref": "#/$defs/Asset/properties/Asset"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -5934,18 +6156,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/Production/properties/ProductionScene"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6026,18 +6236,6 @@
                     ]
                   }
                 },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
                 "Realization": {
                   "type": [
                     "array",
@@ -6046,174 +6244,6 @@
                   "items": {
                     "anyOf": [
                       {"$ref": "#/$defs/MediaCreationContext/properties/Realization"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "idea": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Asset": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Composition": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Utility/properties/Composition"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "subject": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Character": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/Character"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeAudio": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeAudio"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeLocation": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeLocation"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeObject": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeObject"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeStyling": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeStyling"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "NarrativeWardrobe": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Narrative/properties/NarrativeWardrobe"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "CreativeWork": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/CreativeWork"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                },
-                "Bundle": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/MediaCreationContext/properties/Bundle"},
-                      {"$ref": "#/$defs/core/properties/reference"}
-                    ]
-                  }
-                }
-              }
-            },
-            "produces": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "Asset": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6246,26 +6276,26 @@
                 "null"
               ],
               "properties": {
-                "Asset": {
+                "AssetStructure": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/Asset/properties/Asset"},
+                      {"$ref": "#/$defs/Asset/properties/AssetStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
                 },
-                "Participant": {
+                "ParticipantStructure": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/Participant/properties/Participant"},
+                      {"$ref": "#/$defs/Participant/properties/ParticipantStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6282,14 +6312,14 @@
                     ]
                   }
                 },
-                "Task": {
+                "TaskStructure": {
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
                     "anyOf": [
-                      {"$ref": "#/$defs/Task/properties/Task"},
+                      {"$ref": "#/$defs/Task/properties/TaskStructure"},
                       {"$ref": "#/$defs/core/properties/reference"}
                     ]
                   }
@@ -6337,6 +6367,30 @@
                       {"$ref": "#/$defs/Production/properties/ProductionLocation"}
                     ]
                   }
+                },
+                "NarrativeLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Narrative/properties/NarrativeLocation"}
+                    ]
+                  }
+                },
+                "Collection": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Utility/properties/Collection"}
+                    ]
+                  }
                 }
               }
             },
@@ -6367,6 +6421,30 @@
                     "anyOf": [
                       {"$ref": "#/$defs/core/properties/reference"},
                       {"$ref": "#/$defs/Production/properties/ProductionLocation"}
+                    ]
+                  }
+                },
+                "NarrativeLocation": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Narrative/properties/NarrativeLocation"}
+                    ]
+                  }
+                },
+                "Collection": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "anyOf": [
+                      {"$ref": "#/$defs/core/properties/reference"},
+                      {"$ref": "#/$defs/Utility/properties/Collection"}
                     ]
                   }
                 }

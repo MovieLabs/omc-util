@@ -3,7 +3,7 @@
  */
 
 import { generalConfig } from '../generalConfig.js';
-import { baseEntity, completeName } from '../utility/utility.js';
+import { baseEntity, personName } from '../utility/utility.js';
 
 const entityType = 'Character';
 const entityGeneral = generalConfig[entityType];
@@ -14,7 +14,7 @@ export default {
         properties: {
             ...baseEntity.graphQl.properties,
             characterType: null,
-            characterName: completeName.graphQl.properties,
+            characterName: personName.graphQl.properties,
             characterProperties: null,
         },
         filter: {

@@ -37,6 +37,13 @@ const assetStructureTypeMap = {
     'digital.imageSeries': 'digital.visual.imageSeries',
 };
 
+// The v2.8 proxy functionalTypes: v3.0 has one videoProxy, and says what it is for in proxyIntent.
+const proxyTypeMap = {
+    'proxy': { type: 'videoProxy' },
+    'proxy.daily': { type: 'videoProxy', proxyIntent: 'daily' },
+    'proxy.editorial': { type: 'videoProxy', proxyIntent: 'editorial' },
+};
+
 const productionLocationTypeMap = {
     shooting: 'shootingLocation',
     production: 'productionLocation',
@@ -73,7 +80,10 @@ const cxtEdges = ((cxt) => {
         For: _for,
         ...edges
     } = cxt;
-    Object.keys(edges).forEach((predicate) => renameTarget(edges[predicate])); // For each predicate, check if targets need renaming
+    Object.keys(edges).forEach((predicate) => {
+        if (edges[predicate] === null) delete edges[predicate]; // An empty predicate carries no edge
+        else renameTarget(edges[predicate]); // Check if targets need renaming
+    });
     return edges;
 });
 
@@ -267,6 +277,37 @@ function migrateAudioContent(properties) {
 }
 
 /**
+ * v2.8 `assetFC` becomes `assetFunction`: a proxy type becomes videoProxy with its proxyIntent,
+ * `cameraMetadata` is renamed `cameraConfiguration`, and audioContent is reshaped. Camera members
+ * v3.0 does not declare are kept, so they fail validation rather than vanish.
+ */
+function migrateAssetFunction(functionalType, functionalProperties) {
+    const { type = functionalType, proxyIntent } = proxyTypeMap[functionalType] ?? {};
+    const assetFunction = { assetFunctionType: type };
+    if (!isPlainObject(functionalProperties)) {
+        if (proxyIntent) return { ...assetFunction, assetFunctionProperties: { proxyIntent } };
+        return functionalProperties === false ? assetFunction : { ...assetFunction, assetFunctionProperties: functionalProperties };
+    }
+    const { cameraMetadata, ...properties } = migrateAudioContent(functionalProperties);
+    return {
+        ...assetFunction,
+        assetFunctionProperties: {
+            ...properties,
+            ...(cameraMetadata !== undefined && { cameraConfiguration: cameraMetadata }),
+            ...(proxyIntent && { proxyIntent }),
+        },
+    };
+}
+
+/**
+ * v2.8 `quantity` is a string or number; v3.0 takes an integer. A whole number written as a string
+ * becomes that number. Anything else is left as it is, so it fails validation rather than vanish.
+ */
+function migrateQuantity(quantity) {
+    return typeof quantity === 'string' && /^\s*\d+\s*$/.test(quantity) ? Number(quantity) : quantity;
+}
+
+/**
  * Migrate Provenance, by creating a new entity.
  */
 
@@ -304,7 +345,7 @@ export default {
             name = false, // Becomes assetName
             Asset = false, // Group members, which move onto the AssetStructure
             AssetSC = false, // Becomes AssetStructure
-            assetFC = {}, // Internally restructured, this has a required property so must not be null
+            assetFC = {}, // Internally restructured; null is read as absent, since the function is required
             version = false, // Becomes versionInfo
             provenance = false, // Becomes and entity
             edges = {}, // Gets a Provenance edge
@@ -314,11 +355,8 @@ export default {
         const {
             functionalType = 'assetFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
-        } = assetFC;
-        const assetFunction = {
-            assetFunctionType: functionalType,
-            ...(functionalProperties !== false && { assetFunctionProperties: migrateAudioContent(functionalProperties) }),
-        };
+        } = assetFC ?? {};
+        const assetFunction = migrateAssetFunction(functionalType, functionalProperties);
 
         const assetName = migrateName(name); // Reformat the name property
         const structure = Asset ? groupStructure(AssetSC, Asset, rest.identifier) : AssetSC;
@@ -391,8 +429,12 @@ export default {
             name = false,
             characterType = 'character', // Required property
             profile = false, // Becomes characterProperties
+            quantity, // Moves into characterProperties
             ...rest
         } = update;
+        const characterProperties = quantity === undefined
+            ? profile
+            : { ...(profile || {}), quantity: migrateQuantity(quantity) };
 
         return {
             ...rest,
@@ -400,7 +442,7 @@ export default {
             characterType,
             label: name || labelDefault,
             ...(name !== false && { characterName: migrateName(name) }),
-            ...(profile !== false && { characterProperties: profile }),
+            ...(characterProperties !== false && { characterProperties }),
         };
     },
     Collection: (omc) => {
@@ -579,7 +621,7 @@ export default {
         const {
             functionalType = 'infrastructureFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
-        } = infrastructureFC;
+        } = infrastructureFC ?? {};
         const infrastructureFunction = {
             infrastructureFunctionType: functionalType,
             ...(functionalProperties !== false && { infrastructureFunctionProperties: functionalProperties }),
@@ -668,7 +710,7 @@ export default {
     },
     NarrativeLocation: (omc) => {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
-        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Depiction');
+        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Realization');
 
         const {
             name = false,
@@ -688,12 +730,13 @@ export default {
     },
     NarrativeObject: (omc) => {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
-        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Depiction');
+        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Realization');
 
         const {
             name = false,
             narrativeType = 'narrativeObject', // Becomes narrativeObjectType, required property
             size: _size, // Remove
+            quantity, // Becomes an integer where it is one
             ...rest
         } = update;
 
@@ -703,6 +746,7 @@ export default {
             label: name || labelDefault,
             ...(name !== false && { narrativeObjectName: migrateName(name) }),
             narrativeObjectType: narrativeType,
+            ...(quantity !== undefined && { quantity: migrateQuantity(quantity) }),
         };
     },
     NarrativeScene: (omc) => {
@@ -727,7 +771,7 @@ export default {
     },
     NarrativeStyling: (omc) => {
         const memberUpdate = { ...setEdgesFromContext(omc) };
-        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Depiction');
+        const update = migrateIntrinsicToEdge(memberUpdate, 'Depiction', 'Realization');
 
         const {
             name = false,
@@ -745,7 +789,7 @@ export default {
     },
     NarrativeWardrobe: (omc) => {
         const cxtUpdate = { ...setEdgesFromContext(omc) };
-        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Depiction');
+        const update = migrateIntrinsicToEdge(cxtUpdate, 'Depiction', 'Realization');
 
         const {
             name = false,
@@ -803,7 +847,7 @@ export default {
         const {
             functionalType = 'participantFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
-        } = participantFC;
+        } = participantFC ?? {};
         const participantFunction = {
             participantFunctionType: functionalType,
             ...(functionalProperties !== false && { participantFunctionProperties: functionalProperties }),
@@ -1020,7 +1064,7 @@ export default {
         const {
             functionalType = 'taskFunction', // Become assetFunctionType, now required
             functionalProperties = false, // Becomes assetFunctionProperties
-        } = taskFC;
+        } = taskFC ?? {};
         const taskFunction = {
             taskFunctionType: functionalType,
             ...(functionalProperties !== false && { taskFunctionProperties: functionalProperties }),

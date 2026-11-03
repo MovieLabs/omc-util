@@ -1,10 +1,9 @@
 /**
- * @param {{table: Object, definitions: Object, schema: Object, collisions?: string[]}} subject
+ * @param {{table: Object, schema: Object, collisions?: string[]}} subject
  * @returns {{findings: Object<string, string[]>, summary: string[], report: string[]}}
  */
-export function run({ table, definitions, schema, collisions, }: {
+export function run({ table, schema, collisions }: {
     table: any;
-    definitions: any;
     schema: any;
     collisions?: string[];
 }): {

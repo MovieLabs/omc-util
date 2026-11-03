@@ -14,10 +14,3 @@ MISSING ParticipantStructure participantStructureProperties.software.Configurati
 # core.properties.edges does not declare. The shared edges block permits it, so it validates; the
 # schema simply has no record of it, and nothing can be narrowed onto what it does not declare.
 #   Closed by: declaring the verb and its ranges in the authored schema.
-VERB-UNDECLARED contributesTo
-VERB-UNDECLARED contributor
-PAIR-UNDECLARED for.ParticipantStructure (used by Location)
-PAIR-UNDECLARED memberOf.AssetStructure (used by Asset)
-PAIR-UNDECLARED memberOf.ParticipantStructure (used by Participant)
-PAIR-UNDECLARED memberOf.TaskStructure (used by Task)
-PAIR-UNDECLARED related.CreativeWork (used by CreativeWork)

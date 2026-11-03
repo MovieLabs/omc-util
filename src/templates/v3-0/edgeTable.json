@@ -10,18 +10,18 @@
       "format": "omc-edges",
       "version": 1,
       "viewId": "view:entity-structure",
-      "edges": 133,
-      "rows": 243,
+      "edges": 135,
+      "rows": 249,
       "verbs": 41,
-      "properties": 128,
+      "properties": 130,
       "classes": 133
     },
     "schema": {
       "$id": "https://movielabs.com/omc/json/schema/v3.0",
-      "fingerprint": "1a60471e2620cb47"
+      "fingerprint": "b1abc0242743e816"
     },
-    "rows": 177,
-    "rdfNamed": 172,
+    "rows": 182,
+    "rdfNamed": 177,
     "spreadRows": 54
   },
   "table": {
@@ -162,39 +162,6 @@
         }
       },
       "edges": {
-        "edges.has.Asset": {
-          "predicate": "has",
-          "allowed": [
-            "Asset"
-          ],
-          "path": "edges.has.Asset",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "has",
-            "Asset"
-          ],
-          "containerSegments": [
-            "edges",
-            "has"
-          ],
-          "relativePath": "has.Asset",
-          "inverseEdge": null,
-          "omcPredicate": "omc:hasScript",
-          "rdfProperties": [
-            "omc:hasScript"
-          ],
-          "narrowedRanges": [
-            {
-              "range": "Asset",
-              "as": "Script",
-              "kind": "qualifier",
-              "via": "hasAssetFunction",
-              "property": "omc:hasScript"
-            }
-          ]
-        },
         "edges.has.NarrativeScene": {
           "predicate": "has",
           "allowed": [
@@ -231,6 +198,44 @@
           "omcPredicate": "omc:hasNarrativeScene",
           "rdfProperties": [
             "omc:hasNarrativeScene"
+          ]
+        },
+        "edges.has.Asset": {
+          "predicate": "has",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.has.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Asset",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.CreativeWork",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "CreativeWork"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.CreativeWork"
+          },
+          "omcPredicate": "omc:hasAsset",
+          "rdfProperties": [
+            "omc:hasAsset"
           ]
         },
         "edges.contributor.Participant": {
@@ -650,44 +655,6 @@
         }
       },
       "edges": {
-        "edges.has.Participant": {
-          "predicate": "has",
-          "allowed": [
-            "Participant"
-          ],
-          "path": "edges.has.Participant",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "has",
-            "Participant"
-          ],
-          "containerSegments": [
-            "edges",
-            "has"
-          ],
-          "relativePath": "has.Participant",
-          "inverseEdge": {
-            "predicate": "for",
-            "path": "edges.for.Asset",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "for",
-              "Asset"
-            ],
-            "containerSegments": [
-              "edges",
-              "for"
-            ],
-            "relativePath": "for.Asset"
-          },
-          "omcPredicate": "omc:hasParticipant",
-          "rdfProperties": [
-            "omc:hasParticipant"
-          ]
-        },
         "edges.has.Slate": {
           "predicate": "has",
           "allowed": [
@@ -762,6 +729,44 @@
           "omcPredicate": "omc:hasProvenance",
           "rdfProperties": [
             "omc:hasProvenance"
+          ]
+        },
+        "edges.has.Participant": {
+          "predicate": "has",
+          "allowed": [
+            "Participant"
+          ],
+          "path": "edges.has.Participant",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "Participant"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.Participant",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Asset"
+          },
+          "omcPredicate": "omc:hasParticipant",
+          "rdfProperties": [
+            "omc:hasParticipant"
           ]
         },
         "edges.for.NarrativeScene": {
@@ -868,6 +873,44 @@
             "omc:forCaptureDevice"
           ]
         },
+        "edges.for.CreativeWork": {
+          "predicate": "for",
+          "allowed": [
+            "CreativeWork"
+          ],
+          "path": "edges.for.CreativeWork",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CreativeWork"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CreativeWork",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Asset"
+          },
+          "omcPredicate": "omc:forCreativeWork",
+          "rdfProperties": [
+            "omc:forCreativeWork"
+          ]
+        },
         "edges.usedIn.ProductionScene": {
           "predicate": "usedIn",
           "allowed": [
@@ -924,7 +967,21 @@
             "usedIn"
           ],
           "relativePath": "usedIn.ProductionLocation",
-          "inverseEdge": null,
+          "inverseEdge": {
+            "predicate": "uses",
+            "path": "edges.uses.Asset",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "uses",
+              "Asset"
+            ],
+            "containerSegments": [
+              "edges",
+              "uses"
+            ],
+            "relativePath": "uses.Asset"
+          },
           "omcPredicate": "omc:usedInProductionLocation",
           "rdfProperties": [
             "omc:usedInProductionLocation"
@@ -1787,6 +1844,39 @@
             "omc:relatedProductionScene"
           ]
         },
+        "edges.usedBy.Realization": {
+          "predicate": "usedBy",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedBy.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedBy",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedBy"
+          ],
+          "relativePath": "usedBy.Realization",
+          "inverseEdge": {
+            "predicate": "RealizedBy",
+            "path": "RealizedBy",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizedBy"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizedBy"
+          },
+          "omcPredicate": "omc:usedByRealization",
+          "rdfProperties": [
+            "omc:usedByRealization"
+          ]
+        },
         "edges.refines.ProductionScene": {
           "predicate": "refines",
           "allowed": [
@@ -2034,173 +2124,6 @@
           "omcPredicate": "omc:forProductionScene",
           "rdfProperties": [
             "omc:forProductionScene"
-          ]
-        }
-      },
-      "cxtEdges": {}
-    },
-    "Infrastructure": {
-      "intrinsic": {
-        "Member": {
-          "predicate": "member",
-          "allowed": [
-            "Infrastructure"
-          ],
-          "path": "Member",
-          "type": "array",
-          "bucket": "intrinsic",
-          "pathSegments": [
-            "Member"
-          ],
-          "containerSegments": [],
-          "relativePath": "Member",
-          "inverseEdge": {
-            "predicate": "memberOf",
-            "path": "edges.memberOf.Infrastructure",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "memberOf",
-              "Infrastructure"
-            ],
-            "containerSegments": [
-              "edges",
-              "memberOf"
-            ],
-            "relativePath": "memberOf.Infrastructure"
-          },
-          "omcPredicate": "omc:member",
-          "rdfProperties": [
-            "omc:member"
-          ]
-        }
-      },
-      "edges": {
-        "edges.has.SpecialAction": {
-          "predicate": "has",
-          "allowed": [
-            "SpecialAction"
-          ],
-          "path": "edges.has.SpecialAction",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "has",
-            "SpecialAction"
-          ],
-          "containerSegments": [
-            "edges",
-            "has"
-          ],
-          "relativePath": "has.SpecialAction",
-          "inverseEdge": null,
-          "omcPredicate": "omc:hasSpecialAction",
-          "rdfProperties": [
-            "omc:hasSpecialAction"
-          ]
-        },
-        "edges.for.AssetStructure": {
-          "predicate": "for",
-          "allowed": [
-            "AssetStructure"
-          ],
-          "path": "edges.for.AssetStructure",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "for",
-            "AssetStructure"
-          ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.AssetStructure",
-          "inverseEdge": {
-            "predicate": "Carrier",
-            "path": "assetStructureProperties.Carrier",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "assetStructureProperties",
-              "Carrier"
-            ],
-            "containerSegments": [
-              "assetStructureProperties"
-            ],
-            "relativePath": "assetStructureProperties.Carrier",
-            "maxItems": 1
-          },
-          "omcPredicate": "omc:forAssetStructure",
-          "rdfProperties": [
-            "omc:forAssetStructure"
-          ]
-        },
-        "edges.for.CaptureDevice": {
-          "predicate": "for",
-          "allowed": [
-            "CaptureDevice"
-          ],
-          "path": "edges.for.CaptureDevice",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "for",
-            "CaptureDevice"
-          ],
-          "containerSegments": [
-            "edges",
-            "for"
-          ],
-          "relativePath": "for.CaptureDevice",
-          "inverseEdge": {
-            "predicate": "Infrastructure",
-            "path": "Infrastructure",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "Infrastructure"
-            ],
-            "containerSegments": [],
-            "relativePath": "Infrastructure"
-          },
-          "omcPredicate": "omc:forCaptureDevice",
-          "rdfProperties": [
-            "omc:forCaptureDevice"
-          ]
-        },
-        "edges.memberOf.Infrastructure": {
-          "predicate": "memberOf",
-          "allowed": [
-            "Infrastructure"
-          ],
-          "path": "edges.memberOf.Infrastructure",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "memberOf",
-            "Infrastructure"
-          ],
-          "containerSegments": [
-            "edges",
-            "memberOf"
-          ],
-          "relativePath": "memberOf.Infrastructure",
-          "inverseEdge": {
-            "predicate": "Member",
-            "path": "Member",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "Member"
-            ],
-            "containerSegments": [],
-            "relativePath": "Member"
-          },
-          "omcPredicate": "omc:memberOf",
-          "rdfProperties": [
-            "omc:memberOf"
           ]
         }
       },
@@ -2536,6 +2459,187 @@
       },
       "cxtEdges": {}
     },
+    "Infrastructure": {
+      "intrinsic": {
+        "Member": {
+          "predicate": "member",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "Member",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "Member"
+          ],
+          "containerSegments": [],
+          "relativePath": "Member",
+          "inverseEdge": {
+            "predicate": "memberOf",
+            "path": "edges.memberOf.Infrastructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "memberOf",
+              "Infrastructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "memberOf"
+            ],
+            "relativePath": "memberOf.Infrastructure"
+          },
+          "omcPredicate": "omc:member",
+          "rdfProperties": [
+            "omc:member"
+          ]
+        }
+      },
+      "edges": {
+        "edges.has.SpecialAction": {
+          "predicate": "has",
+          "allowed": [
+            "SpecialAction"
+          ],
+          "path": "edges.has.SpecialAction",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "has",
+            "SpecialAction"
+          ],
+          "containerSegments": [
+            "edges",
+            "has"
+          ],
+          "relativePath": "has.SpecialAction",
+          "inverseEdge": {
+            "predicate": "for",
+            "path": "edges.for.Infrastructure",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "for",
+              "Infrastructure"
+            ],
+            "containerSegments": [
+              "edges",
+              "for"
+            ],
+            "relativePath": "for.Infrastructure"
+          },
+          "omcPredicate": "omc:hasSpecialAction",
+          "rdfProperties": [
+            "omc:hasSpecialAction"
+          ]
+        },
+        "edges.for.AssetStructure": {
+          "predicate": "for",
+          "allowed": [
+            "AssetStructure"
+          ],
+          "path": "edges.for.AssetStructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "AssetStructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.AssetStructure",
+          "inverseEdge": {
+            "predicate": "Carrier",
+            "path": "assetStructureProperties.Carrier",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "assetStructureProperties",
+              "Carrier"
+            ],
+            "containerSegments": [
+              "assetStructureProperties"
+            ],
+            "relativePath": "assetStructureProperties.Carrier",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:forAssetStructure",
+          "rdfProperties": [
+            "omc:forAssetStructure"
+          ]
+        },
+        "edges.for.CaptureDevice": {
+          "predicate": "for",
+          "allowed": [
+            "CaptureDevice"
+          ],
+          "path": "edges.for.CaptureDevice",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "CaptureDevice"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.CaptureDevice",
+          "inverseEdge": {
+            "predicate": "Infrastructure",
+            "path": "Infrastructure",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Infrastructure"
+            ],
+            "containerSegments": [],
+            "relativePath": "Infrastructure"
+          },
+          "omcPredicate": "omc:forCaptureDevice",
+          "rdfProperties": [
+            "omc:forCaptureDevice"
+          ]
+        },
+        "edges.memberOf.Infrastructure": {
+          "predicate": "memberOf",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "edges.memberOf.Infrastructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "memberOf",
+            "Infrastructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "memberOf"
+          ],
+          "relativePath": "memberOf.Infrastructure",
+          "inverseEdge": {
+            "predicate": "Member",
+            "path": "Member",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "Member"
+            ],
+            "containerSegments": [],
+            "relativePath": "Member"
+          },
+          "omcPredicate": "omc:memberOf",
+          "rdfProperties": [
+            "omc:memberOf"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
     "Participant": {
       "intrinsic": {
         "ParticipantStructure": {
@@ -2600,7 +2704,21 @@
             "for"
           ],
           "relativePath": "for.Asset",
-          "inverseEdge": null,
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.Participant",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "Participant"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.Participant"
+          },
           "omcPredicate": "omc:forAsset",
           "rdfProperties": [
             "omc:forAsset"
@@ -3014,6 +3132,44 @@
         }
       },
       "edges": {
+        "edges.uses.Asset": {
+          "predicate": "uses",
+          "allowed": [
+            "Asset"
+          ],
+          "path": "edges.uses.Asset",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "uses",
+            "Asset"
+          ],
+          "containerSegments": [
+            "edges",
+            "uses"
+          ],
+          "relativePath": "uses.Asset",
+          "inverseEdge": {
+            "predicate": "usedIn",
+            "path": "edges.usedIn.ProductionLocation",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "usedIn",
+              "ProductionLocation"
+            ],
+            "containerSegments": [
+              "edges",
+              "usedIn"
+            ],
+            "relativePath": "usedIn.ProductionLocation"
+          },
+          "omcPredicate": "omc:usesAsset",
+          "rdfProperties": [
+            "omc:usesAsset"
+          ]
+        },
         "edges.usedIn.ProductionScene": {
           "predicate": "usedIn",
           "allowed": [
@@ -4325,6 +4481,28 @@
             "omc:includesProvenance"
           ]
         },
+        "includes.Bundle": {
+          "predicate": "includes",
+          "allowed": [
+            "Bundle"
+          ],
+          "path": "includes.Bundle",
+          "type": "array",
+          "bucket": "intrinsic",
+          "pathSegments": [
+            "includes",
+            "Bundle"
+          ],
+          "containerSegments": [
+            "includes"
+          ],
+          "relativePath": "includes.Bundle",
+          "inverseEdge": null,
+          "omcPredicate": "omc:includesBundle",
+          "rdfProperties": [
+            "omc:includesBundle"
+          ]
+        },
         "software.ConfigurationFile": {
           "predicate": "configurationFile",
           "allowed": [
@@ -4385,6 +4563,160 @@
           "omcPredicate": "omc:forProductionScene",
           "rdfProperties": [
             "omc:forProductionScene"
+          ]
+        }
+      },
+      "cxtEdges": {}
+    },
+    "SpecialAction": {
+      "intrinsic": {},
+      "edges": {
+        "edges.for.Infrastructure": {
+          "predicate": "for",
+          "allowed": [
+            "Infrastructure"
+          ],
+          "path": "edges.for.Infrastructure",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "for",
+            "Infrastructure"
+          ],
+          "containerSegments": [
+            "edges",
+            "for"
+          ],
+          "relativePath": "for.Infrastructure",
+          "inverseEdge": {
+            "predicate": "has",
+            "path": "edges.has.SpecialAction",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "has",
+              "SpecialAction"
+            ],
+            "containerSegments": [
+              "edges",
+              "has"
+            ],
+            "relativePath": "has.SpecialAction"
+          },
+          "omcPredicate": "omc:forInfrastructure",
+          "rdfProperties": [
+            "omc:forInfrastructure"
+          ]
+        },
+        "edges.neededBy.Character": {
+          "predicate": "neededBy",
+          "allowed": [
+            "Character"
+          ],
+          "path": "edges.neededBy.Character",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "neededBy",
+            "Character"
+          ],
+          "containerSegments": [
+            "edges",
+            "neededBy"
+          ],
+          "relativePath": "neededBy.Character",
+          "inverseEdge": {
+            "predicate": "needs",
+            "path": "edges.needs.SpecialAction",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "needs",
+              "SpecialAction"
+            ],
+            "containerSegments": [
+              "edges",
+              "needs"
+            ],
+            "relativePath": "needs.SpecialAction"
+          },
+          "omcPredicate": "omc:neededByCharacter",
+          "rdfProperties": [
+            "omc:neededByCharacter"
+          ]
+        },
+        "edges.featuresIn.NarrativeScene": {
+          "predicate": "featuresIn",
+          "allowed": [
+            "NarrativeScene"
+          ],
+          "path": "edges.featuresIn.NarrativeScene",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "featuresIn",
+            "NarrativeScene"
+          ],
+          "containerSegments": [
+            "edges",
+            "featuresIn"
+          ],
+          "relativePath": "featuresIn.NarrativeScene",
+          "inverseEdge": {
+            "predicate": "features",
+            "path": "edges.features.SpecialAction",
+            "bucket": "edges",
+            "pathSegments": [
+              "edges",
+              "features",
+              "SpecialAction"
+            ],
+            "containerSegments": [
+              "edges",
+              "features"
+            ],
+            "relativePath": "features.SpecialAction"
+          },
+          "omcPredicate": "omc:featuresInNarrativeScene",
+          "rdfProperties": [
+            "omc:featuresInNarrativeScene"
+          ]
+        },
+        "edges.usedIn.Realization": {
+          "predicate": "usedIn",
+          "allowed": [
+            "Realization"
+          ],
+          "path": "edges.usedIn.Realization",
+          "type": "array",
+          "bucket": "edges",
+          "pathSegments": [
+            "edges",
+            "usedIn",
+            "Realization"
+          ],
+          "containerSegments": [
+            "edges",
+            "usedIn"
+          ],
+          "relativePath": "usedIn.Realization",
+          "inverseEdge": {
+            "predicate": "RealizationOf",
+            "path": "RealizationOf",
+            "bucket": "intrinsic",
+            "pathSegments": [
+              "RealizationOf"
+            ],
+            "containerSegments": [],
+            "relativePath": "RealizationOf",
+            "maxItems": 1
+          },
+          "omcPredicate": "omc:usedInRealization",
+          "rdfProperties": [
+            "omc:usedInRealization"
           ]
         }
       },
@@ -5166,122 +5498,6 @@
       },
       "cxtEdges": {}
     },
-    "SpecialAction": {
-      "intrinsic": {},
-      "edges": {
-        "edges.neededBy.Character": {
-          "predicate": "neededBy",
-          "allowed": [
-            "Character"
-          ],
-          "path": "edges.neededBy.Character",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "neededBy",
-            "Character"
-          ],
-          "containerSegments": [
-            "edges",
-            "neededBy"
-          ],
-          "relativePath": "neededBy.Character",
-          "inverseEdge": {
-            "predicate": "needs",
-            "path": "edges.needs.SpecialAction",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "needs",
-              "SpecialAction"
-            ],
-            "containerSegments": [
-              "edges",
-              "needs"
-            ],
-            "relativePath": "needs.SpecialAction"
-          },
-          "omcPredicate": "omc:neededByCharacter",
-          "rdfProperties": [
-            "omc:neededByCharacter"
-          ]
-        },
-        "edges.featuresIn.NarrativeScene": {
-          "predicate": "featuresIn",
-          "allowed": [
-            "NarrativeScene"
-          ],
-          "path": "edges.featuresIn.NarrativeScene",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "featuresIn",
-            "NarrativeScene"
-          ],
-          "containerSegments": [
-            "edges",
-            "featuresIn"
-          ],
-          "relativePath": "featuresIn.NarrativeScene",
-          "inverseEdge": {
-            "predicate": "features",
-            "path": "edges.features.SpecialAction",
-            "bucket": "edges",
-            "pathSegments": [
-              "edges",
-              "features",
-              "SpecialAction"
-            ],
-            "containerSegments": [
-              "edges",
-              "features"
-            ],
-            "relativePath": "features.SpecialAction"
-          },
-          "omcPredicate": "omc:featuresInNarrativeScene",
-          "rdfProperties": [
-            "omc:featuresInNarrativeScene"
-          ]
-        },
-        "edges.usedIn.Realization": {
-          "predicate": "usedIn",
-          "allowed": [
-            "Realization"
-          ],
-          "path": "edges.usedIn.Realization",
-          "type": "array",
-          "bucket": "edges",
-          "pathSegments": [
-            "edges",
-            "usedIn",
-            "Realization"
-          ],
-          "containerSegments": [
-            "edges",
-            "usedIn"
-          ],
-          "relativePath": "usedIn.Realization",
-          "inverseEdge": {
-            "predicate": "RealizationOf",
-            "path": "RealizationOf",
-            "bucket": "intrinsic",
-            "pathSegments": [
-              "RealizationOf"
-            ],
-            "containerSegments": [],
-            "relativePath": "RealizationOf",
-            "maxItems": 1
-          },
-          "omcPredicate": "omc:usedInRealization",
-          "rdfProperties": [
-            "omc:usedInRealization"
-          ]
-        }
-      },
-      "cxtEdges": {}
-    },
     "NarrativeAudio": {
       "intrinsic": {},
       "edges": {
@@ -5651,7 +5867,8 @@
             "Asset",
             "Composition",
             "Participant",
-            "Task"
+            "Task",
+            "ProductionScene"
           ],
           "path": "RealizedBy",
           "type": "array",

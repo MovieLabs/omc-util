@@ -19,7 +19,7 @@ export const software = {
     },
 };
 
-export const completeName = {
+export const personName = {
     graphQl: {
         properties: {
             firstGivenName: 'string',

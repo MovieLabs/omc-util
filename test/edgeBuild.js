@@ -178,9 +178,16 @@ console.log('=== inverse check: read row by row ===');
     check('a group\'s own inverse is honoured: uses ↔ usedIn is not reported',
         !inverse['NOT-INVOLUTIVE'].some((finding) => finding.includes('usedIn')),
         json(inverse['NOT-INVOLUTIVE']));
+    // Asset usedIn ProductionScene comes first and is answered; take away the reverse of Asset usedIn
+    // ProductionLocation, the second row for (Asset, usedIn), and that row alone is reported.
+    const unanswered = JSON.parse(json(document));
+    const { uses } = unanswered.json.edgeDefinitions;
+    uses.connects = uses.connects.filter((group) => !(group.domain.includes('ProductionLocation') && group.range.includes('Asset')));
+    const noInverse = buildEdgeArtifact(unanswered).findings.inverse['NO-INVERSE'];
     check('every row is tested, not the first per (domain, verb)',
-        inverse['NO-INVERSE'].includes('Asset edges.usedIn.ProductionLocation — no reverse edge is written'),
-        json(inverse['NO-INVERSE']));
+        noInverse.includes('Asset edges.usedIn.ProductionLocation — no reverse edge is written')
+        && !noInverse.some((finding) => finding.startsWith('Asset edges.usedIn.ProductionScene')),
+        json(noInverse));
 
     // Asset has Slate reverses to Slate for Asset; give Asset has Slate a different inverse and the
     // round trip from Slate no longer comes back.

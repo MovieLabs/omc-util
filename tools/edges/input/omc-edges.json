@@ -3,10 +3,10 @@
     "format": "omc-edges",
     "version": 1,
     "viewId": "view:entity-structure",
-    "edges": 133,
-    "rows": 243,
+    "edges": 135,
+    "rows": 249,
     "verbs": 41,
-    "properties": 128,
+    "properties": 130,
     "classes": 133
   },
   "namespace": {
@@ -1453,8 +1453,8 @@
               "CreativeWork"
             ],
             "range": [
-              "Asset",
-              "NarrativeScene"
+              "NarrativeScene",
+              "Asset"
             ],
             "placement": "edges"
           },
@@ -1463,9 +1463,9 @@
               "Asset"
             ],
             "range": [
-              "Participant",
               "Slate",
-              "Provenance"
+              "Provenance",
+              "Participant"
             ],
             "placement": "edges"
           },
@@ -1499,19 +1499,19 @@
           },
           {
             "domain": [
-              "Infrastructure"
+              "AssetStructure"
             ],
             "range": [
-              "SpecialAction"
+              "Provenance"
             ],
             "placement": "edges"
           },
           {
             "domain": [
-              "AssetStructure"
+              "Infrastructure"
             ],
             "range": [
-              "Provenance"
+              "SpecialAction"
             ],
             "placement": "edges"
           },
@@ -1662,7 +1662,8 @@
             "range": [
               "NarrativeScene",
               "CapturePoint",
-              "CaptureDevice"
+              "CaptureDevice",
+              "CreativeWork"
             ]
           },
           {
@@ -1718,12 +1719,19 @@
           },
           {
             "domain": [
+              "SpecialAction"
+            ],
+            "range": [
+              "Infrastructure"
+            ]
+          },
+          {
+            "domain": [
               "Participant"
             ],
             "range": [
               "Asset"
-            ],
-            "inverse": null
+            ]
           },
           {
             "domain": [
@@ -1918,6 +1926,14 @@
               "Asset",
               "ProductionLocation",
               "Realization"
+            ]
+          },
+          {
+            "domain": [
+              "ProductionLocation"
+            ],
+            "range": [
+              "Asset"
             ]
           }
         ]
@@ -2173,7 +2189,8 @@
               "Task",
               "TaskStructure",
               "CaptureDevice",
-              "Provenance"
+              "Provenance",
+              "Bundle"
             ]
           },
           {
@@ -2336,7 +2353,8 @@
               "Asset",
               "Composition",
               "Participant",
-              "Task"
+              "Task",
+              "ProductionScene"
             ],
             "range": [
               "Realization"
@@ -2359,7 +2377,8 @@
               "Asset",
               "Composition",
               "Participant",
-              "Task"
+              "Task",
+              "ProductionScene"
             ]
           }
         ]
@@ -3388,6 +3407,20 @@
         "inverseOf": []
       },
       {
+        "id": "omc:hasAsset",
+        "name": "hasAsset",
+        "verbs": [
+          "omc:has"
+        ],
+        "domains": [
+          "omc:CreativeWork"
+        ],
+        "ranges": [
+          "omc:Asset"
+        ],
+        "inverseOf": []
+      },
+      {
         "id": "omc:hasAssetStructure",
         "name": "hasAssetStructure",
         "verbs": [
@@ -3723,7 +3756,6 @@
           "omc:has"
         ],
         "domains": [
-          "omc:CreativeWork",
           "omc:NarrativeScene"
         ],
         "ranges": [
@@ -3824,6 +3856,20 @@
         ],
         "ranges": [
           "omc:AssetStructure"
+        ],
+        "inverseOf": []
+      },
+      {
+        "id": "omc:includesBundle",
+        "name": "includesBundle",
+        "verbs": [
+          "omc:includes"
+        ],
+        "domains": [
+          "omc:Collection"
+        ],
+        "ranges": [
+          "omc:Bundle"
         ],
         "inverseOf": []
       },
@@ -4804,6 +4850,7 @@
           "omc:Asset",
           "omc:Composition",
           "omc:Participant",
+          "omc:ProductionScene",
           "omc:Task"
         ],
         "inverseOf": [
@@ -4959,6 +5006,7 @@
           "omc:Asset",
           "omc:Composition",
           "omc:Participant",
+          "omc:ProductionScene",
           "omc:Task"
         ],
         "ranges": [

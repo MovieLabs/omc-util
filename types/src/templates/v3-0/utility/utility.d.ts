@@ -11,7 +11,7 @@ export namespace software {
         let inlineFragment: any;
     }
 }
-export namespace completeName {
+export namespace personName {
     export namespace graphQl_1 {
         export namespace properties_1 {
             let firstGivenName: string;

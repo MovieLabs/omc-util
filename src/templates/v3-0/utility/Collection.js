@@ -19,6 +19,7 @@ export default {
             includes: {
                 Asset: null,
                 AssetStructure: null,
+                Bundle: null,
                 CaptureDevice: null,
                 CaptureEvent: null,
                 CapturePoint: null,

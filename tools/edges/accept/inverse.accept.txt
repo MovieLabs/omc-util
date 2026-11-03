@@ -9,6 +9,3 @@
 # that the schema has no record of the relationship running that way.
 #   Closed by: declaring the pair under core.properties.edges in the authored schema, the way
 #   refines/refinedBy on ProductionScene and ProductionLocation were closed.
-INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
-INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
-INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
