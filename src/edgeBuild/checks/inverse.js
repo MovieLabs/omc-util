@@ -18,10 +18,11 @@
  *      written can never be read back. The build composes a path only from a `connects` group that
  *      admits the pairing, so this holds unless that changes.
  *
- * Involution is read from the definitions, which are the publication's own statement of each
- * predicate's inverse, and is checked only between relational predicates: an intrinsic property's
- * inverse is a general predicate (`Member` ↔ `memberOf`), so its round trip legitimately lands
- * elsewhere.
+ * Every finding is read from the table rows, one row at a time. A `connects` group can override its
+ * definition's inverse, and two ranges of one verb can resolve to different reverses, so neither
+ * the definitions nor one row per (domain, verb) says what a consumer will write. Involution is
+ * checked only where the reverse is relational too: an intrinsic property's inverse is a general
+ * predicate (`Member` ↔ `memberOf`), so its round trip legitimately lands elsewhere.
  *
  * @module edgeBuild/checks/inverse
  * @ignore
@@ -45,19 +46,13 @@ export const severity = {
 };
 
 /**
- * @param {{table: Object, definitions: Object, schema: Object, collisions?: string[]}} subject
+ * @param {{table: Object, schema: Object, collisions?: string[]}} subject
  * @returns {{findings: Object<string, string[]>, summary: string[], report: string[]}}
  */
-export function run({
-    table, definitions, schema, collisions = [],
-}) {
-    /** Relational when the definitions say so; an unknown name is relational by the same default
-     *  the builder applies when it resolves an inverse path. */
-    const isRelational = (predicate) => (definitions[predicate]
-        ? (definitions[predicate].placement || 'edges') === 'edges'
-        : true);
-
+export function run({ table, schema, collisions = [] }) {
     const { pairs: schemaPairs } = schemaEdgeDeclarations(schema);
+    const edgeRows = Object.entries(table).flatMap(([domain, partitions]) => Object.values(partitions.edges || {})
+        .map((entry) => ({ domain, entry })));
 
     const findings = {
         'NO-INVERSE': [],
@@ -66,16 +61,15 @@ export function run({
         'INVERSE-UNREACHABLE': [],
     };
 
-    // ---- involution, from the definitions ----
-    const inverseOf = ((predicate) => definitions[predicate]?.inverse || null);
-    Object.keys(definitions).forEach((predicate) => {
-        if (!isRelational(predicate)) return;
-        const inverse = inverseOf(predicate);
-        if (!inverse) return;
-        const back = inverseOf(inverse);
-        if (isRelational(inverse) && back && back !== predicate) {
-            findings['NOT-INVOLUTIVE'].push(`${predicate} -> ${inverse} -> ${back}`);
-        }
+    // ---- involution: the reverse's own reverse leads back to the row ----
+    edgeRows.forEach(({ domain, entry }) => {
+        const reverse = entry.inverseEdge;
+        if (reverse?.bucket !== 'edges') return;
+        (entry.allowed || []).forEach((target) => {
+            const back = table[target]?.edges?.[reverse.path]?.inverseEdge;
+            if (!back?.path || back.path === entry.path) return;
+            findings['NOT-INVOLUTIVE'].push(`${domain} ${entry.path} -> ${target} ${reverse.path} -> ${back.path}`);
+        });
     });
 
     // ---- an inverse must name a path its target actually has ----
@@ -102,30 +96,23 @@ export function run({
     });
 
     // ---- the reverse each table row resolves to ----
-    const rows = new Set();
-    Object.entries(table).forEach(([domain, partitions]) => {
-        Object.values(partitions.edges || {}).forEach((entry) => {
-            const [, verb] = entry.path.split('.');
-            const key = `${domain} ${verb}`;
-            if (rows.has(key)) return;
-            rows.add(key);
+    edgeRows.forEach(({ domain, entry }) => {
+        const reverse = entry.inverseEdge;
+        if (!reverse?.path) {
+            findings['NO-INVERSE'].push(`${domain} ${entry.path} — no reverse edge is written`);
+            return;
+        }
 
-            const reverse = entry.inverseEdge;
-            if (!reverse?.path) {
-                findings['NO-INVERSE'].push(`${verb} (on ${domain}) — no reverse edge is written`);
-                return;
-            }
+        // Only a reverse that lands in the edges bucket is a (verb, range) pair the schema
+        // declares; an intrinsic reverse is a named property, declared per entity instead.
+        if (reverse.bucket !== 'edges') return;
 
-            // Only a reverse that lands in the edges bucket is a (verb, range) pair the schema
-            // declares; an intrinsic reverse is a named property, declared per entity instead.
-            if (reverse.bucket !== 'edges') return;
-
-            const [, inversePredicate] = reverse.path.split('.');
-            if (!schemaPairs.has(`${inversePredicate}.${domain}`)) {
-                findings['INVERSE-UNDECLARED'].push(`${inversePredicate}.${domain} `
-                    + `(the reverse of ${domain} ${verb})`);
-            }
-        });
+        const [, verb] = entry.path.split('.');
+        const [, inversePredicate] = reverse.path.split('.');
+        if (!schemaPairs.has(`${inversePredicate}.${domain}`)) {
+            findings['INVERSE-UNDECLARED'].push(`${inversePredicate}.${domain} `
+                + `(the reverse of ${domain} ${verb})`);
+        }
     });
 
     Object.keys(findings).forEach((kind) => {
@@ -142,7 +129,7 @@ export function run({
 
     return {
         findings,
-        summary: [`${rows.size} (entityType, verb) pairs a consumer could write a reverse for`],
+        summary: [`${edgeRows.length} edge rows a consumer could write a reverse for`],
         report,
     };
 }

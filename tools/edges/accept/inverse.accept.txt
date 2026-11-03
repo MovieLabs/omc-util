@@ -12,8 +12,3 @@
 INVERSE-UNDECLARED contributesTo.CreativeWork (the reverse of CreativeWork contributor)
 INVERSE-UNDECLARED contributor.Participant (the reverse of Participant contributesTo)
 INVERSE-UNDECLARED related.CreativeWork (the reverse of CreativeWork related)
-
-# NOT-INVOLUTIVE — a predicate's inverse does not invert back to it. Here that is the
-# uses/usedBy/usedIn triangle, where usedIn's inverse is realizationOf rather than uses.
-#   Closed by: a decision on whether those three are two pairs or one, in the documents first.
-NOT-INVOLUTIVE uses -> usedIn -> realizationOf

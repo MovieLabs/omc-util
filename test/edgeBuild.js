@@ -172,6 +172,31 @@ console.log('=== the live path: an edited publication, built and installed ===')
     check('and offered again after reset', !!characterToScene());
 }
 
+console.log('=== inverse check: read row by row ===');
+{
+    const inverse = findings.inverse;
+    check('a group\'s own inverse is honoured: uses ↔ usedIn is not reported',
+        !inverse['NOT-INVOLUTIVE'].some((finding) => finding.includes('usedIn')),
+        json(inverse['NOT-INVOLUTIVE']));
+    check('every row is tested, not the first per (domain, verb)',
+        inverse['NO-INVERSE'].includes('Asset edges.usedIn.ProductionLocation — no reverse edge is written'),
+        json(inverse['NO-INVERSE']));
+
+    // Asset has Slate reverses to Slate for Asset; give Asset has Slate a different inverse and the
+    // round trip from Slate no longer comes back.
+    const crossed = JSON.parse(json(document));
+    const defs = crossed.json.edgeDefinitions;
+    const assetHas = defs.has.connects.find((group) => group.domain.includes('Asset') && group.range.includes('Slate'));
+    assetHas.range = assetHas.range.filter((range) => range !== 'Slate');
+    defs.has.connects.push({
+        domain: ['Asset'], range: ['Slate'], placement: 'edges', inverse: 'heldBy',
+    });
+    defs.heldBy = { predicate: 'heldBy', inverse: 'has', connects: [{ domain: ['Slate'], range: ['Asset'] }] };
+    check('a reverse whose own reverse leads elsewhere is reported, with the path it leads to',
+        buildEdgeArtifact(crossed).findings.inverse['NOT-INVOLUTIVE']
+            .includes('Slate edges.for.Asset -> Asset edges.has.Slate -> edges.heldBy.Asset'));
+}
+
 console.log('=== spread edges: stated once, expanded when loaded ===');
 {
     // informs/informedBy between three types, self-loops included, and one spread group added to an
